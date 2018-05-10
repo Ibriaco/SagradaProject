@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model;
 
-import java.lang.reflect.Array;
+import it.polimi.se2018.Controller.ToolCard;
+
 import java.util.ArrayList;
 
 public class Game {

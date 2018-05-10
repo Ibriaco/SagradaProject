@@ -1,5 +1,7 @@
 package it.polimi.se2018.View;
 
+import it.polimi.se2018.Model.PlaceDieEvent;
+
 public class CLIView extends View {
 
     String command;
@@ -13,8 +15,7 @@ public class CLIView extends View {
     public void selectEvent(String c){
 
     }
-    public  PlaceDieEvent createPlaceDieEvent(String c, Player p, Game g)
-
-
+    public PlaceDieEvent createPlaceDieEvent(String c){
+    }
 
 }

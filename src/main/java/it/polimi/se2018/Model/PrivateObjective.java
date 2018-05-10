@@ -14,4 +14,12 @@ public class PrivateObjective extends Card {
     public Color getColor() {
         return color;
     }
+
+    @Override
+    public String toString() {
+        return "PrivateObjective{" +
+                "score=" + score +
+                ", color=" + color +
+                '}';
+    }
 }

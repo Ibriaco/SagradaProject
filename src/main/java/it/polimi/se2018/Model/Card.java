@@ -5,8 +5,16 @@ public abstract class Card {
     private String description;
     private String cardType;
 
-    public Card() {
+    public Card(String title, String description, String cardType) {
+        this.title = title;
+        this.description = description;
+        this.cardType = cardType;
     }
+
+    public Card() {
+
+    }
+
 
     public String getTitle(){
         return title;

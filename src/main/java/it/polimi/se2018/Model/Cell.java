@@ -7,7 +7,9 @@ public class Cell {
     private Die placedDie;
 
 
-    public Cell() {
+    public Cell(Color color, int shade) {
+        this.color = color;
+        this.shade = shade;
     }
 
     public Color getColor() {
