@@ -17,11 +17,22 @@ public class RoundCell {
 
     // da testare
     public void addDie(Die d){
+        diceList.add(d);
 
     }
 
     // da testare
     public void replaceDie(Die d1, Die d2){
+        int val;
+        Color col;
+
+        val = d2.getValue();
+        col = d2.getColor();
+
+        diceList.set(diceList.indexOf(d2), d1);
+
+        d1.setValue(val);
+        d1.setColor(col);
 
     }
 }

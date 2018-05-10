@@ -34,6 +34,10 @@ public class Player {
         return tokens;
     }
 
+    public void setTokens(int tokens) {
+        this.tokens = tokens;
+    }
+
     public int getPlayerScore() {
         return playerScore;
     }
@@ -53,10 +57,6 @@ public class Player {
     // da testare
     public int getWindowFrameNumber(){
         return windowFrameNumber;
-    }
-
-    public void setTokens(int tokens) {
-        this.tokens = tokens;
     }
 
     // da testare
