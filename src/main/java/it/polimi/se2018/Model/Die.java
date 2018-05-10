@@ -32,30 +32,15 @@ public class Die {
         this.value = value;
     }
 
-
+    // da testare
     public Die rollDie(){
         return this;
     }
 
+    // da testare
     public Die reverse(Die d){
 
-        if (d.getValue()==1)
-            d.setValue(6);
-
-        else if (d.getValue() == 2)
-            d.setValue(5);
-
-        else if (d.getValue() == 3)
-            d.setValue(4);
-
-        else if (d.getValue() == 4)
-            d.setValue(3);
-
-        else if (d.getValue() == 5)
-            d.setValue(2);
-
-        else
-            d.setValue(1);
+        d.setValue(7-d.getValue());
 
         return d;
     }

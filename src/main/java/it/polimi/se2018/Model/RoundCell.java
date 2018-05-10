@@ -15,10 +15,12 @@ public class RoundCell {
         return value;
     }
 
+    // da testare
     public void addDie(Die d){
 
     }
 
+    // da testare
     public void replaceDie(Die d1, Die d2){
 
     }

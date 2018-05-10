@@ -11,10 +11,6 @@ public abstract class Card {
         this.cardType = cardType;
     }
 
-    public Card() {
-
-    }
-
 
     public String getTitle(){
         return title;

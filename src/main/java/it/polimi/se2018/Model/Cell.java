@@ -20,10 +20,12 @@ public class Cell {
         return shade;
     }
 
+    // da testare
     public boolean isPlaced() {
         return placed;
     }
 
+    // da testare
     public Die getPlacedDie() {
         return placedDie;
     }

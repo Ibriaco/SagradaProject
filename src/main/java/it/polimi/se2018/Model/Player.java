@@ -42,12 +42,15 @@ public class Player {
         return privateObjective;
     }
 
+    // da testare
     public PrivateObjective drawCard(){
         return privateObjective;
     }
 
+    // da testare
     public WindowCard chooseWindowCard(WindowCardAssociation w){ return windowCard; }
 
+    // da testare
     public int getWindowFrameNumber(){
         return windowFrameNumber;
     }
@@ -56,6 +59,7 @@ public class Player {
         this.tokens = tokens;
     }
 
+    // da testare
     public WindowCardAssociation[] drawWindowCardAssociation(){
         return windowCardAssociations;
     }

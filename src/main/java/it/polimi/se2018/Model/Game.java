@@ -70,10 +70,12 @@ public class Game {
         this.rolledDice = rolledDice;
     }
 
+    // da testare
     public void nextRound(){
 
     }
 
+    // da testare
     public void nextTurn(){
 
     }

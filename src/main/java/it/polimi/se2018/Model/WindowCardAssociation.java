@@ -18,6 +18,7 @@ public class WindowCardAssociation {
         return back;
     }
 
+    // da testare
     public WindowCard extractAssociation()
     {
         return front;
