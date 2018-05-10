@@ -23,42 +23,52 @@ public class Game {
     }
 
     public int getPlayerNumber() {
+
         return playerNumber;
     }
 
     public int getTurn() {
+
         return turn;
     }
 
     public int getRound() {
+
         return round;
     }
 
     public int getGameDifficulty() {
+
         return gameDifficulty;
     }
 
     public String getGameType() {
+
         return gameType;
     }
 
     public ArrayList<PublicObjective> getPublicCards() {
+
         return publicCards;
     }
 
     public ArrayList<ToolCard> getToolCards() {
+
         return toolCards;
     }
 
     public ArrayList<Player> getPlayers() {
+
         return players;
     }
 
     public ArrayList<Die> getRolledDice() {
+
         return rolledDice;
     }
 
     public ArrayList<RoundCell> getRoundCells() {
+
         return roundCells;
     }
 
@@ -67,16 +77,17 @@ public class Game {
     }
 
     public void setRolledDice(ArrayList<Die> rolledDice) {
+
         this.rolledDice = rolledDice;
     }
 
     // da testare
     public void nextRound(){
-
+        round++;
     }
 
     // da testare
     public void nextTurn(){
-
+        turn++;
     }
 }

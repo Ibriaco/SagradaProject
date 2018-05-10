@@ -1,5 +1,9 @@
 package it.polimi.se2018.Model;
 
+import java.util.Random;
+
+import static it.polimi.se2018.Model.Color.BLUE;
+
 public class Die {
     private Color color;
     private int value;
@@ -20,28 +24,31 @@ public class Die {
     }
 
     public void setColor(Color color) {
+
         this.color = color;
     }
 
 
     public int getValue() {
+
         return value;
     }
 
     public void setValue(int value) {
+
         this.value = value;
     }
 
     // da testare
+    // bisogna capire come decrementare quei contatori relativi ai colori...
     public Die rollDie(){
-        return this;
+        Random rnd = new Random();
+        return new Die(Color.values()[rnd.nextInt(Color.values().length)],(int)Math.random()*6 + 1);
     }
 
     // da testare
-    public Die reverse(Die d){
+    public void reverse(Die d){
 
         d.setValue(7-d.getValue());
-
-        return d;
     }
 }

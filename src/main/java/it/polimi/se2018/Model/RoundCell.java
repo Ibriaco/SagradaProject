@@ -12,13 +12,13 @@ public class RoundCell {
     }
 
     public int getValue() {
+
         return value;
     }
 
     // da testare
     public void addDie(Die d){
         diceList.add(d);
-
     }
 
     // da testare
