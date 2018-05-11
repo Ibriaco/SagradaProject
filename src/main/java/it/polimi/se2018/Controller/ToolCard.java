@@ -8,7 +8,12 @@ public abstract class ToolCard extends Card {
     private Color color;
     private int shade;
 
-    public ToolCard() {
+    public ToolCard(int number, String title, String description, String cardType, boolean used, int cost, Color color, int shade) {
+        super(number, title, description, cardType);
+        this.used = used;
+        this.cost = cost;
+        this.color = color;
+        this.shade = shade;
     }
 
     public boolean isUsed() {

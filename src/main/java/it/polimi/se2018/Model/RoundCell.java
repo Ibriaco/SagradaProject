@@ -18,6 +18,7 @@ public class RoundCell {
 
     // da testare
     public void addDie(Die d){
+
         diceList.add(d);
     }
 

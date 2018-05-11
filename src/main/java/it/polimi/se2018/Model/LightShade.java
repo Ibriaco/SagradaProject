@@ -1,8 +1,8 @@
 package it.polimi.se2018.Model;
 
 public class LightShade extends PublicObjective {
-    public LightShade(int score) {
-        super(score);
+    public LightShade(int number, String title, String description, String cardType, int score) {
+        super(number, title, description, "PublicObjective", score);
     }
 
     @Override

@@ -15,7 +15,9 @@ public class CLIView extends View {
     public void selectEvent(String c){
 
     }
+    /*
     public PlaceDieEvent createPlaceDieEvent(String c){
-    }
+
+    }*/
 
 }

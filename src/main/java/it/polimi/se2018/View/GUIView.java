@@ -1,10 +1,11 @@
 package it.polimi.se2018.View;
 
 import it.polimi.se2018.Model.Game;
+import it.polimi.se2018.Model.PlaceDieEvent;
 import it.polimi.se2018.Model.Player;
 
 public class GUIView extends View{
-
+/*
     public void showTimer(int timer){
 
     }
@@ -25,5 +26,5 @@ public class GUIView extends View{
     }
     public CheckRoundTrackEvent createCheckRoundTrackEvent(Player p, Game g){
 
-    }
+    }*/
 }

@@ -1,8 +1,10 @@
 package it.polimi.se2018.Model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-import static it.polimi.se2018.Model.Color.BLUE;
+import static it.polimi.se2018.Model.Color.*;
+
 
 public class Die {
     private Color color;
@@ -12,6 +14,12 @@ public class Die {
     private int yellowAmount = 18;
     private int purpleAmount = 18;
     private int blueAmount = 18;
+    private boolean init = true;
+    ArrayList<Color> colorList = null;
+
+
+    private ArrayList<Color> availableColor;
+
 
 
     public Die(Color color, int value) {
@@ -20,6 +28,7 @@ public class Die {
     }
 
     public Color getColor() {
+
         return color;
     }
 
@@ -39,16 +48,78 @@ public class Die {
         this.value = value;
     }
 
+    public void getAvailableColor() {
+
+        if(init) {
+            colorList = new ArrayList<Color>();
+            colorList.add(GREEN);
+            colorList.add(PURPLE);
+            colorList.add(YELLOW);
+            colorList.add(RED);
+            colorList.add(BLUE);
+            init = false;
+        }
+        else
+            checkRemainingColors();
+
+    }
+
+    public void checkRemainingColors() {
+        if (redAmount == 1)
+            colorList.remove(RED);
+
+        if (blueAmount == 1)
+            colorList.remove(BLUE);
+
+        if (greenAmount == 1)
+            colorList.remove(GREEN);
+
+        if (yellowAmount == 1)
+            colorList.remove(YELLOW);
+
+        if (purpleAmount == 1)
+            colorList.remove(PURPLE);
+
+    }
+
     // da testare
-    // bisogna capire come decrementare quei contatori relativi ai colori...
     public Die rollDie(){
-        Random rnd = new Random();
-        return new Die(Color.values()[rnd.nextInt(Color.values().length)],(int)Math.random()*6 + 1);
+
+        getAvailableColor();
+        checkRemainingColors();
+
+        //Random random = new Random();
+        int index;
+        index = (int)Math.random()*colorList.size();
+        Die d = new Die(colorList.get(index),(int)Math.random()*6 + 1);
+
+        switch(d.getColor()){
+            case BLUE:
+                blueAmount--;
+                break;
+
+            case GREEN:
+                greenAmount--;
+                break;
+
+            case PURPLE:
+                purpleAmount--;
+                break;
+
+            case RED:
+                redAmount--;
+                break;
+
+            case YELLOW:
+                yellowAmount--;
+                break;
+        }
+
+        return d;
     }
 
     // da testare
     public void reverse(Die d){
-
         d.setValue(7-d.getValue());
     }
 }

@@ -13,20 +13,28 @@ public class Cell {
     }
 
     public Color getColor() {
+
         return color;
     }
 
     public int getShade() {
+
         return shade;
     }
 
     // da testare
     public boolean isPlaced() {
+
+        if(placedDie != null)
+            placed = true;
+        else
+            placed = false;
         return placed;
     }
 
     // da testare
     public Die getPlacedDie() {
+
         return placedDie;
     }
 }
