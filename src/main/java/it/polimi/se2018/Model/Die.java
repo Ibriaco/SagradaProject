@@ -86,12 +86,12 @@ public class Die {
     public Die rollDie(){
 
         getAvailableColor();
-        checkRemainingColors();
 
-        //Random random = new Random();
+        Random random = new Random();
         int index;
-        index = (int)Math.random()*colorList.size();
-        Die d = new Die(colorList.get(index),(int)Math.random()*6 + 1);
+
+        index = random.nextInt(colorList.size());
+        Die d = new Die(colorList.get(index),random.nextInt(6) + 1);
 
         switch(d.getColor()){
             case BLUE:
@@ -114,7 +114,6 @@ public class Die {
                 yellowAmount--;
                 break;
         }
-
         return d;
     }
 

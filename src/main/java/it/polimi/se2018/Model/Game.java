@@ -24,7 +24,8 @@ public class Game {
     public Game(int playerNumber, String gameType) {
         this.playerNumber = playerNumber;
         this.gameType = gameType;
-        this.publicCards = setPublicObjectives();
+        rolledDice = new ArrayList<Die>();
+        //this.publicCards = setPublicObjectives();
 
     }
 
@@ -162,9 +163,9 @@ public class Game {
     }
 
     public void setRolledDice(Die toRoll) {
-
-        for(int i=0; i<2*playerNumber; i++){
-            rolledDice.set(i,toRoll.rollDie());
+        System.out.println(rolledDice.size());
+        for(int i=0; i<2*playerNumber + 1; i++){
+            rolledDice.add(i,toRoll.rollDie());
         }
     }
 

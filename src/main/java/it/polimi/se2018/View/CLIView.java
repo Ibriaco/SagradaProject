@@ -1,6 +1,5 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Model.PlaceDieEvent;
 
 public class CLIView extends View {
 

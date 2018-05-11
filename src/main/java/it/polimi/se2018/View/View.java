@@ -1,11 +1,9 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Model.Event;
-
 public abstract class View {
     private int timer;
 
-
+/*
     public View() {
     }
     public void showWindowCard(Event e){
@@ -42,5 +40,7 @@ public abstract class View {
     public void update(Event e) {
 
     }
+
+    */
 }
 

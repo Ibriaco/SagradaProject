@@ -1,8 +1,5 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Model.Game;
-import it.polimi.se2018.Model.PlaceDieEvent;
-import it.polimi.se2018.Model.Player;
 
 public class GUIView extends View{
 /*
