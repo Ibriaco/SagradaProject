@@ -1,0 +1,40 @@
+1
+LightShades
+Sets of 1 & 2 values anywhere
+S2
+2
+MediumShades
+Sets of 3 & 4 values anywhere
+S2
+3
+DeepShades
+Sets of 5 and 6 values anywhere
+S2
+4
+ColorVariety
+Sets of one of each color anywhere
+S4
+5
+ShadeVariety
+Sets of one of each value anywhere
+S5
+6
+ColumnShadeVariety
+Columns with no repeated values
+S4
+7
+RowShadeVariety
+Rows with no repeated values
+S5
+8
+RowColorVariety
+Rows with no repeated colors
+S6
+9
+ColumnColorVariety
+Columns with no repeated colors
+S5
+10
+ColorDiagonals
+Count of diagonally adjacent same color dice
+S0
