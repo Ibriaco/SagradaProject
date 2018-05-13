@@ -23,7 +23,7 @@ public class LightShade extends PublicObjective {
             }
         }
 
-        p.setPlayerScore(Math.min(oneRec,twoRec)*2);
+        p.setPlayerScore(Math.min(oneRec,twoRec)*this.getScore());
 
        // super.calculateBonus(p);
     }

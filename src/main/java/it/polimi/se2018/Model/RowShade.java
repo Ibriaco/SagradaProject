@@ -12,11 +12,11 @@ public class RowShade extends PublicObjective {
     public void calculateBonus(Player p) {
 
         int validRows = 0;
-        boolean ok = true;
 
-        for (int i = 0; i < p.getWindowCard().COLS; i++){
+        for (int i = 0; i < p.getWindowCard().ROWS; i++){
 
            int[] frequency={0,0,0,0,0,0};
+            boolean ok = true;
 
                for (int j=0; j <p.getWindowCard().COLS; j++){
                    if(p.getWindowCard().getGridCell(i,j).isPlaced() == true) {
@@ -45,10 +45,10 @@ public class RowShade extends PublicObjective {
                         ok = false;
                }
 
-               validRows++;
+              if (ok) validRows++;
         }
 
-            p.setPlayerScore(validRows*5);
+            p.setPlayerScore(validRows*this.getScore());
         }
 
 }

@@ -15,14 +15,14 @@ public class DeepShade extends PublicObjective {
 
         for (int i = 0; i < p.getWindowCard().ROWS; i++){
             for (int j = 0; j< p.getWindowCard().COLS; j++){
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 1)
+                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 5)
                     fiveRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 2)
+                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 6)
                     sixRec++;
             }
         }
 
-        p.setPlayerScore(Math.min(fiveRec,sixRec));
+        p.setPlayerScore(Math.min(fiveRec,sixRec)*this.getScore());
 
     }
 }

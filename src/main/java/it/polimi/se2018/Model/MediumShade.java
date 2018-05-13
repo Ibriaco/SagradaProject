@@ -15,14 +15,14 @@ public class MediumShade extends PublicObjective {
 
         for (int i = 0; i < p.getWindowCard().ROWS; i++){
             for (int j = 0; j< p.getWindowCard().COLS; j++){
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 1)
+                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 3)
                     threeRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 2)
+                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 4)
                     fourRec++;
             }
         }
 
-        p.setPlayerScore(Math.min(threeRec,fourRec)*2);
+        p.setPlayerScore(Math.min(threeRec,fourRec)*this.getScore());
 
        // super.calculateBonus(p);
     }

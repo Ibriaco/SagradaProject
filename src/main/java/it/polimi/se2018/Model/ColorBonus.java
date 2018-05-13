@@ -31,7 +31,7 @@ public class ColorBonus extends PublicObjective {
             }
         }
 
-        p.setPlayerScore(Math.min(redRec,Math.min(greenRec,Math.min(purpleRec,Math.min(yellowRec,blueRec))))*4);
+        p.setPlayerScore(Math.min(redRec,Math.min(greenRec,Math.min(purpleRec,Math.min(yellowRec,blueRec))))*this.getScore());
 
     }
 }
