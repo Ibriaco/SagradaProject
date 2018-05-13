@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 public class Player {
     private String username;
     private String connectionType;
@@ -55,9 +58,47 @@ public class Player {
     }
 
     // da testare
-    public PrivateObjective drawCard(){
+    public void drawCard(int cardNumber){
 
-        return privateObjective;
+        String line;
+        String x;
+        String t;
+        String d;
+        Color c=null;
+        System.out.println("num " + cardNumber);
+        switch (cardNumber){
+            case 1:
+                c = Color.RED; break;
+            case 2:
+                c = Color.YELLOW; break;
+            case 3:
+                c = Color.GREEN; break;
+            case 4:
+                c = Color.BLUE; break;
+            case 5:
+                c = Color.PURPLE; break;
+        }
+
+        System.out.println("COLORE " + c.toString());
+
+        try (BufferedReader b = new BufferedReader(new FileReader("./src/PrivateObjective.txt"))) {
+            line = b.readLine();
+            while(line != null) {
+                x = line;
+
+                if(x.equals(String.valueOf(cardNumber))) {
+                    t = b.readLine();
+                    d = b.readLine();
+                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d, "PublicObjective",1, c);
+                    line=null;
+                }
+                else
+                    line = b.readLine();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // da testare
@@ -73,9 +114,17 @@ public class Player {
     }
 
     // da testare
-    public WindowCardAssociation[] drawWindowCardAssociation(){
+    public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber){
+        //apro file
+        //cerco i numeri passati come parametro
+        //appena ne trovo uno leggo: Nome, Difficoltà e Griglia
+        //devo interpretare la griglia e creare una windowcard
+        //leggo ancora nome, difficolta e griglia e creo la seconda windowcard
+        //setto il front e il back della prima WindowCardAssociation
+        //ripeto la stessa cosa con il secondo numero passato
+        //inserisco le windowcardassociation create nel vettore
+        //fine
 
-        return windowCardAssociations;
     }
 
 

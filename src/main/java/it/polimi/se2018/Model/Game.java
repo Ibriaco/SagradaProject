@@ -3,9 +3,9 @@ package it.polimi.se2018.Model;
 import it.polimi.se2018.Controller.ToolCard;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Game {
@@ -14,22 +14,22 @@ public class Game {
     private int round = 1;
     private int gameDifficulty;
     private String gameType;
-    private ArrayList<PublicObjective> publicCards;
-    private ArrayList<ToolCard> toolCards;
-    private ArrayList<Player> players;
-    private ArrayList<Die> rolledDice;
-    private ArrayList<RoundCell> roundCells;
+    private List<PublicObjective> publicCards;
+    private List<ToolCard> toolCards;
+    private List<Player> players;
+    private List<Die> rolledDice;
+    private List<RoundCell> roundCells;
 
 
     public Game(int playerNumber, String gameType) {
         this.playerNumber = playerNumber;
         this.gameType = gameType;
+        players = new ArrayList<Player>();
         rolledDice = new ArrayList<Die>();
-        //this.publicCards = setPublicObjectives();
 
     }
 
-    private ArrayList<PublicObjective> setPublicObjectives() throws NumberFormatException{
+    private ArrayList<PublicObjective> setPublicObjectives() {
 
         //creo 3 valori 1-10 random che indicano le 3 PO da creare
         //"cerco" gli indici nel file e per ognuno leggo titolo, descrizione e costo
@@ -136,23 +136,22 @@ public class Game {
         return gameType;
     }
 
-    public ArrayList<PublicObjective> getPublicCards() {
+    public List<PublicObjective> getPublicCards() {
 
         return publicCards;
     }
 
-
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
 
         return players;
     }
 
-    public ArrayList<Die> getRolledDice() {
+    public List<Die> getRolledDice() {
 
         return rolledDice;
     }
 
-    public ArrayList<RoundCell> getRoundCells() {
+    public List<RoundCell> getRoundCells() {
 
         return roundCells;
     }
@@ -163,7 +162,7 @@ public class Game {
     }
 
     public void setRolledDice(Die toRoll) {
-        System.out.println(rolledDice.size());
+
         for(int i=0; i<2*playerNumber + 1; i++){
             rolledDice.add(i,toRoll.rollDie());
         }
@@ -184,5 +183,53 @@ public class Game {
     public void addPlayer(Player p){
 
         players.add(p);
+    }
+
+    public void dealPrivateCards(){
+
+        //creo vettore e lo shufflo
+        int[] ar= {1,2,3,4,5};
+        Random rnd = new Random();
+        for (int i = ar.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            int a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+
+       /* for(int i=0;i<ar.length;i++)
+            System.out.println(ar[i]);
+*/
+        int j = 0;
+
+
+        for (Player p: players) {
+            p.drawCard(ar[j]);
+            j++;
+        }
+    }
+
+    public void dealWindowCards(){
+        //creo vettore e lo shufflo
+        int[] ar= {1,2,3,4,5,6,7,8,9,10,11,12};
+        Random rnd = new Random();
+        for (int i = ar.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            int a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+
+       /* for(int i=0;i<ar.length;i++)
+            System.out.println(ar[i]);
+*/
+        int j = 0;
+
+        for (Player p: players) {
+            p.drawWindowCardAssociation(ar[j], ar[j+1]);
+            j+=2;
+        }
     }
 }
