@@ -52,6 +52,16 @@ public class Player {
         return playerScore;
     }
 
+    public WindowCard getWindowCard() {
+
+        return windowCard;
+    }
+
+
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
+    }
+
     public PrivateObjective getPrivateObjective() {
 
         return privateObjective;
@@ -126,6 +136,7 @@ public class Player {
         //fine
 
     }
+
 
 
 }
