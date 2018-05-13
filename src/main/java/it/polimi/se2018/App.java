@@ -41,5 +41,10 @@ public class App
         System.out.println(p1.getPrivateObjective().getColor());
         System.out.println(p1.getPrivateObjective().getTitle());
 
+
+        g.dealWindowCards();
+        System.out.println("OOOOO");
+        p1.printAss();
+
     }
 }

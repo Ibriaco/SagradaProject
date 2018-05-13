@@ -10,14 +10,15 @@ public class DeepShade extends PublicObjective {
     @Override
     public void calculateBonus(Player p) {
 
+        WindowCard temp = p.getWindowCard();
         int fiveRec = 0;
         int sixRec = 0;
 
-        for (int i = 0; i < p.getWindowCard().ROWS; i++){
-            for (int j = 0; j< p.getWindowCard().COLS; j++){
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 5)
+        for (int i = 0; i < temp.ROWS; i++){
+            for (int j = 0; j < temp.COLS; j++){
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 5)
                     fiveRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 6)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 6)
                     sixRec++;
             }
         }

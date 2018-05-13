@@ -7,6 +7,8 @@ public class ColorDiagonals extends PublicObjective {
 
     @Override
     public void calculateBonus(Player p) {
-        super.calculateBonus(p);
+
+        WindowCard temp = p.getWindowCard();
+
     }
 }

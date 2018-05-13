@@ -5,6 +5,7 @@ public class Cell {
     private int shade;
     private boolean placed;
     private Die placedDie;
+    private boolean visited;
 
 
     public Cell(Color color, int shade) {
@@ -22,6 +23,14 @@ public class Cell {
         return shade;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setShade(int shade) {
+        this.shade = shade;
+    }
+
     // da testare
     public boolean isPlaced() {
 
@@ -36,5 +45,13 @@ public class Cell {
     public Die getPlacedDie() {
 
         return placedDie;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }

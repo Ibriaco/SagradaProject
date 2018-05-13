@@ -10,6 +10,14 @@ public class WindowCardAssociation {
     }
 
 
+    public void setFront(WindowCard front) {
+        this.front = front;
+    }
+
+    public void setBack(WindowCard back) {
+        this.back = back;
+    }
+
     public WindowCard getFront() {
         return front;
     }

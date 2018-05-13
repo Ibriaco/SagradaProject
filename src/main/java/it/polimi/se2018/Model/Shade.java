@@ -10,6 +10,7 @@ public class Shade extends PublicObjective {
     @Override
     public void calculateBonus(Player p) {
 
+        WindowCard temp = p.getWindowCard();
         int oneRec = 0;
         int twoRec = 0;
         int threeRec = 0;
@@ -17,19 +18,19 @@ public class Shade extends PublicObjective {
         int fiveRec = 0;
         int sixRec = 0;
 
-        for (int i = 0; i < p.getWindowCard().ROWS; i++){
-            for (int j = 0; j< p.getWindowCard().COLS; j++){
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 1)
+        for (int i = 0; i < temp.ROWS; i++){
+            for (int j = 0; j < temp.COLS; j++){
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 1)
                     oneRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 2)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 2)
                     twoRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 3)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 3)
                     threeRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 4)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 4)
                     fourRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 5)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 5)
                     fiveRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 6)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 6)
                     sixRec++;
             }
         }

@@ -10,21 +10,20 @@ public class LightShade extends PublicObjective {
     @Override
     public void calculateBonus(Player p) {
 
+        WindowCard temp = p.getWindowCard();
         int oneRec = 0;
         int twoRec = 0;
 
-
-        for (int i = 0; i < p.getWindowCard().ROWS; i++){
-            for (int j = 0; j< p.getWindowCard().COLS; j++){
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 1)
+        for (int i = 0; i < temp.ROWS; i++){
+            for (int j = 0; j < temp.COLS; j++){
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 1)
                     oneRec++;
-                if (p.getWindowCard().getGridCell(i,j).getPlacedDie().getValue() == 2)
+                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 2)
                     twoRec++;
             }
         }
 
         p.setPlayerScore(Math.min(oneRec,twoRec)*this.getScore());
 
-       // super.calculateBonus(p);
     }
 }

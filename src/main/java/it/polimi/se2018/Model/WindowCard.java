@@ -14,17 +14,22 @@ public class WindowCard {
 
 
     public WindowCard() {
-        for (int i = 0; i <ROWS; i++)  {
-            for (int j = 0; i < COLS; j++){
-                grid[i][j] = new Cell(null, 4);
+        grid = new Cell[ROWS][COLS];
+        /*for (int i = 0; i <ROWS; i++)  {
+            for (int j = 0; j < COLS; j++){
+                grid[i][j] = new Cell(BLUE, 4);
             }
-        }
+        }*/
     }
 
     // da testare millemila volte
     public boolean checkLegalPlacement(Die d, int x, int y) {
 
         return false;
+    }
+
+    public void setCell(Cell c, int x, int y) {
+        this.grid[x][y] = c;
     }
 
     // da testare
@@ -67,4 +72,11 @@ public class WindowCard {
         return true;
     }
 
+    public void setWindowName(String windowName) {
+        this.windowName = windowName;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 }

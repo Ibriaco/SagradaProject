@@ -7,34 +7,35 @@ public class ColumnShade extends PublicObjective {
 
     @Override
     public void calculateBonus(Player p) {
+
+        WindowCard temp = p.getWindowCard();
         int validRows = 0;
 
-
-        for (int i = 0; i < p.getWindowCard().COLS; i++){
+        for (int i = 0; i < temp.COLS; i++){
 
             int[] frequency={0,0,0,0,0,0};
             boolean ok = true;
 
-            for (int j=0; j <p.getWindowCard().ROWS; j++){
-                if(p.getWindowCard().getGridCell(j,i).isPlaced() == true) {
-                    if (p.getWindowCard().getGridCell(j, i).getPlacedDie().getValue() == 1)
-                        frequency[0] = frequency[0] + 1;
-                    if (p.getWindowCard().getGridCell(j, i).getPlacedDie().getValue() == 2)
-                        frequency[1] = frequency[1] + 1;
-                    if (p.getWindowCard().getGridCell(j, i).getPlacedDie().getValue() == 3)
-                        frequency[2] = frequency[2] + 1;
-                    if (p.getWindowCard().getGridCell(j, i).getPlacedDie().getValue() == 4)
-                        frequency[3] = frequency[3] + 1;
-                    if (p.getWindowCard().getGridCell(j, i).getPlacedDie().getValue() == 5)
-                        frequency[4] = frequency[4] + 1;
-                    if (p.getWindowCard().getGridCell(j, i).getPlacedDie().getValue() == 6)
-                        frequency[5] = frequency[5] + 1;
+            for (int j=0; j < temp.ROWS; j++){
+                if(temp.getGridCell(j,i).isPlaced()) {
+                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 1)
+                        frequency[0]++;
+                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 2)
+                        frequency[1]++;
+                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 3)
+                        frequency[2]++;
+                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 4)
+                        frequency[3]++;
+                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 5)
+                        frequency[4]++;
+                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 6)
+                        frequency[5]++;
                 }
                 else
                     ok = false;
             }
 
-            for(int index = 0; index<frequency.length; index++){
+            for(int index = 0; index < frequency.length; index++){
                 if (frequency[index] < 2 && ok){
                     ok = true;
                 }
