@@ -1,14 +1,15 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoundCell {
     private int value;
-    private ArrayList<Die> diceList;
+    private List<Die> diceList;
 
-    public RoundCell(int value, ArrayList<Die> diceList) {
+    public RoundCell(int value) {
         this.value = value;
-        this.diceList = diceList;
+        diceList = new ArrayList<Die>();
     }
 
     public int getValue() {

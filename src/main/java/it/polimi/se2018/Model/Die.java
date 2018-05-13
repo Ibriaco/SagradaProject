@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static it.polimi.se2018.Model.Color.*;
@@ -15,12 +16,7 @@ public class Die {
     private int purpleAmount = 18;
     private int blueAmount = 18;
     private boolean init = true;
-    ArrayList<Color> colorList = null;
-
-
-    private ArrayList<Color> availableColor;
-
-
+    List<Color> colorList = null;
 
     public Die(Color color, int value) {
         this.color = color;
@@ -36,7 +32,6 @@ public class Die {
 
         this.color = color;
     }
-
 
     public int getValue() {
 
@@ -61,7 +56,6 @@ public class Die {
         }
         else
             checkRemainingColors();
-
     }
 
     public void checkRemainingColors() {
@@ -119,6 +113,7 @@ public class Die {
 
     // da testare
     public void reverse(Die d){
+
         d.setValue(7-d.getValue());
     }
 }

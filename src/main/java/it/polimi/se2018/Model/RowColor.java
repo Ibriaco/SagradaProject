@@ -34,7 +34,7 @@ public class RowColor extends PublicObjective {
                     ok = false;
             }
 
-            for(int index = 0; index<frequency.length; index++){
+            for(int index = 0; index < frequency.length; index++){
                 if (frequency[index] == 1 && ok){
                     ok = true;
                 }

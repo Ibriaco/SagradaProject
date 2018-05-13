@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.se2018.Model.Color.BLUE;
 
@@ -10,8 +11,6 @@ public class WindowCard {
     private Cell[][] grid;
     private String windowName;
     private int difficulty;
-    private ArrayList<Die> placedDice;
-
 
     public WindowCard() {
         grid = new Cell[ROWS][COLS];
@@ -22,7 +21,7 @@ public class WindowCard {
         }*/
     }
 
-    // da testare millemila volte
+    // da testare
     public boolean checkLegalPlacement(Die d, int x, int y) {
 
         return false;

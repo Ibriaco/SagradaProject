@@ -58,4 +58,9 @@ public class Cell {
 
         this.visited = visited;
     }
+
+    public void placeDie(Die d){
+
+        placedDie = d;
+    }
 }
