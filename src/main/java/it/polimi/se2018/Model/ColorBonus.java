@@ -18,20 +18,22 @@ public class ColorBonus extends PublicObjective {
 
         for (int i = 0; i < temp.COLS; i++){
             for (int j = 0; j< temp.ROWS; j++){
-                if (temp.getGridCell(i,j).getPlacedDie().getColor() == Color.RED)
-                    redRec++;
-                if (temp.getGridCell(i,j).getPlacedDie().getColor() == Color.GREEN)
-                    greenRec++;
-                if (temp.getGridCell(i,j).getPlacedDie().getColor() == Color.PURPLE)
-                    purpleRec++;
-                if (temp.getGridCell(i,j).getPlacedDie().getColor() == Color.YELLOW)
-                    yellowRec++;
-                if (temp.getGridCell(i,j).getPlacedDie().getColor() == Color.BLUE)
-                    blueRec++;
+                if(temp.getGridCell(i,j).isPlaced()) {
+                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.RED)
+                        redRec++;
+                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.GREEN)
+                        greenRec++;
+                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.PURPLE)
+                        purpleRec++;
+                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.YELLOW)
+                        yellowRec++;
+                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.BLUE)
+                        blueRec++;
+                }
             }
         }
 
-        p.setPlayerScore(Math.min(redRec,Math.min(greenRec,Math.min(purpleRec,Math.min(yellowRec,blueRec))))*this.getScore());
+        p.setPlayerScore(p.getPlayerScore() + Math.min(redRec,Math.min(greenRec,Math.min(purpleRec,Math.min(yellowRec,blueRec))))*this.getScore());
 
     }
 }

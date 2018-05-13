@@ -15,9 +15,10 @@ import static it.polimi.se2018.Model.Color.RED;
 public class App 
 {
     public static void main( String[] args ) {
-        System.out.println("Main");
+        /*System.out.println("Main");
         Game g = new Game(3, "Singleplayer");
-        /*for (int i = 0; i < 3; i++) {
+
+        for (int i = 0; i < 3; i++) {
 
             System.out.println("P O " + i + ": ");
             System.out.println(g.getPublicCards().get(i).getNumber());
@@ -25,26 +26,30 @@ public class App
             System.out.println(g.getPublicCards().get(i).getDescription());
             System.out.println(g.getPublicCards().get(i).getScore());
         }
-*/
-        /*g.setRolledDice(new Die(BLUE, 0));
+
+        g.setRolledDice(new Die(BLUE, 0));
         for (int i = 0; i < g.getRolledDice().size(); i++) {
 
             System.out.println("Dado " + i + ": ");
             System.out.println(g.getRolledDice().get(i).getColor());
             System.out.println(g.getRolledDice().get(i).getValue());
-        }*/
+        }
 
-        Player p1 = new Player("griggoswaggo");
+        Player p1 = new Player("ingsw");
         g.addPlayer(p1);
         g.dealPrivateCards();
-        System.out.println("OOOOO");
+        System.out.println("Go:");
         System.out.println(p1.getPrivateObjective().getColor());
         System.out.println(p1.getPrivateObjective().getTitle());
 
 
         g.dealWindowCards();
-        System.out.println("OOOOO");
+        System.out.println("Go:");
         p1.printAss();
-
+        p1.chooseWindowCard(p1.getWindowCardAssociations()[0], 0);
+        System.out.println(p1.getWindowCard().getWindowName());
+        g.getPublicCards().get(0).calculateBonus(p1);
+        System.out.println(p1.getPlayerScore());
+*/
     }
 }

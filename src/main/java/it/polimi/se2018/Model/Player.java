@@ -19,6 +19,7 @@ public class Player {
 
         windowCardAssociations = new WindowCardAssociation[2];
         this.username = username;
+        this.playerScore = 0;
     }
 
     public String getUsername() {
@@ -59,6 +60,10 @@ public class Player {
     public void setPlayerScore(int playerScore) {
 
         this.playerScore = playerScore;
+    }
+
+    public WindowCardAssociation[] getWindowCardAssociations() {
+        return windowCardAssociations;
     }
 
     public PrivateObjective getPrivateObjective() {
@@ -111,9 +116,11 @@ public class Player {
     }
 
     // da testare
-    public WindowCard chooseWindowCard(WindowCardAssociation w){
-
-        return windowCard;
+    public void chooseWindowCard(WindowCardAssociation w, int side){
+        if(side == 0)
+            windowCard = w.getFront();
+        else
+            windowCard = w.getBack();
     }
 
     // da testare
@@ -228,6 +235,7 @@ public class Player {
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.PURPLE, 0), x, y);
                     break;
                 case "x":
+                    windowCardAssociations[cardN].getFront().setCell(new Cell(null, 0), x, y);
                     break;
                 default:
                     //windowCardAssociations[cardN].getFront().getGridCell(x, y).setShade(Integer.valueOf(s));
@@ -257,6 +265,7 @@ public class Player {
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.PURPLE, 0), x, y);
                     break;
                 case "x":
+                    windowCardAssociations[cardN].getBack().setCell(new Cell(null, 0), x, y);
                     break;
                 default:
                     windowCardAssociations[cardN].getBack().setCell(new Cell(null, Integer.valueOf(s)), x, y);

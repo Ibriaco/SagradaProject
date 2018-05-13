@@ -26,10 +26,11 @@ public class Game {
         this.gameType = gameType;
         players = new ArrayList<Player>();
         rolledDice = new ArrayList<Die>();
+        publicCards = setPublicObjectives();
 
     }
 
-    private ArrayList<PublicObjective> setPublicObjectives() {
+    public ArrayList<PublicObjective> setPublicObjectives() {
 
         //creo 3 valori 1-10 random che indicano le 3 PO da creare
         //"cerco" gli indici nel file e per ognuno leggo titolo, descrizione e costo
@@ -198,7 +199,7 @@ public class Game {
             ar[i] = a;
         }
 
-       /* for(int i=0;i<ar.length;i++)
+  /*      for(int i=0;i<ar.length;i++)
             System.out.println(ar[i]);
 */
         int j = 0;

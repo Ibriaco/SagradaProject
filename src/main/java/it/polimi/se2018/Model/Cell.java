@@ -24,10 +24,12 @@ public class Cell {
     }
 
     public void setColor(Color color) {
+
         this.color = color;
     }
 
     public void setShade(int shade) {
+
         this.shade = shade;
     }
 
@@ -48,10 +50,12 @@ public class Cell {
     }
 
     public boolean isVisited() {
+
         return visited;
     }
 
     public void setVisited(boolean visited) {
+
         this.visited = visited;
     }
 }

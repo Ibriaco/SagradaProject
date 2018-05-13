@@ -17,6 +17,7 @@ public abstract class Card {
 
 
     public String getTitle(){
+
         return title;
     }
 

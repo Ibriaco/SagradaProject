@@ -35,7 +35,7 @@ public class Shade extends PublicObjective {
             }
         }
 
-        p.setPlayerScore(Math.min(oneRec,Math.min(twoRec,Math.min(threeRec,Math.min(fourRec,Math.min(fiveRec,sixRec)))))*this.getScore());
+        p.setPlayerScore(p.getPlayerScore() + Math.min(oneRec,Math.min(twoRec,Math.min(threeRec,Math.min(fourRec,Math.min(fiveRec,sixRec)))))*this.getScore());
 
     }
 }

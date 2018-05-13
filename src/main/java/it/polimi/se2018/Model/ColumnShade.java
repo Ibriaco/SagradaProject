@@ -46,7 +46,7 @@ public class ColumnShade extends PublicObjective {
             if (ok) validRows++;
         }
 
-        p.setPlayerScore(validRows*this.getScore());
+        p.setPlayerScore(p.getPlayerScore() + validRows*this.getScore());
     }
 
 }

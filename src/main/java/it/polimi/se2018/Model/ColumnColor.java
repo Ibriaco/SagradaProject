@@ -43,6 +43,6 @@ public class ColumnColor extends PublicObjective {
             if (ok) validCols++;
         }
 
-        p.setPlayerScore(validCols * this.getScore());
+        p.setPlayerScore(p.getPlayerScore() + validCols * this.getScore());
     }
 }

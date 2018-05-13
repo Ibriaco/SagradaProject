@@ -16,14 +16,16 @@ public class LightShade extends PublicObjective {
 
         for (int i = 0; i < temp.ROWS; i++){
             for (int j = 0; j < temp.COLS; j++){
-                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 1)
-                    oneRec++;
-                if (temp.getGridCell(i,j).getPlacedDie().getValue() == 2)
-                    twoRec++;
+                if(temp.getGridCell(i,j).isPlaced()) {
+                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 1)
+                        oneRec++;
+                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 2)
+                        twoRec++;
+                }
             }
         }
 
-        p.setPlayerScore(Math.min(oneRec,twoRec)*this.getScore());
+        p.setPlayerScore(p.getPlayerScore() + Math.min(oneRec,twoRec)*this.getScore());
 
     }
 }
