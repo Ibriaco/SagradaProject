@@ -52,7 +52,11 @@ public class TestBonus {
             e.printStackTrace();
         }
         //creo un player e gli assegno la windowcard creata
-        p = new Player("test");
+        try {
+            p = new Player("test", "Socket", "CLI");
+        } catch (InvalidConnectionException e) {
+            e.printStackTrace();
+        }
         p.setWindowCard(w);
 
         //creo un game e aggiungo il player appena creato

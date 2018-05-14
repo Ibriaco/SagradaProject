@@ -23,9 +23,9 @@ public class Die {
 
         if(value < 7 && value > 0)
             this.value = value;
-        else {
+        else
             throw new InvalidDieException();
-        }
+
     }
 
     public Color getColor() {

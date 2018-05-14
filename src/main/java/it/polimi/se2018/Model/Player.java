@@ -15,11 +15,17 @@ public class Player {
     private int windowFrameNumber;
 
 
-    public Player(String username) {
-
+    public Player(String username, String connectionType, String viewType) throws InvalidConnectionException {
+        if(connectionType.equals("Socket") || connectionType.equals("RMI"))
+            this.connectionType = connectionType;
+        else
+            throw new InvalidConnectionException();
+        this.viewType = viewType;
         windowCardAssociations = new WindowCardAssociation[2];
         this.username = username;
         this.playerScore = 0;
+        this.tokens = 0;
+        windowCard = new WindowCard();
     }
 
     public String getUsername() {
@@ -47,6 +53,11 @@ public class Player {
         this.tokens = tokens;
     }
 
+    public void reduceTokens(int tokens){
+        if(this.tokens >= tokens)
+            this.tokens -= tokens;
+    }
+
     public int getPlayerScore() {
 
         return playerScore;
@@ -63,6 +74,7 @@ public class Player {
     }
 
     public WindowCardAssociation[] getWindowCardAssociations() {
+
         return windowCardAssociations;
     }
 
@@ -79,7 +91,7 @@ public class Player {
         String t;
         String d;
         Color c=null;
-        System.out.println("num " + cardNumber);
+
         switch (cardNumber){
             case 1:
                 c = Color.RED; break;
@@ -94,8 +106,6 @@ public class Player {
             default: break;
         }
 
-        //System.out.println("COLORE " + c.toString());
-
         try (BufferedReader b = new BufferedReader(new FileReader("./src/PrivateObjective.txt"))) {
             line = b.readLine();
             while(line != null) {
@@ -104,8 +114,8 @@ public class Player {
                 if(x.equals(String.valueOf(cardNumber))) {
                     t = b.readLine();
                     d = b.readLine();
-                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d, "PublicObjective",1, c);
-                    line=null;
+                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d, "PrivateObjective",1, c);
+                    line = null;
                 }
                 else
                     line = b.readLine();
