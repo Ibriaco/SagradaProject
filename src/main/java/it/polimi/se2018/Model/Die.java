@@ -97,6 +97,7 @@ public class Die {
             e.printStackTrace();
         }
 
+        assert d != null;
         switch(d.getColor()){
             case BLUE:
                 blueAmount--;
