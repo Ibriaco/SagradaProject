@@ -22,31 +22,31 @@ public class WindowCard {
     }
 
     // da testare
-    public boolean checkLegalPlacement(Die d, int x, int y) {
+    public boolean checkLegalPlacement(Die d, int row, int col) {
 
         return false;
     }
 
-    public void setCell(Cell c, int x, int y) {
-        this.grid[x][y] = c;
+    public void setCell(Cell c, int row, int col) {
+        this.grid[row][col] = c;
     }
 
     // da testare
-    public void placeDie(Die d, int x, int y){
+    public void placeDie(Die d, int row, int col){
 
-        this.getGridCell(x,y).placeDie(d);
-
-    }
-
-    // da testare
-    public void removeDie(int x, int y){
+        this.getGridCell(row,col).placeDie(d);
 
     }
 
     // da testare
-    public Cell getGridCell(int x, int y){
+    public void removeDie(int row, int col){
 
-       return grid[x][y];
+    }
+
+    // da testare
+    public Cell getGridCell(int row, int col){
+
+       return grid[row][col];
     }
 
     // da testare
@@ -74,10 +74,12 @@ public class WindowCard {
     }
 
     public void setWindowName(String windowName) {
+
         this.windowName = windowName;
     }
 
     public void setDifficulty(int difficulty) {
+
         this.difficulty = difficulty;
     }
 }

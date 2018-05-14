@@ -13,13 +13,15 @@ public class LightShade extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int oneRec = 0;
         int twoRec = 0;
+        int val = 0;
 
         for (int i = 0; i < temp.ROWS; i++){
             for (int j = 0; j < temp.COLS; j++){
                 if(temp.getGridCell(i,j).isPlaced()) {
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 1)
+                    val = temp.getGridCell(i, j).getPlacedDie().getValue();
+                    if (val == 1)
                         oneRec++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 2)
+                    if (val == 2)
                         twoRec++;
                 }
             }

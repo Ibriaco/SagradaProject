@@ -23,11 +23,11 @@ public class TestBonus {
         w.setCell(new Cell(Color.YELLOW,3),1,2);
         w.setCell(new Cell(Color.YELLOW,3),1,3);
         w.setCell(new Cell(Color.YELLOW,3),1,4);
-        w.setCell(new Cell(Color.PURPLE,3),2,0);
-        w.setCell(new Cell(Color.PURPLE,3),2,1);
+        w.setCell(new Cell(Color.YELLOW,3),2,0);
+        w.setCell(new Cell(Color.RED,3),2,1);
         w.setCell(new Cell(Color.PURPLE,3),2,2);
         w.setCell(new Cell(Color.BLUE,3),2,3);
-        w.setCell(new Cell(Color.BLUE,3),2,4);
+        w.setCell(new Cell(Color.GREEN,3),2,4);
         w.setCell(new Cell(Color.BLUE,3),3,0);
         w.setCell(new Cell(Color.BLUE,3),3,1);
         w.setCell(new Cell(Color.BLUE,3),3,2);
@@ -43,7 +43,7 @@ public class TestBonus {
             w.placeDie(new Die(Color.RED,2), 2, 1);
             w.placeDie(new Die(Color.YELLOW,1), 1, 3);
             w.placeDie(new Die(Color.YELLOW,2), 2, 0);
-            w.placeDie(new Die(Color.PURPLE,1), 2, 1);
+            w.placeDie(new Die(Color.PURPLE,1), 2, 2);
             w.placeDie(new Die(Color.GREEN,1), 3, 3);
             w.placeDie(new Die(Color.GREEN,6), 2, 4);
         } catch (InvalidDieException e) {
@@ -63,6 +63,8 @@ public class TestBonus {
         //metto nel game una sola public objective, cioe lightshades, e la testo
         //con i dadi inseriti prima, valore atteso è:
 
+
+
         g.getPublicCards().set(0, new LightShade(1, "LightShades", "a","PublicObjective", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
@@ -77,7 +79,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new MediumShade(2, "MediumShades", "a","PublicObjective", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assert (p.getPlayerScore() == 0);
     }
 
     @Test
@@ -88,7 +90,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new DeepShade(3, "DeepShade", "Sets of one of each color anywhere","PublicObjective", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assert (p.getPlayerScore() == 0);
     }
 
 
@@ -111,7 +113,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new Shade(5, "ShadeVariety", "Sets of one of each color anywhere","PublicObjective", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assert (p.getPlayerScore() == 0);
     }
 
     @Test
@@ -122,7 +124,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColumnShade(6, "ColumnShadeVariety", "Sets of one of each color anywhere","PublicObjective", 4 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assert (p.getPlayerScore() == 0);
     }
 
     @Test
@@ -133,7 +135,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new RowShade(7, "RowShadeVariety", "Sets of one of each color anywhere","PublicObjective", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assert (p.getPlayerScore() == 0);
     }
 
     @Test
@@ -144,7 +146,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new RowColor(8, "RowColorVariety", "Sets of one of each color anywhere","PublicObjective", 6 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 1);
+        assert (p.getPlayerScore() == 6);
     }
 
     @Test
@@ -155,7 +157,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColumnColor(9, "ColumnColorVariety", "Sets of one of each color anywhere","PublicObjective", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 1);
+        assert (p.getPlayerScore() == 5);
     }
 
     @Test
@@ -166,7 +168,8 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColorDiagonals(10, "ColorDiagonals", "Sets of one of each color anywhere","PublicObjective", 0 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        System.out.println(p.getPlayerScore());
+        assert (p.getPlayerScore() == 2);
     }
 
 }
