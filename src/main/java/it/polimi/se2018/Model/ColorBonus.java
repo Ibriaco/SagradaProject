@@ -8,7 +8,6 @@ public class ColorBonus extends PublicObjective {
 
     @Override
     public void calculateBonus(Player p) {
-
         WindowCard temp = p.getWindowCard();
         int redRec = 0;
         int greenRec = 0;
@@ -16,8 +15,8 @@ public class ColorBonus extends PublicObjective {
         int yellowRec = 0;
         int blueRec = 0;
 
-        for (int i = 0; i < temp.COLS; i++){
-            for (int j = 0; j< temp.ROWS; j++){
+        for (int i = 0; i < temp.ROWS; i++){
+            for (int j = 0; j< temp.COLS; j++){
                 if(temp.getGridCell(i,j).isPlaced()) {
                     if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.RED)
                         redRec++;

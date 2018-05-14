@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
 public class Cell {
     private Color color;
     private int shade;
-    private boolean placed;
+    private boolean placed = false;
     private Die placedDie;
     private boolean visited;
 
@@ -60,7 +60,14 @@ public class Cell {
     }
 
     public void placeDie(Die d){
-
-        placedDie = d;
+        if(checkPlacement(this, d)) {
+            placedDie = d;
+            placed = true;
+        }
     }
+
+    private boolean checkPlacement(Cell c, Die d){
+        return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
+    }
+
 }

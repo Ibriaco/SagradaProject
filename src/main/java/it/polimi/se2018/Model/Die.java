@@ -6,7 +6,6 @@ import java.util.Random;
 
 import static it.polimi.se2018.Model.Color.*;
 
-
 public class Die {
     private Color color;
     private int value;
@@ -16,11 +15,17 @@ public class Die {
     private int purpleAmount = 18;
     private int blueAmount = 18;
     private boolean init = true;
-    List<Color> colorList = null;
+    List<Color> colorList;
 
-    public Die(Color color, int value) {
+    public Die(Color color, int value) throws InvalidDieException {
         this.color = color;
-        this.value = value;
+        colorList = new ArrayList<Color>();
+
+        if(value < 7 && value > 0)
+            this.value = value;
+        else {
+            throw new InvalidDieException();
+        }
     }
 
     public Color getColor() {
@@ -43,22 +48,22 @@ public class Die {
         this.value = value;
     }
 
-    public void getAvailableColor() {
+    private void getAvailableColor() {
 
         if(init) {
-            colorList = new ArrayList<Color>();
             colorList.add(GREEN);
             colorList.add(PURPLE);
             colorList.add(YELLOW);
             colorList.add(RED);
             colorList.add(BLUE);
+
             init = false;
         }
         else
             checkRemainingColors();
     }
 
-    public void checkRemainingColors() {
+    private void checkRemainingColors() {
         if (redAmount == 1)
             colorList.remove(RED);
 
@@ -85,7 +90,12 @@ public class Die {
         int index;
 
         index = random.nextInt(colorList.size());
-        Die d = new Die(colorList.get(index),random.nextInt(6) + 1);
+        Die d = null;
+        try {
+            d = new Die(colorList.get(index),random.nextInt(6) + 1);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
 
         switch(d.getColor()){
             case BLUE:
@@ -111,9 +121,14 @@ public class Die {
         return d;
     }
 
+    public List<Color> getColorList(){
+
+        return colorList;
+    }
+
     // da testare
     public void reverse(Die d){
 
-        d.setValue(7-d.getValue());
+        d.setValue(7 - d.getValue());
     }
 }

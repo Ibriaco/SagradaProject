@@ -2,7 +2,6 @@ package it.polimi.se2018.Model;
 
 public abstract class Card {
 
-
     private int number;
     private String title;
     private String description;

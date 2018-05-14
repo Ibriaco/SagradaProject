@@ -91,9 +91,10 @@ public class Player {
                 c = Color.BLUE; break;
             case 5:
                 c = Color.PURPLE; break;
+            default: break;
         }
 
-        System.out.println("COLORE " + c.toString());
+        //System.out.println("COLORE " + c.toString());
 
         try (BufferedReader b = new BufferedReader(new FileReader("./src/PrivateObjective.txt"))) {
             line = b.readLine();
@@ -123,6 +124,9 @@ public class Player {
             windowCard = w.getBack();
     }
 
+    public void setWindowCard(WindowCard w){
+        this.windowCard = w;
+    }
     // da testare
     public int getWindowFrameNumber(){
 

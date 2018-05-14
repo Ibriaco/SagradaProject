@@ -30,7 +30,7 @@ public class Game {
 
     }
 
-    public ArrayList<PublicObjective> setPublicObjectives() {
+    public List<PublicObjective> setPublicObjectives() {
 
         //creo 3 valori 1-10 random che indicano le 3 PO da creare
         //"cerco" gli indici nel file e per ognuno leggo titolo, descrizione e costo
@@ -86,28 +86,28 @@ public class Game {
     private PublicObjective selectType(String numberStr, String title, String desc, String score) {
         int scoreInt = Integer.parseInt(score.substring(1));
         int number = Integer.parseInt(numberStr);
-
+        String type = "PublicObjective";
         switch (number){
         case 1:
-            return new LightShade(number, title, desc, "PublicObjective", scoreInt);
+            return new LightShade(number, title, desc, type, scoreInt);
         case 2:
-            return new MediumShade(number, title, desc, "PublicObjective", scoreInt);
+            return new MediumShade(number, title, desc, type, scoreInt);
         case 3:
-            return new DeepShade(number, title, desc, "PublicObjective", scoreInt);
+            return new DeepShade(number, title, desc, type, scoreInt);
         case 4:
-            return new ColorBonus(number, title, desc, "PublicObjective", scoreInt);
+            return new ColorBonus(number, title, desc, type, scoreInt);
         case 5:
-            return new Shade(number, title, desc, "PublicObjective", scoreInt);
+            return new Shade(number, title, desc, type, scoreInt);
         case 6:
-            return new ColumnShade(number, title, desc, "PublicObjective", scoreInt);
+            return new ColumnShade(number, title, desc, type, scoreInt);
         case 7:
-            return new RowShade(number, title, desc, "PublicObjective", scoreInt);
+            return new RowShade(number, title, desc, type, scoreInt);
         case 8:
-            return new RowColor(number, title, desc, "PublicObjective", scoreInt);
+            return new RowColor(number, title, desc, type, scoreInt);
         case 9:
-            return new ColumnShade(number, title, desc, "PublicObjective", scoreInt);
+            return new ColumnShade(number, title, desc, type, scoreInt);
         case 10:
-            return new ColorDiagonals(number, title, desc, "PublicObjective", scoreInt);
+            return new ColorDiagonals(number, title, desc, type, scoreInt);
         default: return null;
         }
     }

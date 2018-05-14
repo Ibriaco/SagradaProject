@@ -34,6 +34,8 @@ public class WindowCard {
     // da testare
     public void placeDie(Die d, int x, int y){
 
+        this.getGridCell(x,y).placeDie(d);
+
     }
 
     // da testare
