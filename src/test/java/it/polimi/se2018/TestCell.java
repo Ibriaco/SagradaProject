@@ -6,6 +6,9 @@ import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.InvalidDieException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 public class TestCell {
     @Test
     public void testPlacedCell(){
@@ -38,7 +41,7 @@ public class TestCell {
         c.placeDie(d);
 
         assert (c.isPlaced());
-        assert (c.getPlacedDie() == d);
+        assertEquals (d,c.getPlacedDie());
     }
 
     @Test
@@ -54,7 +57,7 @@ public class TestCell {
         c.placeDie(d);
 
         assert (!c.isPlaced());
-        assert (!(c.getPlacedDie() == d));
+        assertNotEquals (d,(c.getPlacedDie()));
     }
 
     @Test

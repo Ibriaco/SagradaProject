@@ -5,6 +5,7 @@ import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.InvalidDieException;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
 public class TestDie {
@@ -18,7 +19,8 @@ public class TestDie {
             e.printStackTrace();
         }
 
-        assert (d.getColor() == Color.BLUE && d.getValue() == 3);
+        assertEquals (Color.BLUE,d.getColor());
+        assertEquals(3, d.getValue());
     }
 
     @Test
@@ -42,7 +44,8 @@ public class TestDie {
         }
 
         d.reverse(d);
-        assert (d.getColor() == Color.BLUE && d.getValue() == 4);
+        assertEquals (Color.BLUE, d.getColor());
+        assertEquals(4, d.getValue());
     }
 
     @Test

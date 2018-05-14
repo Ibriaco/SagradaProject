@@ -4,6 +4,8 @@ import it.polimi.se2018.Model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class TestBonus {
     WindowCard w;
     Player p;
@@ -63,12 +65,10 @@ public class TestBonus {
         //metto nel game una sola public objective, cioe lightshades, e la testo
         //con i dadi inseriti prima, valore atteso è:
 
-
-
         g.getPublicCards().set(0, new LightShade(1, "LightShades", "a","PublicObjective", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assertEquals (4,p.getPlayerScore());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new MediumShade(2, "MediumShades", "a","PublicObjective", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 0);
+        assertEquals (0,p.getPlayerScore());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new DeepShade(3, "DeepShade", "Sets of one of each color anywhere","PublicObjective", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 0);
+        assertEquals (0,p.getPlayerScore());
     }
 
 
@@ -102,7 +102,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColorBonus(4, "ColorVariey", "Sets of one of each color anywhere","PublicObjective", 4 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 4);
+        assertEquals (4,p.getPlayerScore());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new Shade(5, "ShadeVariety", "Sets of one of each color anywhere","PublicObjective", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 0);
+        assertEquals (0,p.getPlayerScore());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColumnShade(6, "ColumnShadeVariety", "Sets of one of each color anywhere","PublicObjective", 4 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 0);
+        assertEquals (0,p.getPlayerScore());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new RowShade(7, "RowShadeVariety", "Sets of one of each color anywhere","PublicObjective", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 0);
+        assertEquals (0,p.getPlayerScore());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new RowColor(8, "RowColorVariety", "Sets of one of each color anywhere","PublicObjective", 6 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 6);
+        assertEquals (6, p.getPlayerScore());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColumnColor(9, "ColumnColorVariety", "Sets of one of each color anywhere","PublicObjective", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assert (p.getPlayerScore() == 5);
+        assertEquals (5,p.getPlayerScore());
     }
 
     @Test
@@ -169,7 +169,7 @@ public class TestBonus {
         g.getPublicCards().get(0).calculateBonus(p);
 
         System.out.println(p.getPlayerScore());
-        assert (p.getPlayerScore() == 2);
+        assertEquals (2,p.getPlayerScore());
     }
 
 }
