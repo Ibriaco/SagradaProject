@@ -56,6 +56,8 @@ public class TestBonus {
             p = new Player("test", "Socket", "CLI");
         } catch (InvalidConnectionException e) {
             e.printStackTrace();
+        } catch (InvalidViewException e) {
+            e.printStackTrace();
         }
         p.setWindowCard(w);
 
