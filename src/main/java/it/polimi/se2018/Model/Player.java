@@ -15,12 +15,17 @@ public class Player {
     private int windowFrameNumber;
 
 
-    public Player(String username, String connectionType, String viewType) throws InvalidConnectionException {
+    public Player(String username, String connectionType, String viewType) throws InvalidConnectionException , InvalidViewException {
         if(connectionType.equals("Socket") || connectionType.equals("RMI"))
             this.connectionType = connectionType;
         else
             throw new InvalidConnectionException();
-        this.viewType = viewType;
+
+        if(viewType.equals("GUI") || viewType.equals("CLI"))
+            this.viewType = viewType;
+        else
+            throw new InvalidViewException();
+
         windowCardAssociations = new WindowCardAssociation[2];
         this.username = username;
         this.playerScore = 0;

@@ -1,9 +1,6 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.Model.InvalidConnectionException;
-import it.polimi.se2018.Model.Player;
-import it.polimi.se2018.Model.WindowCard;
-import it.polimi.se2018.Model.WindowCardAssociation;
+import it.polimi.se2018.Model.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,17 +14,28 @@ public class TestPlayer {
             Player p = new Player("ingsw", "Socket", "CLI");
         } catch (InvalidConnectionException e) {
             fail();
+        } catch (InvalidViewException e) {
+            fail();
         }
     }
 
     @Test
-    public void testNewWrongPlayer(){
+    public void testNewWrongConnectionPlayer(){
         try {
             Player p = new Player("ingsw", "Soket", "CLI");
             fail();
         } catch (InvalidConnectionException e) {
 
-        }
+        } catch (InvalidViewException e) { }
+    }
+    @Test
+    public void testNewWrongViewPlayer(){
+        try {
+            Player p = new Player("ingsw", "Socket", "GLI");
+            fail();
+        } catch (InvalidConnectionException e) {
+
+        } catch (InvalidViewException e) { }
     }
 
     @Test
@@ -36,7 +44,9 @@ public class TestPlayer {
         try {
             p = new Player("ingsw", "Socket", "CLI");
         } catch (InvalidConnectionException e) {
-
+            fail();
+        } catch (InvalidViewException e) {
+            fail();
         }
         p.setTokens(5);
         p.reduceTokens(3);
@@ -50,7 +60,9 @@ public class TestPlayer {
         try {
             p = new Player("ingsw", "Socket", "CLI");
         } catch (InvalidConnectionException e) {
-
+            fail();
+        } catch (InvalidViewException e) {
+            fail();
         }
         p.setTokens(4);
         p.reduceTokens(5);
@@ -68,7 +80,9 @@ public class TestPlayer {
         try {
             p = new Player("ingsw", "Socket", "CLI");
         } catch (InvalidConnectionException e) {
-            e.printStackTrace();
+            fail();
+        } catch (InvalidViewException e) {
+            fail();
         }
 
         p.chooseWindowCard(a,0);
