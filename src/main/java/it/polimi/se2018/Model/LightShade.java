@@ -1,12 +1,19 @@
 package it.polimi.se2018.Model;
 
+/**
+ * @author Griggo
+ * Class of the Public Cards Light Shade,..
+ */
 public class LightShade extends PublicObjective {
     public LightShade(int number, String title, String description, String cardType, int score) {
         super(number, title, description, "PublicObjective", score);
     }
 
 
-
+    /**
+     * @author griggo
+     * @param p is the player whose bonus is calculated
+     */
     @Override
     public void calculateBonus(Player p) {
 

@@ -162,10 +162,10 @@ public class Game {
         this.playerNumber = playerNumber;
     }
 
-    public void setRolledDice(Die toRoll) {
+    public void setRolledDice() {
 
         for(int i=0; i<2*playerNumber + 1; i++){
-            rolledDice.add(i,toRoll.rollDie());
+            rolledDice.add(i,new Die());
         }
     }
 
@@ -186,7 +186,7 @@ public class Game {
         players.add(p);
     }
 
-    public void dealPrivateCards(){
+    public void dealPrivateCards() throws WindowCardAssociationException{
 
         //creo vettore e lo shufflo
         int[] ar= {1,2,3,4,5};
@@ -211,7 +211,7 @@ public class Game {
         }
     }
 
-    public void dealWindowCards(){
+    public void dealWindowCards() throws WindowCardAssociationException{
         //creo vettore e lo shufflo
         int[] ar= {1,2,3,4,5,6,7,8,9,10,11,12};
         Random rnd = new Random();

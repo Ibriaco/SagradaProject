@@ -17,14 +17,42 @@ public class Die {
     private boolean init = true;
     List<Color> colorList;
 
-    public Die(Color color, int value) throws InvalidDieException {
-        this.color = color;
+    public Die(){
+
         colorList = new ArrayList<Color>();
 
-        if(value < 7 && value > 0)
-            this.value = value;
-        else
-            throw new InvalidDieException();
+        getAvailableColor();
+
+        Random random = new Random();
+        int index;
+
+        index = random.nextInt(colorList.size());
+        this.color = colorList.get(index);
+        this.value = random.nextInt(6) + 1;
+
+
+        assert this.color != null;
+        switch(this.color){
+            case BLUE:
+                blueAmount--;
+                break;
+
+            case GREEN:
+                greenAmount--;
+                break;
+
+            case PURPLE:
+                purpleAmount--;
+                break;
+
+            case RED:
+                redAmount--;
+                break;
+
+            case YELLOW:
+                yellowAmount--;
+                break;
+        }
 
     }
 
@@ -33,9 +61,14 @@ public class Die {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(Color color) throws InvalidDieException {
 
-        this.color = color;
+        getAvailableColor();
+
+        if(!colorList.contains(color))
+            throw new InvalidDieException();
+        else
+            this.color = color;
     }
 
     public int getValue() {
@@ -43,9 +76,12 @@ public class Die {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(int value) throws InvalidDieException{
 
-        this.value = value;
+        if (value<1 || value>6)
+            throw new InvalidDieException();
+        else
+            this.value = value;
     }
 
     private void getAvailableColor() {
@@ -82,53 +118,13 @@ public class Die {
     }
 
     // da testare
-    public Die rollDie(){
-
-        getAvailableColor();
-
-        Random random = new Random();
-        int index;
-
-        index = random.nextInt(colorList.size());
-        Die d = null;
-        try {
-            d = new Die(colorList.get(index),random.nextInt(6) + 1);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-
-        assert d != null;
-        switch(d.getColor()){
-            case BLUE:
-                blueAmount--;
-                break;
-
-            case GREEN:
-                greenAmount--;
-                break;
-
-            case PURPLE:
-                purpleAmount--;
-                break;
-
-            case RED:
-                redAmount--;
-                break;
-
-            case YELLOW:
-                yellowAmount--;
-                break;
-        }
-        return d;
-    }
-
     public List<Color> getColorList(){
 
         return colorList;
     }
 
     // da testare
-    public void reverse(Die d){
+    public void reverse(Die d) throws InvalidDieException {
 
         d.setValue(7 - d.getValue());
     }

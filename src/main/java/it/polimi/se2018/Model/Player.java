@@ -89,7 +89,7 @@ public class Player {
     }
 
     // da testare
-    public void drawCard(int cardNumber){
+    public void drawCard(int cardNumber) throws WindowCardAssociationException{
 
         String line;
         String x;
@@ -158,7 +158,7 @@ public class Player {
     }
 
     // da testare
-    public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2) {
+    public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2) throws WindowCardAssociationException {
         //apro file
         //cerco i numeri passati come parametro
         //appena ne trovo uno leggo: Nome, Difficoltà e Griglia

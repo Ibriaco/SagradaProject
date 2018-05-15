@@ -38,16 +38,56 @@ public class TestBonus {
 
         try {
             //piazzo alcuni dadi per poter calcolare i vari bonus
-            w.placeDie(new Die(Color.BLUE,1), 0, 0);
-            w.placeDie(new Die(Color.BLUE,1), 0, 1);
-            w.placeDie(new Die(Color.BLUE,3), 2, 3);
-            w.placeDie(new Die(Color.RED,1), 0, 3);
-            w.placeDie(new Die(Color.RED,2), 2, 1);
-            w.placeDie(new Die(Color.YELLOW,1), 1, 3);
-            w.placeDie(new Die(Color.YELLOW,2), 2, 0);
-            w.placeDie(new Die(Color.PURPLE,1), 2, 2);
-            w.placeDie(new Die(Color.GREEN,1), 3, 3);
-            w.placeDie(new Die(Color.GREEN,6), 2, 4);
+            Die d1 = new Die();
+            Die d2 = new Die();
+            Die d3 = new Die();
+            Die d4 = new Die();
+            Die d5 = new Die();
+            Die d6 = new Die();
+            Die d7 = new Die();
+            Die d8 = new Die();
+            Die d9 = new Die();
+            Die d10 = new Die();
+
+            d1.setValue(1);
+            d1.setColor(Color.BLUE);
+            w.placeDie(d1, 0, 0);
+
+            d2.setValue(1);
+            d2.setColor(Color.BLUE);
+            w.placeDie(d2, 0, 1);
+
+            d3.setValue(3);
+            d3.setColor(Color.BLUE);
+            w.placeDie(d3, 2, 3);
+
+            d4.setValue(1);
+            d4.setColor(Color.RED);
+            w.placeDie(d4, 0, 3);
+
+            d5.setValue(2);
+            d5.setColor(Color.RED);
+            w.placeDie(d5, 2, 1);
+
+            d6.setValue(1);
+            d6.setColor(Color.YELLOW);
+            w.placeDie(d6, 1, 3);
+
+            d7.setValue(2);
+            d7.setColor(Color.YELLOW);
+            w.placeDie(d7, 2, 0);
+
+            d8.setValue(1);
+            d8.setColor(Color.PURPLE);
+            w.placeDie(d8, 2, 2);
+
+            d9.setValue(1);
+            d9.setColor(Color.GREEN);
+            w.placeDie(d9, 3, 3);
+
+            d10.setValue(6);
+            d10.setColor(Color.GREEN);
+            w.placeDie(d10, 2, 4);
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }

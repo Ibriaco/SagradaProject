@@ -4,9 +4,16 @@ public class WindowCardAssociation {
     private WindowCard front;
     private WindowCard back;
 
-    public WindowCardAssociation(WindowCard front, WindowCard back) {
-        this.front = front;
-        this.back = back;
+    public WindowCardAssociation(WindowCard front, WindowCard back) throws WindowCardAssociationException {
+
+        if (front == null)
+            throw new WindowCardAssociationException();
+        else if (back == null)
+            throw new WindowCardAssociationException();
+        else {
+            this.front = front;
+            this.back = back;
+        }
     }
 
 

@@ -14,7 +14,9 @@ public class TestDie {
     public void testDieCreation(){
         Die d = null;
         try {
-            d = new Die(Color.BLUE, 3);
+            d = new Die();
+            d.setColor(Color.BLUE);
+            d.setValue(3);
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
@@ -27,7 +29,9 @@ public class TestDie {
     public void testDieFailCreation(){
         Die d = null;
         try {
-            d = new Die(Color.BLUE, 9);
+            d = new Die();
+            d.setColor(Color.BLUE);
+            d.setValue(9);
             fail();
         } catch (InvalidDieException e) {
 
@@ -38,12 +42,18 @@ public class TestDie {
     public void testDieReverse(){
         Die d = null;
         try {
-            d = new Die(Color.BLUE, 3);
+            d = new Die();
+            d.setColor(Color.BLUE);
+            d.setValue(3);
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
 
-        d.reverse(d);
+        try {
+            d.reverse(d);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
         assertEquals (Color.BLUE, d.getColor());
         assertEquals(4, d.getValue());
     }
@@ -51,13 +61,7 @@ public class TestDie {
     @Test
     public void testRollDie(){
         Die d = null;
-        try {
-            d = new Die(Color.BLUE, 3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-
-        d = d.rollDie();
+        d = new Die();
 
         assert(d.getColor() != null);
         assert(d.getValue() > 0 && d.getValue() < 7);

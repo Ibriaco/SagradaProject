@@ -75,7 +75,12 @@ public class TestPlayer {
     public void testChoice(){
         WindowCard w1 = new WindowCard();
         WindowCard w2 = new WindowCard();
-        WindowCardAssociation a = new WindowCardAssociation(w1, w2);
+        WindowCardAssociation a = null;
+        try {
+            a = new WindowCardAssociation(w1, w2);
+        } catch (WindowCardAssociationException e) {
+            e.printStackTrace();
+        }
         Player p = null;
         try {
             p = new Player("ingsw", "Socket", "CLI");

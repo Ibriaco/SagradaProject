@@ -13,11 +13,8 @@ public class TestCell {
     @Test
     public void testPlacedCell(){
         Cell c = new Cell(Color.BLUE,3);
-        try {
-            c.placeDie(new Die(Color.BLUE, 3));
-        } catch (InvalidDieException e) {
+        c.placeDie(new Die());
 
-        }
         assert (c.isPlaced());
     }
 
@@ -32,12 +29,7 @@ public class TestCell {
     public void testPlaceDie(){
         Cell c = new Cell(Color.BLUE,3);
         Die d = null;
-        try {
-            d = new Die(Color.BLUE, 2);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-
+        d = new Die();
         c.placeDie(d);
 
         assert (c.isPlaced());
@@ -48,12 +40,7 @@ public class TestCell {
     public void testPlaceWrongDie(){
         Cell c = new Cell(Color.BLUE,3);
         Die d = null;
-        try {
-            d = new Die(Color.GREEN, 2);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-
+        d = new Die();
         c.placeDie(d);
 
         assert (!c.isPlaced());

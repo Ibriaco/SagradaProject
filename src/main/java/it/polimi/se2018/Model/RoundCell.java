@@ -33,8 +33,13 @@ public class RoundCell {
 
         diceList.set(diceList.indexOf(d2), d1);
 
-        d1.setValue(val);
-        d1.setColor(col);
+        try {
+            d1.setValue(val);
+            d1.setColor(col);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
