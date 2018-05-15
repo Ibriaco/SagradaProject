@@ -2,7 +2,9 @@ package it.polimi.se2018.Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-
+/**Player class of the game.
+ * @author Gregorio Galletti
+ */
 public class Player {
     private String username;
     private String connectionType;

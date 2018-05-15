@@ -11,7 +11,9 @@ import java.util.Random;
 import static it.polimi.se2018.Model.Color.*;
 import static it.polimi.se2018.Model.Color.PURPLE;
 import static it.polimi.se2018.Model.Color.YELLOW;
-
+/**Game class. This is the main class, where players, cards and dice are saved.
+ * @author Gregorio Galletti
+ */
 public class Game {
     private int playerNumber;
     private int turn = 1;

@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
-
+/**Class of the Color Diagonals Public Objective of the game.
+ * @author Gregorio Galletti
+ */
 public class ColorDiagonals extends PublicObjective {
     public ColorDiagonals(int number, String title, String description, int score) {
         super(number, title, description, score);

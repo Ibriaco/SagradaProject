@@ -6,6 +6,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * @author Gregorio Galletti
+ * Unit Test Class for all the Public Cards of the game.
+ */
+
 public class TestBonus {
     WindowCard w;
     Player p;
@@ -97,11 +102,9 @@ public class TestBonus {
         //creo un player e gli assegno la windowcard creata
         try {
             p = new Player("test", "Socket", "CLI");
-        } catch (InvalidConnectionException e) {
-            e.printStackTrace();
-        } catch (InvalidViewException e) {
-            e.printStackTrace();
         }
+        catch (InvalidConnectionException e) {}
+        catch (InvalidViewException e) {}
         p.setWindowCard(w);
 
         //creo un game e aggiungo il player appena creato

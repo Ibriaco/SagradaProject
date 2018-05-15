@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
-
+/**Class for the Medium Shades Public Objective of the game.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ */
 public class MediumShade extends PublicObjective {
     public MediumShade(int number, String title, String description, int score) {
         super(number, title, description, score);

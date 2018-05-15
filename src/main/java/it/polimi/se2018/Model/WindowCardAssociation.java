@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
-
+/**Window Card Association class of the game. Rappresents two coupled Window cards, front and back side.
+ * @author Marco Gasperini
+ */
 public class WindowCardAssociation {
     private WindowCard front;
     private WindowCard back;

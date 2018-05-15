@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
-
+/**Class of the Column Color Variety Public Objective of the game.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ */
 public class ColumnColor extends PublicObjective {
     public ColumnColor(int number, String title, String description, int score) {
         super(number, title, description, score);

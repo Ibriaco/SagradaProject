@@ -6,7 +6,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
-
+/**
+ * @author Gregorio Galletti
+ * Unit Test Class for the Player class.
+ */
 public class TestPlayer {
     @Test
     public void testNewPlayer(){

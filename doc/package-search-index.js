@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"it.polimi.se2018"},{"l":"it.polimi.se2018.Controller"},{"l":"it.polimi.se2018.Model"},{"l":"it.polimi.se2018.View"}]

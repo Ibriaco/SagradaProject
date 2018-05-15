@@ -1,8 +1,7 @@
 package it.polimi.se2018.Model;
-
-/**
- * @author Griggo
- * Class of the Public Cards Light Shade,..
+/**Class for the Light Shades Public Objective of the game.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
  */
 public class LightShade extends PublicObjective {
     public LightShade(int number, String title, String description, int score) {
@@ -10,10 +9,6 @@ public class LightShade extends PublicObjective {
     }
 
 
-    /**
-     * @author griggo
-     * @param p is the player whose bonus is calculated
-     */
     @Override
     public void calculateBonus(Player p) {
 

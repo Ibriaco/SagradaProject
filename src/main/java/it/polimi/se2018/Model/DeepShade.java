@@ -1,11 +1,12 @@
 package it.polimi.se2018.Model;
-
+/**Class for the Deep Shades Public Objective of the game.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ */
 public class DeepShade extends PublicObjective {
     public DeepShade(int number, String title, String description, int score) {
         super(number, title, description, score);
     }
-
-
 
     @Override
     public void calculateBonus(Player p) {

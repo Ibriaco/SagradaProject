@@ -14,11 +14,6 @@ public class WindowCard {
 
     public WindowCard() {
         grid = new Cell[ROWS][COLS];
-        /*for (int i = 0; i <ROWS; i++)  {
-            for (int j = 0; j < COLS; j++){
-                grid[i][j] = new Cell(BLUE, 4);
-            }
-        }*/
     }
 
     // da testare

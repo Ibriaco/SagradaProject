@@ -1,6 +1,8 @@
 package it.polimi.se2018.Model;
-
-
+/**Class of the Color Variety Public Objective of the game.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ */
 public class ColorBonus extends PublicObjective {
     public ColorBonus(int number, String title, String description, int score) {
         super(number, title, description, score);
@@ -32,7 +34,7 @@ public class ColorBonus extends PublicObjective {
             }
         }
 
-        p.setPlayerScore(Math.min(redRec,Math.min(greenRec,Math.min(purpleRec,Math.min(yellowRec,blueRec))))*this.getScore());
+        p.setPlayerScore(Math.min(redRec,Math.min(greenRec,Math.min(purpleRec,Math.min(yellowRec,blueRec)))) * this.getScore());
 
     }
 }

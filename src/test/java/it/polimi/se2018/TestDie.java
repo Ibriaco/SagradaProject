@@ -10,6 +10,11 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 
+/**
+ * @author Gregorio Galletti
+ * Unit Test Class for the Die class.
+ */
+
 public class TestDie {
 
     Game g;

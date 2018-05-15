@@ -9,7 +9,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-
+/**
+ * @author Gregorio Galletti
+ * Unit Test Class for the Cell class.
+ */
 public class TestCell {
 
     Game g;

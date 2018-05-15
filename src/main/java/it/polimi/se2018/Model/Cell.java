@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
-
+/**Cell class of the game. This class simply contains getters and setters of the attributes of the object, and also methods to check if a placement is possible.
+ * @author Gregorio Galletti
+ * */
 public class Cell {
     private Color color;
     private int shade;

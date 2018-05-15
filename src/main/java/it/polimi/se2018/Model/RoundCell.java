@@ -2,7 +2,9 @@ package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**Class for the Round Cell of the game.
+ * @author Ibrahim El Shemy
+ */
 public class RoundCell {
     private int value;
     private List<Die> diceList;

@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
-
+/**Class of the Column Shade Variety Public Objective of the game.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ */
 public class ColumnShade extends PublicObjective {
     public ColumnShade(int number, String title, String description, int score) {
         super(number, title, description, score);

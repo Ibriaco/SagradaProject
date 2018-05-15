@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import static it.polimi.se2018.Model.Color.*;
-
+/**Die class of the game. Contains methods to handle colors and values of dice.
+ * @author Ibrahim El Shemy
+ */
 public class Die {
     private Color color;
     private int value;
