@@ -5,8 +5,8 @@ package it.polimi.se2018.Model;
  * Class of the Public Cards Light Shade,..
  */
 public class LightShade extends PublicObjective {
-    public LightShade(int number, String title, String description, String cardType, int score) {
-        super(number, title, description, "PublicObjective", score);
+    public LightShade(int number, String title, String description, int score) {
+        super(number, title, description, score);
     }
 
 

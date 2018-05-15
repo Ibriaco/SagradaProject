@@ -7,8 +7,8 @@ import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Model.RoundCell;
 
 public class GrozingPliers extends ToolCard {
-    public GrozingPliers(int number, String title, String description, String cardType, boolean used, int cost, Color color, int shade) {
-        super(number, title, description, cardType, used, cost, color, shade);
+    public GrozingPliers(int number, String title, String description, boolean used, int cost, Color color, int shade) {
+        super(number, title, description, used, cost, color, shade);
     }
 
     @Override

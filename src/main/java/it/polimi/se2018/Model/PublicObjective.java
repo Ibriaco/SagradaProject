@@ -3,8 +3,8 @@ package it.polimi.se2018.Model;
 public abstract class PublicObjective extends Card {
     private int score;
 
-    public PublicObjective(int number, String title, String description, String cardType, int score) {
-        super(number, title, description, "PublicObjective");
+    public PublicObjective(int number, String title, String description, int score) {
+        super(number, title, description);
         this.score = score;
     }
 

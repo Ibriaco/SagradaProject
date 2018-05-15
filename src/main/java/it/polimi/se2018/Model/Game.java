@@ -98,28 +98,28 @@ public class Game {
     private PublicObjective selectType(String numberStr, String title, String desc, String score) {
         int scoreInt = Integer.parseInt(score.substring(1));
         int number = Integer.parseInt(numberStr);
-        String type = "PublicObjective";
+
         switch (number){
         case 1:
-            return new LightShade(number, title, desc, type, scoreInt);
+            return new LightShade(number, title, desc, scoreInt);
         case 2:
-            return new MediumShade(number, title, desc, type, scoreInt);
+            return new MediumShade(number, title, desc, scoreInt);
         case 3:
-            return new DeepShade(number, title, desc, type, scoreInt);
+            return new DeepShade(number, title, desc, scoreInt);
         case 4:
-            return new ColorBonus(number, title, desc, type, scoreInt);
+            return new ColorBonus(number, title, desc, scoreInt);
         case 5:
-            return new Shade(number, title, desc, type, scoreInt);
+            return new Shade(number, title, desc, scoreInt);
         case 6:
-            return new ColumnShade(number, title, desc, type, scoreInt);
+            return new ColumnShade(number, title, desc, scoreInt);
         case 7:
-            return new RowShade(number, title, desc, type, scoreInt);
+            return new RowShade(number, title, desc, scoreInt);
         case 8:
-            return new RowColor(number, title, desc, type, scoreInt);
+            return new RowColor(number, title, desc, scoreInt);
         case 9:
-            return new ColumnShade(number, title, desc, type, scoreInt);
+            return new ColumnShade(number, title, desc, scoreInt);
         case 10:
-            return new ColorDiagonals(number, title, desc, type, scoreInt);
+            return new ColorDiagonals(number, title, desc, scoreInt);
         default: return null;
         }
     }

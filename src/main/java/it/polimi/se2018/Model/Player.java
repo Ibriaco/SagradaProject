@@ -119,7 +119,7 @@ public class Player {
                 if(x.equals(String.valueOf(cardNumber))) {
                     t = b.readLine();
                     d = b.readLine();
-                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d, "PrivateObjective",1, c);
+                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d,1, c);
                     line = null;
                 }
                 else

@@ -3,8 +3,8 @@ package it.polimi.se2018.Model;
 import java.util.ArrayList;
 
 public class RowShade extends PublicObjective {
-    public RowShade(int number, String title, String description, String cardType, int score) {
-        super(number, title, description, "PublicObjective", score);
+    public RowShade(int number, String title, String description, int score) {
+        super(number, title, description, score);
     }
 
     // questo va assolutamente testato

@@ -4,8 +4,8 @@ public class PrivateObjective extends Card {
     private int score;
     private Color color;
 
-    public PrivateObjective(int number, String title, String description, String cardType, int score, Color color) {
-        super(number, title, description, cardType);
+    public PrivateObjective(int number, String title, String description, int score, Color color) {
+        super(number, title, description);
         this.score = score;
         this.color = color;
     }

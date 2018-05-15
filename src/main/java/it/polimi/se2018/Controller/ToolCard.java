@@ -8,8 +8,8 @@ public abstract class ToolCard extends Card {
     private Color color;
     private int shade;
 
-    public ToolCard(int number, String title, String description, String cardType, boolean used, int cost, Color color, int shade) {
-        super(number, title, description, cardType);
+    public ToolCard(int number, String title, String description, boolean used, int cost, Color color, int shade) {
+        super(number, title, description);
         this.used = used;
         this.cost = cost;
         this.color = color;
