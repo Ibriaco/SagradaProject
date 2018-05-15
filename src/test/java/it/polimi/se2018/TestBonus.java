@@ -27,14 +27,14 @@ public class TestBonus {
         w.setCell(new Cell(Color.BLUE,3),0 ,1);
         w.setCell(new Cell(Color.BLUE,3),0,2);
         w.setCell(new Cell(Color.RED,3),0,3);
-        w.setCell(new Cell(Color.RED,3),0,4);
+        w.setCell(new Cell(Color.GREEN,3),0,4);
         w.setCell(new Cell(Color.RED,3),1,0);
         w.setCell(new Cell(Color.YELLOW,3),1,1);
         w.setCell(new Cell(Color.YELLOW,3),1,2);
         w.setCell(new Cell(Color.YELLOW,3),1,3);
-        w.setCell(new Cell(Color.YELLOW,3),1,4);
+        w.setCell(new Cell(Color.GREEN,3),1,4);
         w.setCell(new Cell(Color.YELLOW,3),2,0);
-        w.setCell(new Cell(Color.RED,3),2,1);
+        w.setCell(new Cell(Color.RED,5),2,1);
         w.setCell(new Cell(Color.PURPLE,3),2,2);
         w.setCell(new Cell(Color.BLUE,3),2,3);
         w.setCell(new Cell(Color.GREEN,3),2,4);
@@ -56,6 +56,9 @@ public class TestBonus {
             Die d8 = new Die(g.getColorList());
             Die d9 = new Die(g.getColorList());
             Die d10 = new Die(g.getColorList());
+            Die d11 = new Die(g.getColorList());
+            Die d12 = new Die(g.getColorList());
+            Die d13 = new Die(g.getColorList());
 
             d1.setValue(1);
             d1.setColor(Color.BLUE);
@@ -73,7 +76,7 @@ public class TestBonus {
             d4.setColor(Color.RED);
             w.placeDie(d4, 0, 3);
 
-            d5.setValue(2);
+            d5.setValue(6);
             d5.setColor(Color.RED);
             w.placeDie(d5, 2, 1);
 
@@ -95,7 +98,19 @@ public class TestBonus {
 
             d10.setValue(6);
             d10.setColor(Color.GREEN);
-            w.placeDie(d10, 2, 4);
+            w.placeDie(d10, 3, 4);
+
+            d11.setValue(3);
+            d11.setColor(Color.GREEN);
+            w.placeDie(d11, 0, 4);
+
+            d12.setValue(5);
+            d12.setColor(Color.GREEN);
+            w.placeDie(d12, 2, 4);
+
+            d13.setValue(4);
+            d13.setColor(Color.GREEN);
+            w.placeDie(d13, 1, 4);
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
@@ -119,7 +134,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new LightShade(1, "LightShades", "a", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assertEquals (4,p.getPlayerScore());
+        assertEquals (2,p.getPlayerScore());
     }
 
     @Test
@@ -130,7 +145,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new MediumShade(2, "MediumShades", "a", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assertEquals (0,p.getPlayerScore());
+        assertEquals (2,p.getPlayerScore());
     }
 
     @Test
@@ -141,7 +156,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new DeepShade(3, "DeepShade", "Sets of one of each color anywhere", 2 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assertEquals (0,p.getPlayerScore());
+        assertEquals (2,p.getPlayerScore());
     }
 
 
@@ -164,7 +179,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new Shade(5, "ShadeVariety", "Sets of one of each color anywhere", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assertEquals (0,p.getPlayerScore());
+        assertEquals (5,p.getPlayerScore());
     }
 
     @Test
@@ -175,7 +190,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColumnShade(6, "ColumnShadeVariety", "Sets of one of each color anywhere", 4 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assertEquals (0,p.getPlayerScore());
+        assertEquals (4,p.getPlayerScore());
     }
 
     @Test
@@ -186,7 +201,7 @@ public class TestBonus {
         g.getPublicCards().set(0, new RowShade(7, "RowShadeVariety", "Sets of one of each color anywhere", 5 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        assertEquals (0,p.getPlayerScore());
+        assertEquals (5,p.getPlayerScore());
     }
 
     @Test
