@@ -58,7 +58,7 @@ public class ColorDiagonals extends PublicObjective {
         if(bonus == false)
             counter = 0;
 
-        p.setPlayerScore(p.getPlayerScore() + counter);
+        p.setPlayerScore(counter);
     }
 
 

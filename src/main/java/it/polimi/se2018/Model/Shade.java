@@ -17,27 +17,26 @@ public class Shade extends PublicObjective {
         int fourRec = 0;
         int fiveRec = 0;
         int sixRec = 0;
+        int val;
 
         for (int i = 0; i < temp.ROWS; i++){
             for (int j = 0; j < temp.COLS; j++){
                 if(temp.getGridCell(i,j).isPlaced()) {
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 1)
-                        oneRec++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 2)
-                        twoRec++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 3)
-                        threeRec++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 4)
-                        fourRec++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 5)
-                        fiveRec++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getValue() == 6)
-                        sixRec++;
+                    val = temp.getGridCell(i, j).getPlacedDie().getValue();
+                    switch (val) {
+                        case 1: oneRec++; break;
+                        case 2: twoRec++; break;
+                        case 3: threeRec++; break;
+                        case 4: fourRec++; break;
+                        case 5: fiveRec++; break;
+                        case 6: sixRec++; break;
+                        default:
+                    }
                 }
             }
         }
 
-        p.setPlayerScore(p.getPlayerScore() + Math.min(oneRec,Math.min(twoRec,Math.min(threeRec,Math.min(fourRec,Math.min(fiveRec,sixRec)))))*this.getScore());
+        p.setPlayerScore(Math.min(oneRec,Math.min(twoRec,Math.min(threeRec,Math.min(fourRec,Math.min(fiveRec,sixRec))))) * this.getScore());
 
     }
 }

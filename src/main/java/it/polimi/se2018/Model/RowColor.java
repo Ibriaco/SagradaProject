@@ -13,12 +13,12 @@ public class RowColor extends PublicObjective {
         boolean ok;
         Color currentC;
 
-        for (int i = 0; i < p.getWindowCard().ROWS; i++){
+        for (int i = 0; i < temp.ROWS; i++){
 
             int[] frequency={0,0,0,0,0};
             ok = true;
 
-            for (int j=0; j <p.getWindowCard().COLS; j++){
+            for (int j = 0; j < temp.COLS; j++){
                 if(temp.getGridCell(i,j).isPlaced()) {
                     currentC = temp.getGridCell(i, j).getPlacedDie().getColor();
                     switch (currentC){
@@ -35,9 +35,8 @@ public class RowColor extends PublicObjective {
             }
 
             for(int index = 0; index < frequency.length; index++){
-                if (frequency[index] == 1 && ok){
+                if (frequency[index] == 1 && ok)
                     ok = true;
-                }
                 else
                     ok = false;
             }
@@ -45,7 +44,7 @@ public class RowColor extends PublicObjective {
            if(ok) validRows++;
         }
 
-        p.setPlayerScore(p.getPlayerScore() + validRows*this.getScore());
+        p.setPlayerScore(validRows * this.getScore());
     }
 
 

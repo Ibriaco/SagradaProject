@@ -75,7 +75,7 @@ public class Player {
 
     public void setPlayerScore(int playerScore) {
 
-        this.playerScore = playerScore;
+        this.playerScore += playerScore;
     }
 
     public WindowCardAssociation[] getWindowCardAssociations() {

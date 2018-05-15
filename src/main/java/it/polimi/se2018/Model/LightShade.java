@@ -20,21 +20,22 @@ public class LightShade extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int oneRec = 0;
         int twoRec = 0;
-        int val = 0;
+        int val;
 
         for (int i = 0; i < temp.ROWS; i++){
             for (int j = 0; j < temp.COLS; j++){
                 if(temp.getGridCell(i,j).isPlaced()) {
                     val = temp.getGridCell(i, j).getPlacedDie().getValue();
-                    if (val == 1)
-                        oneRec++;
-                    if (val == 2)
-                        twoRec++;
+                    switch (val) {
+                        case 1: oneRec++; break;
+                        case 2: twoRec++; break;
+                        default:
+                    }
                 }
             }
         }
 
-        p.setPlayerScore(p.getPlayerScore() + Math.min(oneRec,twoRec)*this.getScore());
+        p.setPlayerScore(Math.min(oneRec,twoRec) * this.getScore());
 
     }
 }

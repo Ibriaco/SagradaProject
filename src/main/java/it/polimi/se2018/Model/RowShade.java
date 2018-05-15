@@ -1,7 +1,5 @@
 package it.polimi.se2018.Model;
 
-import java.util.ArrayList;
-
 public class RowShade extends PublicObjective {
     public RowShade(int number, String title, String description, int score) {
         super(number, title, description, score);
@@ -18,7 +16,7 @@ public class RowShade extends PublicObjective {
 
         for (int i = 0; i < temp.ROWS; i++){
 
-           int[] frequency={0,0,0,0,0,0};
+            int[] frequency={0,0,0,0,0,0};
             ok = true;
 
                for (int j=0; j < temp.COLS; j++){
@@ -49,7 +47,7 @@ public class RowShade extends PublicObjective {
               if (ok) validRows++;
         }
 
-            p.setPlayerScore(p.getPlayerScore() + validRows*this.getScore());
+            p.setPlayerScore(validRows * this.getScore());
         }
 
 }
