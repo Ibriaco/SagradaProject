@@ -11,6 +11,7 @@ public class RowColor extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int validRows = 0;
         boolean ok;
+        Color currentC;
 
         for (int i = 0; i < p.getWindowCard().ROWS; i++){
 
@@ -19,17 +20,16 @@ public class RowColor extends PublicObjective {
 
             for (int j=0; j <p.getWindowCard().COLS; j++){
                 if(temp.getGridCell(i,j).isPlaced()) {
-                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.BLUE)
-                        frequency[0]++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.RED)
-                        frequency[1]++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.YELLOW)
-                        frequency[2]++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.PURPLE)
-                        frequency[3]++;
-                    if (temp.getGridCell(i, j).getPlacedDie().getColor() == Color.GREEN)
-                        frequency[4]++;
-                 }
+                    currentC = temp.getGridCell(i, j).getPlacedDie().getColor();
+                    switch (currentC){
+                        case BLUE: frequency[0]++; break;
+                        case RED: frequency[1]++; break;
+                        case YELLOW: frequency[2]++; break;
+                        case PURPLE: frequency[3]++; break;
+                        case GREEN: frequency[4]++; break;
+                        default:
+                    }
+                }
                 else
                     ok = false;
             }

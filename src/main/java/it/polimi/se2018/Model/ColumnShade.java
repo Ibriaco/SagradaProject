@@ -10,6 +10,7 @@ public class ColumnShade extends PublicObjective {
 
         WindowCard temp = p.getWindowCard();
         int validRows = 0;
+        int currentV;
 
         for (int i = 0; i < temp.COLS; i++){
 
@@ -18,18 +19,16 @@ public class ColumnShade extends PublicObjective {
 
             for (int j=0; j < temp.ROWS; j++){
                 if(temp.getGridCell(j,i).isPlaced()) {
-                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 1)
-                        frequency[0]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 2)
-                        frequency[1]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 3)
-                        frequency[2]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 4)
-                        frequency[3]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 5)
-                        frequency[4]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getValue() == 6)
-                        frequency[5]++;
+                    currentV = temp.getGridCell(j, i).getPlacedDie().getValue();
+                    switch (currentV){
+                        case 1: frequency[0]++; break;
+                        case 2: frequency[1]++; break;
+                        case 3: frequency[2]++; break;
+                        case 4: frequency[3]++; break;
+                        case 5: frequency[4]++; break;
+                        case 6: frequency[5]++; break;
+                        default:
+                    }
                 }
                 else
                     ok = false;

@@ -148,15 +148,6 @@ public class Player {
         return windowFrameNumber;
     }
 
-    public void printAss(){
-        System.out.println("Stampo le carte da scegliere: ");
-
-        for(int i=0;i<2;i++){
-            System.out.println("Name: " + windowCardAssociations[i].getFront().getWindowName());
-            System.out.println("Difficulty: " + windowCardAssociations[i].getFront().getDifficulty());
-        }
-    }
-
     // da testare
     public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2) throws WindowCardAssociationException {
         //apro file

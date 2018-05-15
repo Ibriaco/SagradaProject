@@ -11,6 +11,7 @@ public class ColumnColor extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int validCols = 0;
         boolean ok;
+        Color currentC;
 
         for (int i = 0; i < temp.COLS; i++) {
 
@@ -19,16 +20,15 @@ public class ColumnColor extends PublicObjective {
 
             for (int j = 0; j < temp.ROWS; j++) {
                 if (temp.getGridCell(j, i).isPlaced()) {
-                    if (temp.getGridCell(j, i).getPlacedDie().getColor() == Color.BLUE)
-                        frequency[0]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getColor() == Color.RED)
-                        frequency[1]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getColor() == Color.YELLOW)
-                        frequency[2]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getColor() == Color.PURPLE)
-                        frequency[3]++;
-                    if (temp.getGridCell(j, i).getPlacedDie().getColor() == Color.GREEN)
-                        frequency[4]++;
+                    currentC = temp.getGridCell(j, i).getPlacedDie().getColor();
+                    switch (currentC){
+                        case BLUE: frequency[0]++; break;
+                        case RED: frequency[1]++; break;
+                        case YELLOW: frequency[2]++; break;
+                        case PURPLE: frequency[3]++; break;
+                        case GREEN: frequency[4]++; break;
+                        default:
+                    }
                 } else
                     ok = false;
             }

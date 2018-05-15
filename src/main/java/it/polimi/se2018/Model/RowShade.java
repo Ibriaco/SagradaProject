@@ -14,6 +14,8 @@ public class RowShade extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int validRows = 0;
         boolean ok;
+        int currentV;
+
         for (int i = 0; i < temp.ROWS; i++){
 
            int[] frequency={0,0,0,0,0,0};
@@ -21,18 +23,16 @@ public class RowShade extends PublicObjective {
 
                for (int j=0; j < temp.COLS; j++){
                    if(temp.getGridCell(i,j).isPlaced()) {
-                       if (temp.getGridCell(i, j).getPlacedDie().getValue() == 1)
-                           frequency[0]++;
-                       if (temp.getGridCell(i, j).getPlacedDie().getValue() == 2)
-                           frequency[1]++;
-                       if (temp.getGridCell(i, j).getPlacedDie().getValue() == 3)
-                           frequency[2]++;
-                       if (temp.getGridCell(i, j).getPlacedDie().getValue() == 4)
-                           frequency[3]++;
-                       if (temp.getGridCell(i, j).getPlacedDie().getValue() == 5)
-                           frequency[4]++;
-                       if (temp.getGridCell(i, j).getPlacedDie().getValue() == 6)
-                           frequency[5]++;
+                       currentV = temp.getGridCell(i, j).getPlacedDie().getValue();
+                       switch (currentV){
+                           case 1: frequency[0]++; break;
+                           case 2: frequency[1]++; break;
+                           case 3: frequency[2]++; break;
+                           case 4: frequency[3]++; break;
+                           case 5: frequency[4]++; break;
+                           case 6: frequency[5]++; break;
+                           default:
+                       }
                    }
                    else
                        ok = false;
