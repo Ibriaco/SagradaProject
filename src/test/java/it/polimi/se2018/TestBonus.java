@@ -13,6 +13,9 @@ public class TestBonus {
 
     @Before
     public void init() {
+
+        g = new Game(1, "single");
+
         //creo una windowcard con questi specifici valori
         w = new WindowCard();
         w.setCell(new Cell(Color.BLUE,3),0,0);
@@ -38,16 +41,16 @@ public class TestBonus {
 
         try {
             //piazzo alcuni dadi per poter calcolare i vari bonus
-            Die d1 = new Die();
-            Die d2 = new Die();
-            Die d3 = new Die();
-            Die d4 = new Die();
-            Die d5 = new Die();
-            Die d6 = new Die();
-            Die d7 = new Die();
-            Die d8 = new Die();
-            Die d9 = new Die();
-            Die d10 = new Die();
+            Die d1 = new Die(g.getColorList());
+            Die d2 = new Die(g.getColorList());
+            Die d3 = new Die(g.getColorList());
+            Die d4 = new Die(g.getColorList());
+            Die d5 = new Die(g.getColorList());
+            Die d6 = new Die(g.getColorList());
+            Die d7 = new Die(g.getColorList());
+            Die d8 = new Die(g.getColorList());
+            Die d9 = new Die(g.getColorList());
+            Die d10 = new Die(g.getColorList());
 
             d1.setValue(1);
             d1.setColor(Color.BLUE);
@@ -102,7 +105,6 @@ public class TestBonus {
         p.setWindowCard(w);
 
         //creo un game e aggiungo il player appena creato
-        g = new Game(1, "single");
         g.addPlayer(p);
     }
 

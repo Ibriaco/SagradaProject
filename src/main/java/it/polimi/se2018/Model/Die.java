@@ -9,50 +9,15 @@ import static it.polimi.se2018.Model.Color.*;
 public class Die {
     private Color color;
     private int value;
-    private int redAmount = 18;
-    private int greenAmount = 18;
-    private int yellowAmount = 18;
-    private int purpleAmount = 18;
-    private int blueAmount = 18;
-    private boolean init = true;
-    List<Color> colorList;
 
-    public Die(){
 
-        colorList = new ArrayList<Color>();
-
-        getAvailableColor();
+    public Die(List<Color> colorList){
 
         Random random = new Random();
         int index;
-
         index = random.nextInt(colorList.size());
         this.color = colorList.get(index);
         this.value = random.nextInt(6) + 1;
-
-
-        assert this.color != null;
-        switch(this.color){
-            case BLUE:
-                blueAmount--;
-                break;
-
-            case GREEN:
-                greenAmount--;
-                break;
-
-            case PURPLE:
-                purpleAmount--;
-                break;
-
-            case RED:
-                redAmount--;
-                break;
-
-            case YELLOW:
-                yellowAmount--;
-                break;
-        }
 
     }
 
@@ -61,14 +26,9 @@ public class Die {
         return color;
     }
 
-    public void setColor(Color color) throws InvalidDieException {
+    public void setColor(Color color) {
 
-        getAvailableColor();
-
-        if(!colorList.contains(color))
-            throw new InvalidDieException();
-        else
-            this.color = color;
+        this.color = color;
     }
 
     public int getValue() {
@@ -78,50 +38,12 @@ public class Die {
 
     public void setValue(int value) throws InvalidDieException{
 
-        if (value<1 || value>6)
+        if (value < 1 || value > 6)
             throw new InvalidDieException();
         else
             this.value = value;
     }
 
-    private void getAvailableColor() {
-
-        if(init) {
-            colorList.add(GREEN);
-            colorList.add(PURPLE);
-            colorList.add(YELLOW);
-            colorList.add(RED);
-            colorList.add(BLUE);
-
-            init = false;
-        }
-        else
-            checkRemainingColors();
-    }
-
-    private void checkRemainingColors() {
-        if (redAmount == 1)
-            colorList.remove(RED);
-
-        if (blueAmount == 1)
-            colorList.remove(BLUE);
-
-        if (greenAmount == 1)
-            colorList.remove(GREEN);
-
-        if (yellowAmount == 1)
-            colorList.remove(YELLOW);
-
-        if (purpleAmount == 1)
-            colorList.remove(PURPLE);
-
-    }
-
-    // da testare
-    public List<Color> getColorList(){
-
-        return colorList;
-    }
 
     // da testare
     public void reverse(Die d) throws InvalidDieException {

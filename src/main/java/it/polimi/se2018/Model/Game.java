@@ -8,25 +8,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static it.polimi.se2018.Model.Color.*;
+import static it.polimi.se2018.Model.Color.PURPLE;
+import static it.polimi.se2018.Model.Color.YELLOW;
+
 public class Game {
     private int playerNumber;
     private int turn = 1;
     private int round = 1;
     private int gameDifficulty;
+    private int redAmount = 18;
+    private int greenAmount = 18;
+    private int yellowAmount = 18;
+    private int purpleAmount = 18;
+    private int blueAmount = 18;
+    private boolean init = true;
     private String gameType;
     private List<PublicObjective> publicCards;
     private List<ToolCard> toolCards;
     private List<Player> players;
     private List<Die> rolledDice;
     private List<RoundCell> roundCells;
-
+    List<Color> colorList;
 
     public Game(int playerNumber, String gameType) {
         this.playerNumber = playerNumber;
         this.gameType = gameType;
-        players = new ArrayList<Player>();
-        rolledDice = new ArrayList<Die>();
+        players = new ArrayList<>();
+        rolledDice = new ArrayList<>();
         publicCards = setPublicObjectives();
+        colorList = new ArrayList<>();
+        getAvailableColor();
 
     }
 
@@ -164,8 +176,34 @@ public class Game {
 
     public void setRolledDice() {
 
-        for(int i=0; i<2*playerNumber + 1; i++){
-            rolledDice.add(i,new Die());
+        for(int i = 0; i < 2*playerNumber + 1; i++){
+            getAvailableColor();
+            rolledDice.add(i, new Die(colorList));
+            reduceAmount(rolledDice.get(i).getColor());
+        }
+    }
+
+    private void reduceAmount(Color color) {
+        switch(color){
+            case BLUE:
+                blueAmount--;
+                break;
+
+            case GREEN:
+                greenAmount--;
+                break;
+
+            case PURPLE:
+                purpleAmount--;
+                break;
+
+            case RED:
+                redAmount--;
+                break;
+
+            case YELLOW:
+                yellowAmount--;
+                break;
         }
     }
 
@@ -199,11 +237,7 @@ public class Game {
             ar[i] = a;
         }
 
-  /*      for(int i=0;i<ar.length;i++)
-            System.out.println(ar[i]);
-*/
         int j = 0;
-
 
         for (Player p: players) {
             p.drawCard(ar[j]);
@@ -223,9 +257,6 @@ public class Game {
             ar[i] = a;
         }
 
-       /* for(int i=0;i<ar.length;i++)
-            System.out.println(ar[i]);
-*/
         int j = 0;
 
         for (Player p: players) {
@@ -233,5 +264,42 @@ public class Game {
             System.out.println("Numeri casuali: " + ar[j] + ", " + ar[j+1]);
             j+=2;
         }
+    }
+
+    private void getAvailableColor() {
+
+        if(init) {
+            colorList.add(GREEN);
+            colorList.add(PURPLE);
+            colorList.add(YELLOW);
+            colorList.add(RED);
+            colorList.add(BLUE);
+
+            init = false;
+        }
+        else
+            checkRemainingColors();
+    }
+
+    private void checkRemainingColors() {
+        if (redAmount == 1)
+            colorList.remove(RED);
+
+        if (blueAmount == 1)
+            colorList.remove(BLUE);
+
+        if (greenAmount == 1)
+            colorList.remove(GREEN);
+
+        if (yellowAmount == 1)
+            colorList.remove(YELLOW);
+
+        if (purpleAmount == 1)
+            colorList.remove(PURPLE);
+    }
+
+    public List<Color> getColorList(){
+
+        return colorList;
     }
 }

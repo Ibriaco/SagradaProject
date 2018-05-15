@@ -2,7 +2,9 @@ package it.polimi.se2018;
 
 import it.polimi.se2018.Model.Color;
 import it.polimi.se2018.Model.Die;
+import it.polimi.se2018.Model.Game;
 import it.polimi.se2018.Model.InvalidDieException;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -10,11 +12,17 @@ import static junit.framework.TestCase.fail;
 
 public class TestDie {
 
+    Game g;
+    @Before
+    public void init(){
+        g = new Game(1, "single");
+    }
+
     @Test
     public void testDieCreation(){
         Die d = null;
         try {
-            d = new Die();
+            d = new Die(g.getColorList());
             d.setColor(Color.BLUE);
             d.setValue(3);
         } catch (InvalidDieException e) {
@@ -29,7 +37,7 @@ public class TestDie {
     public void testDieFailCreation(){
         Die d = null;
         try {
-            d = new Die();
+            d = new Die(g.getColorList());
             d.setColor(Color.BLUE);
             d.setValue(9);
             fail();
@@ -42,7 +50,7 @@ public class TestDie {
     public void testDieReverse(){
         Die d = null;
         try {
-            d = new Die();
+            d = new Die(g.getColorList());
             d.setColor(Color.BLUE);
             d.setValue(3);
         } catch (InvalidDieException e) {
@@ -61,7 +69,7 @@ public class TestDie {
     @Test
     public void testRollDie(){
         Die d = null;
-        d = new Die();
+        d = new Die(g.getColorList());
 
         assert(d.getColor() != null);
         assert(d.getValue() > 0 && d.getValue() < 7);

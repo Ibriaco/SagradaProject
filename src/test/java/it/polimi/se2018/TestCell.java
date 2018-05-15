@@ -3,17 +3,27 @@ package it.polimi.se2018;
 import it.polimi.se2018.Model.Cell;
 import it.polimi.se2018.Model.Color;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.InvalidDieException;
+import it.polimi.se2018.Model.Game;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class TestCell {
+
+    Game g;
+    @Before
+    public void init(){
+        g = new Game(1, "single");
+    }
+
     @Test
     public void testPlacedCell(){
         Cell c = new Cell(Color.BLUE,3);
-        c.placeDie(new Die());
+        Die d = new Die(g.getColorList());
+        d.setColor(Color.BLUE);
+        c.placeDie(d);
 
         assert (c.isPlaced());
     }
@@ -29,7 +39,8 @@ public class TestCell {
     public void testPlaceDie(){
         Cell c = new Cell(Color.BLUE,3);
         Die d = null;
-        d = new Die();
+        d = new Die(g.getColorList());
+        d.setColor(Color.BLUE);
         c.placeDie(d);
 
         assert (c.isPlaced());
@@ -40,7 +51,8 @@ public class TestCell {
     public void testPlaceWrongDie(){
         Cell c = new Cell(Color.BLUE,3);
         Die d = null;
-        d = new Die();
+        d = new Die(g.getColorList());
+        d.setColor(Color.RED);
         c.placeDie(d);
 
         assert (!c.isPlaced());
