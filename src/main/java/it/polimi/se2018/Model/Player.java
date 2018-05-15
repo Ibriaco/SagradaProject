@@ -135,7 +135,7 @@ public class Player {
     public void chooseWindowCard(WindowCardAssociation w, int side){
         if(side == 0)
             windowCard = w.getFront();
-        else
+        if(side == 1)
             windowCard = w.getBack();
     }
 

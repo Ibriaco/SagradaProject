@@ -94,19 +94,29 @@ public class TestPlayer {
         assertEquals(w1,p.getWindowCard());
     }
 
-    /*@Test
+    @Test
     public void testWrongChoice(){
         WindowCard w1 = new WindowCard();
         WindowCard w2 = new WindowCard();
-        WindowCardAssociation a = new WindowCardAssociation(w1, w2);
+        WindowCardAssociation a = null;
+        try {
+            a = new WindowCardAssociation(w1, w2);
+        } catch (WindowCardAssociationException e) {
+           fail();
+        }
         Player p = null;
         try {
             p = new Player("ingsw", "Socket", "CLI");
         } catch (InvalidConnectionException e) {
-            e.printStackTrace();
+            fail();
+        }catch (InvalidViewException e) {
+            fail();
         }
 
         p.chooseWindowCard(a,4);
+        assertNotEquals(w1,p.getWindowCard());
+        assertNotEquals(w2,p.getWindowCard());
 
-    }*/
+
+    }
 }
