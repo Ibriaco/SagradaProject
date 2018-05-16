@@ -15,8 +15,8 @@ public class ColorDiagonals extends PublicObjective {
         Color diagonalColor = null;
         int counter = 1;
         boolean bonus = false;
-        for(int i = 0; i < temp.ROWS - 1; i++){
-            for(int j = 0; j < temp.COLS; j++){
+        for(int i = 1; i < temp.ROWS - 1; i++){
+            for(int j = 1; j < temp.COLS - 1; j++){
                 if(temp.getGridCell(i,j).isPlaced() && !temp.getGridCell(i,j).isVisited()) {
                     currentColor = temp.getGridCell(i,j).getPlacedDie().getColor();
                     if (i + 1 < temp.ROWS && j + 1 < temp.COLS && temp.getGridCell(i + 1, j + 1).isPlaced()){
@@ -53,7 +53,7 @@ public class ColorDiagonals extends PublicObjective {
                     }
                 temp.getGridCell(i,j).setVisited(true);
                 }
-                System.out.println(counter);
+                //System.out.println(counter);
             }
         }
 
