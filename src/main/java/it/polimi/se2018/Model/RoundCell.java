@@ -44,5 +44,9 @@ public class RoundCell {
 
 
     }
+
+    public List<Die> getDiceList() {
+        return diceList;
+    }
 }
 

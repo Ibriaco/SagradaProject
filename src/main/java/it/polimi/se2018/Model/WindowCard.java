@@ -1,10 +1,8 @@
 package it.polimi.se2018.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static it.polimi.se2018.Model.Color.BLUE;
-
+/**
+ * @author Ibrahim El Shemy
+ */
 public class WindowCard {
     final int ROWS = 4;
     final int COLS = 5;
@@ -26,6 +24,7 @@ public class WindowCard {
         this.grid[row][col] = c;
     }
 
+
     // da testare
     public void placeDie(Die d, int row, int col){
 
@@ -35,6 +34,10 @@ public class WindowCard {
 
     // da testare
     public void removeDie(int row, int col){
+        if(grid[row][col].isPlaced()) {
+            grid[row][col].placeDie(null);
+            grid[row][col].setPlaced(false);
+        }
 
     }
 
@@ -57,15 +60,20 @@ public class WindowCard {
     }
 
     // da testare
-    public boolean isFull(){
-
-        return false;
+    public boolean isFull(int row, int col){
+        if (grid[row][col] != null)
+            return true;
+        else
+            return false;
     }
 
     // da testare
-    public boolean isEmpty(){
+    public boolean isEmpty(int row, int col){
+        if (grid[row][col] == null)
+            return true;
+        else
+            return false;
 
-        return true;
     }
 
     public void setWindowName(String windowName) {

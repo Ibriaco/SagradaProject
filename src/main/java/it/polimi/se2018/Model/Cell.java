@@ -45,6 +45,10 @@ public class Cell {
         return placed;
     }
 
+    public void setPlaced(boolean placed) {
+        this.placed = placed;
+    }
+
     // da testare
     public Die getPlacedDie() {
 
