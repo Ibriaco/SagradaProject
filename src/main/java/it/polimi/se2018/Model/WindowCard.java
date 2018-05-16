@@ -15,9 +15,39 @@ public class WindowCard {
     }
 
     // da testare
-    public boolean checkLegalPlacement(Die d, int row, int col) {
+    // Questo metodo va rivisto con piu' attenzione
+    // PROBLEMA: se voglio inserire un dado sul bordo di sinistra per esempio, e devo fare il controllo su valori e colori adiacenti,
+    //           se vado a controllare la cella a sinitra, ovviamente non c'è, e il compilatore mi lancia un eccezione sicuramente
+    public boolean checkLegalPlacement(Die d, int row, int col){
 
-        return false;
+        if (this.isEmpty()) {
+            return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
+        }
+
+        if (!this.getGridCell(row, col).isPlaced()) {
+            if(this.getGridCell(row-1,col).isPlaced()||
+                this.getGridCell(row+1,col).isPlaced()||
+                this.getGridCell(row,col-1).isPlaced()||
+                this.getGridCell(row,col+1).isPlaced()) {
+
+                    if (d.getValue() == this.getGridCell(row - 1, col).getPlacedDie().getValue() ||
+                            d.getValue() == this.getGridCell(row + 1, col).getPlacedDie().getValue() ||
+                            d.getValue() == this.getGridCell(row, col - 1).getPlacedDie().getValue() ||
+                            d.getValue() == this.getGridCell(row, col + 1).getPlacedDie().getValue() ||
+                            d.getColor() == this.getGridCell(row - 1, col).getPlacedDie().getColor() ||
+                            d.getColor() == this.getGridCell(row + 1, col).getPlacedDie().getColor() ||
+                            d.getColor() == this.getGridCell(row, col - 1).getPlacedDie().getColor() ||
+                            d.getColor() == this.getGridCell(row, col + 1).getPlacedDie().getColor())
+                        return false;
+                    else
+                        return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+
     }
 
     public void setCell(Cell c, int row, int col) {
@@ -60,20 +90,19 @@ public class WindowCard {
     }
 
     // da testare
-    public boolean isFull(int row, int col){
-        if (grid[row][col] != null)
+    public boolean isFull(){
+        if (grid != null)
             return true;
         else
             return false;
     }
 
     // da testare
-    public boolean isEmpty(int row, int col){
-        if (grid[row][col] == null)
+    public boolean isEmpty(){
+        if (grid == null)
             return true;
         else
             return false;
-
     }
 
     public void setWindowName(String windowName) {
