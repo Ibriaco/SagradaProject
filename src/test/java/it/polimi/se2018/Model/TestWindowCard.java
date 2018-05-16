@@ -12,7 +12,7 @@ public class TestWindowCard {
 
     @Test
     public void testCheckLegalPlacement(){
-        
+
     }
 
 }
