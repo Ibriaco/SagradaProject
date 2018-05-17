@@ -75,7 +75,7 @@ public class Cell {
 
     //used only for test purpose
     public void setPlacedDie(Die d){
-
+        placed = true;
         placedDie = d;
     }
 }

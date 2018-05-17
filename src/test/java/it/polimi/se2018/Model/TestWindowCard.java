@@ -18,7 +18,7 @@ public class TestWindowCard {
         //creo una windowcard con questi specifici valori
         w = new WindowCard();
         w.setCell(new Cell(Color.BLUE,3),0,0);
-        w.setCell(new Cell(Color.BLUE,3),0 ,1);
+        w.setCell(new Cell(Color.RED,4),0 ,1);
         w.setCell(new Cell(Color.BLUE,3),0,2);
         w.setCell(new Cell(Color.RED,3),0,3);
         w.setCell(new Cell(Color.GREEN,3),0,4);
@@ -102,6 +102,29 @@ public class TestWindowCard {
         } catch (InvalidDieException e) {
         }
         d1.setColor(Color.BLUE);
+
+        Die d2 = new Die(g.getColorList());
+        try {
+            d2.setValue(5);
+        } catch (InvalidDieException e) {
+        }
+        d2.setColor(Color.RED);
+
+        w.getGridCell(0,0).setPlacedDie(d1);
+
+        assertEquals(true,w.checkLegalPlacement(d2, 1, 0));
+    }
+
+    @Test
+    public void testCheckAround(){
+
+        Die d1 = new Die(g.getColorList());
+        try {
+            d1.setValue(1);
+        } catch (InvalidDieException e) {
+        }
+        d1.setColor(Color.BLUE);
+
 
     }
 

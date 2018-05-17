@@ -142,6 +142,7 @@ public class Player {
     }
 
     public void setWindowCard(WindowCard w){
+
         this.windowCard = w;
     }
     // da testare
@@ -208,7 +209,6 @@ public class Player {
                     line = b.readLine();
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
 
     }
@@ -227,53 +227,42 @@ public class Player {
         if(side == 0) {
             switch (s) {
                 case "r":
-                    //windowCardAssociations[cardN].getFront().getGridCell(x, y).setColor(Color.RED);
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.RED, 0), x, y);
                     break;
                 case "y":
-                    //windowCardAssociations[cardN].getFront().getGridCell(x, y).setColor(Color.YELLOW);
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.YELLOW, 0), x, y);
                     break;
                 case "b":
-                    //windowCardAssociations[cardN].getFront().getGridCell(x, y).setColor(Color.BLUE);
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.BLUE, 0), x, y);
                     break;
                 case "g":
-                    //windowCardAssociations[cardN].getFront().getGridCell(x, y).setColor(Color.GREEN);
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.GREEN, 0), x, y);
                     break;
                 case "p":
-                    //windowCardAssociations[cardN].getFront().getGridCell(x, y).setColor(Color.PURPLE);
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.PURPLE, 0), x, y);
                     break;
                 case "x":
                     windowCardAssociations[cardN].getFront().setCell(new Cell(null, 0), x, y);
                     break;
                 default:
-                    //windowCardAssociations[cardN].getFront().getGridCell(x, y).setShade(Integer.valueOf(s));
                     windowCardAssociations[cardN].getFront().setCell(new Cell(null, Integer.valueOf(s)), x, y);
             }
         }
         else{
             switch (s) {
                 case "r":
-                    //windowCardAssociations[cardN].getBack().getGridCell(x, y).setColor(Color.RED);
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.RED, 0), x, y);
                     break;
                 case "y":
-                    //windowCardAssociations[cardN].getBack().getGridCell(x, y).setColor(Color.YELLOW);
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.YELLOW, 0), x, y);
                     break;
                 case "b":
-                    //windowCardAssociations[cardN].getBack().getGridCell(x, y).setColor(Color.BLUE);
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.BLUE, 0), x, y);
                     break;
                 case "g":
-                    //windowCardAssociations[cardN].getBack().getGridCell(x, y).setColor(Color.GREEN);
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.GREEN, 0), x, y);
                     break;
                 case "p":
-                    //windowCardAssociations[cardN].getBack().getGridCell(x, y).setColor(Color.PURPLE);
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.PURPLE, 0), x, y);
                     break;
                 case "x":
@@ -281,7 +270,6 @@ public class Player {
                     break;
                 default:
                     windowCardAssociations[cardN].getBack().setCell(new Cell(null, Integer.valueOf(s)), x, y);
-                    //windowCardAssociations[cardN].getBack().getGridCell(x, y).setShade(Integer.valueOf(s));
             }
         }
     }

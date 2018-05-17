@@ -26,7 +26,6 @@ public class WindowCard {
         int nextR = row + 1;
         int nextC = col + 1;
 
-
         //se è vuota la griglia allora controllo se è sul bordo
         if (isEmpty())
             return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
@@ -49,6 +48,7 @@ public class WindowCard {
 
     private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
 
+        System.out.println("Ortogonal");
         boolean ok1 = true;
         boolean ok2 = true;
         boolean ok3 = true;
@@ -63,28 +63,58 @@ public class WindowCard {
         if (nextC < COLS)
             ok4 = checkRight(d, row, nextC);
 
+        System.out.println("ok1: " + ok1);
+        System.out.println("ok2: " + ok2);
+        System.out.println("ok3: " + ok3);
+        System.out.println("ok4: " + ok4);
+
         return(ok1 && ok2 && ok3 && ok4);
         //ritorna true se posso piazzare, cioe se nessun dado ortogonalmente ha stesso colore/valore
     }
 
     private boolean checkAround(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
 
-        if (previousR >= 0) {
-            if (previousC >= 0)
-                return getGridCell(previousR, previousC).isPlaced();
-            if (nextC <= COLS)
-                return getGridCell(previousR, nextC).isPlaced();
-
-            return getGridCell(previousR, col).isPlaced();
+        System.out.println("Around");
+        //sinistra
+        if(previousC >= 0) {
+            if (getGridCell(row, previousC).isPlaced())
+                return true;
+        }
+        //destra
+        if(nextC < COLS) {
+            if (getGridCell(row, nextC).isPlaced())
+                return true;
         }
 
-        if (nextR <= ROWS) {
-            if (previousC >= 0)
-                return getGridCell(nextR, previousC).isPlaced();
-            if (nextC <= COLS)
-                return getGridCell(nextR, nextC).isPlaced();
+        if (previousR >= 0) {
+            //sinistra-su
+            if (previousC >= 0) {
+                if (getGridCell(previousR, previousC).isPlaced())
+                    return true;
+            }
+            //destra-su
+            if (nextC < COLS){
+                if(getGridCell(previousR, nextC).isPlaced())
+                    return true;
+            }
 
-            return getGridCell(nextR, col).isPlaced();
+            //su
+            if(getGridCell(previousR, col).isPlaced())
+                return true;
+        }
+
+        if (nextR < ROWS) {
+            if (previousC >= 0){
+                if(getGridCell(nextR, previousC).isPlaced())
+                return true;
+            }
+            if (nextC < COLS) {
+                if (getGridCell(nextR, nextC).isPlaced())
+                    return true;
+            }
+
+            if(getGridCell(nextR, col).isPlaced())
+                return true;
         }
         return false;
         //ritorna true se posso piazzare, cioe se almeno un dado ortogonalmente/diagonalmente è piazzato
@@ -127,6 +157,11 @@ public class WindowCard {
             leftDie = getGridCell(r,c).getPlacedDie();
         else
             return true;
+
+        System.out.println("Colore left: " + leftDie.getColor());
+        System.out.println("Colore dado: " + d.getColor());
+        System.out.println("Valore left: " + leftDie.getValue());
+        System.out.println("Valore dado: " + d.getValue());
 
         return !(leftDie.getColor() == d.getColor() || leftDie.getValue() == d.getValue());
 
