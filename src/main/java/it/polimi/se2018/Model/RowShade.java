@@ -8,6 +8,10 @@ public class RowShade extends PublicObjective {
         super(number, title, description, score);
     }
 
+    /**
+     * This method calculates and sets the Row Shade Bonus score of a player, analyzing his Window card searching for rows with no repeated dice shades.
+     * @param p is the player whose score has to be calculated.
+     */
     // questo va assolutamente testato
     @Override
     public void calculateBonus(Player p) {

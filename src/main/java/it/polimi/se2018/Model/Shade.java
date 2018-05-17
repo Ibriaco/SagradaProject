@@ -8,6 +8,10 @@ public class Shade extends PublicObjective {
         super(number, title, description, score);
     }
 
+    /**
+     * This method calculates and sets the Shade Variety Bonus score of a player, analyzing his Window card counting the amount of dice of each shade.
+     * @param p is the player whose score has to be calculated.
+     */
     @Override
     public void calculateBonus(Player p) {
 

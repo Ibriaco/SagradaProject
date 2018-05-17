@@ -1,11 +1,21 @@
 package it.polimi.se2018.Model;
 
+/**Abstract class for the Card object of the game. This class is extended by the other 2 objects that represent the Private Objective cards and the Public Objective cards.
+ *
+ */
+
 public abstract class Card {
 
     private int number;
     private String title;
     private String description;
 
+    /**
+     *
+     * @param number an integer value that represents an index, used to upload cards from file.
+     * @param title the title of the related card of the game.
+     * @param description the description of the related card of the game.
+     */
     public Card(int number, String title, String description) {
         this.number = number;
         this.title = title;
@@ -23,7 +33,7 @@ public abstract class Card {
         return description;
     }
 
-        public int getNumber() {
+    public int getNumber() {
 
         return number;
     }

@@ -3,13 +3,18 @@ package it.polimi.se2018.Model;
  * @author Gregorio Galletti
  * */
 public class Cell {
+
     private Color color;
     private int shade;
     private boolean placed = false;
     private Die placedDie;
     private boolean visited;
 
-
+    /**
+     * Creates a new Cell that will be placed in the Window card's grid. A cell can only have either a color or a shade.
+     * @param color the color of the cell.
+     * @param shade the value of the cell.
+     */
     public Cell(Color color, int shade) {
         this.color = color;
         this.shade = shade;
@@ -36,6 +41,11 @@ public class Cell {
     }
 
     // da testare
+
+    /**
+     * This boolean method checks if a die is placed or not in the cell.
+     * @return true if a die is placed, false if no die is placed.
+     */
     public boolean isPlaced() {
 
         placed = (placedDie != null);

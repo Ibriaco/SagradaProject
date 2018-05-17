@@ -8,6 +8,10 @@ public class RowColor extends PublicObjective {
         super(number, title, description, score);
     }
 
+    /**
+     * This method calculates and sets the Row Color Bonus score of a player, analyzing his Window card searching for rows with no repeated dice colors.
+     * @param p is the player whose score has to be calculated.
+     */
     @Override
     public void calculateBonus(Player p) {
 

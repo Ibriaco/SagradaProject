@@ -9,6 +9,10 @@ public class ColorDiagonals extends PublicObjective {
 
     WindowCard temp;
 
+    /**
+     * This method calculates and sets the Color Diagonals Bonus score of a player, analyzing his Window card searching for diagonally adjacent dice of the same color.
+     * @param p is the player whose score has to be calculated.
+     */
     @Override
     public void calculateBonus(Player p) {
 

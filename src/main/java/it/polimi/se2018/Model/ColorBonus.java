@@ -8,6 +8,10 @@ public class ColorBonus extends PublicObjective {
         super(number, title, description, score);
     }
 
+    /**
+     * This method calculates and sets the Color Variety Bonus score of a player, analyzing his Window card counting the amount of dice of each color.
+     * @param p is the player whose score has to be calculated.
+     */
     @Override
     public void calculateBonus(Player p) {
         WindowCard temp = p.getWindowCard();
