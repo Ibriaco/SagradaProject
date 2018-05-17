@@ -153,7 +153,8 @@ public class WindowCard {
     // da testare
     public void placeDie(Die d, int row, int col){
 
-        getGridCell(row,col).placeDie(d);
+        if(checkLegalPlacement(d,row,col))
+            getGridCell(row,col).placeDie(d);
 
     }
 

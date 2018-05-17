@@ -7,60 +7,109 @@ public class ColorDiagonals extends PublicObjective {
         super(number, title, description, score);
     }
 
+    WindowCard temp;
+
     @Override
     public void calculateBonus(Player p) {
 
-        WindowCard temp = p.getWindowCard();
-        Color currentColor = null;
-        Color diagonalColor = null;
+        temp = p.getWindowCard();
+        Color currentColor;
         int counter = 1;
+        int previousR;
+        int previousC;
+        int nextR;
+        int nextC;
         boolean bonus = false;
-        for(int i = 1; i < temp.ROWS - 1; i++){
+
+        for(int i = 0; i < temp.ROWS; i++){
             for(int j = 1; j < temp.COLS - 1; j++){
-                if(temp.getGridCell(i,j).isPlaced() && !temp.getGridCell(i,j).isVisited()) {
+                if(temp.getGridCell(i,j).isPlaced()) {
                     currentColor = temp.getGridCell(i,j).getPlacedDie().getColor();
-                    if (i + 1 < temp.ROWS && j + 1 < temp.COLS && temp.getGridCell(i + 1, j + 1).isPlaced()){
-                        diagonalColor = temp.getGridCell(i + 1, j + 1).getPlacedDie().getColor();
-                        if(currentColor == diagonalColor && !temp.getGridCell(i + 1, j + 1).isVisited()) {
-                        counter++;
-                        temp.getGridCell(i + 1, j + 1).setVisited(true);
-                        bonus = true;
-                        }
-                    }
-                    if (i + 1 < temp.ROWS && j - 1 >= 0 && temp.getGridCell(i + 1, j - 1).isPlaced()){
-                        diagonalColor = temp.getGridCell(i + 1, j - 1).getPlacedDie().getColor();
-                        if(currentColor == diagonalColor && !temp.getGridCell(i + 1, j - 1).isVisited()) {
-                        counter++;
-                        temp.getGridCell(i + 1, j - 1).setVisited(true);
-                        bonus = true;
-                        }
-                    }
-                    if (i - 1 >= 0 && j + 1 < temp.COLS && temp.getGridCell(i - 1, j + 1).isPlaced()){
-                        diagonalColor = temp.getGridCell(i - 1, j + 1).getPlacedDie().getColor();
-                        if(currentColor == diagonalColor && !temp.getGridCell(i - 1, j + 1).isVisited()) {
-                        counter++;
-                        temp.getGridCell(i - 1, j + 1).setVisited(true);
-                            bonus = true;
-                        }
-                    }
-                    if (i - 1 >= 0 && j - 1 >= 0 && temp.getGridCell(i - 1, j - 1).isPlaced()) {
-                        diagonalColor = temp.getGridCell(i - 1, j - 1).getPlacedDie().getColor();
-                        if(currentColor == diagonalColor && !temp.getGridCell(i - 1, j - 1).isVisited()) {
-                        counter++;
-                        temp.getGridCell(i - 1, j - 1).setVisited(true);
-                            bonus = true;
-                        }
-                    }
-                temp.getGridCell(i,j).setVisited(true);
+                    previousR = i - 1;
+                    previousC = j - 1;
+                    nextR = i + 1;
+                    nextC = j + 1;
+
+                    counter += checkNE(currentColor,previousR, nextC) + checkNW(currentColor,previousR,previousC) + checkSE(currentColor,nextR,nextC) + checkSW(currentColor,nextR,previousC);
+
+                    temp.getGridCell(i,j).setVisited(true);
+                    bonus = true;
                 }
-                //System.out.println(counter);
             }
         }
 
-        if(bonus == false)
+        if(!bonus)
             counter = 0;
 
         p.setPlayerScore(counter);
+    }
+
+    private int checkSE(Color currentColor, int nextR, int nextC) {
+
+        if(nextR >= temp.ROWS)
+            return 0;
+
+        Cell seCell = temp.getGridCell(nextR,nextC);
+        if(!seCell.isPlaced() || seCell.isVisited())
+            return 0;
+
+        Color seColor = seCell.getPlacedDie().getColor();
+        if(seColor == currentColor) {
+            seCell.setVisited(true);
+            return 1;
+        }
+        return 0;
+    }
+
+    private int checkSW(Color currentColor, int nextR, int previousC) {
+
+        if(nextR >= temp.ROWS)
+            return 0;
+
+        Cell swCell = temp.getGridCell(nextR,previousC);
+        if(!swCell.isPlaced() || swCell.isVisited())
+            return 0;
+
+        Color swColor = swCell.getPlacedDie().getColor();
+        if(swColor == currentColor) {
+            swCell.setVisited(true);
+            return 1;
+        }
+        return 0;
+    }
+
+    private int checkNE(Color currentColor, int previousR, int nextC) {
+
+        if(previousR < 0)
+            return 0;
+
+        Cell neCell = temp.getGridCell(previousR,nextC);
+        if(!neCell.isPlaced() || neCell.isVisited())
+            return 0;
+
+        Color neColor = neCell.getPlacedDie().getColor();
+        if(neColor == currentColor) {
+            neCell.setVisited(true);
+            return 1;
+        }
+        return 0;
+    }
+
+    private int checkNW(Color currentColor, int previousR, int previousC) {
+
+        if(previousR < 0)
+            return 0;
+
+        Cell nwCell = temp.getGridCell(previousR,previousC);
+        if(!nwCell.isPlaced() || nwCell.isVisited())
+            return 0;
+
+        Color nwColor = nwCell.getPlacedDie().getColor();
+        if(nwColor == currentColor) {
+            nwCell.setVisited(true);
+            return 1;
+        }
+        return 0;
     }
 
 
