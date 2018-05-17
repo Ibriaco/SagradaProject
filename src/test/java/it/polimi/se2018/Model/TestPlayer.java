@@ -1,6 +1,5 @@
-package it.polimi.se2018;
+package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -38,10 +38,7 @@ public class Cell {
     // da testare
     public boolean isPlaced() {
 
-        if(placedDie != null)
-            placed = true;
-        else
-            placed = false;
+        placed = (placedDie != null);
         return placed;
     }
 
@@ -76,4 +73,9 @@ public class Cell {
         return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
     }
 
+    //used only for test purpose
+    public void setPlacedDie(Die d){
+
+        placedDie = d;
+    }
 }

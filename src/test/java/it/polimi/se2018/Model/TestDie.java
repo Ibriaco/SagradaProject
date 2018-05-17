@@ -1,12 +1,7 @@
-package it.polimi.se2018;
+package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.Color;
-import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Game;
-import it.polimi.se2018.Model.InvalidDieException;
 import org.junit.Before;
 import org.junit.Test;
-
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 

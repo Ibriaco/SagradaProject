@@ -1,9 +1,6 @@
-package it.polimi.se2018;
+package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.Cell;
-import it.polimi.se2018.Model.Color;
-import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Game;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,38 +24,42 @@ public class TestCell {
         Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
         c.placeDie(d);
+        boolean placed = c.isPlaced();
 
-        assert (c.isPlaced());
+        assert (placed);
     }
 
     @Test
     public void testNotPlacedCell(){
         Cell c = new Cell(Color.BLUE,3);
+        boolean placed = c.isPlaced();
 
-        assert (!c.isPlaced());
+        assert (!placed);
     }
 
     @Test
     public void testPlaceDie(){
         Cell c = new Cell(Color.BLUE,3);
-        Die d = null;
+        Die d;
         d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
         c.placeDie(d);
+        boolean placed = c.isPlaced();
 
-        assert (c.isPlaced());
+        assert (placed);
         assertEquals (d,c.getPlacedDie());
     }
 
     @Test
     public void testPlaceWrongDie(){
         Cell c = new Cell(Color.BLUE,3);
-        Die d = null;
+        Die d;
         d = new Die(g.getColorList());
         d.setColor(Color.RED);
         c.placeDie(d);
+        boolean placed = c.isPlaced();
 
-        assert (!c.isPlaced());
+        assert (!placed);
         assertNotEquals (d,(c.getPlacedDie()));
     }
 

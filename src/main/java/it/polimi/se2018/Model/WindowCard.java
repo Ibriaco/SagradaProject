@@ -56,11 +56,11 @@ public class WindowCard {
 
         if (previousR >= 0)
             ok1 = checkUp(d, previousR, col);
-        if (nextR <= ROWS)
+        if (nextR < ROWS)
             ok2 = checkDown(d, nextR, col);
         if (previousC >= 0)
             ok3 = checkLeft(d, row, previousC);
-        if (nextC <= COLS)
+        if (nextC < COLS)
             ok4 = checkRight(d, row, nextC);
 
         return(ok1 && ok2 && ok3 && ok4);

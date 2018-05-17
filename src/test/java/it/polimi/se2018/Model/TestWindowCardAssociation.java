@@ -1,8 +1,5 @@
-package it.polimi.se2018;
+package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.WindowCard;
-import it.polimi.se2018.Model.WindowCardAssociation;
-import it.polimi.se2018.Model.WindowCardAssociationException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

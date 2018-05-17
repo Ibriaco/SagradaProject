@@ -1,6 +1,5 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,55 +61,56 @@ public class TestBonus {
 
             d1.setValue(1);
             d1.setColor(Color.BLUE);
-            w.placeDie(d1, 0, 0);
+            w.getGridCell(0,0).setPlacedDie(d1);
 
             d2.setValue(1);
             d2.setColor(Color.BLUE);
-            w.placeDie(d2, 0, 1);
+            w.getGridCell(0,1).setPlacedDie(d2);
 
             d3.setValue(3);
             d3.setColor(Color.BLUE);
-            w.placeDie(d3, 2, 3);
+            w.getGridCell(2,3).setPlacedDie(d3);
 
             d4.setValue(1);
             d4.setColor(Color.RED);
-            w.placeDie(d4, 0, 3);
+            w.getGridCell(0,3).setPlacedDie(d4);
 
             d5.setValue(6);
             d5.setColor(Color.RED);
-            w.placeDie(d5, 2, 1);
+            w.getGridCell(2,1).setPlacedDie(d5);
 
             d6.setValue(1);
             d6.setColor(Color.YELLOW);
-            w.placeDie(d6, 1, 3);
+            w.getGridCell(1,3).setPlacedDie(d6);
 
             d7.setValue(2);
             d7.setColor(Color.YELLOW);
-            w.placeDie(d7, 2, 0);
+            w.getGridCell(2,0).setPlacedDie(d7);
 
             d8.setValue(1);
             d8.setColor(Color.PURPLE);
-            w.placeDie(d8, 2, 2);
+            w.getGridCell(2,2).setPlacedDie(d8);
 
             d9.setValue(1);
             d9.setColor(Color.GREEN);
-            w.placeDie(d9, 3, 3);
+            w.getGridCell(3,3).setPlacedDie(d9);
 
             d10.setValue(6);
             d10.setColor(Color.GREEN);
-            w.placeDie(d10, 3, 4);
+            w.getGridCell(3,4).setPlacedDie(d10);
 
             d11.setValue(3);
             d11.setColor(Color.GREEN);
-            w.placeDie(d11, 0, 4);
+            w.getGridCell(0,4).setPlacedDie(d11);
 
             d12.setValue(5);
             d12.setColor(Color.GREEN);
-            w.placeDie(d12, 2, 4);
+            w.getGridCell(2,4).setPlacedDie(d12);
 
             d13.setValue(4);
             d13.setColor(Color.GREEN);
-            w.placeDie(d13, 1, 4);
+            w.getGridCell(1,4).setPlacedDie(d13);
+
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
