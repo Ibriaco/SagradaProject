@@ -45,15 +45,10 @@ public class TestCell {
 
     @Test
     public void testPlaceDie(){
-        Cell c = new Cell(Color.BLUE,3);
+        Cell c = new Cell(Color.BLUE,0);
         Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
-        try {
-            d.setValue(3);
-        }
-        catch(InvalidDieException e){
-            e.printStackTrace();
-        }
+        
         c.placeDie(d);
         boolean placed = c.isPlaced();
         assert (placed);
@@ -63,7 +58,7 @@ public class TestCell {
 
     @Test
     public void testPlaceWrongDie(){
-        Cell c = new Cell(Color.BLUE,3);
+        Cell c = new Cell(Color.BLUE,0);
         Die d;
         d = new Die(g.getColorList());
         d.setColor(Color.RED);
@@ -76,14 +71,14 @@ public class TestCell {
 
     @Test
     public void testVisitedCell(){
-        Cell c = new Cell(Color.BLUE,3);
+        Cell c = new Cell(Color.BLUE,0);
         c.setVisited(true);
         assert (c.isVisited());
     }
 
     @Test
     public void testNotVisitedCell(){
-        Cell c = new Cell(Color.BLUE,3);
+        Cell c = new Cell(Color.BLUE,0);
         assert (!c.isVisited());
     }
 
