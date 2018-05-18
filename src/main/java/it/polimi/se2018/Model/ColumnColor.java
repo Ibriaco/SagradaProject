@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class ColumnColor extends PublicObjective {
+public class ColumnColor extends ColumnRowColors {
     public ColumnColor(int number, String title, String description, int score) {
         super(number, title, description, score);
     }
@@ -18,7 +18,6 @@ public class ColumnColor extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int validCols = 0;
         boolean ok;
-        Color currentC;
 
         for (int i = 0; i < temp.COLS; i++) {
 
@@ -26,24 +25,16 @@ public class ColumnColor extends PublicObjective {
             ok = true;
 
             for (int j = 0; j < temp.ROWS; j++) {
-                if (temp.getGridCell(j, i).isPlaced()) {
-                    currentC = temp.getGridCell(j, i).getPlacedDie().getColor();
-                    switch (currentC){
-                        case BLUE: frequency[0]++; break;
-                        case RED: frequency[1]++; break;
-                        case YELLOW: frequency[2]++; break;
-                        case PURPLE: frequency[3]++; break;
-                        case GREEN: frequency[4]++; break;
-                        default:
-                    }
-                } else
+                if (temp.getGridCell(j, i).isPlaced())
+                        frequency = super.calculateFrequency(temp, frequency, j, i, true);
+                else
                     ok = false;
             }
 
             for (int index = 0; index < frequency.length; index++) {
-                if (frequency[index] < 2 && ok) {
+                if (frequency[index] < 2 && ok)
                     ok = true;
-                } else
+                else
                     ok = false;
             }
 

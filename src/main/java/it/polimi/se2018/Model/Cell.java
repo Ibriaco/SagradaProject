@@ -6,7 +6,6 @@ public class Cell {
 
     private Color color;
     private int shade;
-    private boolean placed = false;
     private Die placedDie;
     private boolean visited;
 
@@ -16,8 +15,10 @@ public class Cell {
      * @param shade the value of the cell.
      */
     public Cell(Color color, int shade) {
-        this.color = color;
-        this.shade = shade;
+        if(shade == 0)
+            this.color = color;
+        else
+            this.shade = shade;
     }
 
     public Color getColor() {
@@ -48,12 +49,7 @@ public class Cell {
      */
     public boolean isPlaced() {
 
-        placed = (placedDie != null);
-        return placed;
-    }
-
-    public void setPlaced(boolean placed) {
-        this.placed = placed;
+        return(placedDie != null);
     }
 
     // da testare
@@ -73,19 +69,21 @@ public class Cell {
     }
 
     public void placeDie(Die d){
-        if(checkPlacement(this, d)) {
+
+        if(checkPlacement(this, d))
             placedDie = d;
-            placed = true;
-        }
     }
 
     private boolean checkPlacement(Cell c, Die d){
-        return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
+
+        if(d != null)
+            return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
+        return false;
     }
 
     //used only for test purpose
     public void setPlacedDie(Die d){
-        placed = true;
+
         placedDie = d;
     }
 }

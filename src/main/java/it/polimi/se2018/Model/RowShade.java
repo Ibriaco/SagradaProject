@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini 
  */
-public class RowShade extends PublicObjective {
+public class RowShade extends ColumnRowShades{
     public RowShade(int number, String title, String description, int score) {
         super(number, title, description, score);
     }
@@ -19,7 +19,6 @@ public class RowShade extends PublicObjective {
         WindowCard temp = p.getWindowCard();
         int validRows = 0;
         boolean ok;
-        int currentV;
 
         for (int i = 0; i < temp.ROWS; i++){
 
@@ -28,16 +27,7 @@ public class RowShade extends PublicObjective {
 
                for (int j=0; j < temp.COLS; j++){
                    if(temp.getGridCell(i,j).isPlaced()) {
-                       currentV = temp.getGridCell(i, j).getPlacedDie().getValue();
-                       switch (currentV){
-                           case 1: frequency[0]++; break;
-                           case 2: frequency[1]++; break;
-                           case 3: frequency[2]++; break;
-                           case 4: frequency[3]++; break;
-                           case 5: frequency[4]++; break;
-                           case 6: frequency[5]++; break;
-                           default:
-                       }
+                       frequency = super.calculateFrequency(temp, frequency, j, i, false);
                    }
                    else
                        ok = false;

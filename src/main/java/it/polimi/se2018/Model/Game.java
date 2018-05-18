@@ -51,7 +51,7 @@ public class Game {
         //creo quindi 3 diversi oggetti
         //li inserisco nell'arraylist
 
-        ArrayList<PublicObjective> list = new ArrayList<PublicObjective>();
+        ArrayList<PublicObjective> list = new ArrayList<>();
 
         //1) creo i 3 indici random per estrarre le carte dal file
         int[] index = {0,0,0};
