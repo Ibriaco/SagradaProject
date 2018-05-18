@@ -1,4 +1,7 @@
-package it.polimi.se2018.Model;
+package it.polimi.se2018.Model.Event;
+
+import it.polimi.se2018.Model.Die;
+import it.polimi.se2018.Model.Event.Event;
 
 /**
  * Event that notifies that a Die has been placed.

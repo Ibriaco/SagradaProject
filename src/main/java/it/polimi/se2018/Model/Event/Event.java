@@ -1,4 +1,4 @@
-package it.polimi.se2018.Model;
+package it.polimi.se2018.Model.Event;
 
 /**
  * Event Class.

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * @author Gregorio Galletti
+ * @author Marco Gasperini
  * Unit Test Class for all the Public Cards of the game.
  */
 
