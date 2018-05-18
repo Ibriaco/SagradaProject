@@ -32,10 +32,7 @@ public class RowColor extends ColumnRowColors {
             }
 
             for(int index = 0; index < frequency.length; index++){
-                if (frequency[index] == 1 && ok)
-                    ok = true;
-                else
-                    ok = false;
+                ok = frequency[index] == 1 && ok;
             }
 
            if(ok) validRows++;

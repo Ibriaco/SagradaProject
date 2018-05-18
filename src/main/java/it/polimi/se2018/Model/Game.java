@@ -42,7 +42,6 @@ public class Game {
         publicCards = setPublicObjectives();
         colorList = new ArrayList<>();
         getAvailableColor();
-
     }
 
     /**
@@ -268,7 +267,6 @@ public class Game {
 
         for (Player p: players) {
             p.drawWindowCardAssociation(ar[j], ar[j+1]);
-            System.out.println("Numeri casuali: " + ar[j] + ", " + ar[j+1]);
             j+=2;
         }
     }

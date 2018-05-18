@@ -19,12 +19,12 @@ public class ColumnShade extends ColumnRowShades {
         int validRows = 0;
         boolean ok;
 
-        for (int i = 0; i < temp.COLS; i++){
+        for(int i = 0; i < temp.COLS; i++){
 
             int[] frequency={0,0,0,0,0,0};
             ok = true;
 
-            for (int j=0; j < temp.ROWS; j++){
+            for(int j=0; j < temp.ROWS; j++){
                 if(temp.getGridCell(j,i).isPlaced())
                     frequency = super.calculateFrequency(temp, frequency, j, i, true);
                 else
@@ -32,13 +32,11 @@ public class ColumnShade extends ColumnRowShades {
             }
 
             for(int index = 0; index < frequency.length; index++){
-                if (frequency[index] < 2 && ok)
-                    ok = true;
-                else
-                    ok = false;
+                ok = frequency[index] < 2 && ok;
             }
 
-            if (ok) validRows++;
+            if(ok)
+                validRows++;
         }
 
         p.setPlayerScore(validRows * this.getScore());

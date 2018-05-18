@@ -11,7 +11,7 @@ public class RoundCell {
 
     public RoundCell(int value) {
         this.value = value;
-        diceList = new ArrayList<Die>();
+        diceList = new ArrayList<>();
     }
 
     public int getValue() {

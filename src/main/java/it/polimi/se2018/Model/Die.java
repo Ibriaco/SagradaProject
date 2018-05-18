@@ -1,6 +1,5 @@
 package it.polimi.se2018.Model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

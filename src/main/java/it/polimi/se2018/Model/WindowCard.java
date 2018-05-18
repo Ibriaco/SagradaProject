@@ -30,29 +30,23 @@ public class WindowCard {
         int nextR = row + 1;
         int nextC = col + 1;
 
-        //se è vuota la griglia allora controllo se è sul bordo
         if (isEmpty())
             return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
 
-        //se è piena la griglia allora non posso piazzare
         if(isFull())
             return false;
 
-        //se le coordinate sono sbagliate allora non posso piazzare
         if(!checkCoords(row, col))
             return false;
 
-        //se c'è un dado nella stessa posizione allora non posso piazzare
-        if (getGridCell(row, col).isPlaced())
+        if(getGridCell(row, col).isPlaced())
             return false;
 
-        //controllo se ho dadi adiacenti (ortogonalmente) dello stesso colore o valore: se sì, non posso piazzare; se il dado è adiacente (ortogonalmente o diagonalmente) a un altro dado gia piazzato
-        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR) && checkAround(d, row, col, previousR, previousC, nextC, nextR);
+        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR) && checkAround(row, col, previousR, previousC, nextC, nextR);
     }
 
     private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
 
-        System.out.println("Ortogonal");
         boolean ok1 = true;
         boolean ok2 = true;
         boolean ok3 = true;
@@ -67,42 +61,29 @@ public class WindowCard {
         if (nextC < COLS)
             ok4 = checkRight(d, row, nextC);
 
-        System.out.println("ok1: " + ok1);
-        System.out.println("ok2: " + ok2);
-        System.out.println("ok3: " + ok3);
-        System.out.println("ok4: " + ok4);
-
         return(ok1 && ok2 && ok3 && ok4);
-        //ritorna true se posso piazzare, cioe se nessun dado ortogonalmente ha stesso colore/valore
     }
 
-    private boolean checkAround(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
+    private boolean checkAround(int row, int col, int previousR, int previousC, int nextC, int nextR) {
 
-        System.out.println("Around");
-        //sinistra
         if(previousC >= 0) {
             if (getGridCell(row, previousC).isPlaced())
                 return true;
         }
-        //destra
         if(nextC < COLS) {
             if (getGridCell(row, nextC).isPlaced())
                 return true;
         }
 
         if (previousR >= 0) {
-            //sinistra-su
             if (previousC >= 0) {
                 if (getGridCell(previousR, previousC).isPlaced())
                     return true;
             }
-            //destra-su
             if (nextC < COLS){
                 if(getGridCell(previousR, nextC).isPlaced())
                     return true;
             }
-
-            //su
             if(getGridCell(previousR, col).isPlaced())
                 return true;
         }
@@ -121,7 +102,6 @@ public class WindowCard {
                 return true;
         }
         return false;
-        //ritorna true se posso piazzare, cioe se almeno un dado ortogonalmente/diagonalmente è piazzato
     }
 
     private boolean checkCoords(int r, int c){
@@ -162,11 +142,6 @@ public class WindowCard {
         else
             return true;
 
-        System.out.println("Colore left: " + leftDie.getColor());
-        System.out.println("Colore dado: " + d.getColor());
-        System.out.println("Valore left: " + leftDie.getValue());
-        System.out.println("Valore dado: " + d.getValue());
-
         return !(leftDie.getColor() == d.getColor() || leftDie.getValue() == d.getValue());
 
     }
@@ -188,7 +163,6 @@ public class WindowCard {
         grid[row][col] = c;
     }
 
-
     /**
      * Method that lets the Player place a die in a specific position.
      * To make sure that it works properly, checkLegalPlacement is called.
@@ -200,7 +174,6 @@ public class WindowCard {
 
         if(checkLegalPlacement(d,row,col))
             getGridCell(row,col).placeDie(d);
-
     }
 
     /**
@@ -209,11 +182,9 @@ public class WindowCard {
      * @param col Refers to the column where die to be removed is placed in.
      */
     public void removeDie(int row, int col){
-        if(grid[row][col].isPlaced()) {
-            grid[row][col].placeDie(null);
-            //grid[row][col].setPlaced(false);
-        }
 
+        if(grid[row][col].isPlaced())
+            grid[row][col].placeDie(null);
     }
 
     /**
@@ -241,13 +212,13 @@ public class WindowCard {
 
 
     public boolean isFull(){
+
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
                 if(!grid[i][j].isPlaced())
                     return false;
             }
         }
-
         return true;
     }
 
@@ -256,13 +227,13 @@ public class WindowCard {
      * @return true if the WindowCard is empty, either way, false is returned.
      */
     public boolean isEmpty(){
+
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
                 if(grid[i][j].isPlaced())
                     return false;
             }
         }
-
         return true;
     }
 

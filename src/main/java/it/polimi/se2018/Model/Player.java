@@ -93,9 +93,8 @@ public class Player {
     /**
      *Method that draws WindowCard.
      * @param cardNumber Refers to the amount of WindowCards dealt during a game. cardNumber = 2*PlayerNumber + 1.
-     * @throws WindowCardAssociationException
      */
-    public void drawCard(int cardNumber) throws WindowCardAssociationException{
+    public void drawCard(int cardNumber){
 
         String line;
         String x;
@@ -162,9 +161,8 @@ public class Player {
      *Method that lets the Player choose either the first or the second WindowCard.
      * @param windowCardNumber1 Refers to the first WindowCard.
      * @param windowCardNumber2 Refers to the second WindowCard.
-     * @throws WindowCardAssociationException
      */
-    public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2) throws WindowCardAssociationException {
+    public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2){
         //apro file
         //cerco i numeri passati come parametro
         //appena ne trovo uno leggo: Nome, Difficoltà e Griglia
@@ -177,13 +175,21 @@ public class Player {
         WindowCard w1 = new WindowCard();
         WindowCard w2 = new WindowCard();
 
-        WindowCardAssociation a1 = new WindowCardAssociation(w1, w2);
+        WindowCardAssociation a1 = null;
+        try {
+            a1 = new WindowCardAssociation(w1, w2);
+        } catch (WindowCardAssociationException e) {
+        }
         windowCardAssociations[0] = a1;
 
         WindowCard w3 = new WindowCard();
         WindowCard w4 = new WindowCard();
 
-        WindowCardAssociation a2 = new WindowCardAssociation(w3, w4);
+        WindowCardAssociation a2 = null;
+        try {
+            a2 = new WindowCardAssociation(w3, w4);
+        } catch (WindowCardAssociationException e) {
+        }
         windowCardAssociations[1] = a2;
 
         String line;

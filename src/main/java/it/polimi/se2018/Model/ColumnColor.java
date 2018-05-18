@@ -24,21 +24,18 @@ public class ColumnColor extends ColumnRowColors {
             int[] frequency = {0,0,0,0,0};
             ok = true;
 
-            for (int j = 0; j < temp.ROWS; j++) {
+            for(int j = 0; j < temp.ROWS; j++) {
                 if (temp.getGridCell(j, i).isPlaced())
                         frequency = super.calculateFrequency(temp, frequency, j, i, true);
                 else
                     ok = false;
             }
 
-            for (int index = 0; index < frequency.length; index++) {
-                if (frequency[index] < 2 && ok)
-                    ok = true;
-                else
-                    ok = false;
-            }
+            for(int index = 0; index < frequency.length; index++)
+                ok = frequency[index] < 2 && ok;
 
-            if (ok) validCols++;
+            if(ok)
+                validCols++;
         }
 
         p.setPlayerScore(validCols * this.getScore());
