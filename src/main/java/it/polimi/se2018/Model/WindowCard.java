@@ -2,6 +2,7 @@ package it.polimi.se2018.Model;
 
 /**
  * @author Ibrahim El Shemy
+ * @author Gregorio Galletti
  */
 public class WindowCard {
     final int ROWS = 4;
