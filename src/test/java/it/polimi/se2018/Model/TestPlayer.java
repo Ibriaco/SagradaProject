@@ -122,4 +122,20 @@ public class TestPlayer {
 
     }
 
+    @Test
+    public void testSetPlayerScore(){
+        Player p= null;
+        try {
+            p = new Player("player", "RMI","CLI");
+        } catch (InvalidConnectionException e) {
+            fail();
+        } catch (InvalidViewException e) {
+            fail();
+        }
+        p.setPlayerScore(5);
+        assertEquals(5,p.getPlayerScore());
+        p.setPlayerScore(5);
+        assertEquals(10,p.getPlayerScore());
+    }
+
 }
