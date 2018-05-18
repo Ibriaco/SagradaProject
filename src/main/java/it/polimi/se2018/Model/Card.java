@@ -11,7 +11,7 @@ public abstract class Card {
     private String description;
 
     /**
-     *
+     * Constructor the Class.
      * @param number an integer value that represents an index, used to upload cards from file.
      * @param title the title of the related card of the game.
      * @param description the description of the related card of the game.

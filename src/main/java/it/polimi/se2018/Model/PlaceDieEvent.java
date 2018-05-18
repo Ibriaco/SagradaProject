@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
 
+/**
+ * Event that notifies that a Die has been placed.
+ */
 public class PlaceDieEvent extends Event {
     private Die die;
     private int coordX;
@@ -13,14 +16,17 @@ public class PlaceDieEvent extends Event {
     }
 
     public Die getDie() {
+
         return die;
     }
 
     public int getCoordX() {
+
         return coordX;
     }
 
     public int getCoordY() {
+
         return coordY;
     }
 }

@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
 
+/**
+ *PrivateObjective Class of the Game. Contains a constructor and getter methods.
+ */
 public class PrivateObjective extends Card {
     private int score;
     private Color color;

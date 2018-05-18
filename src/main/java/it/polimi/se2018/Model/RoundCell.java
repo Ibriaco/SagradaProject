@@ -19,13 +19,21 @@ public class RoundCell {
         return value;
     }
 
-    // da testare
+    /**
+     * Method that adds a die to the round track.
+     * @param d Refers to the die to be added.
+     */
     public void addDie(Die d){
 
         diceList.add(d);
     }
 
-    // da testare
+    /**
+     * @author Ibrahim El Shemy
+     * Method that swaps a drafted die with a die on the round track.
+     * @param d1 Refers to the die that will replace the die on the round track.
+     * @param d2 Refers to the die that will be replaced by d1.
+     */
     public void replaceDie(Die d1, Die d2){
         int val;
         Color col;
@@ -39,12 +47,15 @@ public class RoundCell {
             d1.setValue(val);
             d1.setColor(col);
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+
         }
 
 
     }
 
+    /**
+     * @return a List with all dice in the round track.
+     */
     public List<Die> getDiceList() {
 
         return diceList;

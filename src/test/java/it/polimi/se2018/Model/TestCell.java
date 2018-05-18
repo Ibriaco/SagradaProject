@@ -23,6 +23,12 @@ public class TestCell {
         Cell c = new Cell(Color.BLUE,3);
         Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
+        try {
+            d.setValue(3);
+        }
+        catch(InvalidDieException e){
+            e.printStackTrace();
+        }
         c.placeDie(d);
         boolean placed = c.isPlaced();
 
@@ -40,13 +46,18 @@ public class TestCell {
     @Test
     public void testPlaceDie(){
         Cell c = new Cell(Color.BLUE,3);
-        Die d;
-        d = new Die(g.getColorList());
+        Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
+        try {
+            d.setValue(3);
+        }
+        catch(InvalidDieException e){
+            e.printStackTrace();
+        }
         c.placeDie(d);
         boolean placed = c.isPlaced();
-
         assert (placed);
+
         assertEquals (d,c.getPlacedDie());
     }
 

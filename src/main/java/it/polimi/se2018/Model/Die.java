@@ -30,7 +30,8 @@ public class Die {
 
     public void setColor(Color color) {
 
-        this.color = color;
+            this.color = color;
+
     }
 
     public int getValue() {
@@ -38,6 +39,11 @@ public class Die {
         return value;
     }
 
+    /**
+     *This setter method assigns values between 1 and 6 to a certain die. If the value is out of the range, an exception is thrown.
+     * @param value Refers to the value of the die.
+     * @throws InvalidDieException Makes sure that no invalid die should be created.
+     */
     public void setValue(int value) throws InvalidDieException{
 
         if (value < 1 || value > 6)
@@ -47,7 +53,11 @@ public class Die {
     }
 
 
-    // da testare
+    /**
+     *This method takes a die as a parameter and returns its reversed value.
+     * @param d Refers to the die I want to reverse.
+     * @throws InvalidDieException Makes sure that no invalid die should be given to the method.
+     */
     public void reverse(Die d) throws InvalidDieException {
 
         d.setValue(7 - d.getValue());

@@ -13,6 +13,7 @@ import static it.polimi.se2018.Model.Color.PURPLE;
 import static it.polimi.se2018.Model.Color.YELLOW;
 /**Game class. This is the main class, where players, cards and dice are saved.
  * @author Gregorio Galletti
+ * @author Ibrahim El Shemy
  */
 public class Game {
     private int playerNumber;
@@ -44,6 +45,10 @@ public class Game {
 
     }
 
+    /**
+     *Method that reads from a file 3 PublicObjectives in a random way and returns them.
+     * @return a List of 3 PublicObjectives chosen randomly, that will be used during the Game by all the Players.
+     */
     public List<PublicObjective> setPublicObjectives() {
 
         //creo 3 valori 1-10 random che indicano le 3 PO da creare
@@ -92,7 +97,7 @@ public class Game {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+
         }
         return list;
     }
@@ -209,13 +214,13 @@ public class Game {
         }
     }
 
-    // da testare
+
     public void nextRound(){
 
         round++;
     }
 
-    // da testare
+
     public void nextTurn(){
 
         turn++;

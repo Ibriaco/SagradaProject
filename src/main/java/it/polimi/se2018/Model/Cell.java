@@ -41,7 +41,6 @@ public class Cell {
         this.shade = shade;
     }
 
-    // da testare
 
     /**
      * This boolean method checks if a die is placed or not in the cell.
@@ -52,7 +51,7 @@ public class Cell {
         return(placedDie != null);
     }
 
-    // da testare
+
     public Die getPlacedDie() {
 
         return placedDie;
@@ -81,7 +80,7 @@ public class Cell {
         return false;
     }
 
-    //used only for test purpose
+
     public void setPlacedDie(Die d){
 
         placedDie = d;

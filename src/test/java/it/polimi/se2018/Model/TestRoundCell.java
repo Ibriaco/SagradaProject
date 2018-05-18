@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 /**
  * @author Ibrahim El Shemy
- * Unit test Class for addDie method and replaceDie method of RoundCell Class
+ * Unit Test Class for addDie method and replaceDie method of RoundCell Class
  */
 
 public class TestRoundCell {

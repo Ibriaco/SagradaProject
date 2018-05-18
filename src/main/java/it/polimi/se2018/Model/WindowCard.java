@@ -1,6 +1,6 @@
 package it.polimi.se2018.Model;
 
-/**
+/**WindowCard Class of the Game.
  * @author Ibrahim El Shemy
  * @author Gregorio Galletti
  */
@@ -16,10 +16,13 @@ public class WindowCard {
         grid = new Cell[ROWS][COLS];
     }
 
-    // da testare
-    // Questo metodo va rivisto con piu' attenzione
-    // PROBLEMA: se voglio inserire un dado sul bordo di sinistra per esempio, e devo fare il controllo su valori e colori adiacenti,
-    //           se vado a controllare la cella a sinitra, ovviamente non c'è, e il compilatore mi lancia un eccezione sicuramente
+    /**
+     *Method that check if a certain die can be placed in a certain position of the WindowCard.
+     * @param d Refers to the die the Player wants to place.
+     * @param row Refers to the row where the Players wants to place the die.
+     * @param col Refers to the column where the Players wants to place the die.
+     * @return true if the die can be placed, either way, false is returned.
+     */
     public boolean checkLegalPlacement(Die d, int row, int col){
 
         int previousR = row - 1;
@@ -186,7 +189,13 @@ public class WindowCard {
     }
 
 
-    // da testare
+    /**
+     * Method that lets the Player place a die in a specific position.
+     * To make sure that it works properly, checkLegalPlacement is called.
+     * @param d Refers to the die to be placed.
+     * @param row Refers to the row where the Player wants to place the die.
+     * @param col Refers to the column where the Player wants to place the die.
+     */
     public void placeDie(Die d, int row, int col){
 
         if(checkLegalPlacement(d,row,col))
@@ -194,34 +203,43 @@ public class WindowCard {
 
     }
 
-    // da testare
+    /**
+     * Method that removes a die from a certain position.
+     * @param row Refers to the row where die to be removed is placed in.
+     * @param col Refers to the column where die to be removed is placed in.
+     */
     public void removeDie(int row, int col){
         if(grid[row][col].isPlaced()) {
             grid[row][col].placeDie(null);
-            grid[row][col].setPlaced(false);
+            //grid[row][col].setPlaced(false);
         }
 
     }
 
-    // da testare
+    /**
+     * Method that returns a specific cell, given a row and a column.
+     * @param row Refers to a row of the WindowCard.
+     * @param col Refers to a column of the WindowCard.
+     * @return a specific cell, found by row and col.
+     */
     public Cell getGridCell(int row, int col){
 
        return grid[row][col];
     }
 
-    // da testare
+
     public String getWindowName(){
 
         return windowName;
     }
 
-    // da testare
+
     public int getDifficulty(){
 
         return difficulty;
     }
 
-    // da testare
+
     public boolean isFull(){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
@@ -233,7 +251,10 @@ public class WindowCard {
         return true;
     }
 
-    // da testare
+    /**
+     * Method that checks if the WindowCard is empty or not.
+     * @return true if the WindowCard is empty, either way, false is returned.
+     */
     public boolean isEmpty(){
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){

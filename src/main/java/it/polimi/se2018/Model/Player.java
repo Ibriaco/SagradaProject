@@ -90,7 +90,11 @@ public class Player {
         return privateObjective;
     }
 
-    // da testare
+    /**
+     *Method that draws WindowCard.
+     * @param cardNumber Refers to the amount of WindowCards dealt during a game. cardNumber = 2*PlayerNumber + 1.
+     * @throws WindowCardAssociationException
+     */
     public void drawCard(int cardNumber) throws WindowCardAssociationException{
 
         String line;
@@ -129,11 +133,14 @@ public class Player {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    // da testare
+    /**
+     *Method that lets the Player choose either taking the front or the back of a given WindowCard.
+     * @param w Refers to a WindowCard.
+     * @param side Refers to a side of the WindowCard.
+     */
     public void chooseWindowCard(WindowCardAssociation w, int side){
         if(side == 0)
             windowCard = w.getFront();
@@ -151,7 +158,12 @@ public class Player {
         return windowFrameNumber;
     }
 
-    // da testare
+    /**
+     *Method that lets the Player choose either the first or the second WindowCard.
+     * @param windowCardNumber1 Refers to the first WindowCard.
+     * @param windowCardNumber2 Refers to the second WindowCard.
+     * @throws WindowCardAssociationException
+     */
     public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2) throws WindowCardAssociationException {
         //apro file
         //cerco i numeri passati come parametro
@@ -212,6 +224,7 @@ public class Player {
         }
 
     }
+
 
     private void parseRow(String row, int x, int side, int cardN){
 
