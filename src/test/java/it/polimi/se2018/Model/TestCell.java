@@ -48,7 +48,7 @@ public class TestCell {
         Cell c = new Cell(Color.BLUE,0);
         Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
-        
+
         c.placeDie(d);
         boolean placed = c.isPlaced();
         assert (placed);

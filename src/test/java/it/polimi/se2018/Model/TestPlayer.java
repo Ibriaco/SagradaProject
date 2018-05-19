@@ -14,9 +14,7 @@ public class TestPlayer {
     public void testNewPlayer(){
         try {
             Player p = new Player("ingsw", "Socket", "CLI");
-        } catch (InvalidConnectionException e) {
-            fail();
-        } catch (InvalidViewException e) {
+        } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
     }
@@ -26,18 +24,14 @@ public class TestPlayer {
         try {
             Player p = new Player("ingsw", "Soket", "CLI");
             fail();
-        } catch (InvalidConnectionException e) {
-
-        } catch (InvalidViewException e) { }
+        } catch (InvalidConnectionException | InvalidViewException e) { }
     }
     @Test
     public void testNewWrongViewPlayer(){
         try {
             Player p = new Player("ingsw", "Socket", "GLI");
             fail();
-        } catch (InvalidConnectionException e) {
-
-        } catch (InvalidViewException e) { }
+        } catch (InvalidConnectionException | InvalidViewException e) { }
     }
 
     @Test
@@ -45,9 +39,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "Socket", "CLI");
-        } catch (InvalidConnectionException e) {
-            fail();
-        } catch (InvalidViewException e) {
+        } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
         p.setTokens(5);
@@ -61,9 +53,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "Socket", "CLI");
-        } catch (InvalidConnectionException e) {
-            fail();
-        } catch (InvalidViewException e) {
+        } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
         p.setTokens(4);
@@ -86,9 +76,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "Socket", "CLI");
-        } catch (InvalidConnectionException e) {
-            fail();
-        } catch (InvalidViewException e) {
+        } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
 
@@ -109,9 +97,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "Socket", "CLI");
-        } catch (InvalidConnectionException e) {
-            fail();
-        }catch (InvalidViewException e) {
+        } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
 
@@ -127,9 +113,7 @@ public class TestPlayer {
         Player p= null;
         try {
             p = new Player("player", "RMI","CLI");
-        } catch (InvalidConnectionException e) {
-            fail();
-        } catch (InvalidViewException e) {
+        } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
         p.setPlayerScore(5);
