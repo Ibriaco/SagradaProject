@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class TestGame {
-    //test costruttore - eccezione
+
     @Test
     public void testGameCreation(){
         try {
@@ -28,7 +28,6 @@ public class TestGame {
         }
     }
 
-    //test setpublic
     @Test
     public void testPublic(){
         Game game = null;
@@ -68,7 +67,7 @@ public class TestGame {
 
     }
 
-    /*@Test
+    @Test
     public void testRollAllDice(){
         Game game = null;
         try {
@@ -76,15 +75,15 @@ public class TestGame {
         } catch (InvalidGameCreationException e) {
             fail();
         }
-        for(int i = 0; i < 9; i++)
+        for(int i = 0; i < 10; i++)
             game.setRolledDice();
 
 
         List<Die> list = game.getRolledDice();
 
         assertEquals(90, list.size());
+        assertEquals(0, game.getColorList().size());
     }
-    */
 
     @Test
     public void testAddPlayer(){

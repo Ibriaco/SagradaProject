@@ -197,43 +197,50 @@ public class Player {
         String t;
         String d;
         String row;
-        int counter=0;
+        int counter = 0;
         int cardN = 0;
+        boolean front = true;
 
         //lettura da file
         try (BufferedReader b = new BufferedReader(new FileReader("./src/WindowCard.txt"))) {
             line = b.readLine();
-            while (line != null) {
+            while (counter < 4) {
                 x = line;
-
                 if (x.equals(String.valueOf(windowCardNumber1)) || x.equals(String.valueOf(windowCardNumber2))) {
-                    t = b.readLine();   //nome
-                    d = b.readLine();   //difficolta
+                    t = b.readLine();
+                    d = b.readLine();
 
-                    for(int i=0; i<4; i++){
+                    for(int i = 0; i < 4; i++){
                         row = b.readLine();
                         parseRow(row, i, counter, cardN);
                     }
-                    counter++;
-                    if(counter == 1){
-                        windowCardAssociations[cardN].getFront().setWindowName(t);
-                        windowCardAssociations[cardN].getFront().setDifficulty(Integer.valueOf(d.substring(1)));
-                    }
-                    if (counter == 2) {
-                        windowCardAssociations[cardN].getBack().setWindowName(t);
-                        windowCardAssociations[cardN].getBack().setDifficulty(Integer.valueOf(d.substring(1)));
-                        counter = 0;
+
+                    front = updateSide(cardN,t,d,front);
+                    if(front)
                         cardN = 1;
-                    }
-
-
+                    counter++;
                     line = b.readLine();
+
                 } else
                     line = b.readLine();
             }
         } catch (Exception e) {
         }
 
+    }
+
+    private boolean updateSide(int cardN, String t, String d, boolean front) {
+
+        if(front) {
+            windowCardAssociations[cardN].getFront().setWindowName(t);
+            windowCardAssociations[cardN].getFront().setDifficulty(Integer.valueOf(d.substring(1)));
+            return false;
+        }
+        else {
+            windowCardAssociations[cardN].getBack().setWindowName(t);
+            windowCardAssociations[cardN].getBack().setDifficulty(Integer.valueOf(d.substring(1)));
+            return true;
+        }
     }
 
 

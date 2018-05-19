@@ -30,7 +30,7 @@ public class Game {
     private List<Player> players;
     private List<Die> rolledDice;
     private List<RoundCell> roundCells;
-    List<Color> colorList;
+    private List<Color> colorList;
 
     public Game(int playerNumber) throws InvalidGameCreationException {
         if(playerNumber < 2 || playerNumber > 4)
@@ -178,13 +178,14 @@ public class Game {
     public void setRolledDice() {
 
         for(int i = 0; i < 2*playerNumber + 1; i++){
-            getAvailableColor();
             rolledDice.add(i, new Die(colorList));
             reduceAmount(rolledDice.get(i).getColor());
+            getAvailableColor();
         }
     }
 
     private void reduceAmount(Color color) {
+
         switch(color){
             case BLUE:
                 blueAmount--;
@@ -208,12 +209,10 @@ public class Game {
         }
     }
 
-
     public void nextRound(){
 
         round++;
     }
-
 
     public void nextTurn(){
 
@@ -283,19 +282,19 @@ public class Game {
     }
 
     private void checkRemainingColors() {
-        if (redAmount == 1)
+        if (redAmount == 0)
             colorList.remove(RED);
 
-        if (blueAmount == 1)
+        if (blueAmount == 0)
             colorList.remove(BLUE);
 
-        if (greenAmount == 1)
+        if (greenAmount == 0)
             colorList.remove(GREEN);
 
-        if (yellowAmount == 1)
+        if (yellowAmount == 0)
             colorList.remove(YELLOW);
 
-        if (purpleAmount == 1)
+        if (purpleAmount == 0)
             colorList.remove(PURPLE);
     }
 
