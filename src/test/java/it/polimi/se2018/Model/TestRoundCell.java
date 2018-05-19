@@ -15,7 +15,10 @@ public class TestRoundCell {
 
     @Before
     public void init(){
-        g = new Game(1, "SinglePlayer");
+        try {
+            g = new Game(2);
+        } catch (InvalidGameCreationException e) {
+        }
         r = new RoundCell(1);
     }
 
