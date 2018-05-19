@@ -19,14 +19,12 @@ public class Game {
     private int playerNumber;
     private int turn = 1;
     private int round = 1;
-    private int gameDifficulty;
     private int redAmount = 18;
     private int greenAmount = 18;
     private int yellowAmount = 18;
     private int purpleAmount = 18;
     private int blueAmount = 18;
     private boolean init = true;
-    private String gameType;
     private List<PublicObjective> publicCards;
     private List<ToolCard> toolCards;
     private List<Player> players;
@@ -34,28 +32,36 @@ public class Game {
     private List<RoundCell> roundCells;
     List<Color> colorList;
 
-    public Game(int playerNumber, String gameType) {
-        this.playerNumber = playerNumber;
-        this.gameType = gameType;
-        players = new ArrayList<>();
-        rolledDice = new ArrayList<>();
-        publicCards = setPublicObjectives();
-        colorList = new ArrayList<>();
-        getAvailableColor();
+    public Game(int playerNumber) throws InvalidGameCreationException {
+        if(playerNumber < 2 || playerNumber > 4)
+            throw new InvalidGameCreationException();
+        else {
+            this.playerNumber = playerNumber;
+            players = new ArrayList<>();
+            rolledDice = new ArrayList<>();
+            colorList = new ArrayList<>();
+            publicCards = new ArrayList<>();
+            setPublicObjectives();
+            getAvailableColor();
+        }
     }
 
     /**
      *Method that reads from a file 3 PublicObjectives in a random way and returns them.
      * @return a List of 3 PublicObjectives chosen randomly, that will be used during the Game by all the Players.
      */
-    public List<PublicObjective> setPublicObjectives() {
+    public void setPublicObjectives() {
 
         //creo 3 valori 1-10 random che indicano le 3 PO da creare
         //"cerco" gli indici nel file e per ognuno leggo titolo, descrizione e costo
         //creo quindi 3 diversi oggetti
         //li inserisco nell'arraylist
 
-        ArrayList<PublicObjective> list = new ArrayList<>();
+        String line;
+        String x;
+        String t;
+        String d;
+        String c;
 
         //1) creo i 3 indici random per estrarre le carte dal file
         int[] index = {0,0,0};
@@ -71,25 +77,24 @@ public class Game {
             index[2] = rnd.nextInt(9)+1;
         while (index[2] == index[1] || index[2] == index[0]);
 
-        //leggo dal file
-        String line;
-        String x;
-        String t;
-        String d;
-        String c;
+        int i = 0;
 
         //lettura da file
         try (BufferedReader b = new BufferedReader(new FileReader("./src/PublicObjective.txt"))) {
             line = b.readLine();
+
             while(line != null) {
                 x = line;
-
                 if(x.equals(String.valueOf(index[0])) || x.equals(String.valueOf(index[1])) || x.equals(String.valueOf(index[2]))) {
                     t = b.readLine();
                     d = b.readLine();
                     c = b.readLine();
-                    list.add(selectType(x, t, d, c));
-                    line = b.readLine();
+                    publicCards.add(selectType(x, t, d, c));
+                    i++;
+                    if(i == 3)
+                        line = null;
+                    else
+                        line = b.readLine();
                 }
                 else
                     line = b.readLine();
@@ -98,7 +103,6 @@ public class Game {
         catch (Exception e) {
 
         }
-        return list;
     }
 
     private PublicObjective selectType(String numberStr, String title, String desc, String score) {
@@ -145,15 +149,6 @@ public class Game {
         return round;
     }
 
-    public int getGameDifficulty() {
-
-        return gameDifficulty;
-    }
-
-    public String getGameType() {
-
-        return gameType;
-    }
 
     public List<PublicObjective> getPublicCards() {
 
@@ -227,7 +222,8 @@ public class Game {
 
     public void addPlayer(Player p){
 
-        players.add(p);
+        if(players.size() < playerNumber)
+            players.add(p);
     }
 
     public void dealPrivateCards() throws WindowCardAssociationException{
