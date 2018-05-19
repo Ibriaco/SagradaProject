@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model;
 
-/**Abstract class for the Card object of the game. This class is extended by the other 2 objects that represent the Private Objective cards and the Public Objective cards.
- *
+/**
+ * Abstract class for the Card object of the game.
  */
 
 public abstract class Card {

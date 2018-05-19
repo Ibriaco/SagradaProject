@@ -8,6 +8,10 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+/**
+ * @author Gregorio Galletti
+ * Unit Test Class for Class Game
+ */
 public class TestGame {
 
     @Test

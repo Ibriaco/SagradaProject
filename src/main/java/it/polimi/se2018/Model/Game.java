@@ -48,7 +48,6 @@ public class Game {
 
     /**
      *Method that reads from a file 3 PublicObjectives in a random way and returns them.
-     * @return a List of 3 PublicObjectives chosen randomly, that will be used during the Game by all the Players.
      */
     public void setPublicObjectives() {
 

@@ -33,6 +33,7 @@ public class TestRoundCell {
         assertEquals(d.getValue(), r.getDiceList().get(0).getValue());
     }
 
+
     @Test
     public void testReplaceDie() {
 

@@ -9,7 +9,7 @@ public class ColumnRowColors extends PublicObjective {
     }
 
     /**
-     *This method calculates the recurrencies of different colors and puts them into an array.
+     * This method calculates the recurrencies of different colors and puts them into an array.
      * @param w WindowCard
      * @param freq vector in which are saved the recurrencies of some elements.
      * @param j corresponds either the columns of the WindowCard.
