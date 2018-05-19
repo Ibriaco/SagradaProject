@@ -91,8 +91,8 @@ public class Player {
     }
 
     /**
-     *Method that draws WindowCard.
-     * @param cardNumber Refers to the amount of WindowCards dealt during a game. cardNumber = 2*PlayerNumber + 1.
+     *Method that draws PrivateCard.
+     * @param cardNumber Refers to the identification number of Private Objective Card .
      */
     public void drawCard(int cardNumber){
 
@@ -151,7 +151,7 @@ public class Player {
 
         this.windowCard = w;
     }
-    // da testare
+
     public int getWindowFrameNumber(){
 
         return windowFrameNumber;
@@ -215,12 +215,17 @@ public class Player {
                         parseRow(row, i, counter, cardN);
                     }
                     counter++;
+                    if(counter == 1){
+                        windowCardAssociations[cardN].getFront().setWindowName(t);
+                        windowCardAssociations[cardN].getFront().setDifficulty(Integer.valueOf(d.substring(1)));
+                    }
                     if (counter == 2) {
+                        windowCardAssociations[cardN].getBack().setWindowName(t);
+                        windowCardAssociations[cardN].getBack().setDifficulty(Integer.valueOf(d.substring(1)));
                         counter = 0;
                         cardN = 1;
                     }
-                    windowCardAssociations[cardN].getFront().setWindowName(t);
-                    windowCardAssociations[cardN].getFront().setDifficulty(Integer.valueOf(d.substring(1)));
+
 
                     line = b.readLine();
                 } else
