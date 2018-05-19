@@ -16,23 +16,27 @@ public abstract class ToolCard extends Card {
         this.shade = shade;
     }
 
-    public boolean isUsed() {
+    protected boolean isUsed() {
+
         return used;
     }
 
-    public int getCost() {
+    protected int getCost() {
+
         return cost;
     }
 
-    public Color getColor() {
+    protected Color getColor() {
+
         return color;
     }
 
-    public int getShade() {
+    protected int getShade() {
+
         return shade;
     }
 
-    public void applyEffect(Player p, Die d, RoundCell r){
+    protected void applyEffect(Player p, Die d, RoundCell r){
 
     }
 

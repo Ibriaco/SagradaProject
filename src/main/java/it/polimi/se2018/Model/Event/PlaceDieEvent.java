@@ -1,12 +1,11 @@
 package it.polimi.se2018.Model.Event;
 
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Event.Event;
 
 /**
  * Event that notifies that a Die has been placed.
  */
-public class PlaceDieEvent extends Event {
+public class PlaceDieEvent extends MVEvent{
     private Die die;
     private int coordX;
     private int coordY;
