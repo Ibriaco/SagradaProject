@@ -2,9 +2,8 @@ package it.polimi.se2018.Model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
 /**
  * @author Gregorio Galletti
  * @author Marco Gasperini
@@ -186,35 +185,23 @@ public class TestPlayer {
         }
         p.drawWindowCardAssociation(1,2);
         c = new Cell(Color.YELLOW,0);
-        c.setColor(Color.YELLOW);
-        c.setShade(0);
-        System.out.println(p.getWindowCardAssociations()[0].getFront().getGridCell(0,0).getColor());
-        System.out.println(p.getWindowCardAssociations()[0].getFront().getGridCell(0,0).getShade());
+
         assertEquals("Kaleidoscopic Dream",p.getWindowCardAssociations()[0].getFront().getWindowName());
         assertEquals(4,p.getWindowCardAssociations()[0].getFront().getDifficulty());
         assertEquals("Firmitas",p.getWindowCardAssociations()[0].getBack().getWindowName());
         assertEquals(5,p.getWindowCardAssociations()[0].getBack().getDifficulty());
-
-        //fare un assert equals di questo tipo: assertEquals(YELLOW,p.getWindowCardAssociations()[0].getFront().getGridCell(0,0).getColor());
-
-        //assertEquals(c,p.getWindowCardAssociations()[0].getFront().getGridCell(0,0));
-        //assertEquals(c,p.getWindowCardAssociations()[0].getFront().getGridCell(3,4));
-        //c.setColor(Color.PURPLE);
-        //assertEquals(c,p.getWindowCardAssociations()[0].getBack().getGridCell(0,0));
-        //c.setShade(4);
-        //assertEquals(c,p.getWindowCardAssociations()[0].getBack().getGridCell(3,4));
-        //c.setColor(null);
-        //assertEquals(c,p.getWindowCardAssociations()[1].getFront().getGridCell(0,0));
-        //c.setColor(Color.RED)
-        //assertEquals(c,p.getWindowCardAssociations()[1].getBack().getGridCell(3,4));
         assertEquals("Fractal Drops",p.getWindowCardAssociations()[1].getFront().getWindowName());
         assertEquals(3,p.getWindowCardAssociations()[1].getFront().getDifficulty());
         assertEquals("Ripples of Light",p.getWindowCardAssociations()[1].getBack().getWindowName());
         assertEquals(5,p.getWindowCardAssociations()[1].getBack().getDifficulty());
 
-
-
-
+        assertEquals(Color.YELLOW,p.getWindowCardAssociations()[0].getFront().getGridCell(0,0).getColor());
+        assertEquals(2,p.getWindowCardAssociations()[0].getFront().getGridCell(3,0).getShade());
+        assertEquals(Color.PURPLE,p.getWindowCardAssociations()[0].getBack().getGridCell(0,0).getColor());
+        assertEquals(4,p.getWindowCardAssociations()[0].getBack().getGridCell(3,4).getShade());
+        assertNull(p.getWindowCardAssociations()[1].getFront().getGridCell(0,0));
+        assertEquals(Color.RED,p.getWindowCardAssociations()[1].getBack().getGridCell(0,3).getColor());
+        assertEquals(6,p.getWindowCardAssociations()[1].getBack().getGridCell(2,4).getShade());
     }
 
 }

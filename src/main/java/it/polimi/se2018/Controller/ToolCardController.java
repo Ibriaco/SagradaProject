@@ -16,9 +16,9 @@ public class ToolCardController extends Controller {
         return false;
     }
 
-    public Die selectDie(){
-        return Die;
-    }
+   // public Die selectDie(){
+     //   return Die;
+    //}
 
     public boolean checkExistingDie(Die d){
         return false;
