@@ -91,7 +91,7 @@ public class Player {
     }
 
     /**
-     *Method that draws PrivateCard.
+     * Method that draws PrivateObjective.
      * @param cardNumber Refers to the identification number of Private Objective Card .
      */
     public void drawCard(int cardNumber){
@@ -158,7 +158,7 @@ public class Player {
     }
 
     /**
-     *Method that lets the Player choose either the first or the second WindowCard.
+     * Method that lets the Player choose either the first or the second WindowCard.
      * @param windowCardNumber1 Refers to the first WindowCard.
      * @param windowCardNumber2 Refers to the second WindowCard.
      */

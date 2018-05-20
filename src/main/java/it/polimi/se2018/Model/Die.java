@@ -53,7 +53,7 @@ public class Die {
 
 
     /**
-     *This method takes a die as a parameter and returns its reversed value.
+     *This method takes a die as a parameter and sets its reversed value.
      * @param d Refers to the die I want to reverse.
      * @throws InvalidDieException Makes sure that no invalid die should be given to the method.
      */

@@ -2,6 +2,7 @@ package it.polimi.se2018.Model;
 
 /**
  * Abstract class for the Card object of the game.
+ * @author Ibrahim El Shemy
  */
 
 public abstract class Card {
