@@ -31,7 +31,7 @@ public class WindowCard {
      * @param col Refers to the column where the Players wants to place the die.
      * @return true if the die can be placed, either way, false is returned.
      */
-    public boolean checkLegalPlacement(Die d, int row, int col){
+    public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade){
 
         int previousR = row - 1;
         int previousC = col - 1;
@@ -50,15 +50,15 @@ public class WindowCard {
         if(getGridCell(row, col).isPlaced())
             return false;
 
-        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR) && checkAround(previousR, previousC, nextC, nextR);
+        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR, color, shade) && checkAround(previousR, previousC, nextC, nextR);
     }
 
-    private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
+    private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR, Boolean color, Boolean shade) {
 
-        boolean ok1 = checkNSEW(d, previousR, col);
-        boolean ok2 = checkNSEW(d, nextR, col);
-        boolean ok3 = checkNSEW(d, row, previousC);
-        boolean ok4 = checkNSEW(d, row, nextC);
+        boolean ok1 = checkNSEW(d, previousR, col, color, shade);
+        boolean ok2 = checkNSEW(d, nextR, col, color, shade);
+        boolean ok3 = checkNSEW(d, row, previousC, color, shade);
+        boolean ok4 = checkNSEW(d, row, nextC, color, shade);
 
         return(ok1 && ok2 && ok3 && ok4);
     }
@@ -83,7 +83,7 @@ public class WindowCard {
 
     }
 
-    private boolean checkNSEW(Die d, int r, int c){
+    private boolean checkNSEW(Die d, int r, int c, Boolean color, Boolean shade){
 
         Die toCheck;
         boolean ok = false;
@@ -96,7 +96,13 @@ public class WindowCard {
             toCheck = getGridCell(r,c).getPlacedDie();
         else
             return true;
-        return !(toCheck.getColor() == d.getColor() || toCheck.getValue() == d.getValue());
+        if (color){
+            return toCheck.getColor() != d.getColor();
+        }
+        else if (shade){
+            return toCheck.getValue() != d.getValue();
+        }
+        else return true;
     }
 
     public void setCell(Cell c, int row, int col) {
@@ -111,9 +117,9 @@ public class WindowCard {
      * @param row Refers to the row where the Player wants to place the die.
      * @param col Refers to the column where the Player wants to place the die.
      */
-    public void placeDie(Die d, int row, int col){
+    public void placeDie(Die d, int row, int col, Boolean color, Boolean shade){
 
-        if(checkLegalPlacement(d,row,col))
+        if(checkLegalPlacement(d,row,col,color,shade))
             getGridCell(row,col).placeDie(d);
     }
 

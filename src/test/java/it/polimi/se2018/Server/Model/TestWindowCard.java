@@ -202,8 +202,8 @@ public class TestWindowCard {
         }
         d1.setColor(Color.BLUE);
 
-        assert w.checkLegalPlacement(d1,0,0);
-        assert !w.checkLegalPlacement(d1,1,1);
+        assert w.checkLegalPlacement(d1,0,0,true,true);
+        assert !w.checkLegalPlacement(d1,1,1,true,true);
     }
 
     @Test
@@ -217,7 +217,7 @@ public class TestWindowCard {
         d1.setColor(Color.BLUE);
 
         //se il dado lo voglio mettere in coordinate sbagliate allora non va bene
-        assert !w.checkLegalPlacement(d1,7,2);
+        assert !w.checkLegalPlacement(d1,7,2,true,true);
     }
 
     @Test
@@ -253,7 +253,7 @@ public class TestWindowCard {
         w.getGridCell(3, 3).setPlacedDie(d19);
         w.getGridCell(3, 4).setPlacedDie(d20);
 
-        assert (!w.checkLegalPlacement(d21,0,0));
+        assert (!w.checkLegalPlacement(d21,0,0,true,true));
 
 
     }
@@ -261,47 +261,47 @@ public class TestWindowCard {
     @Test
     public void testAlreadyPlaced(){
         w.getGridCell(0,1).setPlacedDie(d1);
-        assert (!w.checkLegalPlacement(d2,0,1));
+        assert (!w.checkLegalPlacement(d2,0,1,true,true));
 
     }
 
     @Test
     public void testCheckOrtogonal(){
         w.getGridCell(0,0).setPlacedDie(d1);
-        assert(w.checkLegalPlacement(d2, 1, 0));
+        assert(w.checkLegalPlacement(d2, 1, 0,true,true));
     }
 
     @Test
     public void testWrongCheckOrtogonal(){
         d3.setColor(Color.GREEN);
         w.getGridCell(0,2).setPlacedDie(d3);
-        assert(!w.checkLegalPlacement(d8, 1, 2));
+        assert(!w.checkLegalPlacement(d8, 1, 2,true,true));
     }
 
     @Test
     public void testCheckAround(){
         w.getGridCell(0, 0).setPlacedDie(d1);
-        assert (w.checkLegalPlacement(d7,1,1));
+        assert (w.checkLegalPlacement(d7,1,1,true,true));
 
     }
 
     @Test
     public void testWrongCheckAround(){
         w.getGridCell(0, 0).setPlacedDie(d1);
-        assert (!w.checkLegalPlacement(d13,2,2));
+        assert (!w.checkLegalPlacement(d13,2,2,true,true));
 
     }
 
     @Test
     public void testPlace(){
-        w.placeDie(d1,0,0);
+        w.placeDie(d1,0,0,true,true);
         assertEquals(true, w.getGridCell(0,0).isPlaced());
         assertEquals(d1, w.getGridCell(0,0).getPlacedDie());
     }
 
     @Test
     public void testWrongPlace(){
-        w.placeDie(d1,2,2);
+        w.placeDie(d1,2,2,true,true);
         assertEquals(false, w.getGridCell(2,2).isPlaced());
     }
 
