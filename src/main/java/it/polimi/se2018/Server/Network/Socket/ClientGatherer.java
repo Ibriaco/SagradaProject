@@ -24,6 +24,7 @@ public class ClientGatherer implements Runnable{
     @Override
     public void run(){
         //Attendo la connessione di nuovi client
+        System.out.println("CLIENT GATHERER RUNNING.");
 
         System.out.println("Waiting for clients.");
 
@@ -36,11 +37,7 @@ public class ClientGatherer implements Runnable{
                 newClientConnection = serverSocket.accept();
                 System.out.println("A new client connected.");
 
-                server.addClient(newClientConnection.toString());
-
-                InputStreamReader reader = new InputStreamReader(newClientConnection.getInputStream());
-                System.out.println(reader.read());
-
+                server.addClient(newClientConnection);
 
             } catch (IOException e) {
                 e.printStackTrace();
