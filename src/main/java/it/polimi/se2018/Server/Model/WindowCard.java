@@ -87,6 +87,8 @@ public class WindowCard {
 
         Die toCheck;
         boolean ok = false;
+        boolean okColor;
+        boolean okShade;
 
         try {
             ok = getGridCell(r,c).isPlaced();
@@ -96,13 +98,19 @@ public class WindowCard {
             toCheck = getGridCell(r,c).getPlacedDie();
         else
             return true;
-        if (color){
-            return toCheck.getColor() != d.getColor();
-        }
-        else if (shade){
-            return toCheck.getValue() != d.getValue();
-        }
-        else return true;
+
+
+        okColor = toCheck.getColor() != d.getColor();
+        okShade = toCheck.getValue() != d.getValue();
+
+        if(color && shade)
+            return (okColor && okShade);
+        if(color)
+            return okColor;
+        if(shade)
+            return okShade;
+
+        return false;
     }
 
     public void setCell(Cell c, int row, int col) {
