@@ -1,12 +1,7 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.Model.Color;
-import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Game;
-import it.polimi.se2018.Model.Player;
 
-import static it.polimi.se2018.Model.Color.BLUE;
-import static it.polimi.se2018.Model.Color.RED;
+import it.polimi.se2018.Server.Model.*;
 
 /**
  * Hello world!
@@ -15,9 +10,36 @@ import static it.polimi.se2018.Model.Color.RED;
 public class App 
 {
     public static void main( String[] args ) {
-        /*System.out.println("Main");
-        Game g = new Game(3, "Singleplayer");
+        System.out.println("Main");
+        Game g = null;
+        try {
+            g = new Game(3);
+        } catch (InvalidGameCreationException e) {
+            e.printStackTrace();
+        }
 
+        try {
+            g.addPlayer(new Player("test1","RMI","CLI"));
+            g.addPlayer(new Player("test2","RMI","CLI"));
+        } catch (InvalidConnectionException | InvalidViewException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            g.dealWindowCards();
+        } catch (WindowCardAssociationException e) {
+            e.printStackTrace();
+        }
+
+        for (Player p: g.getPlayers()) {
+            System.out.println(p.getWindowCardAssociations()[0].getFront().getWindowName());
+            System.out.println(p.getWindowCardAssociations()[0].getBack().getWindowName());
+            System.out.println(p.getWindowCardAssociations()[1].getFront().getWindowName());
+            System.out.println(p.getWindowCardAssociations()[1].getBack().getWindowName());
+        }
+
+
+    /*
         for (int i = 0; i < 3; i++) {
 
             System.out.println("P O " + i + ": ");

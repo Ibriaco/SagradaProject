@@ -1,5 +1,4 @@
-package it.polimi.se2018.Model;
-
+package it.polimi.se2018.Server.Model;
 
 import org.junit.Before;
 import org.junit.Test;

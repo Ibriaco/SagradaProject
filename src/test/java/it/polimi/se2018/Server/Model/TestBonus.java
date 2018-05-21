@@ -1,4 +1,5 @@
-package it.polimi.se2018.Model;
+package it.polimi.se2018.Server.Model;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -165,7 +166,7 @@ public class TestBonus {
 
 
     @Test
-    public void testColorVariey(){
+    public void testColorVariety(){
         //metto nel game una sola public objective, cioe colorvariey, e la testo
         //con i dadi inseriti prima, valore atteso è:
 
@@ -238,7 +239,6 @@ public class TestBonus {
         g.getPublicCards().set(0, new ColorDiagonals(10, "ColorDiagonals", "Sets of one of each color anywhere", 0 ));
         g.getPublicCards().get(0).calculateBonus(p);
 
-        System.out.println(p.getPlayerScore());
         assertEquals (2,p.getPlayerScore());
     }
 
