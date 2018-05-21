@@ -5,8 +5,8 @@ package it.polimi.se2018.Model;
  * @author Gregorio Galletti
  */
 public class WindowCard {
-    final int ROWS = 4;
-    final int COLS = 5;
+    static final int ROWS = 4;
+    static final int COLS = 5;
     private Cell[][] grid;
     private String windowName;
     private int difficulty;
@@ -42,7 +42,7 @@ public class WindowCard {
         if(getGridCell(row, col).isPlaced())
             return false;
 
-        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR) && checkAround(row, col, previousR, previousC, nextC, nextR);
+        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR) && checkAround(previousR, previousC, nextC, nextR);
     }
 
     private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
@@ -64,12 +64,24 @@ public class WindowCard {
         return(ok1 && ok2 && ok3 && ok4);
     }
 
-    private boolean checkAround(int row, int col, int previousR, int previousC, int nextC, int nextR) {
+    private boolean checkAround(int previousR, int previousC, int nextC, int nextR) {
 
-        if(previousC >= 0) {
+        for(int i = previousR; i <= nextR; i++){
+            for (int j = previousC; j <= nextC; j++){
+                try{
+                    if(getGridCell(i, j).isPlaced())
+                        return true;
+                }
+                catch (ArrayIndexOutOfBoundsException E){}
+            }
+        }
+
+        return false;
+        /*if(previousC >= 0) {
             if (getGridCell(row, previousC).isPlaced())
                 return true;
         }
+
         if(nextC < COLS) {
             if (getGridCell(row, nextC).isPlaced())
                 return true;
@@ -102,6 +114,7 @@ public class WindowCard {
                 return true;
         }
         return false;
+        */
     }
 
     private boolean checkCoords(int r, int c){
@@ -184,7 +197,7 @@ public class WindowCard {
     public void removeDie(int row, int col){
 
         if(grid[row][col].isPlaced())
-            grid[row][col].placeDie(null);
+            grid[row][col].setPlacedDie(null);
     }
 
     /**

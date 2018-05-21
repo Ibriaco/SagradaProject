@@ -282,18 +282,38 @@ public class TestWindowCard {
         assert(!w.checkLegalPlacement(d8, 1, 2));
     }
 
-
     @Test
     public void testCheckAround(){
         w.getGridCell(0, 0).setPlacedDie(d1);
         assert (w.checkLegalPlacement(d7,1,1));
 
     }
+
     @Test
     public void testWrongCheckAround(){
         w.getGridCell(0, 0).setPlacedDie(d1);
         assert (!w.checkLegalPlacement(d13,2,2));
 
+    }
+
+    @Test
+    public void testPlace(){
+        w.placeDie(d1,0,0);
+        assertEquals(true, w.getGridCell(0,0).isPlaced());
+        assertEquals(d1, w.getGridCell(0,0).getPlacedDie());
+    }
+
+    @Test
+    public void testWrongPlace(){
+        w.placeDie(d1,2,2);
+        assertEquals(false, w.getGridCell(2,2).isPlaced());
+    }
+
+    @Test
+    public void testRemove(){
+        w.getGridCell(0, 0).setPlacedDie(d1);
+        w.removeDie(0,0);
+        assertEquals(false, w.getGridCell(0,0).isPlaced());
     }
 
 
