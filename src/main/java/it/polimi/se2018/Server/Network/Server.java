@@ -8,12 +8,13 @@ import java.io.IOException;
 public class Server {
 
     private static SocketServer socketServer;
+
     public static void main( String[] args ) throws IOException {
         System.out.println("This is the server.");
 
         System.out.println("Creating socket server....");
 
         socketServer = new SocketServer(123);
-        socketServer.start();
+
     }
 }
