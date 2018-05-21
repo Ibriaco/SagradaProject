@@ -47,30 +47,12 @@ public class WindowCard {
 
     private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR) {
 
-        boolean ok1;
-        boolean ok2;
-        boolean ok3;
-        boolean ok4;
-
-        ok1 = checkNSEW(d, previousR, col);
-        ok2 = checkNSEW(d, nextR, col);
-        ok3 = checkNSEW(d, row, previousC);
-        ok4 = checkNSEW(d, row, nextC);
+        boolean ok1 = checkNSEW(d, previousR, col);
+        boolean ok2 = checkNSEW(d, nextR, col);
+        boolean ok3 = checkNSEW(d, row, previousC);
+        boolean ok4 = checkNSEW(d, row, nextC);
 
         return(ok1 && ok2 && ok3 && ok4);
-
-        /*
-        if (previousR >= 0)
-            ok1 = checkUp(d, previousR, col);
-        if (nextR < ROWS)
-            ok2 = checkDown(d, nextR, col);
-        if (previousC >= 0)
-            ok3 = checkLeft(d, row, previousC);
-        if (nextC < COLS)
-            ok4 = checkRight(d, row, nextC);
-
-        return(ok1 && ok2 && ok3 && ok4);
-        */
     }
 
     private boolean checkAround(int previousR, int previousC, int nextC, int nextR) {
@@ -84,46 +66,7 @@ public class WindowCard {
                 catch (ArrayIndexOutOfBoundsException E){}
             }
         }
-
         return false;
-        /*if(previousC >= 0) {
-            if (getGridCell(row, previousC).isPlaced())
-                return true;
-        }
-
-        if(nextC < COLS) {
-            if (getGridCell(row, nextC).isPlaced())
-                return true;
-        }
-
-        if (previousR >= 0) {
-            if (previousC >= 0) {
-                if (getGridCell(previousR, previousC).isPlaced())
-                    return true;
-            }
-            if (nextC < COLS){
-                if(getGridCell(previousR, nextC).isPlaced())
-                    return true;
-            }
-            if(getGridCell(previousR, col).isPlaced())
-                return true;
-        }
-
-        if (nextR < ROWS) {
-            if (previousC >= 0){
-                if(getGridCell(nextR, previousC).isPlaced())
-                return true;
-            }
-            if (nextC < COLS) {
-                if (getGridCell(nextR, nextC).isPlaced())
-                    return true;
-            }
-
-            if(getGridCell(nextR, col).isPlaced())
-                return true;
-        }
-        return false;
-        */
     }
 
     private boolean checkCoords(int r, int c){
@@ -147,56 +90,6 @@ public class WindowCard {
             return true;
         return !(toCheck.getColor() == d.getColor() || toCheck.getValue() == d.getValue());
     }
-
-    /*
-    private boolean checkUp(Die d, int r, int c){
-
-        Die upDie;
-        if(getGridCell(r,c).isPlaced())
-            upDie = getGridCell(r,c).getPlacedDie();
-        else
-            return true;
-
-        return !(upDie.getColor() == d.getColor() || upDie.getValue() == d.getValue());
-
-    }
-
-    private boolean checkDown(Die d, int r, int c){
-
-        Die downDie;
-        if(getGridCell(r,c).isPlaced())
-            downDie = getGridCell(r,c).getPlacedDie();
-        else
-            return true;
-
-        return !(downDie.getColor() == d.getColor() || downDie.getValue() == d.getValue());
-
-    }
-
-    private boolean checkLeft(Die d, int r, int c){
-
-        Die leftDie;
-        if(getGridCell(r,c).isPlaced())
-            leftDie = getGridCell(r,c).getPlacedDie();
-        else
-            return true;
-
-        return !(leftDie.getColor() == d.getColor() || leftDie.getValue() == d.getValue());
-
-    }
-
-    private boolean checkRight(Die d, int r, int c){
-
-        Die rightDie;
-        if(getGridCell(r,c).isPlaced())
-            rightDie = getGridCell(r,c).getPlacedDie();
-        else
-            return true;
-
-        return !(rightDie.getColor() == d.getColor() || rightDie.getValue() == d.getValue());
-
-    }
-    */
 
     public void setCell(Cell c, int row, int col) {
 

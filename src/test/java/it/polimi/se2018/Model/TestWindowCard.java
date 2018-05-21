@@ -203,10 +203,7 @@ public class TestWindowCard {
         }
         d1.setColor(Color.BLUE);
 
-        //se il primo dado lo voglio mettere sul bordo va bene
         assert w.checkLegalPlacement(d1,0,0);
-
-        //se lo voglio mettere in mezzo non va bene
         assert !w.checkLegalPlacement(d1,1,1);
     }
 
