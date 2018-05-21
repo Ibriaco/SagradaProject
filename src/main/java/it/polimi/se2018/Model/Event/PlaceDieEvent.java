@@ -1,25 +1,36 @@
 package it.polimi.se2018.Model.Event;
 
-import it.polimi.se2018.Model.Die;
+import it.polimi.se2018.Model.Color;
+
 
 /**
  * Event that notifies that a Die has been placed.
  */
 public class PlaceDieEvent extends MVEvent{
-    private Die die;
+
+
+    private Color color;
+    private int value;
+    private String username;
     private int coordX;
     private int coordY;
 
-    public PlaceDieEvent(Die die, int coordX, int coordY) {
+    public PlaceDieEvent(int coordX, int coordY) {
         super();
-        this.die = die;
         this.coordX = coordX;
         this.coordY = coordY;
     }
 
-    public Die getDie() {
+    public Color getColor() {
+        return color;
+    }
 
-        return die;
+    public int getValue() {
+        return value;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public int getCoordX() {
