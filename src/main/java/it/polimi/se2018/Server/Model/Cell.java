@@ -17,8 +17,10 @@ public class Cell {
     public Cell(Color color, int shade) {
         if(shade == 0)
             this.color = color;
-        else
+        else {
+            this.color = Color.WHITE;
             this.shade = shade;
+        }
     }
 
     public Color getColor() {
@@ -75,6 +77,8 @@ public class Cell {
 
     private boolean checkPlacement(Cell c, Die d){
 
+        if(c.getColor() == Color.WHITE && c.getShade() == 0)
+            return true;
         if(d != null)
             return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
         return false;

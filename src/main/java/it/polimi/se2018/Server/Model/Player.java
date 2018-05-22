@@ -273,10 +273,10 @@ public class Player {
                     windowCardAssociations[cardN].getFront().setCell(new Cell(Color.PURPLE, 0), x, y);
                     break;
                 case "x":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(null, 0), x, y);
+                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.WHITE, 0), x, y);
                     break;
                 default:
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(null, Integer.valueOf(s)), x, y);
+                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.WHITE, Integer.valueOf(s)), x, y);
             }
         }
         else{
@@ -297,10 +297,10 @@ public class Player {
                     windowCardAssociations[cardN].getBack().setCell(new Cell(Color.PURPLE, 0), x, y);
                     break;
                 case "x":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(null, 0), x, y);
+                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.WHITE, 0), x, y);
                     break;
                 default:
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(null, Integer.valueOf(s)), x, y);
+                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.WHITE, Integer.valueOf(s)), x, y);
             }
         }
     }
