@@ -123,8 +123,7 @@ public class TestBonus {
         try {
             p = new Player("test", "Socket", "CLI");
         }
-        catch (InvalidConnectionException e) {}
-        catch (InvalidViewException e) {}
+        catch (InvalidConnectionException | InvalidViewException e) {}
         p.setWindowCard(w);
 
         //creo un game e aggiungo il player appena creato
