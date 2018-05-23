@@ -19,7 +19,7 @@ public class SocketServer {
         System.out.println("This is the SOCKET server.");
 
         //qui devo creare il gatherer per gestire piu client
-        (new ClientGatherer(this, port)).run();
+        (new ClientGatherer(this, port)).start();
 
         //serverSocket = new ServerSocket(port);
         //System.out.println("Waiting for client to connect.");
@@ -31,7 +31,7 @@ public class SocketServer {
         ClientSocketConnection cm = new ClientSocketConnection(this, clientConnection);
 
         clientList.add(clientConnection);
-        cm.run();
+        cm.start();
     }
 
     public List<Socket> getClientList(){

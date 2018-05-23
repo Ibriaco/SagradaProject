@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ClientGatherer implements Runnable{
+public class ClientGatherer extends Thread{
     private final SocketServer server;
     private int port;
     private ServerSocket serverSocket;
