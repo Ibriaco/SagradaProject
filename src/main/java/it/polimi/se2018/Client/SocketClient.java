@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-public class SocketClient{
+public class SocketClient implements ClientInterface{
     private String ip;
     private int port;
 

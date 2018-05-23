@@ -1,11 +1,13 @@
 package it.polimi.se2018.Server.Network.Socket;
 
+import it.polimi.se2018.Client.ClientInterface;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class ClientSocketConnection extends Thread {
+public class ClientSocketConnection extends Thread implements ClientInterface{
 
     private final SocketServer server;
 

@@ -1,11 +1,12 @@
 package it.polimi.se2018.Server.Network.Socket;
 
-import java.net.ServerSocket;
+import it.polimi.se2018.Server.Network.ServerInterface;
+
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocketServer {
+public class SocketServer implements ServerInterface {
 
     private int port;
     private List<Socket> clientList;
