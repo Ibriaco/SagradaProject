@@ -49,8 +49,8 @@ public class CLIView extends View {
         return event;
     }
 
-    public CheckRoundTrackEvent createCheckRoundTrackEvent(String username, String command){
-        CheckRoundTrackEvent event = new CheckRoundTrackEvent();
+    public RoundTrackEvent createCheckRoundTrackEvent(String username, String command){
+        RoundTrackEvent event = new RoundTrackEvent();
         return event;
     }
 */

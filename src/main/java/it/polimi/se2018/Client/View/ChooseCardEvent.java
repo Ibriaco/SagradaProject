@@ -5,10 +5,12 @@ public class ChooseCardEvent extends VCEvent {
     private int side;
 
     public int getWindowNumber() {
+
         return windowNumber;
     }
 
     public int getSide() {
+
         return side;
     }
 }

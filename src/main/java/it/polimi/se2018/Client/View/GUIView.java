@@ -21,7 +21,7 @@ public class GUIView extends View{
     public SeePlayerWindowEvent createSeePlayerWindowEvent (Player p, Game g){
 
     }
-    public CheckRoundTrackEvent createCheckRoundTrackEvent(Player p, Game g){
+    public RoundTrackEvent createCheckRoundTrackEvent(Player p, Game g){
 
     }*/
 }

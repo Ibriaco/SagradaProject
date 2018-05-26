@@ -1,10 +1,15 @@
 package it.polimi.se2018.Server.Model.Event;
 
 import it.polimi.se2018.Server.Model.Color;
+import it.polimi.se2018.Server.Model.Die;
+import it.polimi.se2018.Server.Model.Game;
+import it.polimi.se2018.Server.Model.Player;
 
 
 /**
  * Event that notifies that a Die has been placed.
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
  */
 public class PlaceDieEvent extends MVEvent{
 
@@ -15,21 +20,34 @@ public class PlaceDieEvent extends MVEvent{
     private int coordX;
     private int coordY;
 
-    public PlaceDieEvent(int coordX, int coordY) {
-        super();
+    /**
+     *
+     * @param coordX row position where the die is placed
+     * @param coordY column position where the die is placed
+     * @param game refers to the actual game
+     * @param player refers to the current player who places the die
+     * @param die refers to the object that is getting placed
+     */
+    public PlaceDieEvent(int coordX, int coordY, Game game, Player player, Die die) {
+        super(game, player, die);
         this.coordX = coordX;
         this.coordY = coordY;
+        this.username = player.getUsername();
     }
 
+
     public Color getColor() {
+
         return color;
     }
 
     public int getValue() {
+
         return value;
     }
 
     public String getUsername() {
+
         return username;
     }
 

@@ -169,6 +169,10 @@ public class Game {
         return roundCells;
     }
 
+    public List<ToolCard> getToolCards() {
+        return toolCards;
+    }
+
     public void setPlayerNumber(int playerNumber) {
 
         this.playerNumber = playerNumber;

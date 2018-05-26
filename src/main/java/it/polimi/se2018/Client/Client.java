@@ -30,13 +30,13 @@ public class Client {
             ip = b.readLine();
             while(!done){
 
-                    System.out.println("Insert the port of the server:");
-                    try {
-                        port = Integer.parseInt(b.readLine());
-                        done = true;
-                    } catch (NumberFormatException e) {
-                        System.err.println("Wrong port, retry please.");
-                    }
+                System.out.println("Insert the port of the server:");
+                try {
+                    port = Integer.parseInt(b.readLine());
+                    done = true;
+                } catch (NumberFormatException e) {
+                    System.err.println("Wrong port, retry please.");
+                }
             }
             SocketClient client= new SocketClient(ip, port);
             client.connect();
