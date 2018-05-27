@@ -8,6 +8,7 @@ import it.polimi.se2018.Server.Model.*;
  * @author Marco Gasperini
  */
 public class SelectDieEvent extends VCEvent{
+
     private Color color;
     private int value;
     private int coordX;
@@ -24,6 +25,7 @@ public class SelectDieEvent extends VCEvent{
 
     // caso in cui seleziono un dado presente sulla Window Card
     public SelectDieEvent(WindowCard w, int coordX, int coordY, Player player){
+
         super(player);
         this.coordX = coordX;
         this.coordY = coordY;
@@ -40,6 +42,7 @@ public class SelectDieEvent extends VCEvent{
 
     // caso in cui seleziono un dado sul RoundTrack
     public SelectDieEvent(RoundCell c, Player player, int position){
+
         super(player);
         color = c.getDiceList().get(position).getColor();
         value = c.getDiceList().get(position).getValue();
@@ -55,6 +58,7 @@ public class SelectDieEvent extends VCEvent{
 
     // caso in cui seleziono un dado dalla DraftPool
     public SelectDieEvent(Game game, Player player, int position){
+
         super(player);
         color = game.getRolledDice().get(position).getColor();
         value = game.getRolledDice().get(position).getValue();

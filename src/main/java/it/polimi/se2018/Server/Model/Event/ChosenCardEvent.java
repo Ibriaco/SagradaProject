@@ -44,19 +44,6 @@ public class ChosenCardEvent extends MVEvent {
 
     /**
      *
-     * @param player refers to the current player.
-     * @param game refers to the actual game.
-     * @param pos refers to the position of the List of Public Objectives.
-     */
-    public ChosenCardEvent(Player player, Game game, int pos) {
-        super(player);
-
-        this.publicCardName = game.getPublicCards().get(pos).getTitle();
-    }
-
-
-    /**
-     *
      * @param askingPlayer refers to the current player.
      * @param ownerPlayer refers to the player who owns the card that is being chosen.
      */

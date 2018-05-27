@@ -9,7 +9,8 @@ import it.polimi.se2018.Server.Model.Player;
  * @author Marco Gasperini
  */
 public class SkipTurnEvent extends VCEvent {
-    int turn;
+    private int turn;
+    private int round;
 
     /**
      *
@@ -20,9 +21,16 @@ public class SkipTurnEvent extends VCEvent {
     public SkipTurnEvent(int turn, Player player, Game game) {
         super(player);
         this.turn = game.getTurn();
+        this.round = game.getRound();
     }
 
     public int getTurn(){
+
         return turn;
+    }
+
+    public int getRound(){
+
+        return round;
     }
 }
