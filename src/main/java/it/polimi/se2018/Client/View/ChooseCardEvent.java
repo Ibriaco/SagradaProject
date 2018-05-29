@@ -9,8 +9,7 @@ import it.polimi.se2018.Server.Model.Player;
  */
 public class ChooseCardEvent extends VCEvent {
 
-    private int windowNumber;
-    private int side;
+    private String windowName;
 
     /**
      *
@@ -18,20 +17,14 @@ public class ChooseCardEvent extends VCEvent {
      * @param windowNumber refers to the number of the Card
      * @param side refers to the side of the Card
      */
-    public ChooseCardEvent(String username, int windowNumber, int side) {
+    public ChooseCardEvent(String username,String windowName) {
 
         super(username);
-        this.windowNumber = windowNumber;
-        this.side = side;
+        this.windowName = windowName;
     }
 
-    public int getWindowNumber() {
+    public String getWindowName() {
 
-        return windowNumber;
-    }
-
-    public int getSide() {
-
-        return side;
+        return windowName;
     }
 }
