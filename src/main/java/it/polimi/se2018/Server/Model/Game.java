@@ -327,4 +327,12 @@ public class Game {
 
         return colorList;
     }
+
+    public Player findPlayer(String username) {
+        for(Player p: players)
+            if(username.equals(p.getUsername()))
+                return p;
+
+        return null;
+    }
 }

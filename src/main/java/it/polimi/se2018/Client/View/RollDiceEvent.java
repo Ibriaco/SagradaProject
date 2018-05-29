@@ -16,14 +16,7 @@ public class RollDiceEvent extends VCEvent {
      * @param player refers to the current player.
      * @param pressed boolean to identify either a player can roll dice or not
      */
-    public RollDiceEvent(Player player, boolean pressed) {
-
+    public RollDiceEvent(Player player) {
         super(player);
-        this.pressed = pressed;
-    }
-
-    public boolean isPressed(){
-
-        return pressed;
     }
 }

@@ -6,6 +6,7 @@ import java.io.FileReader;
  * @author Gregorio Galletti
  */
 public class Player {
+
     private String username;
     private String connectionType;
     private String viewType;
@@ -89,6 +90,7 @@ public class Player {
 
         return privateObjective;
     }
+
 
     /**
      * Method that draws PrivateObjective.

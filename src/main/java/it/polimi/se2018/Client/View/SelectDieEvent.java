@@ -17,51 +17,52 @@ public class SelectDieEvent extends VCEvent{
 
     /**
      *
-     * @param w refers to the Window Card I'm selecting the die from.
      * @param coordX refers to the x position on the Window Card.
      * @param coordY refers to the y position on the Window Card.
-     * @param player refers to the current player.
+     * @param value
+     * @param color
      */
 
     // caso in cui seleziono un dado presente sulla Window Card
-    public SelectDieEvent(WindowCard w, int coordX, int coordY, Player player){
+    public SelectDieEvent(String username, int coordX, int coordY, int value, Color color){
 
-        super(player);
+        super(username);
         this.coordX = coordX;
         this.coordY = coordY;
-        value = w.getGridCell(coordX, coordY).getPlacedDie().getValue();
-        color = w.getGridCell(coordX, coordY).getPlacedDie().getColor();
+        this.value = value;
+        this.color = color;
     }
+
 
     /**
      *
-     * @param c refers to the RoundCell I'm selecting the die from.
-     * @param player refers to the current player.
-     * @param position refers to the position of the RoundTrack where there is the RoundCell I'm selecting the die from.
+     * @param username
+     * @param position
+     * @param color
+     * @param value
      */
-
     // caso in cui seleziono un dado sul RoundTrack
-    public SelectDieEvent(RoundCell c, Player player, int position){
+    public SelectDieEvent(String username, int position, Color color, int value){
 
-        super(player);
-        color = c.getDiceList().get(position).getColor();
-        value = c.getDiceList().get(position).getValue();
+        super(username);
+        this.color = color;
+        this.value = value;
         this.position = position;
     }
 
     /**
      *
-     * @param game refers to the actual game.
-     * @param player refers to the current player.
-     * @param position refers to the position of the die I'm selecting from the DraftPool
+     * @param username
+     * @param color
+     * @param value
+     * @param position
      */
-
     // caso in cui seleziono un dado dalla DraftPool
-    public SelectDieEvent(Game game, Player player, int position){
+    public SelectDieEvent(String username, Color color, int value, int position){
 
-        super(player);
-        color = game.getRolledDice().get(position).getColor();
-        value = game.getRolledDice().get(position).getValue();
+        super(username);
+        this.color = color;
+        this.value = value;
         this.position = position;
     }
 
