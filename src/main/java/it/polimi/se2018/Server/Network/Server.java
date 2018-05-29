@@ -30,7 +30,6 @@ public class Server {
 
         // Creo un VirtualClient per ogni nuovo client,
         // per ogni client un thread che ascolta i messaggi provenienti da quel client
-
         VirtualClient cm = new VirtualClient(this, clientConnection);
         clients.add(cm);
         cm.start();
