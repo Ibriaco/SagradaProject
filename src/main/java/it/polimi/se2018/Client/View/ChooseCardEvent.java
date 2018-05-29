@@ -9,29 +9,22 @@ import it.polimi.se2018.Server.Model.Player;
  */
 public class ChooseCardEvent extends VCEvent {
 
-    private int windowNumber;
-    private int side;
+    private String windowName;
 
     /**
      *
-     * @param player refers to the current player who chooses a Card
+     * @param username username of the current player.
      * @param windowNumber refers to the number of the Card
      * @param side refers to the side of the Card
      */
-    public ChooseCardEvent(Player player, int windowNumber, int side) {
+    public ChooseCardEvent(String username,String windowName) {
 
-        super(player);
-        this.windowNumber = player.getWindowFrameNumber();
-        this.side = side;
+        super(username);
+        this.windowName = windowName;
     }
 
-    public int getWindowNumber() {
+    public String getWindowName() {
 
-        return windowNumber;
-    }
-
-    public int getSide() {
-
-        return side;
+        return windowName;
     }
 }

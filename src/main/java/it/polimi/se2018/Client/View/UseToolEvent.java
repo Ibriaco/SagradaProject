@@ -15,13 +15,12 @@ public class UseToolEvent extends VCEvent {
 
     /**
      *
-     * @param player refers to the current player
-     * @param game refers to the actual game
-     * @param pos refers to the position where the Tool Card is located
+     * @param username username of the current player
+     * @param pos position where the Tool Card is located
      */
-    public UseToolEvent(Player player, Game game, int pos) {
-        super(player);
-        toolCardNumber = game.getToolCards().get(pos).getNumber();
+    public UseToolEvent(String username, int pos) {
+        super(username);
+        this.toolCardNumber = pos;
     }
 
     public int getToolCardNumber(){

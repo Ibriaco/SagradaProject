@@ -38,6 +38,9 @@ public class WindowCard {
         int nextR = row + 1;
         int nextC = col + 1;
 
+        if(!checkPlacement(getGridCell(row, col), d))
+            return false;
+
         if (isEmpty())
             return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
 
@@ -110,6 +113,21 @@ public class WindowCard {
         if(shade)
             return okShade;
 
+        return false;
+    }
+
+    /**
+     *
+     * @param c
+     * @param d
+     * @return
+     */
+    private boolean checkPlacement(Cell c, Die d){
+
+        if(c.getColor() == Color.WHITE && c.getShade() == 0)
+            return true;
+        if(d != null)
+            return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
         return false;
     }
 

@@ -13,11 +13,11 @@ public abstract class VCEvent {
     private String username;
 
     /**
-     * @param player refers to the current player
+     * @param username username of the current player
      */
-    public VCEvent(Player player) {
+    public VCEvent(String username) {
 
-        this.username = player.getUsername();
+        this.username = username;
     }
 
     public String getUsername() {

@@ -71,19 +71,8 @@ public class Cell {
 
     public void placeDie(Die d){
 
-        if(checkPlacement(this, d))
             placedDie = d;
     }
-
-    private boolean checkPlacement(Cell c, Die d){
-
-        if(c.getColor() == Color.WHITE && c.getShade() == 0)
-            return true;
-        if(d != null)
-            return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
-        return false;
-    }
-
 
     public void setPlacedDie(Die d){
 

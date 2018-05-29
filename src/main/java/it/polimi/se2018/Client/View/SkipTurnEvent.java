@@ -9,28 +9,11 @@ import it.polimi.se2018.Server.Model.Player;
  * @author Marco Gasperini
  */
 public class SkipTurnEvent extends VCEvent {
-    private int turn;
-    private int round;
 
     /**
-     *
-     * @param turn refers to the current turn of the game.
-     * @param player refers to the current player.
-     * @param game referst to the actual game.
+     * @param username username of the current player
      */
-    public SkipTurnEvent(int turn, Player player, Game game) {
-        super(player);
-        this.turn = game.getTurn();
-        this.round = game.getRound();
-    }
-
-    public int getTurn(){
-
-        return turn;
-    }
-
-    public int getRound(){
-
-        return round;
+    public SkipTurnEvent(String username) {
+        super(username);
     }
 }
