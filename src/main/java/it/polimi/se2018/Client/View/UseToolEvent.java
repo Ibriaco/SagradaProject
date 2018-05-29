@@ -15,8 +15,8 @@ public class UseToolEvent extends VCEvent {
 
     /**
      *
-     * @param username refers to the current player
-     * @param pos refers to the position where the Tool Card is located
+     * @param username username of the current player
+     * @param pos position where the Tool Card is located
      */
     public UseToolEvent(String username, int pos) {
         super(username);

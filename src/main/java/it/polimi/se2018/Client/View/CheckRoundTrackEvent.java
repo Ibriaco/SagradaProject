@@ -13,13 +13,12 @@ public class CheckRoundTrackEvent extends VCEvent {
     int cellNumber;
 
     /**
-     *
-     * @param player refers to the current player.
+     * @param username username of the current player.
      * @param pos refers to the position in the RoundCells List
      */
-    public CheckRoundTrackEvent(Player player, int pos) {
+    public CheckRoundTrackEvent(String username, int pos) {
 
-        super(player);
+        super(username);
         this.cellNumber = pos;
     }
 

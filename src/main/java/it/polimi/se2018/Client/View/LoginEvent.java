@@ -13,13 +13,13 @@ public class LoginEvent extends VCEvent {
 
     /**
      *
-     * @param connectionType refers to the connection type (either RMI/Socket).
-     * @param player refers to the current player.
+     * @param connectionType connection type (either RMI/Socket).
+     * @param username username of the current player.
      */
-    public LoginEvent(String connectionType, Player player) {
+    public LoginEvent(String connectionType, String username) {
 
-        super(player);
-        this.connectionType = player.getConnectionType();
+        super(username);
+        this.connectionType = connectionType;
     }
 
     public String getConnectionType() {

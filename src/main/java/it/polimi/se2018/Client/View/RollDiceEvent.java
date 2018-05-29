@@ -9,14 +9,11 @@ import it.polimi.se2018.Server.Model.Player;
  */
 public class RollDiceEvent extends VCEvent {
 
-    private boolean pressed;
-
     /**
      *
-     * @param player refers to the current player.
-     * @param pressed boolean to identify either a player can roll dice or not
+     * @param username username of the current player.
      */
-    public RollDiceEvent(Player player) {
-        super(player);
+    public RollDiceEvent(String username) {
+        super(username);
     }
 }

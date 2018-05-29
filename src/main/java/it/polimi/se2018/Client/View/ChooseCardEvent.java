@@ -14,14 +14,14 @@ public class ChooseCardEvent extends VCEvent {
 
     /**
      *
-     * @param player refers to the current player who chooses a Card
+     * @param username username of the current player.
      * @param windowNumber refers to the number of the Card
      * @param side refers to the side of the Card
      */
-    public ChooseCardEvent(Player player, int windowNumber, int side) {
+    public ChooseCardEvent(String username, int windowNumber, int side) {
 
-        super(player);
-        this.windowNumber = player.getWindowFrameNumber();
+        super(username);
+        this.windowNumber = windowNumber;
         this.side = side;
     }
 

@@ -13,7 +13,7 @@ public abstract class VCEvent {
     private String username;
 
     /**
-     * @param username refers to the current player
+     * @param username username of the current player
      */
     public VCEvent(String username) {
 

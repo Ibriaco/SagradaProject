@@ -11,7 +11,7 @@ import it.polimi.se2018.Server.Model.Player;
 public class SkipTurnEvent extends VCEvent {
 
     /**
-     * @param username username of the player
+     * @param username username of the current player
      */
     public SkipTurnEvent(String username) {
         super(username);

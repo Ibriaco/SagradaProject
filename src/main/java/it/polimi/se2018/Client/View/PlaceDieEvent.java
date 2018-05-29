@@ -19,15 +19,15 @@ public class PlaceDieEvent extends VCEvent {
 
     /**
      *
-     * @param player refers to the current player
-     * @param color refers to the color of the die
-     * @param value refers to the value of the die
-     * @param x refers to the x coordinate where the player wants to place the die
-     * @param y refers to the y coordinate where the player wants to place the die
+     * @param username username of the current player
+     * @param color color of the die
+     * @param value value of the die
+     * @param x x coordinate where the player wants to place the die
+     * @param y y coordinate where the player wants to place the die
      */
-    public PlaceDieEvent(Player player, Color color, int value, int x, int y) {
+    public PlaceDieEvent(String username, Color color, int value, int x, int y) {
 
-        super(player);
+        super(username);
         this.color = color;
         this.value = value;
         this.coordX = x;

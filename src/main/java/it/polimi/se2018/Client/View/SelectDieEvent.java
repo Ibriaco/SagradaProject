@@ -17,13 +17,11 @@ public class SelectDieEvent extends VCEvent{
 
     /**
      *
-     * @param coordX refers to the x position on the Window Card.
-     * @param coordY refers to the y position on the Window Card.
-     * @param value
-     * @param color
+     * @param coordX x coordinate on the Window Card.
+     * @param coordY y coordinate on the Window Card.
+     * @param value value of the die
+     * @param color color of the die
      */
-
-    // caso in cui seleziono un dado presente sulla Window Card
     public SelectDieEvent(String username, int coordX, int coordY, int value, Color color){
 
         super(username);
@@ -36,12 +34,11 @@ public class SelectDieEvent extends VCEvent{
 
     /**
      *
-     * @param username
-     * @param position
-     * @param color
-     * @param value
+     * @param username username of the current player.
+     * @param position position of the die on the Round Track.
+     * @param color color of the die.
+     * @param value value of the die.
      */
-    // caso in cui seleziono un dado sul RoundTrack
     public SelectDieEvent(String username, int position, Color color, int value){
 
         super(username);
@@ -52,12 +49,11 @@ public class SelectDieEvent extends VCEvent{
 
     /**
      *
-     * @param username
-     * @param color
-     * @param value
-     * @param position
+     * @param username username of the current player.
+     * @param position position of the die in the Draft Pool.
+     * @param color color of the die.
+     * @param value value of the die.
      */
-    // caso in cui seleziono un dado dalla DraftPool
     public SelectDieEvent(String username, Color color, int value, int position){
 
         super(username);
