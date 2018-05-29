@@ -1,49 +1,50 @@
 package it.polimi.se2018.Client;
 
-import java.io.BufferedReader;
+
+import it.polimi.se2018.Message;
+import it.polimi.se2018.Server.Network.ServerInterface;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
 
-    public static void main( String[] args ) throws IOException {
-        BufferedReader b = null;
-        String in = "";
-        String ip = "";
-        int port = 0;
-        boolean done = false;
+    private static final int PORT = 1111;
+    private static final String HOST = "localhost";
 
-        System.out.println("This is the client.");
+    public static void main(String[] args) {
 
-        while(!in.equals("1") && !in.equals("2")) {
-            System.out.println("Select the connection type you want to use:");
-            System.out.println("1) Socket");
-            System.out.println("2) RMI");
-            b = new BufferedReader(new InputStreamReader(System.in));
-            in = b.readLine();
-        }
 
-        //PARTE DEL CLIENT CONNESSO CON SOCKET
-        if(in.equals("1")){
-            System.out.println("You chose the Socket connection.");
-            System.out.println("Insert the ip of the server:");
-            ip = b.readLine();
-            while(!done){
+        ServerInterface server = new NetworkHandler(HOST, PORT, new ClientImplementation() );
 
-                System.out.println("Insert the port of the server:");
-                try {
-                    port = Integer.parseInt(b.readLine());
-                    done = true;
-                } catch (NumberFormatException e) {
-                    System.err.println("Wrong port, retry please.");
-                }
+        // Avvio il loop per far inserire messaggi all'utente
+
+        Scanner scanner = new Scanner(System.in);
+
+        boolean loop = true;
+        while ( loop ) {
+
+            System.out.println("\nWrite a message: ");
+            String text = scanner.nextLine();
+
+            if ( text.equals("stop") )  {
+
+                scanner.close();
+                loop = false;
+
+            } else {
+
+                Message message = new Message(text);
+                server.send(message);
+
             }
-            SocketClient client= new SocketClient(ip, port);
-            client.connect();
+
         }
 
-
+        // stops the connection
+        NetworkHandler nh = (NetworkHandler) server;
+        nh.stopConnection();
 
     }
-
 }

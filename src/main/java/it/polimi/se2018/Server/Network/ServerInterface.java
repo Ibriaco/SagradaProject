@@ -1,6 +1,9 @@
 package it.polimi.se2018.Server.Network;
 
+
+import it.polimi.se2018.Message;
+
 public interface ServerInterface {
-    //metodi comuni al server con socket e con rmi
-    //ad esempio connect, login, disconnect, .........
+
+    public void send(Message message);
 }
