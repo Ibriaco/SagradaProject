@@ -8,8 +8,6 @@ public class Server {
     private static final Integer socketPort = 10000;
     private static final Integer rmiPort = 10001;
 
-    private static Server serverInstance;
-
     private static SocketServer socketServer;
     private static RMIServer rmiServer;
 

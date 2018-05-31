@@ -1,5 +1,7 @@
 package it.polimi.se2018.Server.Network.Socket;
 
+import it.polimi.se2018.Server.Network.Socket.SocketServer;
+
 import java.net.Socket;
 
 public class SocketConnection extends Thread {
