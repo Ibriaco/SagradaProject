@@ -1,7 +1,9 @@
 package it.polimi.se2018;
 
 
-import it.polimi.se2018.Server.Model.*;
+import it.polimi.se2018.Server.Network.RMI.RMIClient;
+import it.polimi.se2018.Server.Network.Server;
+import it.polimi.se2018.Server.Network.Socket.SocketClient;
 
 /**
  * Hello world!
@@ -9,6 +11,7 @@ import it.polimi.se2018.Server.Model.*;
  */
 public class App 
 {
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -17,6 +20,14 @@ public class App
     public static final String ANSI_PURPLE = "\u001B[35m";
 
     public static void main( String[] args ) {
+        Server s = new Server();
+        SocketClient sc = new SocketClient("localhost",10000);
+        SocketClient sc2 = new SocketClient("localhost",10000);
+        SocketClient sc3 = new SocketClient("localhost",10000);
+
+        RMIClient rc = new RMIClient("localhost",10001);
+
+        /*
         System.out.println("Main");
         Game g = null;
         try {
@@ -37,7 +48,7 @@ public class App
         } catch (WindowCardAssociationException e) {
             e.printStackTrace();
         }
-
+*/
       /*  Color c;
         int v;
         for (Player p: g.getPlayers()) {

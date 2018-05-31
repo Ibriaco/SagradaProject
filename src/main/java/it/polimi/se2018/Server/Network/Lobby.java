@@ -3,6 +3,7 @@ package it.polimi.se2018.Server.Network;
 import it.polimi.se2018.Server.Model.Player;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Lobby {
 
@@ -10,16 +11,27 @@ public class Lobby {
     private ArrayList<Player> onlinePlayers;
     private int timer;
 
-    public Lobby(Player firstPlayer){
-        onlinePlayersN = 1;
+    public Lobby(){
+        System.out.println("Lobby creata");
+        onlinePlayersN = 0;
         onlinePlayers = new ArrayList<>();
-        onlinePlayers.add(firstPlayer);
         timer = 10;
+        startTimer();
     }
 
+    private void startTimer(){
+        for(int t=timer ; t >= 0; t--){
+            System.out.println(t);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void addOnlinePlayer(Player p){
-
         onlinePlayers.add(p);
+
     }
 
     public void removeOnlinePlayer(Player p){
@@ -31,7 +43,7 @@ public class Lobby {
         return onlinePlayersN;
     }
 
-    
+
 
 
 }
