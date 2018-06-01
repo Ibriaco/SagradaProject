@@ -11,6 +11,17 @@ public class RMIServer implements RMIServerInterface {
     private static Registry registry;
     private List<RMIConnection> rmiConnections;
 
+    @Override
+    public void sendMessage(String s) throws RemoteException {
+        System.out.println(s);
+    }
+
+    @Override
+    public String getMessage(String text) throws RemoteException {
+        return "Your message is: " + text;
+    }
+
+
     public RMIServer(int port){
 
         try {
