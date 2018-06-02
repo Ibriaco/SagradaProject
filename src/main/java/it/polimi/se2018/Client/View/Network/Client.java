@@ -1,48 +1,66 @@
-/*package it.polimi.se2018.Client.View.Network;
+package it.polimi.se2018.Client.View.Network;
 
+
+import it.polimi.se2018.Message;
+import it.polimi.se2018.Client.View.Network.RMI.RMIClient;
+import it.polimi.se2018.Client.View.Network.RMI.RMIClientInterface;
+import it.polimi.se2018.Server.Network.RMI.RMIServerInterface;
+
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class Client {
-    private static int n = 0;
-    private static Scanner reader = null;
-    private static ClientRMIConnection clientRMIConnection;
-    private static ClientSocketConnection clientSocketConnection;
-    private static String host;
-    private static int port;
-
-    //main
-    public static void main (String args[]) throws RemoteException {
-        while (n!=1 && n!=2){
-            reader = new Scanner(System.in);
-            System.out.println("Selezionare connessione che si desidera utilizzare: " +
-                    "1-RMI " +
-                    "12-SOCKET");
-            n = (reader.nextInt());
-        }
-        System.out.println("inserire nome host:");
-        host = reader.nextLine();
-        System.out.println("inserire porta:");
-        port = reader.nextInt();
-        reader.close();
+    public static void main(String[] args) {
+        RMIServerInterface server;
         try {
-            createConnection(n);
+            server = (RMIServerInterface) Naming.lookup("//localhost/MyServer");
+
+            RMIClient client = new RMIClient();
+            RMIClientInterface remoteRef = (RMIClientInterface) UnicastRemoteObject.exportObject(client, 0);
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Inserire username:");
+            String username = scanner.next();
+            System.out.println("Inserire password:");
+            String password = scanner.next();
+
+            boolean status = client.authenticate(username, password);
+
+
+            if (status) {
+                server.addClient(remoteRef);
+                System.out.println("Login effettuato con successo!");
+            }
+            else
+                System.out.println("Accesso negato, riprova!");
+
+            boolean loop = true;
+            while(loop){
+
+                System.out.println("Inserisci un messaggio!");
+                String text = scanner.next();
+
+
+                Message message = new Message(text);
+
+                server.send(message);
+            }
+            scanner.close();
+
+        } catch (MalformedURLException e) {
+            System.err.println("URL non trovato!");
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.err.println("Errore di connessione: " + e.getMessage() + "!");
+        } catch (NotBoundException e) {
+            System.err.println("Il riferimento passato non è associato a nulla!");
         }
-    }
-    //scelgo connessione e creo
-    public static void createConnection(int connection) throws RemoteException {
-        if (connection == 1){
-            clientRMIConnection =  new ClientRMIConnection(port);
-            System.out.println("client RMI creato");
 
-        }
-        else if (connection == 2){
-            clientSocketConnection = new ClientSocketConnection(host, port);
-            System.out.println("client Socket creato");
 
-        }
     }
-}*/
+
+}
+

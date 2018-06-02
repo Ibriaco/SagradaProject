@@ -1,16 +1,13 @@
 package it.polimi.se2018.Server.Network.RMI;
 
+import it.polimi.se2018.Client.View.Network.RMI.RMIClientInterface;
 import it.polimi.se2018.Message;
-import it.polimi.se2018.Server.Network.ClientInterface;
 
 import java.rmi.ConnectException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 

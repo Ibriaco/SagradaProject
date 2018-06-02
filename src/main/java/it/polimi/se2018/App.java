@@ -1,10 +1,6 @@
 package it.polimi.se2018;
 
 
-import it.polimi.se2018.Server.Network.RMI.RMIClient;
-import it.polimi.se2018.Server.Network.Server;
-import it.polimi.se2018.Server.Network.Socket.SocketClient;
-
 /**
  * Hello world!
  *

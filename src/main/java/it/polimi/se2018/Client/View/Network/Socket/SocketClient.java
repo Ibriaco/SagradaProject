@@ -1,7 +1,6 @@
-package it.polimi.se2018.Server.Network.Socket;
+package it.polimi.se2018.Client.View.Network.Socket;
 
-import it.polimi.se2018.Message;
-import it.polimi.se2018.Server.Network.ClientInterface;
+import it.polimi.se2018.Client.View.Network.Socket.ClientInterface;
 
 import java.io.*;
 import java.net.Socket;
