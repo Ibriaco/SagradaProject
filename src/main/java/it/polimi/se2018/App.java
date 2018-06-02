@@ -20,12 +20,12 @@ public class App
     public static final String ANSI_PURPLE = "\u001B[35m";
 
     public static void main( String[] args ) {
-        Server s = new Server();
+       /* Server s = new Server();
         SocketClient sc = new SocketClient("localhost",10000);
         SocketClient sc2 = new SocketClient("localhost",10000);
         SocketClient sc3 = new SocketClient("localhost",10000);
 
-        RMIClient rc = new RMIClient("localhost",10001);
+        RMIClient rc = new RMIClient("localhost",10001);*/
 
         /*
         System.out.println("Main");

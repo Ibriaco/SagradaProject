@@ -1,14 +1,18 @@
 package it.polimi.se2018.Server.Network.RMI;
 
+import it.polimi.se2018.Message;
 import it.polimi.se2018.Server.Network.ServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RMIServerInterface extends Remote, ServerInterface{
+public interface RMIServerInterface extends Remote{
 
-    public void sendMessage(String s) throws RemoteException;
+    void addClient(RMIClientInterface client) throws RemoteException;
 
-    public String getMessage(String text) throws RemoteException;
+    //bisogna capire come gestire disconnessione
+    void removeClient(RMIClientInterface client) throws RemoteException;
+
+    void send(Message message) throws RemoteException;
 
 }

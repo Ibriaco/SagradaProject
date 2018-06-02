@@ -1,4 +1,4 @@
-package it.polimi.se2018.Client.View.Network;
+/*package it.polimi.se2018.Client.View.Network;
 
 import it.polimi.se2018.Message;
 
@@ -11,4 +11,4 @@ public interface ClientConnection{
     public String getMessage(String text) throws RemoteException;
 
     //metodi da chiamare sulla view in base a quello che mi manda il server
-}
+}*/

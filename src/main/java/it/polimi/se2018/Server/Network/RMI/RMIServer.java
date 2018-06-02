@@ -1,43 +1,49 @@
 package it.polimi.se2018.Server.Network.RMI;
 
+import it.polimi.se2018.Message;
+import it.polimi.se2018.Server.Network.ClientInterface;
+
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class RMIServer implements RMIServerInterface {
-    private static Registry registry;
-    private List<RMIConnection> rmiConnections;
+public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
-    @Override
-    public void sendMessage(String s) throws RemoteException {
-        System.out.println(s);
+    private ArrayList<RMIClientInterface> clients = new ArrayList<RMIClientInterface>();
+
+    public RMIServer() throws RemoteException {
+        super(0);
     }
 
-    @Override
-    public String getMessage(String text) throws RemoteException {
-        return "Your message is: " + text;
-    }
+    private static final long serialVersionUID = -7098548671967083832L;
 
-
-    public RMIServer(int port){
-
-        try {
-            registry = LocateRegistry.createRegistry(port);
-
-        } catch (RemoteException e) {
-            System.out.println("Registry già presente!");
+    public void addClient(RMIClientInterface client) throws RemoteException {
+        if(clients.size() < 4) {
+            clients.add(client);
+            System.out.println("Client " + (clients.indexOf(client) + 1) + " connesso!");
         }
+        else
+            System.out.println("Lobby al completo! Unisciti a una nuova lobby per giocare!");
+    }
 
+    //bisogna capire come implementarlo
+    public void removeClient(RMIClientInterface client) throws RemoteException{
 
-        if (registry != null) {
-            try {
-                registry.rebind("RMIServer", this);
-                UnicastRemoteObject.exportObject(this, port);
-                rmiConnections = new ArrayList<>();
-            } catch (RemoteException e) {
+    }
+
+    public void send(Message message) throws RemoteException {
+        Iterator<RMIClientInterface> clientIterator = clients.iterator();
+        while(clientIterator.hasNext()){
+            try{
+                clientIterator.next().notify(message);
+            }catch(ConnectException e) {
+                clientIterator.remove();
+                System.out.println("Client rimosso!");
             }
         }
     }

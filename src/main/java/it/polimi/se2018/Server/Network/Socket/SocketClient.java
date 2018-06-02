@@ -1,5 +1,6 @@
 package it.polimi.se2018.Server.Network.Socket;
 
+import it.polimi.se2018.Message;
 import it.polimi.se2018.Server.Network.ClientInterface;
 
 import java.io.*;
@@ -17,4 +18,5 @@ public class SocketClient implements ClientInterface{
         } catch (IOException e) {
         }
     }
+
 }

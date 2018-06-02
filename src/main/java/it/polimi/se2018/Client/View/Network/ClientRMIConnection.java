@@ -1,4 +1,4 @@
-package it.polimi.se2018.Client.View.Network;
+/*package it.polimi.se2018.Client.View.Network;
 
 import it.polimi.se2018.Server.Network.RMI.RMIServerInterface;
 
@@ -12,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientRMIConnection extends UnicastRemoteObject implements ClientConnection {
 
     private RMIServerInterface server = null;
+    private int port;
     // in text ci salvo ciò che l'utente vuole mandare
     String text = "Ciao";
 
@@ -43,6 +44,11 @@ public class ClientRMIConnection extends UnicastRemoteObject implements ClientCo
         }
     }
 
+    public ClientRMIConnection(int port) throws RemoteException {
+        super();
+        this.port = port;
+    }
+
     //metodi per mandare al server e ricevere dal server
     @Override
     public void sendMessage(String s) throws RemoteException {
@@ -57,4 +63,4 @@ public class ClientRMIConnection extends UnicastRemoteObject implements ClientCo
 
 
 
-}
+}*/

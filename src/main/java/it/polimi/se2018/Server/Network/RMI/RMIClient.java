@@ -1,5 +1,6 @@
 package it.polimi.se2018.Server.Network.RMI;
 
+import it.polimi.se2018.Message;
 import it.polimi.se2018.Server.Network.ServerInterface;
 
 import java.rmi.NotBoundException;
@@ -9,15 +10,22 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient implements RMIClientInterface {
-    private ServerInterface server;
 
-    public RMIClient(String serverIP, Integer port) {
-        try {
-            Registry registry = LocateRegistry.getRegistry(serverIP, port);
-            server = (ServerInterface) registry.lookup("RMIServer");
-            UnicastRemoteObject.exportObject(this, 0);
+    public void notify(Message message) throws RemoteException {
+        System.out.println("Ho ricevuto il messaggio: " + message.getMessage());
+    }
 
-        } catch (RemoteException | NotBoundException e) {
+
+    public RMIClient() throws RemoteException{
+
+    }
+
+    public boolean authenticate(String username, String password) {
+        if (username != null && password != null){
+            return true;
         }
+        else
+            return false;
+
     }
 }
