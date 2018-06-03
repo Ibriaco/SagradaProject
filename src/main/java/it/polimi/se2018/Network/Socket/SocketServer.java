@@ -7,8 +7,12 @@ import it.polimi.se2018.Network.RMI.RMIClientInterface;
 import it.polimi.se2018.Network.ServerInterface;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.rmi.ConnectException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SocketServer implements ServerInterface{
@@ -48,7 +52,24 @@ public class SocketServer implements ServerInterface{
 
     @Override
     public void send(Message message){
+        ObjectOutputStream b = null;
+        Iterator<SocketConnection> clientIterator = socketConnections.iterator();
+        while(clientIterator.hasNext()){
+            try {
+                b = new ObjectOutputStream(clientIterator.next().getConnectionSocket().getOutputStream());
+                b.writeObject(message);
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    b.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -58,8 +79,6 @@ public class SocketServer implements ServerInterface{
         if(lobbyController.checkUser(user)) {
             lobbyController.addInLobby(user);
 
-            //Iterator<SocketConnection> clientIterator = socketConnections.iterator();
-            //clientIterator.next();
 
             System.out.println("Utente loggato!");
         }

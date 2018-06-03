@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class SocketClient implements ClientInterface{
     private String username;
     private static Socket socket;
+    private ListeningThread listeningThread;
 
     public SocketClient(String serverIP, Integer port, String username) {
         this.username = username;
@@ -21,6 +22,8 @@ public class SocketClient implements ClientInterface{
 
         loginRequest();
 
+        listeningThread = new ListeningThread(socket);
+        listeningThread.start();
         Scanner in = new Scanner(System.in);
         in.next();
     }

@@ -2,6 +2,7 @@ package it.polimi.se2018.Network.Socket;
 
 
 
+import it.polimi.se2018.Network.ClientInterface;
 import it.polimi.se2018.View.VCEvent;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 public class SocketConnection extends Thread {
     private SocketServer socketServer;
@@ -39,4 +41,7 @@ public class SocketConnection extends Thread {
         }
     }
 
+    public Socket getConnectionSocket() {
+        return connectionSocket;
+    }
 }
