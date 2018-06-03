@@ -16,24 +16,22 @@ public class Server {
     private static SocketServer socketServer;
     private static RMIServer rmiServer;
 
-    private static Lobby lobby;
+    private static LobbyController lobbyController;
 
     public static void main(String[] args) {
 
-        LobbyController lobbyController = new LobbyController();
+        lobbyController = new LobbyController();
 
         //RMI SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         try {
-
             LocateRegistry.createRegistry(rmiPort);
-
         } catch (RemoteException e) {
 
             System.out.println("Registry già presente!");
         }
 
         try {
-            RMIServer rmiServer = new RMIServer(lobbyController);
+            rmiServer = new RMIServer(lobbyController);
             Naming.rebind("//localhost/MyServer", rmiServer);
 
 
@@ -44,7 +42,9 @@ public class Server {
         }
 
         //SOCKET SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-        SocketServer ss = new SocketServer(socketPort, lobbyController);
+        socketServer = new SocketServer(socketPort, lobbyController);
+
+        lobbyController.addServers(rmiServer, socketServer);
 
     }
 
