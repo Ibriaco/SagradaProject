@@ -11,6 +11,7 @@ public class LobbyController {
 
     public boolean checkUser(String user){
         for (String u : waitingLobby.getOnlinePlayers()) {
+            //System.out.println("Lista utenti" + u);
             if(user.equals(u))
                 return false;
         }

@@ -39,10 +39,8 @@ public class RMIClient implements RMIClientInterface {
 
     public void loginRequest() throws RemoteException{
         VCEvent loginE = new LoginEvent("RMI", username);
-            server.addClient(remoteRef);
-            server.loginUser(loginE);
-
-
+        server.addClient(remoteRef);
+        server.loginUser(loginE);
     }
 
 

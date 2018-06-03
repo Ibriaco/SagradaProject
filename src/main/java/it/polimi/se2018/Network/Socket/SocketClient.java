@@ -1,9 +1,12 @@
 package it.polimi.se2018.Network.Socket;
 
 import it.polimi.se2018.Network.ClientInterface;
+import it.polimi.se2018.View.LoginEvent;
+import it.polimi.se2018.View.VCEvent;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class SocketClient implements ClientInterface{
     private String username;
@@ -17,10 +20,22 @@ public class SocketClient implements ClientInterface{
         }
 
         loginRequest();
+
+        Scanner in = new Scanner(System.in);
+        in.next();
     }
 
 
     @Override
     public void loginRequest() {
+        VCEvent loginE = new LoginEvent("Socket", username);
+        ObjectOutputStream toServer;
+        try {
+            toServer = new ObjectOutputStream(socket.getOutputStream());
+            toServer.writeObject(loginE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

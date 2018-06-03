@@ -22,6 +22,7 @@ public class Server {
 
         LobbyController lobbyController = new LobbyController();
 
+        //RMI SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         try {
 
             LocateRegistry.createRegistry(rmiPort);
@@ -41,6 +42,9 @@ public class Server {
         } catch (RemoteException e) {
             System.err.println("Errore di connessione: " + e.getMessage() + "!");
         }
+
+        //SOCKET SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+        SocketServer ss = new SocketServer(socketPort, lobbyController);
 
     }
 
