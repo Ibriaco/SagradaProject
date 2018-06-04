@@ -10,8 +10,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static java.lang.String.valueOf;
-
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
     private ArrayList<RMIClientInterface> clients = new ArrayList<>();

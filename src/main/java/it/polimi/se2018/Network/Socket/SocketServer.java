@@ -79,7 +79,6 @@ public class SocketServer implements ServerInterface{
         if(lobbyController.checkUser(user)) {
             lobbyController.addInLobby(user);
 
-
             System.out.println("Utente loggato!");
         }
         else{

@@ -1,7 +1,6 @@
 package it.polimi.se2018.Network.Socket;
 
 import it.polimi.se2018.Message;
-import it.polimi.se2018.Model.Event.MVEvent;
 
 import java.io.EOFException;
 import java.io.IOException;

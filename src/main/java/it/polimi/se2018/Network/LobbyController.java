@@ -5,7 +5,6 @@ import it.polimi.se2018.Network.RMI.RMIServer;
 import it.polimi.se2018.Network.Socket.SocketServer;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class LobbyController extends Thread{
@@ -19,12 +18,12 @@ public class LobbyController extends Thread{
     public LobbyController() {
         waitingLobby = new Lobby();
         System.out.println("Lobby controller creato");
-        //this.start();
     }
 
     public boolean checkUser(String user){
+        if(waitingLobby.getOnlinePlayersN() == 4)
+            return false;
         for (String u : waitingLobby.getOnlinePlayers()) {
-            //System.out.println("Lista utenti" + u);
             if(user.equals(u))
                 return false;
         }
