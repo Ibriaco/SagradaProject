@@ -12,7 +12,7 @@ public class LobbyController{
     private SocketServer socketServer;
     private RMIServer rmiServer;
     private Lobby waitingLobby;
-    private static int timer = 10;
+    private static int timer = 30;
 
 
     public LobbyController() {
@@ -33,7 +33,14 @@ public class LobbyController{
         return false;
     else
         return true;
-}
+    }
+
+    public boolean checkTime(String user){
+        if(waitingLobby.getOnlinePlayersN()>=2 && getTimer()==0)
+            return false;
+        else
+            return true;
+    }
     
     public void addInLobby(String user){
         waitingLobby.addOnlinePlayer(user);
@@ -48,7 +55,7 @@ public class LobbyController{
             if (waitingLobby.getOnlinePlayersN() == 2) {
                 while (timer != 0) {
                     timeout.setMessage(String.valueOf(timer));
-                    socketServer.send(timeout);
+                    //socketServer.send(timeout);
 
                     try {
                         rmiServer.send(timeout);
@@ -76,6 +83,13 @@ public class LobbyController{
         //this.start();
     }
 
+    public int getTimer(){
+        return timer;
+    }
+
+    public void setTimer(int timer) {
+        LobbyController.timer = timer;
+    }
 
 
 

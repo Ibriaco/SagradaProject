@@ -50,7 +50,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void loginUser(VCEvent event) throws RemoteException {
         String user = event.getUsername();
-        if(lobbyController.checkUser(user)&&lobbyController.checkOnlinePlayers(user)) {
+        if(lobbyController.checkUser(user)&&lobbyController.checkOnlinePlayers(user)&&lobbyController.checkTime(user)) {
             lobbyController.addInLobby(user);
 
             Iterator<RMIClientInterface> clientIterator = clients.iterator();
@@ -73,7 +73,12 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
             this.removeClient(clients.get(clients.size()-1));
             System.out.println("Utente non loggato!");
         }
-
+        else if(!lobbyController.checkTime(user)){
+            clients.get(clients.size()-1).notify(new Message("Spiacente " + user + ": tempo scaduto!\n" +
+                    "Unisciti a un'altra partita per giocare!"));
+            this.removeClient(clients.get(clients.size()-1));
+            System.out.println("Utente non loggato!");
+        }
     }
 
 

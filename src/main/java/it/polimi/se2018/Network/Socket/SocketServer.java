@@ -53,7 +53,7 @@ public class SocketServer implements ServerInterface{
     @Override
     public void send(Message message){
         ObjectOutputStream b;
-        Iterator<SocketConnection> clientIterator = socketConnections.iterator();
+        /*Iterator<SocketConnection> clientIterator = socketConnections.iterator();
         while(clientIterator.hasNext()){
             try {
                 b = new ObjectOutputStream(clientIterator.next().getConnectionSocket().getOutputStream());
@@ -63,7 +63,7 @@ public class SocketServer implements ServerInterface{
                 e.printStackTrace();
             }
 
-            }
+            }*/
         }
 
 
