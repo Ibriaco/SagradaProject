@@ -17,7 +17,7 @@ public class RMIClient implements RMIClientInterface {
     private RMIServerInterface server;
 
     public void notify(Message message) throws RemoteException {
-        System.out.println("Ho ricevuto il messaggio: " + message.getMessage());
+        System.out.println(message.getMessage());
     }
 
     public RMIClient(String username) throws RemoteException{
@@ -41,6 +41,10 @@ public class RMIClient implements RMIClientInterface {
         VCEvent loginE = new LoginEvent("RMI", username);
         server.addClient(remoteRef);
         server.loginUser(loginE);
+    }
+
+    public String getUsername(){
+        return username;
     }
 
 

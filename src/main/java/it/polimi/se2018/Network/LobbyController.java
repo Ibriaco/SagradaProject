@@ -5,6 +5,7 @@ import it.polimi.se2018.Network.RMI.RMIServer;
 import it.polimi.se2018.Network.Socket.SocketServer;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class LobbyController extends Thread{
@@ -30,6 +31,13 @@ public class LobbyController extends Thread{
         return true;
     }
 
+
+    public boolean checkPlayerNumber(int playerNumber){
+        if (waitingLobby.getOnlinePlayersN() > 4)
+            return false;
+        else
+            return true;
+    }
     public void addInLobby(String user){
         waitingLobby.addOnlinePlayer(user);
     }
@@ -39,7 +47,7 @@ public class LobbyController extends Thread{
         Message timeout = new Message("");
         boolean startGame = false;
         while (!startGame) {
-            System.out.println(waitingLobby.getOnlinePlayersN());
+            //System.out.println(waitingLobby.getOnlinePlayersN());
             if (waitingLobby.getOnlinePlayersN() == 2) {
                 while (timer != 0) {
                     timeout.setMessage(String.valueOf(timer));
@@ -67,4 +75,5 @@ public class LobbyController extends Thread{
         this.rmiServer = rmiServer;
         this.start();
     }
+
 }

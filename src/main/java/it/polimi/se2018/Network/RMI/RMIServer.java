@@ -10,30 +10,33 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static java.lang.String.valueOf;
+
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
     private ArrayList<RMIClientInterface> clients = new ArrayList<>();
     private LobbyController lobbyController;
+    private static final long serialVersionUID = -7098548671967083832L;
 
     public RMIServer(LobbyController lc) throws RemoteException {
         super(0);
         lobbyController = lc;
     }
 
-    private static final long serialVersionUID = -7098548671967083832L;
-
     public void addClient(RMIClientInterface client) throws RemoteException {
         if(clients.size() < 4) {
             clients.add(client);
             System.out.println("Client " + (clients.indexOf(client) + 1) + " connesso!");
         }
-        else
-            System.out.println("Lobby al completo! Unisciti a una nuova lobby per giocare!");
+        else {
+            System.out.println("Lobby al completo! Unisciti a un'altra Lobby!");
+            client.notify(new Message("Coglione non c'è più posto!"));
+        }
     }
 
-    //bisogna capire come implementarlo
-    public void removeClient(RMIClientInterface client) throws RemoteException{
 
+    public void removeClient(RMIClientInterface client) throws RemoteException{
+        clients.remove(client);
     }
 
     public void send(Message message) throws RemoteException {
@@ -50,14 +53,14 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void loginUser(VCEvent event) throws RemoteException {
         String user = event.getUsername();
-        //System.out.println("okei login");
         if(lobbyController.checkUser(user)) {
             lobbyController.addInLobby(user);
 
             Iterator<RMIClientInterface> clientIterator = clients.iterator();
             while(clientIterator.hasNext()){
                 try{
-                    clientIterator.next().notify(new Message("Utente " + user + " loggato"));
+                    clientIterator.next().notify(new Message("Utente " + user + " loggato\n" +
+                            "Online players: " + String.valueOf(clients.size())));
                 }catch(ConnectException e) {
                 }
             }
@@ -65,9 +68,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
             System.out.println("Utente loggato!");
         }
         else{
+            clients.get(clients.size()-1).notify(new Message("Utente " + user + " già presente\n" +
+                    "Online players: " + String.valueOf(clients.size()-1)));
+            this.removeClient(clients.get(clients.size()-1));
             System.out.println("Utente non loggato!");
         }
 
     }
 
+
 }
+
+
+

@@ -12,8 +12,7 @@ public class ChooseCardEvent extends VCEvent {
     /**
      *
      * @param username username of the current player.
-     * @param windowNumber refers to the number of the Card
-     * @param side refers to the side of the Card
+     * @param windowName refers to the name of the Card
      */
     public ChooseCardEvent(String username,String windowName) {
 
