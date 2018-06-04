@@ -29,6 +29,10 @@ public class Client {
             SocketClient sc = new SocketClient("localhost", 10000, username);
         }
 
+        boolean omg = true;
+        while (omg){
+
+        }
 
     }
 

@@ -24,8 +24,6 @@ public class SocketClient implements ClientInterface{
 
         listeningThread = new ListeningThread(socket);
         listeningThread.start();
-        Scanner in = new Scanner(System.in);
-        in.next();
     }
 
 

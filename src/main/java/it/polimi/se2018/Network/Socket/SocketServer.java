@@ -52,7 +52,7 @@ public class SocketServer implements ServerInterface{
 
     @Override
     public void send(Message message){
-        ObjectOutputStream b = null;
+        ObjectOutputStream b;
         Iterator<SocketConnection> clientIterator = socketConnections.iterator();
         while(clientIterator.hasNext()){
             try {
@@ -62,15 +62,11 @@ public class SocketServer implements ServerInterface{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            finally {
-                try {
-                    b.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
-    }
+
+
 
     @Override
     public void loginUser(VCEvent event){
