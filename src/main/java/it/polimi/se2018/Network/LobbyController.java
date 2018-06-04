@@ -30,14 +30,7 @@ public class LobbyController extends Thread{
         }
         return true;
     }
-
-
-    public boolean checkPlayerNumber(int playerNumber){
-        if (waitingLobby.getOnlinePlayersN() > 4)
-            return false;
-        else
-            return true;
-    }
+    
     public void addInLobby(String user){
         waitingLobby.addOnlinePlayer(user);
     }
