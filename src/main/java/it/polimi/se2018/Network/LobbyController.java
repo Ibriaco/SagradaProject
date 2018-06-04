@@ -21,14 +21,19 @@ public class LobbyController extends Thread{
     }
 
     public boolean checkUser(String user){
-        if(waitingLobby.getOnlinePlayersN() == 4)
-            return false;
         for (String u : waitingLobby.getOnlinePlayers()) {
             if(user.equals(u))
                 return false;
         }
         return true;
     }
+
+public boolean checkOnlinePlayers(String user){
+    if(waitingLobby.getOnlinePlayersN() == 4)
+        return false;
+    else
+        return true;
+}
     
     public void addInLobby(String user){
         waitingLobby.addOnlinePlayer(user);

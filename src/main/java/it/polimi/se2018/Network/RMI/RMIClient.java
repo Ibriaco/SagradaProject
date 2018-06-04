@@ -41,6 +41,7 @@ public class RMIClient implements RMIClientInterface {
         VCEvent loginE = new LoginEvent("RMI", username);
         server.addClient(remoteRef);
         server.loginUser(loginE);
+
     }
 
     public String getUsername(){

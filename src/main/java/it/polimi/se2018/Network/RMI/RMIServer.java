@@ -27,8 +27,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
             System.out.println("Client " + (clients.indexOf(client) + 1) + " connesso!");
         }
         else {
-            System.out.println("Lobby al completo! Unisciti a un'altra Lobby!");
-            client.notify(new Message("Coglione non c'è più posto!"));
+            client.notify(new Message("Spiacente! Lobby al completo!"));
         }
     }
 
@@ -51,7 +50,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     public void loginUser(VCEvent event) throws RemoteException {
         String user = event.getUsername();
-        if(lobbyController.checkUser(user)) {
+        if(lobbyController.checkUser(user)&&lobbyController.checkOnlinePlayers(user)) {
             lobbyController.addInLobby(user);
 
             Iterator<RMIClientInterface> clientIterator = clients.iterator();
@@ -65,7 +64,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
             System.out.println("Utente loggato!");
         }
-        else{
+        else if(!lobbyController.checkOnlinePlayers(user)){
+            System.out.println("Lobby al completo!");
+        }
+        else if(!lobbyController.checkUser(user)){
             clients.get(clients.size()-1).notify(new Message("Utente " + user + " già presente\n" +
                     "Online players: " + String.valueOf(clients.size()-1)));
             this.removeClient(clients.get(clients.size()-1));
