@@ -1,5 +1,7 @@
 package it.polimi.se2018.Network.RMI;
 
+import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.Network.ClientInterface;
 import it.polimi.se2018.View.VCEvent;
 import it.polimi.se2018.Message;
 import it.polimi.se2018.Network.LobbyController;
@@ -12,7 +14,7 @@ import java.util.Iterator;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
-    private ArrayList<RMIClientInterface> clients = new ArrayList<>();
+    //private ArrayList<RMIClientInterface> clients = new ArrayList<>();
     private LobbyController lobbyController;
     private static final long serialVersionUID = -7098548671967083832L;
 
@@ -21,7 +23,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         lobbyController = lc;
     }
 
-    public void addClient(RMIClientInterface client) throws RemoteException {
+    public void addClient(ClientInterface client) throws RemoteException {
+        RMISender sender = new RMISender();
+        sender.addClient((RMIClientInterface)client);
+        lobbyController.addSender(sender);
+        /*
         if(clients.size() < 4) {
             clients.add(client);
             System.out.println("Client " + (clients.indexOf(client) + 1) + " connesso!");
@@ -29,14 +35,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         else {
             client.notify(new Message("Spiacente! Lobby al completo!"));
         }
+        */
     }
 
-
+/*
     public void removeClient(RMIClientInterface client) throws RemoteException{
         clients.remove(client);
     }
-
-    public void send(Message message) throws RemoteException {
+*/
+    /*public void send(Message message) throws RemoteException {
         Iterator<RMIClientInterface> clientIterator = clients.iterator();
         while(clientIterator.hasNext()){
             try{
@@ -47,12 +54,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
             }
         }
     }
-
+*/
     public void loginUser(VCEvent event) throws RemoteException {
         String user = event.getUsername();
         if(lobbyController.checkUser(user)&&lobbyController.checkOnlinePlayers(user)&&lobbyController.checkTime(user)) {
             lobbyController.addInLobby(user);
+            lobbyController.getSender().send(new Message("Utente " + user + " loggato\n" +
+                    "Online players: " + String.valueOf(lobbyController.getLobby().getOnlinePlayersN())));
 
+/*
             Iterator<RMIClientInterface> clientIterator = clients.iterator();
             while(clientIterator.hasNext()){
                 try{
@@ -61,9 +71,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
                 }catch(ConnectException e) {
                 }
             }
-
+*/
             System.out.println("Utente loggato!");
         }
+        /*
         else if(!lobbyController.checkOnlinePlayers(user)){
             System.out.println("Lobby al completo!");
         }
@@ -79,6 +90,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
             this.removeClient(clients.get(clients.size()-1));
             System.out.println("Utente non loggato!");
         }
+        */
+    }
+
+    public void sendPrivateObjective(VCEvent event) throws RemoteException{
+
     }
 
 

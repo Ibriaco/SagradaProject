@@ -8,11 +8,13 @@ import java.rmi.RemoteException;
 
 public interface ServerInterface{
 
-    void addClient(RMIClientInterface client) throws RemoteException;
+    void addClient(ClientInterface client) throws RemoteException;
 
-    void removeClient(RMIClientInterface client) throws RemoteException;
+    //void removeClient(RMIClientInterface client) throws RemoteException;
 
-    void send(Message message) throws RemoteException;
+    //void send(Message message) throws RemoteException;
 
     void loginUser(VCEvent event) throws RemoteException;
+
+    //void sendPrivateObjective(VCEvent event) throws RemoteException;
 }

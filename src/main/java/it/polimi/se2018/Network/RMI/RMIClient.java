@@ -7,6 +7,7 @@ import it.polimi.se2018.Message;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -34,7 +35,11 @@ public class RMIClient implements RMIClientInterface {
         System.err.println("Il riferimento passato non è associato a nulla!");
     }
     loginRequest();
-}
+    }
+
+    public void getPrivateObjective() throws RemoteException{
+
+    }
 
 
     public void loginRequest() throws RemoteException{

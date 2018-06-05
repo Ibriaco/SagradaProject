@@ -44,7 +44,7 @@ public class Server {
         //SOCKET SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         socketServer = new SocketServer(socketPort, lobbyController);
 
-        lobbyController.addServers(rmiServer, socketServer);
+        //lobbyController.addServers(rmiServer, socketServer);
 
     }
 

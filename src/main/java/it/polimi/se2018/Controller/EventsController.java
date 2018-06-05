@@ -1,5 +1,7 @@
 package it.polimi.se2018.Controller;
 
+import it.polimi.se2018.Network.RMI.RMIServer;
+import it.polimi.se2018.Network.Socket.SocketServer;
 import it.polimi.se2018.View.*;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;
@@ -11,9 +13,13 @@ public class EventsController extends Controller {
     private Game game;
     private boolean control1;
     private boolean control2;
+    private RMIServer rmiServer;
+    private SocketServer socketServer;
 
-    private EventsController() {
+    public EventsController(RMIServer rmiS, SocketServer socketS) {
         super();
+        this.rmiServer = rmiS;
+        this.socketServer = socketS;
     }
 
     private boolean checkPlayer(String username) {
@@ -39,6 +45,7 @@ public class EventsController extends Controller {
     }
 
     private boolean checkValidSkip(SkipTurnEvent e) {
+
         return this.checkPlayer(e.getUsername());
     }
 

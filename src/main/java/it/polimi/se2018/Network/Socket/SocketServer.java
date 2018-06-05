@@ -1,5 +1,6 @@
 package it.polimi.se2018.Network.Socket;
 
+import it.polimi.se2018.Network.ClientInterface;
 import it.polimi.se2018.View.VCEvent;
 import it.polimi.se2018.Message;
 import it.polimi.se2018.Network.LobbyController;
@@ -41,10 +42,10 @@ public class SocketServer implements ServerInterface{
     }
 
     @Override
-    public void addClient(RMIClientInterface client){
+    public void addClient(ClientInterface client){
 
     }
-
+/*
     @Override
     public void removeClient(RMIClientInterface client){
 
@@ -53,7 +54,7 @@ public class SocketServer implements ServerInterface{
     @Override
     public void send(Message message){
         ObjectOutputStream b;
-        /*Iterator<SocketConnection> clientIterator = socketConnections.iterator();
+        Iterator<SocketConnection> clientIterator = socketConnections.iterator();
         while(clientIterator.hasNext()){
             try {
                 b = new ObjectOutputStream(clientIterator.next().getConnectionSocket().getOutputStream());
@@ -63,11 +64,11 @@ public class SocketServer implements ServerInterface{
                 e.printStackTrace();
             }
 
-            }*/
+            }
         }
 
 
-
+*/
     @Override
     public void loginUser(VCEvent event){
         String user = event.getUsername();
