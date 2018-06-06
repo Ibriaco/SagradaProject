@@ -1,5 +1,8 @@
-package it.polimi.se2018.Network.RMI;
+package it.polimi.se2018.Network.client.rmi;
 
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.server.rmi.RMIServerInterface;
 import it.polimi.se2018.View.LoginEvent;
 import it.polimi.se2018.View.VCEvent;
 import it.polimi.se2018.Message;
@@ -7,7 +10,6 @@ import it.polimi.se2018.Message;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -54,4 +56,23 @@ public class RMIClient implements RMIClientInterface {
     }
 
 
+    @Override
+    public void registerObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
+
+    @Override
+    public void update(MyObservable o, Object arg) {
+
+    }
 }

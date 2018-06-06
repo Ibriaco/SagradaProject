@@ -1,7 +1,7 @@
 package it.polimi.se2018.Controller;
 
-import it.polimi.se2018.Network.RMI.RMIServer;
-import it.polimi.se2018.Network.Socket.SocketServer;
+import it.polimi.se2018.Network.server.rmi.RMIServer;
+import it.polimi.se2018.Network.server.socket.SocketServer;
 import it.polimi.se2018.View.*;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;

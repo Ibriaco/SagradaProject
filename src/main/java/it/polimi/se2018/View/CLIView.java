@@ -1,14 +1,50 @@
 package it.polimi.se2018.View;
 
 
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
 
-public class CLIView extends View {
+import java.util.ArrayList;
+
+public class CLIView implements ViewInterface {
+
+    private ArrayList<MyObserver> observerCollection;
 
     String command;
 
     public String getCommand() {
 
         return command;
+    }
+
+    @Override
+    public void updateWindowCard() {
+
+    }
+
+    @Override
+    public void showUI() {
+
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
+
+    @Override
+    public void update(MyObservable o, Object arg) {
+
     }
 /*
     public void writeOnLogger(String c){

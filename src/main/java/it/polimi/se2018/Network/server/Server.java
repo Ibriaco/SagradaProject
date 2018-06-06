@@ -1,7 +1,8 @@
-package it.polimi.se2018.Network;
+package it.polimi.se2018.Network.server;
 
-import it.polimi.se2018.Network.RMI.RMIServer;
-import it.polimi.se2018.Network.Socket.SocketServer;
+import it.polimi.se2018.Network.LobbyController;
+import it.polimi.se2018.Network.server.rmi.RMIServer;
+import it.polimi.se2018.Network.server.socket.SocketServer;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

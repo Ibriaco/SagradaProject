@@ -1,12 +1,14 @@
-package it.polimi.se2018.Network.Socket;
+package it.polimi.se2018.Network.client.socket;
 
-import it.polimi.se2018.Network.ClientInterface;
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.server.socket.ListeningThread;
+import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.LoginEvent;
 import it.polimi.se2018.View.VCEvent;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class SocketClient implements ClientInterface{
     private String username;
@@ -37,6 +39,26 @@ public class SocketClient implements ClientInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
+
+    @Override
+    public void update(MyObservable o, Object arg) {
 
     }
 }

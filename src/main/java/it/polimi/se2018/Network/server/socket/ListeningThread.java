@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Socket;
+package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Message;
 

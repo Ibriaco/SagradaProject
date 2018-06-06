@@ -1,7 +1,44 @@
 package it.polimi.se2018.View;
 
 
-public class GUIView extends View{
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
+
+import java.util.ArrayList;
+
+public class GUIView implements ViewInterface {
+
+    private ArrayList<MyObserver> observerCollection;
+
+    @Override
+    public void updateWindowCard() {
+
+    }
+
+    @Override
+    public void showUI() {
+
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) {
+
+    }
+
+    @Override
+    public void notifyObservers() {
+
+    }
+
+    @Override
+    public void update(MyObservable o, Object arg) {
+
+    }
 /*
     public void showTimer(int timer){
 

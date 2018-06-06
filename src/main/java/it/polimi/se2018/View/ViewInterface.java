@@ -1,17 +1,16 @@
 package it.polimi.se2018.View;
 
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
 
-public abstract class View {
+import java.util.Observable;
+import java.util.Observer;
 
-    private int timer;
-    private String username;
+public interface ViewInterface extends MyObserver, MyObservable {
 
-    public View() {
-    }
+    void updateWindowCard();
 
-    public void updateWindowCard(){
-
-    }
+    void showUI();
 
     /*
     public void updateRoundTrack(Game game){

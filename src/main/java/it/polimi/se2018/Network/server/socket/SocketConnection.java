@@ -1,5 +1,6 @@
-package it.polimi.se2018.Network.Socket;
+package it.polimi.se2018.Network.server.socket;
 
+import it.polimi.se2018.Network.server.socket.SocketServer;
 import it.polimi.se2018.View.VCEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;

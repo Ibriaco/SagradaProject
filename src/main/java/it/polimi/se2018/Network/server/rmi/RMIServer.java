@@ -1,16 +1,13 @@
-package it.polimi.se2018.Network.RMI;
+package it.polimi.se2018.Network.server.rmi;
 
-import it.polimi.se2018.Model.Player;
-import it.polimi.se2018.Network.ClientInterface;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.client.rmi.RMIClientInterface;
 import it.polimi.se2018.View.VCEvent;
 import it.polimi.se2018.Message;
 import it.polimi.se2018.Network.LobbyController;
 
-import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
@@ -24,9 +21,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     public void addClient(ClientInterface client) throws RemoteException {
-        RMISender sender = new RMISender();
-        sender.addClient((RMIClientInterface)client);
-        lobbyController.addSender(sender);
+
         /*
         if(clients.size() < 4) {
             clients.add(client);
@@ -59,8 +54,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         String user = event.getUsername();
         if(lobbyController.checkUser(user)&&lobbyController.checkOnlinePlayers(user)&&lobbyController.checkTime(user)) {
             lobbyController.addInLobby(user);
-            lobbyController.getSender().send(new Message("Utente " + user + " loggato\n" +
-                    "Online players: " + String.valueOf(lobbyController.getLobby().getOnlinePlayersN())));
 
 /*
             Iterator<RMIClientInterface> clientIterator = clients.iterator();

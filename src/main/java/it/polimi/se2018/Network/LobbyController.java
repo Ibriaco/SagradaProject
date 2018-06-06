@@ -2,13 +2,9 @@ package it.polimi.se2018.Network;
 
 import it.polimi.se2018.Controller.EventsController;
 import it.polimi.se2018.Message;
-import it.polimi.se2018.Network.RMI.RMISender;
-
-import java.rmi.RemoteException;
 
 public class LobbyController {
 
-    private RMISender sender;
     private Lobby waitingLobby;
     private static int timer = 10;
     private EventsController eventsController;
@@ -59,12 +55,6 @@ public class LobbyController {
                         //socketServer.send(timeout);
 
                         try {
-                            sender.send(timeout);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-
-                        try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -82,11 +72,6 @@ public class LobbyController {
 
 
 
-    public void addSender(RMISender s) {
-        sender = s;
-        launchTimer();
-        //this.start();
-    }
 
     public int getTimer() {
         return timer;
@@ -94,10 +79,6 @@ public class LobbyController {
 
     public void setTimer(int timer) {
         LobbyController.timer = timer;
-    }
-
-    public RMISender getSender() {
-        return sender;
     }
 
     public Lobby getLobby() {

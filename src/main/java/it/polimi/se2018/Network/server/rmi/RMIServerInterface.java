@@ -1,14 +1,13 @@
-package it.polimi.se2018.Network.RMI;
+package it.polimi.se2018.Network.server.rmi;
 
-import it.polimi.se2018.Network.ClientInterface;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.server.ServerInterface;
 import it.polimi.se2018.View.VCEvent;
-import it.polimi.se2018.Message;
-import it.polimi.se2018.Network.ServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RMIServerInterface extends Remote, ServerInterface{
+public interface RMIServerInterface extends Remote, ServerInterface {
 
     void addClient(ClientInterface client) throws RemoteException;
 

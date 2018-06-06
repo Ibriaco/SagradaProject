@@ -3,7 +3,7 @@ package it.polimi.se2018.View;
 import java.io.Serializable;
 
 /**
- * Class of the events that occur between View and Controller.
+ * Class of the events that occur between ViewInterface and Controller.
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */

@@ -1,22 +1,16 @@
-package it.polimi.se2018.Network.Socket;
+package it.polimi.se2018.Network.server.socket;
 
-import it.polimi.se2018.Network.ClientInterface;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.server.ServerInterface;
 import it.polimi.se2018.View.VCEvent;
-import it.polimi.se2018.Message;
 import it.polimi.se2018.Network.LobbyController;
-import it.polimi.se2018.Network.RMI.RMIClientInterface;
-import it.polimi.se2018.Network.ServerInterface;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.ConnectException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class SocketServer implements ServerInterface{
+public class SocketServer implements ServerInterface {
     private static ServerSocket serverSocket;
     private static ConnectionManager connectionsHandler;
     private static List<SocketConnection> socketConnections;
