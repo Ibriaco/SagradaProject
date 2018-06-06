@@ -7,6 +7,6 @@ import java.rmi.RemoteException;
 
 public interface ClientInterface extends MyObservable, MyObserver {
 
-    void loginRequest() throws RemoteException;
+    void loginRequest(String username) throws RemoteException;
 
 }

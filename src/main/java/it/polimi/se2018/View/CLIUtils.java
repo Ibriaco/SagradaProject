@@ -7,7 +7,7 @@ public final class CLIUtils {
 
 
     public static final PrintWriter consoleWriter = new PrintWriter(System.out, true);
-    public static final Scanner consoleScaner = new Scanner(System.in);
+    public static final Scanner consoleScanner = new Scanner(System.in);
     public static final PrintWriter consoleErrorWriter = new PrintWriter(System.err, true);
     private final static String SPLASH_ART = " __        __   _                             _           ____                            _       \n" +
             " \\ \\      / /__| | ___ ___  _ __ ___   ___   | |_ ___    / ___|  __ _  __ _ _ __ __ _  __| | __ _ \n" +
@@ -18,5 +18,9 @@ public final class CLIUtils {
     public static final void printSplashArt(){
         consoleWriter.println(SPLASH_ART);
     }
+    public static final void printOnConsole(String toPrint){
+        consoleWriter.println(toPrint);
+    }
+
 
 }

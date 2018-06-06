@@ -3,7 +3,6 @@ package it.polimi.se2018.View;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-
 import java.util.ArrayList;
 
 public class GUIView implements ViewInterface {
@@ -17,7 +16,7 @@ public class GUIView implements ViewInterface {
 
     @Override
     public void showUI() {
-
+        System.out.println("GUI");
     }
 
     @Override
@@ -39,6 +38,7 @@ public class GUIView implements ViewInterface {
     public void update(MyObservable o, Object arg) {
 
     }
+
 /*
     public void showTimer(int timer){
 

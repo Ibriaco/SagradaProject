@@ -3,14 +3,22 @@ package it.polimi.se2018.View;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.client.rmi.RMIClient;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
+import static it.polimi.se2018.View.CLIUtils.consoleScanner;
+import static it.polimi.se2018.View.CLIUtils.printOnConsole;
+
 
 public class CLIView implements ViewInterface {
 
     private ArrayList<MyObserver> observerCollection;
-
-    String command;
+    private ClientInterface selectedClient;
+    private String command;
 
     public String getCommand() {
 
@@ -25,6 +33,53 @@ public class CLIView implements ViewInterface {
     @Override
     public void showUI() {
 
+        int insertedPort;
+        String insertedIP;
+        boolean validInput = false;
+        while(!validInput){
+            int choice = printConnectionChoice();
+            if(choice == 1){
+                try {
+                    insertedPort = requestPort();
+                    selectedClient = new RMIClient();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                validInput = true;
+            }
+            else if(choice == 2){
+                //selectedClient = new SocketClient();
+                validInput = true;
+            }
+            else
+                consoleErrorWriter.println("Invalid input, please try again!");
+        }
+
+        try {
+            loginScreen();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loginScreen() throws RemoteException{
+        String user;
+        printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
+        printOnConsole("Insert your username here: ");
+        user = consoleScanner.next();
+        selectedClient.loginRequest(user);
+    }
+
+    private int requestPort() {
+        System.out.println("Select the port which you want to use:");
+        return consoleScanner.nextInt();
+    }
+
+    private int printConnectionChoice() {
+        System.out.println("Select the Connection type you want to use:");
+        System.out.println("1) RMI");
+        System.out.println("2) Socket");
+        return consoleScanner.nextInt();
     }
 
     @Override
@@ -44,6 +99,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void update(MyObservable o, Object arg) {
+        System.out.println(arg.toString());
 
     }
 /*

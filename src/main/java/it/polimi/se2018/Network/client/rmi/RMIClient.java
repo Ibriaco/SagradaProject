@@ -15,7 +15,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient implements RMIClientInterface {
 
-    private String username;
     private RMIClientInterface remoteRef;
     private RMIServerInterface server;
 
@@ -23,8 +22,7 @@ public class RMIClient implements RMIClientInterface {
         System.out.println(message.getMessage());
     }
 
-    public RMIClient(String username) throws RemoteException{
-    this.username = username;
+    public RMIClient() throws RemoteException{
         try{
         server = (RMIServerInterface) Naming.lookup("//localhost/MyServer");
         remoteRef = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
@@ -36,7 +34,7 @@ public class RMIClient implements RMIClientInterface {
     } catch (NotBoundException e) {
         System.err.println("Il riferimento passato non è associato a nulla!");
     }
-    loginRequest();
+    //loginRequest();
     }
 
     public void getPrivateObjective() throws RemoteException{
@@ -44,35 +42,32 @@ public class RMIClient implements RMIClientInterface {
     }
 
 
-    public void loginRequest() throws RemoteException{
+    public void loginRequest(String username) throws RemoteException{
         VCEvent loginE = new LoginEvent("RMI", username);
+        System.out.println("Procedo ad autenticare " + username );
         server.addClient(remoteRef);
         server.loginUser(loginE);
-
     }
 
-    public String getUsername(){
-        return username;
-    }
 
 
     @Override
-    public void registerObserver(MyObserver observer) {
+    public void registerObserver(MyObserver observer) throws RemoteException{
 
     }
 
     @Override
-    public void unregisterObserver(MyObserver observer) {
+    public void unregisterObserver(MyObserver observer) throws RemoteException{
 
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws RemoteException{
 
     }
 
     @Override
-    public void update(MyObservable o, Object arg) {
+    public void update(MyObservable o, Object arg) throws RemoteException{
 
     }
 }

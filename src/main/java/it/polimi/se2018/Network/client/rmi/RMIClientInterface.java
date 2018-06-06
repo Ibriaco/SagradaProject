@@ -10,7 +10,6 @@ public interface RMIClientInterface extends Remote, ClientInterface {
 
     void notify(Message message) throws RemoteException;
 
-    void loginRequest() throws RemoteException;
+    void loginRequest(String username) throws RemoteException;
 
-    String getUsername() throws RemoteException;
 }

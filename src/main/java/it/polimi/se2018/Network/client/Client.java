@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
-import static it.polimi.se2018.View.CLIUtils.consoleScaner;
+import static it.polimi.se2018.View.CLIUtils.consoleScanner;
 import static it.polimi.se2018.View.CLIUtils.printSplashArt;
 
 public class Client {
@@ -38,35 +38,6 @@ public class Client {
         }
 
         vi.showUI();
-
-
-        Scanner scanner = new Scanner(System.in);
-        String choice = "0";
-
-        while (!(choice.equals("1") || choice.equals("2"))) {
-            System.out.println("Inserisci la connessione");
-            System.out.println("1) RMI");
-            System.out.println("2) Socket");
-            choice = scanner.next();
-        }
-        String username = loginScreen();
-
-        if (choice.equals("1")) {
-            try {
-                RMIClient rc = new RMIClient(username);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        } else if (choice.equals("2")) {
-            SocketClient sc = new SocketClient("localhost", 10000, username);
-
-        }
-
-        boolean a = true;
-        while(a){
-
-        }
-
     }
 
     private static int printChoice() {
@@ -74,7 +45,7 @@ public class Client {
         System.out.println("Select the UI:");
         System.out.println("1) CLI");
         System.out.println("2) GUI");
-        return consoleScaner.nextInt();
+        return consoleScanner.nextInt();
     }
 
 

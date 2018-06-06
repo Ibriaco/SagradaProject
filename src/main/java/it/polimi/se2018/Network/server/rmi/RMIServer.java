@@ -65,7 +65,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
                 }
             }
 */
-            System.out.println("Utente loggato!");
+            System.out.println("Utente " + user + "loggato!");
         }
         /*
         else if(!lobbyController.checkOnlinePlayers(user)){

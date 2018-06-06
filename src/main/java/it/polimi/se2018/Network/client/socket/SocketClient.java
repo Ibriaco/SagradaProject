@@ -11,18 +11,15 @@ import java.io.*;
 import java.net.Socket;
 
 public class SocketClient implements ClientInterface{
-    private String username;
     private static Socket socket;
     private ListeningThread listeningThread;
 
-    public SocketClient(String serverIP, Integer port, String username) {
-        this.username = username;
+    public SocketClient(String serverIP, Integer port) {
         try {
             socket = new Socket(serverIP, port);
         } catch (IOException e) {
         }
 
-        loginRequest();
 
         listeningThread = new ListeningThread(socket);
         listeningThread.start();
@@ -30,7 +27,7 @@ public class SocketClient implements ClientInterface{
 
 
     @Override
-    public void loginRequest() {
+    public void loginRequest(String username) {
         VCEvent loginE = new LoginEvent("Socket", username);
         ObjectOutputStream toServer;
         try {
