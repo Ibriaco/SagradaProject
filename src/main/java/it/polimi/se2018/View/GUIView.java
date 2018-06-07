@@ -3,9 +3,17 @@ package it.polimi.se2018.View;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
-public class GUIView implements ViewInterface {
+public class GUIView extends Application implements ViewInterface {
 
     private ArrayList<MyObserver> observerCollection;
 
@@ -16,7 +24,7 @@ public class GUIView implements ViewInterface {
 
     @Override
     public void showUI() {
-        System.out.println("GUI");
+        /* Intentionally left void (for now)*/
     }
 
     @Override
@@ -38,6 +46,26 @@ public class GUIView implements ViewInterface {
     public void update(MyObservable o, Object arg) {
 
     }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Hello World!");
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Hello World!");
+            }
+        });
+
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.show();
+    }
+
 
 /*
     public void showTimer(int timer){

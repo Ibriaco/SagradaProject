@@ -36,7 +36,7 @@ public class NetworkHandler {
 
     private String requestIP(){
         System.out.println("Select the IP you want to connect to:");
-        return consoleScanner.nextLine();
+        return consoleScanner.next();
     }
 
     public void loginScreen() throws RemoteException{

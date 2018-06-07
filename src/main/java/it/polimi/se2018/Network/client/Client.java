@@ -1,13 +1,9 @@
 package it.polimi.se2018.Network.client;
 
-
-import it.polimi.se2018.Network.client.rmi.RMIClient;
-import it.polimi.se2018.Network.client.socket.SocketClient;
 import it.polimi.se2018.View.CLIView;
 import it.polimi.se2018.View.GUIView;
 import it.polimi.se2018.View.ViewInterface;
-
-import java.rmi.RemoteException;
+import javafx.application.Application;
 import java.util.Scanner;
 
 import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
@@ -21,23 +17,26 @@ public class Client {
     public static void main(String[] args) {
 
         printSplashArt();
+        int choice = 0;
 
         boolean validInput = false;
         while(!validInput){
-            int choice = printChoice();
-            if(choice == 1){
-                vi = new CLIView();
+            choice = printChoice();
+            if(choice == 1 || choice == 2)
                 validInput = true;
-            }
-            else if(choice == 2){
-                vi = new GUIView();
-                validInput = true;
-            }
             else
                 consoleErrorWriter.println("Invalid input, please try again!");
         }
 
-        vi.showUI();
+        if(choice == 1){
+            vi = new CLIView();
+            vi.showUI();
+        }
+        else {
+            vi = new GUIView();
+            Application.launch(GUIView.class, args);
+        }
+
     }
 
     private static int printChoice() {
