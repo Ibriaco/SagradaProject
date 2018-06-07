@@ -42,11 +42,28 @@ public class RMIClient implements RMIClientInterface {
     }
 
 
-    public void loginRequest(String username) throws RemoteException{
+    public void loginRequest(String username) throws RemoteException {
         VCEvent loginE = new LoginEvent("RMI", username);
-        System.out.println("Procedo ad autenticare " + username );
-        server.addClient(remoteRef);
-        server.loginUser(loginE);
+        System.out.println("Procedo ad autenticare " + username + " ...");
+        int status = server.loginUser(loginE);
+        switch (status) {
+            case 0:
+                server.sendUser(username,remoteRef);
+                break;
+            case -1:
+                System.out.println("Lobby is full");
+                break;
+            case -2:
+                System.out.println("Username already used");
+                break;
+            case -3:
+                System.out.println("Timer expired");
+                break;
+            default:
+                break;
+
+        }
+
     }
 
 

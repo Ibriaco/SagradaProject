@@ -7,6 +7,7 @@ import it.polimi.se2018.Network.LobbyController;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,6 @@ public class SocketServer implements ServerInterface {
         socketConnections.add(sc);
     }
 
-    @Override
-    public void addClient(ClientInterface client){
-
-    }
 /*
     @Override
     public void removeClient(RMIClientInterface client){
@@ -64,17 +61,29 @@ public class SocketServer implements ServerInterface {
 
 */
     @Override
-    public void loginUser(VCEvent event){
+    public int loginUser(VCEvent event){
         String user = event.getUsername();
 
         if(lobbyController.checkUser(user)) {
             lobbyController.addInLobby(user);
 
             System.out.println("Utente loggato!");
+            return 1;
         }
         else{
             System.out.println("Utente non loggato!");
+            return -1;
         }
 
+    }
+
+    @Override
+    public void sendUser(String username, ClientInterface client) {
+
+    }
+
+    @Override
+    public LobbyController getLobbyController() throws RemoteException {
+        return lobbyController;
     }
 }

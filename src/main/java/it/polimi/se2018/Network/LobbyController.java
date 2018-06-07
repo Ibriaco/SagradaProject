@@ -2,16 +2,21 @@ package it.polimi.se2018.Network;
 
 import it.polimi.se2018.Controller.EventsController;
 import it.polimi.se2018.Message;
+import it.polimi.se2018.Model.Event.LoggedUserEvent;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.server.VirtualView;
+import it.polimi.se2018.View.VCEvent;
 
 public class LobbyController {
 
     private Lobby waitingLobby;
     private static int timer = 10;
     private EventsController eventsController;
-
+    private VirtualView virtualView;
 
     public LobbyController() {
-        waitingLobby = new Lobby();
+        virtualView = new VirtualView();
+        waitingLobby = new Lobby(virtualView);
         System.out.println("Lobby controller creato");
     }
 
@@ -23,14 +28,14 @@ public class LobbyController {
         return true;
     }
 
-    public boolean checkOnlinePlayers(String user) {
+    public boolean checkOnlinePlayers() {
         if (waitingLobby.getOnlinePlayersN() == 4)
             return false;
         else
             return true;
     }
 
-    public boolean checkTime(String user) {
+    public boolean checkTime() {
         if (waitingLobby.getOnlinePlayersN() >= 2 && getTimer() == 0)
             return false;
         else
@@ -38,15 +43,12 @@ public class LobbyController {
     }
 
     public synchronized void addInLobby(String user) {
+
         waitingLobby.addOnlinePlayer(user);
     }
 
     public void launchTimer() {
         new Thread(() -> {
-
-
-
-
             Message timeout = new Message("");
             boolean startGame = false;
             while (!startGame) {
