@@ -1,16 +1,26 @@
 package it.polimi.se2018.View;
 
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class GUIView extends Application implements ViewInterface {
@@ -49,20 +59,16 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+        URL url = new File("src/main/java/it/polimi/se2018/View/loginJFoenix.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+        Scene scene = new Scene(root, 600, 400);
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.centerOnScreen();
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Welcome to Sagrada Game");
+        primaryStage.setScene(scene);
+
         primaryStage.show();
     }
 
