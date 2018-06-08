@@ -20,6 +20,10 @@ public class LoggedUserEvent extends MVEvent {
         this.username = player.getUsername();
     }
 
+    public LoggedUserEvent(String s){
+        super(s);
+    }
+
     public String getUsername() {
 
         return username;

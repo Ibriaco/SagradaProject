@@ -8,11 +8,16 @@ public abstract class MVEvent {
     Game game;
     Player player;
     Die die;
+    String message;
 
     public MVEvent(Game game, Player player, Die die) {
         this.game = game;
         this.player = player;
         this.die = die;
+    }
+
+    public MVEvent(String s){
+        this.message = s;
     }
 
     public MVEvent(Game game, Player player){
@@ -41,5 +46,9 @@ public abstract class MVEvent {
     public Die getDie() {
 
         return die;
+    }
+
+    public String getMessage(String message){
+        return message;
     }
 }

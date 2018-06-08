@@ -11,14 +11,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
 import static it.polimi.se2018.View.CLIUtils.consoleScanner;
-import static it.polimi.se2018.View.CLIUtils.printOnConsole;
 
 
 public class CLIView implements ViewInterface {
 
     private NetworkHandler nh;
     private String command;
-
     public String getCommand() {
 
         return command;
@@ -30,19 +28,18 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void showUI() {
+    public void showUI() throws RemoteException {
 
         boolean validInput = false;
         while(!validInput) {
             int choice = printConnectionChoice();
             if (choice == 1 || choice == 2) {
                 nh = new NetworkHandler(choice);
+                nh.registerObserver(this);
                 validInput = true;
             } else
                 consoleErrorWriter.println("Invalid input, please try again!");
         }
-
-
         try {
             nh.loginScreen();
         } catch (RemoteException e) {
@@ -78,6 +75,8 @@ public class CLIView implements ViewInterface {
         System.out.println(arg.toString());
 
     }
+
+
 /*
     public void writeOnLogger(String c){
 

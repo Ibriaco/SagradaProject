@@ -1,11 +1,13 @@
 package it.polimi.se2018.View;
 
+import java.util.Observable;
+
 /**
  * Event that lets the player use a Tool Card
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class UseToolEvent extends VCEvent {
+public class UseToolEvent extends VCEvent{
 
     private int toolCardNumber;
 

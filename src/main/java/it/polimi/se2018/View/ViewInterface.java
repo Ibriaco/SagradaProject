@@ -3,6 +3,7 @@ package it.polimi.se2018.View;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 
+import java.rmi.RemoteException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,7 +11,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void updateWindowCard();
 
-    void showUI();
+    void showUI() throws RemoteException;
 
     /*
     public void updateRoundTrack(Game game){

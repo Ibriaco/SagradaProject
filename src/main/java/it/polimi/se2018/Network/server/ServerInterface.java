@@ -13,8 +13,8 @@ public interface ServerInterface{
 
     //void send(Message message) throws RemoteException;
 
-    int loginUser(VCEvent event) throws RemoteException;
-    public void sendUser(String username, ClientInterface client) throws RemoteException;
+    void loginUser(VCEvent event) throws RemoteException;
+    void sendUser(String username, ClientInterface client) throws RemoteException;
 
     //void sendPrivateObjective(VCEvent event) throws RemoteException;
 

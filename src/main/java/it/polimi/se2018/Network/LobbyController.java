@@ -72,9 +72,6 @@ public class LobbyController {
     }
 
 
-
-
-
     public int getTimer() {
         return timer;
     }

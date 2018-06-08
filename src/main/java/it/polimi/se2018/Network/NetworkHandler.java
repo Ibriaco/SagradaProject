@@ -1,22 +1,27 @@
 package it.polimi.se2018.Network;
 
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.client.rmi.RMIClient;
 import it.polimi.se2018.Network.client.socket.SocketClient;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import static it.polimi.se2018.View.CLIUtils.consoleScanner;
 import static it.polimi.se2018.View.CLIUtils.printOnConsole;
 
-public class NetworkHandler {
+public class NetworkHandler implements MyObserver, MyObservable {
 
     private ClientInterface selectedClient;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
 
     public NetworkHandler(int value){
         if(value == 1){
             try{
                 selectedClient = new RMIClient();
+                selectedClient.registerObserver(this);
             }
             catch(RemoteException e){
                 e.printStackTrace();
@@ -45,5 +50,27 @@ public class NetworkHandler {
         printOnConsole("Insert your username here: ");
         user = consoleScanner.next();
         selectedClient.loginRequest(user);
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) throws RemoteException {
+        observerCollection.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) throws RemoteException {
+        observerCollection.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException {
+        for (MyObserver o: observerCollection) {
+            update(this, "");
+        }
+    }
+
+    @Override
+    public void update(MyObservable o, Object arg) throws RemoteException {
+        System.out.println(arg.toString());
     }
 }

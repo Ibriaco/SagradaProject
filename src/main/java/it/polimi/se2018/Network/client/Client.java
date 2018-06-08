@@ -4,6 +4,8 @@ import it.polimi.se2018.View.CLIView;
 import it.polimi.se2018.View.GUIView;
 import it.polimi.se2018.View.ViewInterface;
 import javafx.application.Application;
+
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
@@ -14,7 +16,7 @@ public class Client {
 
     private static ViewInterface vi;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
 
         printSplashArt();
         int choice = 0;

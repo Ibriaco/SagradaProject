@@ -61,18 +61,16 @@ public class SocketServer implements ServerInterface {
 
 */
     @Override
-    public int loginUser(VCEvent event){
+    public void loginUser(VCEvent event){
         String user = event.getUsername();
 
         if(lobbyController.checkUser(user)) {
             lobbyController.addInLobby(user);
 
             System.out.println("Utente loggato!");
-            return 1;
         }
         else{
             System.out.println("Utente non loggato!");
-            return -1;
         }
 
     }

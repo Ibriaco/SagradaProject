@@ -1,5 +1,7 @@
 package it.polimi.se2018.View;
 
+import it.polimi.se2018.Network.NetworkHandler;
+
 /**
  * Events that return connection type and the username of the player who logs in.
  * @author Ibrahim El Shemy
@@ -8,6 +10,7 @@ package it.polimi.se2018.View;
 public class LoginEvent extends VCEvent {
 
     private String connectionType;
+
 
     /**
      *
@@ -18,6 +21,7 @@ public class LoginEvent extends VCEvent {
 
         super(username);
         this.connectionType = connectionType;
+
     }
 
     public String getConnectionType() {
