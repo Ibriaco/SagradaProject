@@ -1,5 +1,6 @@
 package it.polimi.se2018.Network.server.rmi;
 
+import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Lobby;
 import it.polimi.se2018.Network.client.Client;
 import it.polimi.se2018.Network.client.ClientInterface;
@@ -21,20 +22,16 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     private VirtualView virtualView;
     private static final long serialVersionUID = -7098548671967083832L;
 
-    public RMIServer(LobbyController lc)throws RemoteException {
+    public RMIServer(LobbyController lc, VirtualView virtualView)throws RemoteException {
         super(0);
-        lobbyController = lc;
+        this.virtualView = virtualView;
+        this.lobbyController = lc;
     }
 
 
     public void loginUser(VCEvent event) throws RemoteException {
         String user = event.getUsername();
-        if(lobbyController.checkUser(user)&&
-                lobbyController.checkOnlinePlayers()&&
-                lobbyController.checkTime()) {
-            lobbyController.addInLobby(user);
-            System.out.println("Utente " + user + " loggato!");
-        }
+        lobbyController.handleLogin(user);
     }
 
 
@@ -43,6 +40,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     public LobbyController getLobbyController() {
+
         return lobbyController;
     }
 }

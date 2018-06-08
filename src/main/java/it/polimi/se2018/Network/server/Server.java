@@ -18,10 +18,12 @@ public class Server {
     private static RMIServer rmiServer;
 
     private static LobbyController lobbyController;
+    private static VirtualView virtualView;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
 
         lobbyController = new LobbyController();
+        virtualView = new VirtualView();
 
         //RMI SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         try {
@@ -32,7 +34,7 @@ public class Server {
         }
 
         try {
-            rmiServer = new RMIServer(lobbyController);
+            rmiServer = new RMIServer(lobbyController, virtualView);
             Naming.rebind("//localhost/MyServer", rmiServer);
 
 

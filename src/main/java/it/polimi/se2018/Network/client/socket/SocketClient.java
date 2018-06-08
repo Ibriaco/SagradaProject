@@ -29,7 +29,7 @@ public class SocketClient implements ClientInterface{
 
 
     @Override
-    public void notify(Message message) throws RemoteException {
+    public void notify(String message) throws RemoteException {
 
     }
 

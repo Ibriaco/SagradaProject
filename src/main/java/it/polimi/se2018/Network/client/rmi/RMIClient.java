@@ -22,8 +22,8 @@ public class RMIClient implements RMIClientInterface {
     private RMIServerInterface server;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
 
-    public void notify(Message message) throws RemoteException {
-        System.out.println(message.getMessage());
+    public void notify(String message) throws RemoteException {
+        System.out.println(message);
     }
 
     public RMIClient() throws RemoteException {
@@ -43,8 +43,11 @@ public class RMIClient implements RMIClientInterface {
     public void loginRequest(String username) throws RemoteException {
         VCEvent loginE = new LoginEvent("RMI", username);
         System.out.println("Procedo ad autenticare " + username + " ...");
-        server.loginUser(loginE);
         server.sendUser(username, remoteRef);
+        server.loginUser(loginE);
+
+
+
     }
 
     @Override
@@ -68,4 +71,5 @@ public class RMIClient implements RMIClientInterface {
     public void update(MyObservable o, Object arg) throws RemoteException {
         System.out.println(arg.toString());
     }
+
 }
