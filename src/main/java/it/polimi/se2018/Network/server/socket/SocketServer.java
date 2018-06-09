@@ -1,5 +1,7 @@
 package it.polimi.se2018.Network.server.socket;
 
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.server.ServerInterface;
 import it.polimi.se2018.View.VCEvent;
@@ -77,6 +79,11 @@ public class SocketServer implements ServerInterface {
 
     @Override
     public void sendUser(String username, ClientInterface client) {
+
+    }
+
+    @Override
+    public void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException {
 
     }
 

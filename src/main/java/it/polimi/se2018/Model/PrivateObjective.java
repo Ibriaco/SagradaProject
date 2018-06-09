@@ -26,9 +26,6 @@ public class PrivateObjective extends Card {
     @Override
     public String toString() {
 
-        return "PrivateObjective{" +
-                "score=" + score +
-                ", color=" + color +
-                '}';
+        return "PRIVATE OBJECTIVE \n Shades of " + color + "S";
     }
 }

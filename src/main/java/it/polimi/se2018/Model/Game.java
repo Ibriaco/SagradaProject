@@ -32,18 +32,15 @@ public class Game {
     private List<RoundCell> roundCells;
     private List<Color> colorList;
 
-    public Game(int playerNumber) throws InvalidGameCreationException {
-        if(playerNumber < 2 || playerNumber > 4)
-            throw new InvalidGameCreationException();
-        else {
-            this.playerNumber = playerNumber;
-            players = new ArrayList<>();
-            rolledDice = new ArrayList<>();
-            colorList = new ArrayList<>();
-            publicCards = new ArrayList<>();
-            setPublicObjectives();
-            getAvailableColor();
-        }
+    public Game(int playerNumber) {
+
+        this.playerNumber = playerNumber;
+        players = new ArrayList<>();
+        rolledDice = new ArrayList<>();
+        colorList = new ArrayList<>();
+        publicCards = new ArrayList<>();
+        setPublicObjectives();
+        getAvailableColor();
     }
 
     /**

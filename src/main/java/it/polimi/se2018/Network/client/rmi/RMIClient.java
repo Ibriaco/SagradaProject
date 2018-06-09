@@ -1,14 +1,13 @@
 package it.polimi.se2018.Network.client.rmi;
 
-import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.NetworkHandler;
+import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.server.rmi.RMIServerInterface;
 import it.polimi.se2018.View.LoginEvent;
 import it.polimi.se2018.View.VCEvent;
-import it.polimi.se2018.Message;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -32,7 +31,7 @@ public class RMIClient implements RMIClientInterface {
             remoteRef = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
 
         } catch (MalformedURLException e) {
-            System.err.println("URL non trovato!");
+            System.err.println("URL not found!");
         } catch (RemoteException e) {
             System.err.println("Errore di connessione: " + e.getMessage() + "!");
         } catch (NotBoundException e) {
@@ -40,15 +39,17 @@ public class RMIClient implements RMIClientInterface {
         }
     }
 
-    public void loginRequest(String username) throws RemoteException {
+    public void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException {
         VCEvent loginE = new LoginEvent("RMI", username);
-        System.out.println("Procedo ad autenticare " + username + " ...");
+        System.out.println("Trying to authenticate " + username + " ...");
         server.sendUser(username, remoteRef);
         server.loginUser(loginE);
-
-
-
+        server.startGame();
+        /*LobbyController lc = new LobbyController();
+        lc.setupGame();*/
     }
+
+
 
     @Override
     public void registerObserver(MyObserver observer) throws RemoteException {

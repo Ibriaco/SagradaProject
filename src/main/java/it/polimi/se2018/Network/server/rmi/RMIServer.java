@@ -1,5 +1,7 @@
 package it.polimi.se2018.Network.server.rmi;
 
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Lobby;
 import it.polimi.se2018.Network.client.Client;
@@ -15,6 +17,8 @@ import it.polimi.se2018.Network.LobbyController;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+
+import static it.polimi.se2018.View.CLIUtils.consoleWriter;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
@@ -39,9 +43,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         lobbyController.getLobby().getVirtualView().getClients().put(username,client);
     }
 
+
     public LobbyController getLobbyController() {
 
         return lobbyController;
+    }
+
+    public void startGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
+        if(lobbyController.getLobby().getVirtualView().getClients().size() == 4)
+            lobbyController.setupGame();
     }
 }
 

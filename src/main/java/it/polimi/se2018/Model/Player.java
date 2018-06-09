@@ -8,7 +8,6 @@ import java.io.FileReader;
 public class Player {
 
     private String username;
-    private String connectionType;
     private String viewType;
     private int tokens;
     private int playerScore;
@@ -18,11 +17,7 @@ public class Player {
     private int windowFrameNumber;
 
 
-    public Player(String username, String connectionType, String viewType) throws InvalidConnectionException , InvalidViewException {
-        if(connectionType.equals("Socket") || connectionType.equals("RMI"))
-            this.connectionType = connectionType;
-        else
-            throw new InvalidConnectionException();
+    public Player(String username, String viewType) throws InvalidConnectionException , InvalidViewException {
 
         if(viewType.equals("GUI") || viewType.equals("CLI"))
             this.viewType = viewType;
@@ -39,11 +34,6 @@ public class Player {
     public String getUsername() {
 
         return username;
-    }
-
-    public String getConnectionType() {
-
-        return connectionType;
     }
 
     public String getViewType() {
@@ -126,7 +116,7 @@ public class Player {
                 if(x.equals(String.valueOf(cardNumber))) {
                     t = b.readLine();
                     d = b.readLine();
-                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d,1, c);
+                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d,0, c);
                     line = null;
                 }
                 else

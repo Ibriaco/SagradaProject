@@ -16,30 +16,19 @@ public class TestGame {
 
     @Test
     public void testGameCreation(){
-        try {
-            Game game = new Game(3);
-        } catch (InvalidGameCreationException e) {
-            fail();
-        }
+        Game game = new Game(3);
     }
 
     @Test
     public void testGameWrongCreation(){
-        try {
-            Game game = new Game(6);
-            fail();
-        } catch (InvalidGameCreationException e) {
-        }
+        Game game = new Game(6);
+        fail();
     }
 
     @Test
     public void testPublic(){
         Game game = null;
-        try {
-             game = new Game(4);
-        } catch (InvalidGameCreationException e) {
-            fail();
-        }
+        game = new Game(4);
 
         List<PublicObjective> list = game.getPublicCards();
 
@@ -55,11 +44,7 @@ public class TestGame {
     @Test
     public void testRollDice(){
         Game game = null;
-        try {
-            game = new Game(3);
-        } catch (InvalidGameCreationException e) {
-            fail();
-        }
+        game = new Game(3);
 
         game.setRolledDice();
 
@@ -74,11 +59,7 @@ public class TestGame {
     @Test
     public void testRollAllDice(){
         Game game = null;
-        try {
-            game = new Game(4);
-        } catch (InvalidGameCreationException e) {
-            fail();
-        }
+        game = new Game(4);
         for(int i = 0; i < 10; i++)
             game.setRolledDice();
 
@@ -92,14 +73,10 @@ public class TestGame {
     @Test
     public void testAddPlayer(){
         Game game = null;
-        try {
-            game = new Game(3);
-        } catch (InvalidGameCreationException e) {
-            fail();
-        }
+        game = new Game(3);
 
         try {
-            game.addPlayer(new Player("test", "RMI","CLI"));
+            game.addPlayer(new Player("test", "CLI"));
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -111,16 +88,12 @@ public class TestGame {
     @Test
     public void testAddPlayerFail(){
         Game game = null;
-        try {
-            game = new Game(2);
-        } catch (InvalidGameCreationException e) {
-            fail();
-        }
+        game = new Game(2);
 
         try {
-            game.addPlayer(new Player("test1", "RMI","CLI"));
-            game.addPlayer(new Player("test2", "RMI","CLI"));
-            game.addPlayer(new Player("test3", "RMI","CLI"));
+            game.addPlayer(new Player("test1", "CLI"));
+            game.addPlayer(new Player("test2", "CLI"));
+            game.addPlayer(new Player("test3","CLI"));
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }

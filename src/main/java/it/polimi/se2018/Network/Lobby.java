@@ -1,5 +1,6 @@
 package it.polimi.se2018.Network;
 
+import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.server.VirtualView;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Lobby {
 
     private int onlinePlayersN;
+    private ArrayList<Player> playersList;
     private ArrayList<String> onlinePlayers;
     private VirtualView virtualView;
 
@@ -20,7 +22,6 @@ public class Lobby {
         this.virtualView = virtualView;
         //startTimer();
     }
-
 
 
     public void addOnlinePlayer(String p){

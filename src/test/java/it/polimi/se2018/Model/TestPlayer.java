@@ -13,23 +13,23 @@ public class TestPlayer {
     @Test
     public void testNewPlayer(){
         try {
-            Player p = new Player("ingsw", "Socket", "CLI");
+            Player p = new Player("ingsw", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
     }
 
-    @Test
+    /*@Test
     public void testNewWrongConnectionPlayer(){
         try {
-            Player p = new Player("ingsw", "Soket", "CLI");
+            Player p = new Player("ingsw", "CLI");
             fail();
         } catch (InvalidConnectionException | InvalidViewException e) { }
-    }
+    }*/
     @Test
     public void testNewWrongViewPlayer(){
         try {
-            Player p = new Player("ingsw", "Socket", "GLI");
+            Player p = new Player("ingsw", "GLI");
             fail();
         } catch (InvalidConnectionException | InvalidViewException e) { }
     }
@@ -38,7 +38,7 @@ public class TestPlayer {
     public void testSetTokens(){
         Player p = null;
         try {
-            p = new Player("ingsw", "Socket", "CLI");
+            p = new Player("ingsw", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -52,7 +52,7 @@ public class TestPlayer {
     public void testSetTokensFail(){
         Player p = null;
         try {
-            p = new Player("ingsw", "Socket", "CLI");
+            p = new Player("ingsw", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -75,7 +75,7 @@ public class TestPlayer {
         }
         Player p = null;
         try {
-            p = new Player("ingsw", "Socket", "CLI");
+            p = new Player("ingsw", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -96,7 +96,7 @@ public class TestPlayer {
         }
         Player p = null;
         try {
-            p = new Player("ingsw", "Socket", "CLI");
+            p = new Player("ingsw", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -112,7 +112,7 @@ public class TestPlayer {
     public void testSetPlayerScore(){
         Player p= null;
         try {
-            p = new Player("player", "RMI","CLI");
+            p = new Player("player", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -126,7 +126,7 @@ public class TestPlayer {
     public void testReduceTokens(){
         Player p= null;
         try {
-            p = new Player("player", "RMI","CLI");
+            p = new Player("player", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -141,7 +141,7 @@ public class TestPlayer {
     public void testDrawCard(){
         Player p= null;
         try {
-            p = new Player("player", "RMI","CLI");
+            p = new Player("player", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -166,7 +166,7 @@ public class TestPlayer {
     public void testWrongDrawCard(){
         Player p = null;
         try {
-            p = new Player("player", "RMI","CLI");
+            p = new Player("player", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }
@@ -179,7 +179,7 @@ public class TestPlayer {
         Player p = null;
         Cell c;
         try {
-            p = new Player("player", "RMI","CLI");
+            p = new Player("player", "CLI");
         } catch (InvalidConnectionException | InvalidViewException e) {
             fail();
         }

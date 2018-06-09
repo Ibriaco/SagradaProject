@@ -1,6 +1,8 @@
 package it.polimi.se2018.View;
 
 
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
@@ -43,6 +45,10 @@ public class CLIView implements ViewInterface {
         try {
             nh.loginScreen();
         } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (InvalidConnectionException e) {
+            e.printStackTrace();
+        } catch (InvalidViewException e) {
             e.printStackTrace();
         }
     }
