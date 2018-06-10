@@ -1,4 +1,4 @@
-package it.polimi.se2018.View;
+package it.polimi.se2018.View.ViewEvents;
 
 import it.polimi.se2018.Model.*;
 

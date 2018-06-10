@@ -2,7 +2,7 @@ package it.polimi.se2018.Network.server;
 
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.client.ClientInterface;
-import it.polimi.se2018.View.VCEvent;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
 

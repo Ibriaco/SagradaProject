@@ -2,7 +2,7 @@ package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.server.ServerInterface;
-import it.polimi.se2018.View.VCEvent;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 import it.polimi.se2018.Network.LobbyController;
 
 import java.io.IOException;

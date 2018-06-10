@@ -2,11 +2,14 @@ package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
-import it.polimi.se2018.View.*;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.Model.Game;
 import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
+import it.polimi.se2018.View.ViewEvents.LoginEvent;
+import it.polimi.se2018.View.ViewEvents.SelectDieEvent;
+import it.polimi.se2018.View.ViewEvents.SkipTurnEvent;
 
 public class EventsController extends Controller {
 

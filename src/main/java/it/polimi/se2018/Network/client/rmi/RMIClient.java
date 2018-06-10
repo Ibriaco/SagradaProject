@@ -1,13 +1,10 @@
 package it.polimi.se2018.Network.client.rmi;
 
-import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.NetworkHandler;
 import it.polimi.se2018.Network.server.rmi.RMIServerInterface;
-import it.polimi.se2018.View.LoginEvent;
-import it.polimi.se2018.View.VCEvent;
-import it.polimi.se2018.Message;
+import it.polimi.se2018.View.ViewEvents.LoginEvent;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

@@ -1,16 +1,16 @@
 package it.polimi.se2018.Network.client;
 
-import it.polimi.se2018.View.CLIView;
-import it.polimi.se2018.View.GUIView;
-import it.polimi.se2018.View.ViewInterface;
+import it.polimi.se2018.View.UI.CLIView;
+import it.polimi.se2018.View.UI.GUIView;
+import it.polimi.se2018.View.UI.ViewInterface;
 import javafx.application.Application;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
-import static it.polimi.se2018.View.CLIUtils.consoleScanner;
-import static it.polimi.se2018.View.CLIUtils.printSplashArt;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleErrorWriter;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
+import static it.polimi.se2018.View.UI.CLIUtils.printSplashArt;
 
 public class Client {
 

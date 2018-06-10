@@ -1,4 +1,4 @@
-package it.polimi.se2018.View;
+package it.polimi.se2018.View.ViewEvents;
 
 /**
  * Event that returns the number and the side of a chosen Card by the player

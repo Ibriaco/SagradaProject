@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="479.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.View.UI.GUIUtils.GUILoginController">
    <children>
       <ImageView fitHeight="625.0" fitWidth="618.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../Desktop/PF_IngSoft/Immagini%20Varie/Sagrada+Box+Art.jpg" />
+            <Image url="@Sagrada+Box+Art.jpg" />
          </image>
       </ImageView>
       <ImageView fitHeight="400.0" fitWidth="603.0" opacity="0.75">
@@ -32,8 +32,8 @@
          <children>
             <AnchorPane prefHeight="212.0" prefWidth="399.0">
                <children>
-                  <JFXToggleButton layoutX="359.0" layoutY="157.0" text="RMI" textFill="WHITE" toggleColor="#ff4736f0" toggleLineColor="WHITE" AnchorPane.bottomAnchor="-17.666666666666657" AnchorPane.leftAnchor="359.0" AnchorPane.rightAnchor="149.66666666666669" AnchorPane.topAnchor="157.0" />
-                  <JFXToggleButton layoutX="135.0" layoutY="157.0" prefHeight="63.0" prefWidth="118.0" text="Socket" textFill="WHITE" toggleColor="#00aeff" toggleLineColor="WHITE" AnchorPane.bottomAnchor="-18.0" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="157.0">
+                  <JFXToggleButton fx:id="rmiBtn" layoutX="359.0" layoutY="157.0" onMouseClicked="#handleToggle" text="RMI" textFill="WHITE" toggleColor="#ff4736f0" toggleLineColor="WHITE" AnchorPane.bottomAnchor="-17.666666666666657" AnchorPane.leftAnchor="359.0" AnchorPane.rightAnchor="149.66666666666669" AnchorPane.topAnchor="157.0" />
+                  <JFXToggleButton fx:id="socketBtn" layoutX="135.0" layoutY="157.0" onMouseClicked="#handleToggle" prefHeight="63.0" prefWidth="118.0" text="Socket" textFill="WHITE" toggleColor="#00aeff" toggleLineColor="WHITE" AnchorPane.bottomAnchor="-18.0" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="347.0" AnchorPane.topAnchor="157.0">
                      <font>
                         <Font name="Montserrat Regular" size="12.0" />
                      </font></JFXToggleButton>
@@ -56,15 +56,15 @@
             </AnchorPane>
             <AnchorPane prefHeight="133.0" prefWidth="600.0">
                <children>
-                  <JFXTextField alignment="TOP_CENTER" focusColor="WHITE" labelFloat="true" layoutX="179.0" layoutY="44.0" prefHeight="25.0" prefWidth="243.0" promptText="username" unFocusColor="WHITE" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="44.0">
+                  <JFXTextField fx:id="userField" alignment="TOP_CENTER" focusColor="WHITE" labelFloat="true" layoutX="179.0" layoutY="44.0" prefHeight="25.0" prefWidth="243.0" promptText="username" unFocusColor="WHITE" AnchorPane.bottomAnchor="131.0" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="44.0">
                      <effect>
                         <ColorAdjust brightness="1.0" />
                      </effect>
                      <font>
                         <Font name="Montserrat Regular" size="12.0" />
                      </font></JFXTextField>
-                  <JFXSpinner layoutX="487.0" layoutY="19.0" />
-                  <JFXButton buttonType="RAISED" layoutX="268.0" layoutY="88.0" prefHeight="27.0" prefWidth="64.0" ripplerFill="#ffea00" text="LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="268.0" AnchorPane.topAnchor="88.0">
+                  <JFXSpinner fx:id="spin" layoutX="275.0" layoutY="134.0" visible="false" />
+                  <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="268.0" layoutY="88.0" onMouseClicked="#handleLogin" prefHeight="27.0" prefWidth="64.0" ripplerFill="#ffea00" text="LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="268.0" AnchorPane.topAnchor="88.0">
                      <font>
                         <Font name="Montserrat Regular" size="11.0" />
                      </font></JFXButton>

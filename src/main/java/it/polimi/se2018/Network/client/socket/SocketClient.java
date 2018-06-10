@@ -1,12 +1,11 @@
 package it.polimi.se2018.Network.client.socket;
 
-import it.polimi.se2018.Message;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.socket.ListeningThread;
 import it.polimi.se2018.Network.client.ClientInterface;
-import it.polimi.se2018.View.LoginEvent;
-import it.polimi.se2018.View.VCEvent;
+import it.polimi.se2018.View.ViewEvents.LoginEvent;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.io.*;
 import java.net.Socket;

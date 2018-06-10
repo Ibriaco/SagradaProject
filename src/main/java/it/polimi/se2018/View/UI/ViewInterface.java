@@ -1,4 +1,4 @@
-package it.polimi.se2018.View;
+package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;

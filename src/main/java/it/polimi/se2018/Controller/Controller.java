@@ -1,6 +1,6 @@
 package it.polimi.se2018.Controller;
 
-import it.polimi.se2018.View.VCEvent;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 import it.polimi.se2018.Model.Game;
 
 public abstract class Controller {

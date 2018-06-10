@@ -3,13 +3,9 @@ package it.polimi.se2018.Network.server;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Lobby;
 import it.polimi.se2018.Network.LobbyController;
-import it.polimi.se2018.Network.NetworkHandler;
 import it.polimi.se2018.Network.client.ClientInterface;
-import it.polimi.se2018.View.VCEvent;
-import it.polimi.se2018.View.ViewInterface;
-import sun.nio.ch.Net;
+import it.polimi.se2018.View.UI.ViewInterface;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

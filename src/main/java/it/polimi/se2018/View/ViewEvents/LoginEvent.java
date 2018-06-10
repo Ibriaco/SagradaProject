@@ -1,6 +1,4 @@
-package it.polimi.se2018.View;
-
-import it.polimi.se2018.Network.NetworkHandler;
+package it.polimi.se2018.View.ViewEvents;
 
 /**
  * Events that return connection type and the username of the player who logs in.

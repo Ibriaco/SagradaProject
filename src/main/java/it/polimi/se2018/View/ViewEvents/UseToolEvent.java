@@ -1,6 +1,4 @@
-package it.polimi.se2018.View;
-
-import java.util.Observable;
+package it.polimi.se2018.View.ViewEvents;
 
 /**
  * Event that lets the player use a Tool Card

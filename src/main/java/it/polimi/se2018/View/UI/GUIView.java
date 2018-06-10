@@ -1,31 +1,26 @@
-package it.polimi.se2018.View;
+package it.polimi.se2018.View.UI;
 
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.NetworkHandler;
+import it.polimi.se2018.View.UI.GUIUtils.GUILoginController;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class GUIView extends Application implements ViewInterface {
 
     private ArrayList<MyObserver> observerCollection;
+    private NetworkHandler nh;
+
 
     @Override
     public void updateWindowCard() {
@@ -59,10 +54,11 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("src/main/java/it/polimi/se2018/View/loginJFoenix.fxml").toURI().toURL();
+        URL url = new File("src/main/java/it/polimi/se2018/View/UI/GUIUtils/loginJFoenix.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
 
-        Scene scene = new Scene(root, 600, 400);
+
+        Scene scene = new Scene(root, 580, 380);
 
         primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
@@ -70,6 +66,11 @@ public class GUIView extends Application implements ViewInterface {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+    }
+
+    public void createNH(int choice) throws RemoteException{
+        nh = new NetworkHandler(choice);
+        nh.registerObserver(this);
     }
 
 

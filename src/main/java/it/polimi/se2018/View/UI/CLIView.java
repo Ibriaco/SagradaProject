@@ -1,4 +1,4 @@
-package it.polimi.se2018.View;
+package it.polimi.se2018.View.UI;
 
 
 import it.polimi.se2018.MyObservable;
@@ -7,10 +7,9 @@ import it.polimi.se2018.Network.NetworkHandler;
 
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
-import static it.polimi.se2018.View.CLIUtils.consoleErrorWriter;
-import static it.polimi.se2018.View.CLIUtils.consoleScanner;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleErrorWriter;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
 
 
 public class CLIView implements ViewInterface {

@@ -9,8 +9,8 @@ import it.polimi.se2018.Network.client.socket.SocketClient;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import static it.polimi.se2018.View.CLIUtils.consoleScanner;
-import static it.polimi.se2018.View.CLIUtils.printOnConsole;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
+import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
 public class NetworkHandler implements MyObserver, MyObservable {
 
@@ -32,6 +32,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
             String ip = requestIP();
             selectedClient = new SocketClient(ip, port);
         }
+        System.out.println("CREATOOOO");
     }
 
     private int requestPort(){

@@ -1,10 +1,10 @@
 package it.polimi.se2018.Controller;
 
-import it.polimi.se2018.View.SelectDieEvent;
+import it.polimi.se2018.View.ViewEvents.SelectDieEvent;
 import it.polimi.se2018.Model.Color;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Player;
-import it.polimi.se2018.View.PlaceDieEvent;
+import it.polimi.se2018.View.ViewEvents.PlaceDieEvent;
 //Muovi  un  qualsiasi  dado  nella  tua  vetrata  ignorando  le  restrizioni  di  colore. Devi  rispettare
 // tutte  le  altre  restrizioni  di  piazzamento
 
