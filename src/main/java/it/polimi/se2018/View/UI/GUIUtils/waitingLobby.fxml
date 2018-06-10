@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.View.UI.GUIUtils.GUIWaitingLobbyController">
+   <children>
+      <ImageView fitHeight="540.0" fitWidth="960.0" preserveRatio="true">
+         <image>
+            <Image url="@animation.gif" />
+         </image>
+      </ImageView>
+      <Label layoutX="380.0" layoutY="31.0" text="You are in the lobby">
+         <font>
+            <Font name="Montserrat Regular" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="353.0" layoutY="474.0" text="Waiting for other players to connect">
+         <font>
+            <Font name="Montserrat Regular" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

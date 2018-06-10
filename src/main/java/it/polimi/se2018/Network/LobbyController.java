@@ -10,8 +10,8 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import static it.polimi.se2018.View.CLIUtils.consoleWriter;
-import static it.polimi.se2018.View.CLIUtils.printOnConsole;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleWriter;
+import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
 public class LobbyController implements MyObserver, MyObservable {
 
