@@ -19,11 +19,7 @@ public class TestWindowCard {
     @Before
     public void init(){
 
-        try {
-            g = new Game(2);
-        } catch (InvalidGameCreationException e) {
-            e.printStackTrace();
-        }
+        g = new Game(2);
 
         //creo una windowcard con questi specifici valori
         w = new WindowCard();

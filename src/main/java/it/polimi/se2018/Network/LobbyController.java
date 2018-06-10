@@ -2,16 +2,21 @@ package it.polimi.se2018.Network;
 
 import it.polimi.se2018.Controller.EventsController;
 import it.polimi.se2018.Message;
+import it.polimi.se2018.Model.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.VirtualView;
-
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.IntStream;
+
+import static it.polimi.se2018.View.CLIUtils.consoleWriter;
+import static it.polimi.se2018.View.CLIUtils.printOnConsole;
 
 public class LobbyController implements MyObserver, MyObservable {
 
     private Lobby waitingLobby;
+    private Game game;
     private static int timer = 10;
     private EventsController eventsController;
     private VirtualView virtualView;
@@ -20,22 +25,23 @@ public class LobbyController implements MyObserver, MyObservable {
     public LobbyController() {
         virtualView = new VirtualView();
         waitingLobby = new Lobby(virtualView);
-        System.out.println("Lobby controller creato");
+        printOnConsole("Lobby controller creato");
     }
 
     public void handleLogin(String username) throws RemoteException {
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
             addInLobby(username);
-            System.out.println("User " + username + " logged in successfully!");
-            System.out.println("Online players " + String.valueOf(this.getLobby().getOnlinePlayers().size()));
-            this.getLobby().getVirtualView().getClients().get(username).notify("User " + username + " loggato");
+            String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
+            printOnConsole("User " + username + " logged in successfully!");
+            printOnConsole("Online players " + playersNumber);
+            getLobby().getVirtualView().getClients().get(username).notify("User " + username + " logged in!");
         }
         else if(!checkTime())
-            this.getLobby().getVirtualView().getClients().get(username).notify("Timer expired!");
+            getLobby().getVirtualView().getClients().get(username).notify("Timer expired!");
         else if(!checkOnlinePlayers())
-            this.getLobby().getVirtualView().getClients().get(username).notify("Lobby is already full! Please join another lobby!");
+            getLobby().getVirtualView().getClients().get(username).notify("Lobby is already full! Please join another lobby!");
         else if(!checkUser(username)) {
-            this.getLobby().getVirtualView().getClients().get(username).notify("Invalid username! Please try again!");
+            getLobby().getVirtualView().getClients().get(username).notify("Invalid username! Please try again!");
         }
     }
 
@@ -86,11 +92,27 @@ public class LobbyController implements MyObserver, MyObservable {
                             startGame = true;
                     }
             }
-
-            //eventsController = new EventsController(rmiServer, socketServer);
         }).start();
     }
 
+    public void setupGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
+        game = new Game(virtualView.getClients().size());
+        for (String s: virtualView.getClients().keySet()) {
+            game.getPlayers().add(new Player(s, "CLI"));
+
+        }
+        List<Integer> list = new ArrayList<>();
+        IntStream.range(1,5).forEach(list::add);
+        Collections.shuffle(list);
+        for(int i = 0; i<game.getPlayers().size(); i++) {
+            game.getPlayers().get(i).drawCard(list.get(i));
+        }
+        int j=0;
+        for (String username: virtualView.getClients().keySet()){
+            virtualView.getClients().get(username).notify(game.getPlayers().get(j).getPrivateObjective().toString());
+            j++;
+            }
+    }
 
     public int getTimer() {
         return timer;

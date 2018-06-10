@@ -20,10 +20,7 @@ public class TestBonus {
     @Before
     public void init() {
 
-        try {
-            g = new Game(2);
-        } catch (InvalidGameCreationException e) {
-        }
+        g = new Game(2);
 
         //creo una windowcard con questi specifici valori
         w = new WindowCard();
@@ -121,7 +118,7 @@ public class TestBonus {
         }
         //creo un player e gli assegno la windowcard creata
         try {
-            p = new Player("test", "Socket", "CLI");
+            p = new Player("test", "CLI");
         }
         catch (InvalidConnectionException | InvalidViewException e) {}
         p.setWindowCard(w);

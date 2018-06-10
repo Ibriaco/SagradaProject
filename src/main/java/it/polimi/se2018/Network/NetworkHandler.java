@@ -1,5 +1,7 @@
 package it.polimi.se2018.Network;
 
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.client.ClientInterface;
@@ -45,7 +47,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
         return consoleScanner.next();
     }
 
-    public void loginScreen() throws RemoteException{
+    public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException {
         String user;
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");

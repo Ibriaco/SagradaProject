@@ -1,6 +1,8 @@
 package it.polimi.se2018.Network.client.rmi;
 
 import it.polimi.se2018.Message;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Network.client.ClientInterface;
 
 import java.rmi.Remote;
@@ -10,6 +12,6 @@ public interface RMIClientInterface extends Remote, ClientInterface {
 
     void notify(String message) throws RemoteException;
 
-    void loginRequest(String username) throws RemoteException;
+    void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException;
 
 }

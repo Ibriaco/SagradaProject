@@ -14,10 +14,7 @@ public class TestCell {
     Game g;
     @Before
     public void init(){
-        try {
-            g = new Game(2);
-        } catch (InvalidGameCreationException e) {
-        }
+        g = new Game(2);
     }
 
     @Test
