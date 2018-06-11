@@ -62,7 +62,7 @@ public class SocketServer implements ServerInterface {
 
 
 */
-    @Override
+    /*@Override
     public void loginUser(VCEvent event){
         String user = event.getUsername();
 
@@ -74,6 +74,11 @@ public class SocketServer implements ServerInterface {
         else{
             System.out.println("Utente non loggato!");
         }
+
+    }*/
+
+    @Override
+    public void vceTransport(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
     }
 

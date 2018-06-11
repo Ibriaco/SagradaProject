@@ -2,28 +2,24 @@ package it.polimi.se2018.Network.server;
 
 
 import it.polimi.se2018.Controller.EventsController;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.UI.ViewInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VirtualView implements ViewInterface {
 
     private EventsController eventsController;
-    public ArrayList<MyObserver> getObserverCollection() {
-        return observerCollection;
-    }
-    private ArrayList<MyObserver> observerCollection;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private HashMap<String, ClientInterface> clients = new HashMap<>();
     private VCEvent event;
-
-
-    public VirtualView(){
-
-    }
 
     @Override
     public void updateWindowCard() {
@@ -38,20 +34,18 @@ public class VirtualView implements ViewInterface {
 
     @Override
     public void registerObserver(MyObserver observer) {
-
-        observerCollection.add(eventsController);
+        observerCollection.add(observer);
     }
 
     @Override
     public void unregisterObserver(MyObserver observer) {
-
-        observerCollection.remove(eventsController);
+        observerCollection.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws InvalidConnectionException, RemoteException, InvalidViewException {
         for (MyObserver o: observerCollection) {
-            update(this, event);
+            o.update(this, event);
         }
     }
 
@@ -61,7 +55,6 @@ public class VirtualView implements ViewInterface {
     }
 
     public HashMap<String, ClientInterface> getClients() {
-
         return clients;
     }
 
@@ -71,7 +64,12 @@ public class VirtualView implements ViewInterface {
         lobbyController.handleLogin(username);
     }*/
 
-    public void getEvent(VCEvent event) {
+    public void getEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         this.event = event;
+        notifyObservers();
+    }
+
+    @Override
+    public void loginScreen() throws RemoteException {
     }
 }

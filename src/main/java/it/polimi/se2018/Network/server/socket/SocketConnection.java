@@ -27,7 +27,8 @@ public class SocketConnection extends Thread {
 
             if(first) {
                 first = false;
-                socketServer.loginUser(receivedEvent);
+                //commentata per runnare il server. questo metodo andra sistemato perchè su RMI non si usa
+                //socketServer.loginUser(receivedEvent);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

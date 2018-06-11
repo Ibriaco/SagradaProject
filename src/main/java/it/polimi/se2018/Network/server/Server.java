@@ -1,5 +1,6 @@
 package it.polimi.se2018.Network.server;
 
+import it.polimi.se2018.Controller.EventsController;
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
@@ -19,11 +20,14 @@ public class Server {
 
     private static LobbyController lobbyController;
     private static VirtualView virtualView;
+    private static EventsController eventsController;
 
     public static void main(String[] args) throws RemoteException {
-
-        lobbyController = new LobbyController();
         virtualView = new VirtualView();
+        eventsController = new EventsController(rmiServer,socketServer,virtualView);
+        lobbyController = eventsController.getLobbyController();
+        virtualView.registerObserver(eventsController);
+
 
         //RMI SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         try {

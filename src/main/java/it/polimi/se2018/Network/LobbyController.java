@@ -2,17 +2,17 @@ package it.polimi.se2018.Network;
 
 import it.polimi.se2018.Controller.EventsController;
 import it.polimi.se2018.Message;
-import it.polimi.se2018.Model.*;
-import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.Model.Game;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
-public class LobbyController implements MyObserver, MyObservable {
+public class LobbyController {
 
     private Lobby waitingLobby;
     private Game game;
@@ -21,7 +21,7 @@ public class LobbyController implements MyObserver, MyObservable {
     private VirtualView virtualView;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
 
-    public LobbyController(VirtualView vv) {
+    public LobbyController(VirtualView vv) throws RemoteException {
         virtualView = vv;
         waitingLobby = new Lobby(virtualView);
         printOnConsole("Lobby controller creato");
@@ -126,25 +126,4 @@ public class LobbyController implements MyObserver, MyObservable {
         return waitingLobby;
     }
 
-    @Override
-    public void registerObserver(MyObserver observer) throws RemoteException {
-        observerCollection.add(virtualView);
-    }
-
-    @Override
-    public void unregisterObserver(MyObserver observer) throws RemoteException {
-        observerCollection.remove(virtualView);
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-        for (MyObserver observer: observerCollection) {
-            update(this, toString());
-        }
-    }
-
-    @Override
-    public void update(MyObservable o, Object arg) throws RemoteException {
-        System.out.println(arg.toString());
-    }
 }

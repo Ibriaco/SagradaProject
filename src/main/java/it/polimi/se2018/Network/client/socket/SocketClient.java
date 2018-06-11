@@ -2,12 +2,11 @@ package it.polimi.se2018.Network.client.socket;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.server.socket.ListeningThread;
 import it.polimi.se2018.Network.client.ClientInterface;
-import it.polimi.se2018.View.ViewEvents.LoginEvent;
+import it.polimi.se2018.Network.server.socket.ListeningThread;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -32,7 +31,7 @@ public class SocketClient implements ClientInterface{
 
     }
 
-    @Override
+    /*@Override
     public void loginRequest(String username) {
         VCEvent loginE = new LoginEvent("Socket", username);
         ObjectOutputStream toServer;
@@ -43,7 +42,7 @@ public class SocketClient implements ClientInterface{
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Override
     public void sendEvent(VCEvent event) throws RemoteException {

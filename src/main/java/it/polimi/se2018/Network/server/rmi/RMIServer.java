@@ -2,10 +2,10 @@ package it.polimi.se2018.Network.server.rmi;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
-import it.polimi.se2018.Network.LobbyController;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -23,7 +23,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
 
-    public void loginUser(VCEvent event) throws RemoteException {
+    public void vceTransport(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         virtualView.getEvent(event);
     }
 

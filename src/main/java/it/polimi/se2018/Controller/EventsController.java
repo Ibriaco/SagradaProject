@@ -1,18 +1,18 @@
 package it.polimi.se2018.Controller;
 
+import it.polimi.se2018.Model.*;
+import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
-import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;
-import it.polimi.se2018.Model.Game;
-import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class EventsController extends Controller implements MyObserver, MyObservable {
 
@@ -23,8 +23,10 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     private SocketServer socketServer;
     private LobbyController lobbyController;
     private VirtualView virtualView;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private MVEvent mvEvent;
 
-    public EventsController(RMIServer rmiS, SocketServer socketS, VirtualView vv) {
+    public EventsController(RMIServer rmiS, SocketServer socketS, VirtualView vv) throws RemoteException {
         super();
         this.rmiServer = rmiS;
         this.socketServer = socketS;
@@ -93,18 +95,19 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     }
 
     @Override
-    public void registerObserver(MyObserver observer) throws RemoteException {
-
+    public void registerObserver(MyObserver observer) {
+        observerCollection.add(observer);
     }
 
     @Override
-    public void unregisterObserver(MyObserver observer) throws RemoteException {
-
+    public void unregisterObserver(MyObserver observer) {
+        observerCollection.remove(observer);
     }
-
     @Override
-    public void notifyObservers() throws RemoteException {
-
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+        for (MyObserver o: observerCollection) {
+            o.update(this, mvEvent);
+        }
     }
 
     @Override

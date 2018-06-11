@@ -2,7 +2,6 @@ package it.polimi.se2018.Network;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
-import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.client.ClientInterface;
@@ -15,7 +14,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
-import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
 public class NetworkHandler implements MyObserver, MyObservable {
 
@@ -71,14 +69,14 @@ public class NetworkHandler implements MyObserver, MyObservable {
     }
 
     @Override
-    public void notifyObservers() throws RemoteException {
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
         for (MyObserver o: observerCollection) {
             update(this, "");
         }
     }
 
     @Override
-    public void update(MyObservable o, Object event) throws RemoteException {
+    public void update(MyObservable o, Object event) throws RemoteException, InvalidConnectionException, InvalidViewException {
         selectedClient.sendEvent((VCEvent) event);
     }
 }

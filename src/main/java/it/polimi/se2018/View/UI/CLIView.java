@@ -3,20 +3,16 @@ package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
-import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import static it.polimi.se2018.View.UI.CLIUtils.consoleErrorWriter;
-import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
-import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
+import static it.polimi.se2018.View.UI.CLIUtils.*;
 
 
 public class CLIView implements ViewInterface {
@@ -33,7 +29,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void showUI(){
+    public void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException {
 
         boolean validInput = false;
         while(!validInput) {
@@ -48,7 +44,7 @@ public class CLIView implements ViewInterface {
             loginScreen();
     }
 
-     public void loginScreen(){
+     public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
         user = consoleScanner.next();
@@ -85,9 +81,9 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
         for (MyObserver o : observersCollection) {
-            update(this, vcEvent);
+            o.update(this, vcEvent);
         }
     }
 

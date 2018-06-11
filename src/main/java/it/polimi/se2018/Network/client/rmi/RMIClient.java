@@ -2,12 +2,11 @@ package it.polimi.se2018.Network.client.rmi;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
-import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.rmi.RMIServerInterface;
-import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -40,17 +39,15 @@ public class RMIClient implements RMIClientInterface {
         }
     }
 
-    public void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException{
-        System.out.println("Trying to authenticate " + username + " ...");
-        server.sendUser(username, remoteRef);
-        server.loginUser(event);
-        /*LobbyController lc = new LobbyController();
-        lc.setupGame();*/
-    }
-
+    //metodo per inviare VCEvent da client a server
     @Override
-    public void sendEvent(VCEvent event) throws RemoteException {
-        this.event = event;
+    public void sendEvent(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
+        if (event.toString().equals("Login Event")) {
+            String username = event.getUsername();
+            System.out.println("Trying to authenticate " + username + " ...");
+            server.sendUser(username , remoteRef);
+        }
+        server.vceTransport(event);
     }
 
 

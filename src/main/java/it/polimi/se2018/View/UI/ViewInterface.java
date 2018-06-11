@@ -1,18 +1,22 @@
 package it.polimi.se2018.View.UI;
 
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+
+import java.rmi.RemoteException;
 
 public interface ViewInterface extends MyObserver, MyObservable {
 
     void updateWindowCard();
 
-    void showUI();
+    void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException;
 
-    void getEvent(VCEvent event);
+    void getEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException;
 
-    void loginScreen();
+    void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException;
 
     /*
     public void updateRoundTrack(Game game){
