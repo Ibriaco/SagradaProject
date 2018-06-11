@@ -1,5 +1,7 @@
 package it.polimi.se2018.Controller;
 
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
 import it.polimi.se2018.Model.Die;
@@ -11,7 +13,9 @@ import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.SelectDieEvent;
 import it.polimi.se2018.View.ViewEvents.SkipTurnEvent;
 
-public class EventsController extends Controller {
+import java.rmi.RemoteException;
+
+public class EventsController extends Controller implements MyObserver, MyObservable {
 
     private Game game;
     private boolean control1;
@@ -85,4 +89,23 @@ public class EventsController extends Controller {
 
     }
 
+    @Override
+    public void registerObserver(MyObserver observer) throws RemoteException {
+
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) throws RemoteException {
+
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException {
+
+    }
+
+    @Override
+    public void update(MyObservable o, Object arg) throws RemoteException {
+
+    }
 }

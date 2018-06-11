@@ -8,8 +8,8 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import java.rmi.RemoteException;
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+
 import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
 public class LobbyController implements MyObserver, MyObservable {
@@ -19,10 +19,10 @@ public class LobbyController implements MyObserver, MyObservable {
     private static int timer = 10;
     private EventsController eventsController;
     private VirtualView virtualView;
-    private ArrayList<MyObserver> observerCollection;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
 
-    public LobbyController() {
-        virtualView = new VirtualView();
+    public LobbyController(VirtualView vv) {
+        virtualView = vv;
         waitingLobby = new Lobby(virtualView);
         printOnConsole("Lobby controller creato");
     }

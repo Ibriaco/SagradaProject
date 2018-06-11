@@ -7,23 +7,25 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
+import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import static it.polimi.se2018.View.UI.CLIUtils.consoleErrorWriter;
 import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
+import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
 
 public class CLIView implements ViewInterface {
 
     private NetworkHandler nh;
-    private String command;
-    public String getCommand() {
-
-        return command;
-    }
+    private VCEvent vcEvent;
+    private int choice;
+    private String user;
+    private ArrayList<MyObserver> observersCollection = new ArrayList<>();
 
     @Override
     public void updateWindowCard() {
@@ -31,29 +33,32 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void showUI() throws RemoteException {
+    public void showUI(){
 
         boolean validInput = false;
         while(!validInput) {
-            int choice = printConnectionChoice();
+            choice = printConnectionChoice();
             if (choice == 1 || choice == 2) {
-                nh = new NetworkHandler(choice);
-                nh.registerObserver(this);
+                nh = new NetworkHandler(choice, this);
+                registerObserver(nh);
                 validInput = true;
             } else
                 consoleErrorWriter.println("Invalid input, please try again!");
         }
-        try {
-            nh.loginScreen();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (InvalidConnectionException e) {
-            e.printStackTrace();
-        } catch (InvalidViewException e) {
-            e.printStackTrace();
-        } catch (WindowCardAssociationException e) {
-            e.printStackTrace();
-        }
+            loginScreen();
+    }
+
+     public void loginScreen(){
+        printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
+        printOnConsole("Insert your username here: ");
+        user = consoleScanner.next();
+        if (choice == 1)
+            vcEvent = new LoginEvent("RMI", user);
+        else if (choice == 2)
+            vcEvent = new LoginEvent("Socket", user);
+
+        notifyObservers();
+        //selectedClient.loginRequest(user);
     }
 
     @Override
@@ -71,17 +76,19 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void registerObserver(MyObserver observer) {
-
+        observersCollection.add(observer);
     }
 
     @Override
     public void unregisterObserver(MyObserver observer) {
-
+        observersCollection.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-
+        for (MyObserver o : observersCollection) {
+            update(this, vcEvent);
+        }
     }
 
     @Override
@@ -115,7 +122,7 @@ public class CLIView implements ViewInterface {
         return event;
     }
 
-    public UseToolEvent createUseToolEvenet(String username, String command){
+    public UseToolEvent createUseToolEvent(String username, String command){
         UseToolEvent event = new UseToolEvent();
         return event;
     }

@@ -4,7 +4,6 @@ package it.polimi.se2018.View.UI;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
-import it.polimi.se2018.View.UI.GUIUtils.GUILoginController;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +34,11 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void getEvent(VCEvent event) {
+
+    }
+
+    @Override
+    public void loginScreen() {
 
     }
 
@@ -75,7 +79,7 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     public void createNH(int choice) throws RemoteException{
-        nh = new NetworkHandler(choice);
+        //nh = new NetworkHandler(choice);
         nh.registerObserver(this);
     }
 

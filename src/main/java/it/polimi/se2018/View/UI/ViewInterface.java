@@ -4,17 +4,15 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
-import java.rmi.RemoteException;
-import java.util.Observable;
-import java.util.Observer;
-
 public interface ViewInterface extends MyObserver, MyObservable {
 
     void updateWindowCard();
 
-    void showUI() throws RemoteException;
+    void showUI();
 
     void getEvent(VCEvent event);
+
+    void loginScreen();
 
     /*
     public void updateRoundTrack(Game game){

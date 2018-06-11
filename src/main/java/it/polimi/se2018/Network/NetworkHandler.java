@@ -8,6 +8,8 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.client.rmi.RMIClient;
 import it.polimi.se2018.Network.client.socket.SocketClient;
+import it.polimi.se2018.View.UI.ViewInterface;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -19,12 +21,14 @@ public class NetworkHandler implements MyObserver, MyObservable {
 
     private ClientInterface selectedClient;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private ViewInterface vi;
 
-    public NetworkHandler(int value){
+    public NetworkHandler(int value, ViewInterface vi){
+        this.vi = vi;
         if(value == 1){
             try{
                 selectedClient = new RMIClient();
-                selectedClient.registerObserver(this);
+                //selectedClient.registerObserver(this);
             }
             catch(RemoteException e){
                 e.printStackTrace();
@@ -48,13 +52,13 @@ public class NetworkHandler implements MyObserver, MyObservable {
         return consoleScanner.next();
     }
 
-    public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+   /*public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         String user;
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
         user = consoleScanner.next();
         selectedClient.loginRequest(user);
-    }
+    }*/
 
     @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
@@ -74,7 +78,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
     }
 
     @Override
-    public void update(MyObservable o, Object arg) throws RemoteException {
-        System.out.println(arg.toString());
+    public void update(MyObservable o, Object event) throws RemoteException {
+        selectedClient.sendEvent((VCEvent) event);
     }
 }

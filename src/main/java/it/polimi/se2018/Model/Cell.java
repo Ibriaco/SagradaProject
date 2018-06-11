@@ -71,7 +71,7 @@ public class Cell {
 
     public void placeDie(Die d){
 
-            placedDie = d;
+        placedDie = d;
     }
 
     public void setPlacedDie(Die d){
