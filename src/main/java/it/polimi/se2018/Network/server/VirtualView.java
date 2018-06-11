@@ -7,6 +7,7 @@ import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.client.Client;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.UI.ViewInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -23,14 +24,12 @@ import java.util.HashMap;
  */
 public class VirtualView implements ViewInterface {
 
-    private EventsController eventsController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private HashMap<String, ClientInterface> clients;
     private VCEvent event;
-    //EventsController viene aggiunto agli observer di VirtualView da Server
-
 
     public VirtualView(){
+
         clients = new HashMap<>();
     }
 
@@ -41,15 +40,6 @@ public class VirtualView implements ViewInterface {
     public void updateWindowCard() {
 
     }
-
-    /**
-     * Shows the user interface
-     */
-    @Override
-    public void showUI() {
-
-    }
-
 
     @Override
     public void registerObserver(MyObserver observer) {
@@ -84,15 +74,13 @@ public class VirtualView implements ViewInterface {
         }
     }
 
+    public void addClientToMap(String u, ClientInterface c){
+        clients.put(u,c);
+    }
+
     public HashMap<String, ClientInterface> getClients() {
         return clients;
     }
-
-    /*public void sendLoginEvent(String username) throws RemoteException {
-
-        update(this, username);
-        lobbyController.handleLogin(username);
-    }*/
 
     /**
      * Receives an event from the server
@@ -101,12 +89,21 @@ public class VirtualView implements ViewInterface {
      * @throws RemoteException thrown exception
      * @throws InvalidViewException thrown exception
      */
-    public void getEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void receiveEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         this.event = event;
         notifyObservers();
     }
 
     @Override
     public void loginScreen() throws RemoteException {
+        /*Intentionally left void, not used in this class*/
+    }
+
+    /**
+     * Shows the user interface
+     */
+    @Override
+    public void showUI() {
+        /*Intentionally left void, not used in this class*/
     }
 }

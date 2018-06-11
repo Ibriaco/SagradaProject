@@ -82,9 +82,9 @@ public class RMIClient implements RMIClientInterface {
     }
 
     @Override
-    public void notifyObservers() throws RemoteException {
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
         for (MyObserver o: observerCollection) {
-            update(this, "");
+            o.update(this, "");
         }
     }
 

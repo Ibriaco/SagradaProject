@@ -1,6 +1,8 @@
 package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Message;
+import it.polimi.se2018.Model.Event.MVEvent;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -27,18 +29,15 @@ public class ListeningThread extends Thread{
             e.printStackTrace();
         }
 
-        while(loop) {
-            Message receivedE = null;
-            try {
-                assert fromServer != null;
-                receivedE = (Message) fromServer.readObject();
-            } catch (IOException | ClassNotFoundException | NullPointerException e) {
-
-            }
-            if (receivedE == null)
-                loop = false;
-            else
-                System.out.println(receivedE.getMessage());
+        try {
+            MVEvent receivedEvent = (MVEvent)fromServer.readObject();
+            System.out.println("ricevuto evento, " + receivedEvent.getUsername());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
+
     }
 }

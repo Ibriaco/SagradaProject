@@ -50,8 +50,9 @@ public class CLIView implements ViewInterface {
         while(!validInput) {
             choice = printConnectionChoice();
             if (choice == 1 || choice == 2) {
-                nh = new NetworkHandler(choice, this);
+                nh = new NetworkHandler(choice);
                 registerObserver(nh);
+                nh.registerObserver(this);
                 validInput = true;
             } else
                 consoleErrorWriter.println("Invalid input, please try again!");
@@ -75,19 +76,17 @@ public class CLIView implements ViewInterface {
             vcEvent = new LoginEvent("Socket", user);
 
         notifyObservers();
-        //selectedClient.loginRequest(user);
     }
 
     @Override
-    public void getEvent(VCEvent event) {
+    public void receiveEvent(VCEvent event) {
 
     }
 
-
     private int printConnectionChoice() {
-        System.out.println("Select the Connection type you want to use:");
-        System.out.println("1) RMI");
-        System.out.println("2) Socket");
+        printOnConsole("Select the Connection type you want to use:");
+        printOnConsole("1) RMI");
+        printOnConsole("2) Socket");
         return consoleScanner.nextInt();
     }
 

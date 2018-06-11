@@ -37,7 +37,7 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
-    public void getEvent(VCEvent event) {
+    public void receiveEvent(VCEvent event) {
 
     }
 

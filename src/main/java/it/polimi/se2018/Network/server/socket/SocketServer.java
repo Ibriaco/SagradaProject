@@ -4,6 +4,7 @@ import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.server.ServerInterface;
+import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import it.polimi.se2018.Network.LobbyController;
 
@@ -19,17 +20,18 @@ import java.util.List;
  */
 public class SocketServer implements ServerInterface {
     private static ServerSocket serverSocket;
-    private static ConnectionManager connectionsHandler;
+    private static ConnectionManager connectionsManager;
     private static List<SocketConnection> socketConnections;
     private LobbyController lobbyController;
+    private VirtualView virtualView;
 
-    public SocketServer(int port, LobbyController lc){
+    public SocketServer(int port, VirtualView v){
         try {
-            lobbyController = lc;
+            virtualView = v;
             serverSocket = new ServerSocket(port);
-            connectionsHandler = new ConnectionManager(serverSocket, this);
+            connectionsManager = new ConnectionManager(serverSocket, this, virtualView);
             socketConnections = new ArrayList<>();
-            connectionsHandler.start();
+            connectionsManager.start();
         } catch(IOException ex) {
         }
     }
@@ -89,10 +91,5 @@ public class SocketServer implements ServerInterface {
     @Override
     public void sendUser(String username, ClientInterface client) {
 
-    }
-
-    @Override
-    public LobbyController getLobbyController() throws RemoteException {
-        return lobbyController;
     }
 }

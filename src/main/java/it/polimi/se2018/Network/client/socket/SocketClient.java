@@ -9,6 +9,7 @@ import it.polimi.se2018.Network.server.socket.ListeningThread;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -30,10 +31,6 @@ public class SocketClient implements ClientInterface{
     }
 
 
-    @Override
-    public void notify(String message) throws RemoteException {
-
-    }
 
     @Override
     public void sendMVEvent(MVEvent event) {
@@ -55,7 +52,12 @@ public class SocketClient implements ClientInterface{
 
     @Override
     public void sendEvent(VCEvent event) throws RemoteException {
-
+        try {
+            ObjectOutputStream toServer = new ObjectOutputStream(socket.getOutputStream());
+            toServer.writeObject(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -30,10 +30,12 @@ public class Server {
     private static EventsController eventsController;
 
     public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
         virtualView = new VirtualView();
-        eventsController = new EventsController(rmiServer,socketServer,virtualView);
-        lobbyController = eventsController.getLobbyController();
+        eventsController = new EventsController();
+
         virtualView.registerObserver(eventsController);
+        eventsController.registerObserver(virtualView);
 
 
         //RMI SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
@@ -45,7 +47,7 @@ public class Server {
         }
 
         try {
-            rmiServer = new RMIServer(lobbyController, virtualView);
+            rmiServer = new RMIServer(virtualView);
             Naming.rebind("//localhost/MyServer", rmiServer);
 
 
@@ -56,7 +58,7 @@ public class Server {
         }
 
         //SOCKET SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-        socketServer = new SocketServer(socketPort, lobbyController);
+        socketServer = new SocketServer(socketPort, virtualView);
 
         //lobbyController.addServers(rmiServer, socketServer);
 

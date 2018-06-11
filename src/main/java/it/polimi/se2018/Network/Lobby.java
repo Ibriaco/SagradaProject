@@ -15,13 +15,11 @@ public class Lobby {
     private int onlinePlayersN;
     private ArrayList<Player> playersList;
     private ArrayList<String> onlinePlayers;
-    private VirtualView virtualView;
 
-    public Lobby(VirtualView virtualView){
+    public Lobby(){
         System.out.println("Lobby creata");
         onlinePlayersN = 0;
         onlinePlayers = new ArrayList<>();
-        this.virtualView = virtualView;
         //startTimer();
     }
 
@@ -51,10 +49,5 @@ public class Lobby {
 
     public List<String> getOnlinePlayers(){
         return onlinePlayers;
-    }
-
-
-    public VirtualView getVirtualView() {
-        return virtualView;
     }
 }

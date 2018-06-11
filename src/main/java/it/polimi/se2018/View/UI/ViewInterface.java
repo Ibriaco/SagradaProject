@@ -19,7 +19,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException;
 
-    void getEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException;
+    void receiveEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException;
 
     void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException;
 

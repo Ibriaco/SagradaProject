@@ -17,16 +17,13 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
-    private LobbyController lobbyController;
     private VirtualView virtualView;
     private static final long serialVersionUID = -7098548671967083832L;
 
-    public RMIServer(LobbyController lc, VirtualView virtualView)throws RemoteException {
+    public RMIServer(VirtualView virtualView)throws RemoteException {
         super(0);
         this.virtualView = virtualView;
-        this.lobbyController = lc;
     }
-
 
     /**
      * Sends a VC (View-Controller) event to the Virtual View
@@ -36,7 +33,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
      * @throws InvalidViewException thrown exception
      */
     public void vceTransport(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
-        virtualView.getEvent(event);
+        virtualView.receiveEvent(event);
     }
 
     /**
@@ -45,14 +42,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
      * @param client client associated to the player
      */
     public void sendUser(String username, ClientInterface client){
-        lobbyController.getLobby().getVirtualView().getClients().put(username,client);
+        virtualView.addClientToMap(username,client);
     }
 
 
-    public LobbyController getLobbyController() {
-
-        return lobbyController;
-    }
 
     /*public void startGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
         if(lobbyController.getLobby().getVirtualView().getClients().size() == 4)

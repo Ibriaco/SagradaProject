@@ -26,12 +26,9 @@ public class NetworkHandler implements MyObserver, MyObservable {
 
     private ClientInterface selectedClient;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
-    private ViewInterface vi;
     private MVEvent mvEvent;
 
-    public NetworkHandler(int value, ViewInterface vi) throws RemoteException {
-        this.vi = vi;
-        registerObserver(vi);
+    public NetworkHandler(int value) throws RemoteException {
         if(value == 1){
             selectedClient = new RMIClient(this);
         }

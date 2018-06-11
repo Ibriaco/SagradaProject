@@ -1,5 +1,7 @@
 package it.polimi.se2018.Network.server.socket;
 
+import it.polimi.se2018.Network.server.VirtualView;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,10 +12,12 @@ import java.net.Socket;
 public class ConnectionManager extends Thread{
     private ServerSocket serverSocket;
     private SocketServer socketServer;
+    private VirtualView virtualView;
 
-    public ConnectionManager(ServerSocket server, SocketServer s) {
+    public ConnectionManager(ServerSocket server, SocketServer s, VirtualView v) {
         serverSocket = server;
         socketServer = s;
+        virtualView = v;
     }
 
     @Override
@@ -22,7 +26,7 @@ public class ConnectionManager extends Thread{
         while(loop) {
             try {
                 Socket socket = serverSocket.accept();
-                SocketConnection connection = new SocketConnection(socket, socketServer);
+                SocketConnection connection = new SocketConnection(socket, socketServer, virtualView);
                 connection.start();
                 socketServer.addSocketConnection(connection);
             } catch(IOException e) {

@@ -25,5 +25,4 @@ public interface RMIServerInterface extends Remote, ServerInterface {
     //void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
     //void sendPrivateObjective(VCEvent event) throws RemoteException;
 
-    LobbyController getLobbyController() throws RemoteException;
 }

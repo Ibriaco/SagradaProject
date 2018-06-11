@@ -24,5 +24,4 @@ public interface ServerInterface{
 
     //void sendPrivateObjective(VCEvent event) throws RemoteException;
 
-    LobbyController getLobbyController() throws RemoteException;
 }

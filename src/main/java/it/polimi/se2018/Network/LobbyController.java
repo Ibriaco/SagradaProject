@@ -23,13 +23,10 @@ public class LobbyController {
     private Lobby waitingLobby;
     private Game game;
     private static int timer = 10;
-    private EventsController eventsController;
-    private VirtualView virtualView;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
 
-    public LobbyController(VirtualView vv) throws RemoteException {
-        virtualView = vv;
-        waitingLobby = new Lobby(virtualView);
+    public LobbyController() throws RemoteException {
+        waitingLobby = new Lobby();
         printOnConsole("Lobby controller creato");
     }
 
@@ -45,14 +42,19 @@ public class LobbyController {
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
             printOnConsole("User " + username + " logged in successfully!");
             printOnConsole("Online players " + playersNumber);
-            getLobby().getVirtualView().getClients().get(username).notify("User " + username + " logged in!");
+
+            System.out.println("notificare al client che si è loggato");
+            //getLobby().getVirtualView().getClients().get(username).notify("User " + username + " logged in!");
         }
         else if(!checkTime())
-            getLobby().getVirtualView().getClients().get(username).notify("Timer expired!");
+            System.out.println("notificare al client che il timer è scaduto");
+            //getLobby().getVirtualView().getClients().get(username).notify("Timer expired!");
         else if(!checkOnlinePlayers())
-            getLobby().getVirtualView().getClients().get(username).notify("Lobby is already full! Please join another lobby!");
+            System.out.println("notificare al client che la lobby è piena");
+            //getLobby().getVirtualView().getClients().get(username).notify("Lobby is already full! Please join another lobby!");
         else if(!checkUser(username)) {
-            getLobby().getVirtualView().getClients().get(username).notify("Invalid username! Please try again!");
+            System.out.println("notificare al client che lo usernme è gia in uso");
+            //getLobby().getVirtualView().getClients().get(username).notify("Invalid username! Please try again!");
         }
     }
 

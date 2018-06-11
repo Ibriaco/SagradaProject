@@ -20,20 +20,13 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     private Game game;
     private boolean control1;
     private boolean control2;
-    private RMIServer rmiServer;
-    private SocketServer socketServer;
+
     private LobbyController lobbyController;
-    private VirtualView virtualView;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
 
-    public EventsController(RMIServer rmiS, SocketServer socketS, VirtualView vv) throws RemoteException, InvalidConnectionException, InvalidViewException {
-        super();
-        this.rmiServer = rmiS;
-        this.socketServer = socketS;
-        this.virtualView = vv;
-        lobbyController = new LobbyController(virtualView);
-        registerObserver(virtualView);
+    public EventsController() throws RemoteException, InvalidConnectionException, InvalidViewException {
+        lobbyController = new LobbyController();
     }
 
     private boolean checkPlayer(String username) {
