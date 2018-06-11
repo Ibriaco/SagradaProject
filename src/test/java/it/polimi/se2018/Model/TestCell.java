@@ -2,7 +2,6 @@ package it.polimi.se2018.Model;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 /**
@@ -14,6 +13,7 @@ public class TestCell {
     private Game g;
     @Before
     public void init(){
+
         g = new Game(2);
     }
 
@@ -58,13 +58,12 @@ public class TestCell {
     @Test
     public void testPlaceWrongDie(){
         Cell c = new Cell(Color.BLUE,0);
-        Die d;
-        d = new Die(g.getColorList());
+        Die d =  new Die(g.getColorList());
         d.setColor(Color.RED);
+
         c.placeDie(d);
         boolean placed = c.isPlaced();
-
-        assert (!placed);
+        assert(!placed);
         assertNotEquals (d,(c.getPlacedDie()));
     }
 

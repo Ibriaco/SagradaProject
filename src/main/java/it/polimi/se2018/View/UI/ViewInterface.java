@@ -8,6 +8,11 @@ import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
 
+/**
+ * Represents the view interface
+ * Observed by the Network Handler
+ * Observes the network handler
+ */
 public interface ViewInterface extends MyObserver, MyObservable {
 
     void updateWindowCard();

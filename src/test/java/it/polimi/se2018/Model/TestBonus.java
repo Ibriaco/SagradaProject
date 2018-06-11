@@ -120,7 +120,7 @@ public class TestBonus {
         try {
             p = new Player("test", "CLI");
         }
-        catch (InvalidConnectionException | InvalidViewException e) {}
+        catch (InvalidViewException e) {}
         p.setWindowCard(w);
 
         //creo un game e aggiungo il player appena creato

@@ -17,7 +17,7 @@ public class Player {
     private int windowFrameNumber;
 
 
-    public Player(String username, String viewType) throws InvalidConnectionException , InvalidViewException {
+    public Player(String username, String viewType) throws InvalidViewException {
 
         if(viewType.equals("GUI") || viewType.equals("CLI"))
             this.viewType = viewType;

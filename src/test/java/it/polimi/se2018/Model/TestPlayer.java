@@ -14,7 +14,7 @@ public class TestPlayer {
     public void testNewPlayer(){
         try {
             Player p = new Player("ingsw", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
     }
@@ -31,7 +31,7 @@ public class TestPlayer {
         try {
             Player p = new Player("ingsw", "GLI");
             fail();
-        } catch (InvalidConnectionException | InvalidViewException e) { }
+        } catch (InvalidViewException e) { }
     }
 
     @Test
@@ -39,7 +39,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.setTokens(5);
@@ -53,7 +53,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.setTokens(4);
@@ -76,7 +76,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
 
@@ -97,7 +97,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("ingsw", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
 
@@ -113,7 +113,7 @@ public class TestPlayer {
         Player p= null;
         try {
             p = new Player("player", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.setPlayerScore(5);
@@ -127,7 +127,7 @@ public class TestPlayer {
         Player p= null;
         try {
             p = new Player("player", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.setTokens(10);
@@ -142,23 +142,23 @@ public class TestPlayer {
         Player p= null;
         try {
             p = new Player("player", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.drawCard(1);
-        assertEquals(1,p.getPrivateObjective().getScore());
+        assertEquals(0,p.getPrivateObjective().getScore());
         assertEquals(Color.RED,p.getPrivateObjective().getColor());
         p.drawCard(2);
-        assertEquals(1,p.getPrivateObjective().getScore());
+        assertEquals(0,p.getPrivateObjective().getScore());
         assertEquals(Color.YELLOW,p.getPrivateObjective().getColor());
         p.drawCard(3);
-        assertEquals(1,p.getPrivateObjective().getScore());
+        assertEquals(0,p.getPrivateObjective().getScore());
         assertEquals(Color.GREEN,p.getPrivateObjective().getColor());
         p.drawCard(4);
-        assertEquals(1,p.getPrivateObjective().getScore());
+        assertEquals(0,p.getPrivateObjective().getScore());
         assertEquals(Color.BLUE,p.getPrivateObjective().getColor());
         p.drawCard(5);
-        assertEquals(1,p.getPrivateObjective().getScore());
+        assertEquals(0,p.getPrivateObjective().getScore());
         assertEquals(Color.PURPLE,p.getPrivateObjective().getColor());
     }
 
@@ -167,7 +167,7 @@ public class TestPlayer {
         Player p = null;
         try {
             p = new Player("player", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.drawCard(6);
@@ -180,7 +180,7 @@ public class TestPlayer {
         Cell c;
         try {
             p = new Player("player", "CLI");
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
         p.drawWindowCardAssociation(1,2);
