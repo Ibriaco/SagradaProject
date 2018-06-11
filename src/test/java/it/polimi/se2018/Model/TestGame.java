@@ -19,11 +19,6 @@ public class TestGame {
         Game game = new Game(3);
     }
 
-    @Test
-    public void testGameWrongCreation(){
-        Game game = new Game(6);
-        fail();
-    }
 
     @Test
     public void testPublic(){

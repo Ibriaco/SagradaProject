@@ -2,6 +2,7 @@ package it.polimi.se2018.Network.server;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -17,7 +18,7 @@ public interface ServerInterface{
 
     void loginUser(VCEvent event) throws RemoteException;
     void sendUser(String username, ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException;
-    void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException;
+   // void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
 
     //void sendPrivateObjective(VCEvent event) throws RemoteException;
 

@@ -13,9 +13,9 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class TestBonus {
-    WindowCard w;
-    Player p;
-    Game g;
+    private WindowCard w;
+    private Player p;
+    private Game g;
 
     @Before
     public void init() {

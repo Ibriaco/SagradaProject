@@ -2,9 +2,9 @@ package it.polimi.se2018.Network.client.rmi;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.server.rmi.RMIServerInterface;
 import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -20,6 +20,7 @@ public class RMIClient implements RMIClientInterface {
     private RMIClientInterface remoteRef;
     private RMIServerInterface server;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private VCEvent event;
 
     public void notify(String message) throws RemoteException {
         System.out.println(message);
@@ -39,16 +40,18 @@ public class RMIClient implements RMIClientInterface {
         }
     }
 
-    public void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException {
-        VCEvent loginE = new LoginEvent("RMI", username);
+    public void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         System.out.println("Trying to authenticate " + username + " ...");
         server.sendUser(username, remoteRef);
-        server.loginUser(loginE);
-        server.startGame();
+        server.loginUser(event);
         /*LobbyController lc = new LobbyController();
         lc.setupGame();*/
     }
 
+    @Override
+    public void sendEvent(VCEvent event) throws RemoteException {
+        this.event = event;
+    }
 
 
     @Override

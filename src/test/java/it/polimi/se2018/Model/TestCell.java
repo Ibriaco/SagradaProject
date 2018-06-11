@@ -11,7 +11,7 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class TestCell {
 
-    Game g;
+    private Game g;
     @Before
     public void init(){
         g = new Game(2);

@@ -46,6 +46,11 @@ public class SocketClient implements ClientInterface{
     }
 
     @Override
+    public void sendEvent(VCEvent event) throws RemoteException {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) {
 
     }

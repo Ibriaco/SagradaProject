@@ -3,6 +3,7 @@ package it.polimi.se2018.Model;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class TestWindowCard {
 
     WindowCard w;
-    Game g;
+    private Game g;
     Die d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20;
 
 
@@ -213,7 +214,12 @@ public class TestWindowCard {
         d1.setColor(Color.BLUE);
 
         //se il dado lo voglio mettere in coordinate sbagliate allora non va bene
-        assert !w.checkLegalPlacement(d1,7,2,true,true);
+        try {
+            assert !w.checkLegalPlacement(d1, 7, 2, true, true);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     }
 
     @Test

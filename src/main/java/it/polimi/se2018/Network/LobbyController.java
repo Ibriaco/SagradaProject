@@ -6,11 +6,10 @@ import it.polimi.se2018.Model.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.VirtualView;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.IntStream;
-
-import static it.polimi.se2018.View.UI.CLIUtils.consoleWriter;
 import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
 public class LobbyController implements MyObserver, MyObservable {
@@ -28,7 +27,8 @@ public class LobbyController implements MyObserver, MyObservable {
         printOnConsole("Lobby controller creato");
     }
 
-    public void handleLogin(String username) throws RemoteException {
+    public void handleLogin(VCEvent event) throws RemoteException {
+        String username = event.getUsername();
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
             addInLobby(username);
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
@@ -95,7 +95,7 @@ public class LobbyController implements MyObserver, MyObservable {
         }).start();
     }
 
-    public void setupGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
+    /*public void setupGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
         game = new Game(virtualView.getClients().size());
         for (String s: virtualView.getClients().keySet()) {
             game.getPlayers().add(new Player(s, "CLI"));
@@ -112,7 +112,7 @@ public class LobbyController implements MyObserver, MyObservable {
             virtualView.getClients().get(username).notify(game.getPlayers().get(j).getPrivateObjective().toString());
             j++;
             }
-    }
+    }*/
 
     public int getTimer() {
         return timer;

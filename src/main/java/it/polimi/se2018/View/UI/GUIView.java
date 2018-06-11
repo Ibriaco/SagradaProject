@@ -5,6 +5,7 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
 import it.polimi.se2018.View.UI.GUIUtils.GUILoginController;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,6 +31,11 @@ public class GUIView extends Application implements ViewInterface {
     @Override
     public void showUI() {
         /* Intentionally left void (for now)*/
+    }
+
+    @Override
+    public void getEvent(VCEvent event) {
+
     }
 
     @Override

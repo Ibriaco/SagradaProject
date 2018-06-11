@@ -3,9 +3,11 @@ package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 
 import java.rmi.RemoteException;
@@ -49,7 +51,14 @@ public class CLIView implements ViewInterface {
             e.printStackTrace();
         } catch (InvalidViewException e) {
             e.printStackTrace();
+        } catch (WindowCardAssociationException e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void getEvent(VCEvent event) {
+
     }
 
 

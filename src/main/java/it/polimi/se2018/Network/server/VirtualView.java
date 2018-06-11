@@ -6,6 +6,7 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.UI.ViewInterface;
+import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,15 +15,12 @@ import java.util.HashMap;
 public class VirtualView implements ViewInterface {
 
     private LobbyController lobbyController;
-
     public ArrayList<MyObserver> getObserverCollection() {
         return observerCollection;
     }
-
     private ArrayList<MyObserver> observerCollection;
-
-
     private HashMap<String, ClientInterface> clients = new HashMap<>();
+    private VCEvent event;
 
 
     public VirtualView(){
@@ -68,9 +66,13 @@ public class VirtualView implements ViewInterface {
         return clients;
     }
 
-    public void sendLoginEvent(String username) throws RemoteException {
+    /*public void sendLoginEvent(String username) throws RemoteException {
 
         update(this, username);
         lobbyController.handleLogin(username);
+    }*/
+
+    public void getEvent(VCEvent event) {
+        this.event = event;
     }
 }

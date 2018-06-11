@@ -83,11 +83,6 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException {
-
-    }
-
-    @Override
     public LobbyController getLobbyController() throws RemoteException {
         return lobbyController;
     }
