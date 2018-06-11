@@ -13,7 +13,7 @@ public interface ClientInterface extends MyObservable, MyObserver {
 
     void notify(String message) throws RemoteException;
 
-    void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
+    void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException;
 
     void sendEvent(VCEvent event) throws RemoteException;
 }

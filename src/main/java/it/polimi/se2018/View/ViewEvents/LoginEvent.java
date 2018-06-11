@@ -27,4 +27,8 @@ public class LoginEvent extends VCEvent {
         return connectionType;
     }
 
+    @Override
+    public String toString() {
+        return "Login Event";
+    }
 }

@@ -2,16 +2,15 @@ package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.LobbyController;
+import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.Model.Game;
 import it.polimi.se2018.Model.Player;
-import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
-import it.polimi.se2018.View.ViewEvents.LoginEvent;
-import it.polimi.se2018.View.ViewEvents.SelectDieEvent;
-import it.polimi.se2018.View.ViewEvents.SkipTurnEvent;
+import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
 
@@ -22,11 +21,15 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     private boolean control2;
     private RMIServer rmiServer;
     private SocketServer socketServer;
+    private LobbyController lobbyController;
+    private VirtualView virtualView;
 
-    public EventsController(RMIServer rmiS, SocketServer socketS) {
+    public EventsController(RMIServer rmiS, SocketServer socketS, VirtualView vv) {
         super();
         this.rmiServer = rmiS;
         this.socketServer = socketS;
+        this.virtualView = vv;
+        lobbyController = new LobbyController(virtualView);
     }
 
     private boolean checkPlayer(String username) {
@@ -107,5 +110,12 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     @Override
     public void update(MyObservable o, Object arg) throws RemoteException {
 
+        if(arg.toString().equals("Login Event")){
+            lobbyController.handleLogin((VCEvent) arg);
+        }
+    }
+
+    public LobbyController getLobbyController(){
+        return lobbyController;
     }
 }

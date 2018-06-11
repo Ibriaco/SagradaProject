@@ -40,7 +40,7 @@ public class RMIClient implements RMIClientInterface {
         }
     }
 
-    public void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+    public void loginRequest(String username) throws RemoteException, InvalidConnectionException, InvalidViewException{
         System.out.println("Trying to authenticate " + username + " ...");
         server.sendUser(username, remoteRef);
         server.loginUser(event);
