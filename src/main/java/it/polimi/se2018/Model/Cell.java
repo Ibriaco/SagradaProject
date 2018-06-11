@@ -70,12 +70,16 @@ public class Cell {
     }
 
     public void placeDie(Die d){
-
-        placedDie = d;
+        if(checkPlacement(d))
+            placedDie = d;
     }
 
     public void setPlacedDie(Die d){
 
         placedDie = d;
+    }
+
+    private boolean checkPlacement(Die d){
+        return (d.getColor() == this.getColor() || d.getValue() == this.getShade());
     }
 }

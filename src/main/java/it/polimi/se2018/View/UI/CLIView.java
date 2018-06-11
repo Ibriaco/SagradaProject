@@ -8,13 +8,16 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleErrorWriter;
+import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
+import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
-import static it.polimi.se2018.View.UI.CLIUtils.*;
 
-
+/**
+ * Class that represent the command line interface
+ */
 public class CLIView implements ViewInterface {
 
     private NetworkHandler nh;
@@ -28,6 +31,12 @@ public class CLIView implements ViewInterface {
 
     }
 
+    /**
+     * Shows to the player the user interface
+     * @throws RemoteException thrown exception
+     * @throws InvalidConnectionException thrown exception
+     * @throws InvalidViewException thrown exception
+     */
     @Override
     public void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException {
 
@@ -44,6 +53,12 @@ public class CLIView implements ViewInterface {
             loginScreen();
     }
 
+    /**
+     * Method that shows the login interface to the user
+     * @throws RemoteException thrown exception
+     * @throws InvalidConnectionException thrown exception
+     * @throws InvalidViewException thrown exception
+     */
      public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");

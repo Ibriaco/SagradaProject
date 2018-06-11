@@ -9,9 +9,14 @@ import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-
 import static it.polimi.se2018.View.UI.CLIUtils.printOnConsole;
 
+/**
+ * Class that controls everything concerned with the game Lobby
+ * @author Ibrahim El Shemy
+ * @author Gregorio Galletti
+ * @author Marco Gasperini
+ */
 public class LobbyController {
 
     private Lobby waitingLobby;
@@ -27,6 +32,10 @@ public class LobbyController {
         printOnConsole("Lobby controller creato");
     }
 
+    /**
+     * Handles the login event that is notified by the VirtualView
+     * @param event notified by the Virtual View
+     */
     public void handleLogin(VCEvent event) throws RemoteException {
         String username = event.getUsername();
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
@@ -45,6 +54,11 @@ public class LobbyController {
         }
     }
 
+    /**
+     * Method that checks that there are no occurrences of the same username
+     * @param user of the player
+     * @return true if there are no occurrences, false instead
+     */
     public boolean checkUser(String user) {
         for (String u : waitingLobby.getOnlinePlayers()) {
             if (user.equals(u))
@@ -53,6 +67,10 @@ public class LobbyController {
         return true;
     }
 
+    /**
+     * Method that checks that the limit of player in lobby must be 4
+     * @return true if the numbers of player is lower than 4, false instead
+     */
     public boolean checkOnlinePlayers() {
         if (waitingLobby.getOnlinePlayersN() == 4)
             return false;
@@ -60,6 +78,10 @@ public class LobbyController {
             return true;
     }
 
+    /**
+     * Method that checks if the timer's expired
+     * @return true if timer's expired, false instead
+     */
     public boolean checkTime() {
         if (waitingLobby.getOnlinePlayersN() >= 2 && getTimer() == 0)
             return false;
@@ -67,12 +89,20 @@ public class LobbyController {
             return true;
     }
 
+    /**
+     * Adds a player in the lobby
+     * @param user of the player
+     */
     public synchronized void addInLobby(String user) {
 
         waitingLobby.addOnlinePlayer(user);
 
     }
 
+    /**
+     * Creates a thread and decrements an integer value every second to simulate a timer
+     * @author Gregorio Galletti
+     */
     public void launchTimer() {
         new Thread(() -> {
             Message timeout = new Message("");
@@ -86,6 +116,7 @@ public class LobbyController {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            Thread.currentThread().interrupt();
                         }
                         timer--;
                         if(getTimer()==0)

@@ -10,6 +10,11 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * Main server class that creates a RMI/Socket server
+ * @author Ibrahim El Shemy
+ * @author Gregorio Galletti
+ */
 public class Server {
 
     private static final Integer socketPort = 10000;

@@ -14,6 +14,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+/**
+ * Class that implements the RMI Connection (RMIClientInterface)
+ * @author Ibrahim El Shemy
+ */
 public class RMIClient implements RMIClientInterface {
 
     private RMIClientInterface remoteRef;
@@ -39,7 +43,13 @@ public class RMIClient implements RMIClientInterface {
         }
     }
 
-    //metodo per inviare VCEvent da client a server
+    /**
+     * Send a events from client to server by invoking the "sendUser" method from the server
+     * @param event to be sent to the server
+     * @throws RemoteException thrown exception
+     * @throws InvalidConnectionException thrown exception
+     * @throws InvalidViewException thrown exception
+     */
     @Override
     public void sendEvent(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
         if (event.toString().equals("Login Event")) {

@@ -192,13 +192,6 @@ public class TestWindowCard {
     @Test
     public void testFirstPlacement(){
 
-        Die d1 = new Die(g.getColorList());
-        try {
-            d1.setValue(1);
-        } catch (InvalidDieException e) {
-        }
-        d1.setColor(Color.BLUE);
-
         assert w.checkLegalPlacement(d1,0,0,true,true);
         assert !w.checkLegalPlacement(d1,1,1,true,true);
     }

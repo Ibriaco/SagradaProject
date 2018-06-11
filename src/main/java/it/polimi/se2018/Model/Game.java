@@ -255,6 +255,7 @@ public class Game {
         List<Integer> ar = new ArrayList<>();
 
         String line;
+        String l = null;
         //leggo da file
         try (BufferedReader b = new BufferedReader(new FileReader("./src/WindowCard.txt"))) {
             line = b.readLine();
@@ -262,9 +263,9 @@ public class Game {
                 windowNumber = Integer.valueOf(line);
 
                 for(int i = 0; i < 13; i++)
-                    b.readLine();
+                    l = b.readLine();
 
-                line = b.readLine();
+                line = l;
             }
         } catch (Exception e) {}
 

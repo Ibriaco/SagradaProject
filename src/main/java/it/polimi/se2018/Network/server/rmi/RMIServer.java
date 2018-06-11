@@ -10,6 +10,10 @@ import it.polimi.se2018.View.ViewEvents.VCEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Class that represents the implementation of the RMI Server
+ * @author Ibrahim El Shemy
+ */
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
 
     private LobbyController lobbyController;
@@ -22,12 +26,22 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
         this.lobbyController = lc;
     }
 
-
+    /**
+     * Send a VC (View-Controller) event to the Virtual View
+     * @param event to be sent to the Virtual View
+     * @throws InvalidConnectionException exception thrown
+     * @throws RemoteException exception thrown
+     * @throws InvalidViewException exception thrown
+     */
     public void vceTransport(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         virtualView.getEvent(event);
     }
 
-
+    /**
+     * Puts into a HashMap a client associated to a specific username
+     * @param username of the player
+     * @param client associated to the player
+     */
     public void sendUser(String username, ClientInterface client){
         lobbyController.getLobby().getVirtualView().getClients().put(username,client);
     }

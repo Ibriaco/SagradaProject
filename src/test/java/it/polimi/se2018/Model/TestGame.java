@@ -72,7 +72,7 @@ public class TestGame {
 
         try {
             game.addPlayer(new Player("test", "CLI"));
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
 
@@ -89,7 +89,7 @@ public class TestGame {
             game.addPlayer(new Player("test1", "CLI"));
             game.addPlayer(new Player("test2", "CLI"));
             game.addPlayer(new Player("test3","CLI"));
-        } catch (InvalidConnectionException | InvalidViewException e) {
+        } catch (InvalidViewException e) {
             fail();
         }
 

@@ -1,12 +1,13 @@
 package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Message;
-
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * @author Gregorio Galletti
+ */
 public class ListeningThread extends Thread{
 
     private Socket socket;
@@ -27,19 +28,17 @@ public class ListeningThread extends Thread{
         }
 
         while(loop) {
+            Message receivedE = null;
             try {
-                Message receivedE = (Message) fromServer.readObject();
-                if (receivedE == null)
-                    loop = false;
-                else
-                    System.out.println(receivedE.getMessage());
-            }catch (EOFException e){
+                assert fromServer != null;
+                receivedE = (Message) fromServer.readObject();
+            } catch (IOException | ClassNotFoundException | NullPointerException e) {
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
+            if (receivedE == null)
+                loop = false;
+            else
+                System.out.println(receivedE.getMessage());
         }
     }
 }

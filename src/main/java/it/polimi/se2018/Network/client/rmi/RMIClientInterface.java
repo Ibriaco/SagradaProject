@@ -8,6 +8,10 @@ import it.polimi.se2018.View.ViewEvents.VCEvent;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Interface implemented by RMIClient
+ * @author Ibrahim El Shemy
+ */
 public interface RMIClientInterface extends Remote, ClientInterface {
 
     void notify(String message) throws RemoteException;

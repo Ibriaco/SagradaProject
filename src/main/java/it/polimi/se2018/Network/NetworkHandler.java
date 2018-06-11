@@ -15,6 +15,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
 
+/**
+ * Class that works as a proxy on the Client side
+ * It is observed by the View
+ * It observes the View
+ * @author Gregorio Galletti
+ */
 public class NetworkHandler implements MyObserver, MyObservable {
 
     private ClientInterface selectedClient;
