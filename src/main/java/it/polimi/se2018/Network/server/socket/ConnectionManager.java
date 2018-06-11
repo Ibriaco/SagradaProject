@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * @author Gregorio Galetti
+ */
 public class ConnectionManager extends Thread{
     private ServerSocket serverSocket;
     private SocketServer socketServer;

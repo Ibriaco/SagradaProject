@@ -1,6 +1,7 @@
 package it.polimi.se2018.View.UI;
 
 
+import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
@@ -14,20 +15,34 @@ import java.util.ArrayList;
 
 import static it.polimi.se2018.View.UI.CLIUtils.*;
 
-
+/**
+ * Command line interface
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ */
 public class CLIView implements ViewInterface {
 
     private NetworkHandler nh;
     private VCEvent vcEvent;
+    private MVEvent mvEvent;
     private int choice;
     private String user;
     private ArrayList<MyObserver> observersCollection = new ArrayList<>();
 
+    /**
+     * Updates a window card
+     */
     @Override
     public void updateWindowCard() {
 
     }
 
+    /**
+     * Shows the user interface
+     * @throws RemoteException thrown exception
+     * @throws InvalidConnectionException thrown exception
+     * @throws InvalidViewException thrown exception
+     */
     @Override
     public void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException {
 
@@ -44,6 +59,12 @@ public class CLIView implements ViewInterface {
             loginScreen();
     }
 
+    /**
+     * Shows the login interface to the user
+     * @throws RemoteException thrown exception
+     * @throws InvalidConnectionException thrown exception
+     * @throws InvalidViewException thrown exception
+     */
      public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
@@ -89,8 +110,10 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void update(MyObservable o, Object arg) {
-        System.out.println(arg.toString());
-
+        mvEvent = (MVEvent) arg;
+        //metodo per gestire eventi MV
+        //showEventResult();
+        System.out.println("evento MV di login tornato");
     }
 
 

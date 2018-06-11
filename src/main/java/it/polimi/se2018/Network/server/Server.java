@@ -1,6 +1,8 @@
 package it.polimi.se2018.Network.server;
 
 import it.polimi.se2018.Controller.EventsController;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
@@ -10,6 +12,11 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * Mai server class that creates a RMI/Socket server
+ * @author Ibrahim El Shemy
+ * @author Gregorio Galletti
+ */
 public class Server {
 
     private static final Integer socketPort = 10000;
@@ -22,7 +29,7 @@ public class Server {
     private static VirtualView virtualView;
     private static EventsController eventsController;
 
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException {
         virtualView = new VirtualView();
         eventsController = new EventsController(rmiServer,socketServer,virtualView);
         lobbyController = eventsController.getLobbyController();

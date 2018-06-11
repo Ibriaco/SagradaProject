@@ -2,6 +2,7 @@ package it.polimi.se2018.Network.server;
 
 
 import it.polimi.se2018.Controller.EventsController;
+import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
@@ -14,18 +15,36 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class that works as a Proxy on the Server side
+ * It is observed by the EventsController
+ * It observes the EventsController
+ * @author Ibrahim El Shemy
+ */
 public class VirtualView implements ViewInterface {
 
     private EventsController eventsController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
-    private HashMap<String, ClientInterface> clients = new HashMap<>();
+    private HashMap<String, ClientInterface> clients;
     private VCEvent event;
+    //EventsController viene aggiunto agli observer di VirtualView da Server
 
+
+    public VirtualView(){
+        clients = new HashMap<>();
+    }
+
+    /**
+     * Updates a window card
+     */
     @Override
     public void updateWindowCard() {
 
     }
 
+    /**
+     * Shows the user interface
+     */
     @Override
     public void showUI() {
 
@@ -49,9 +68,20 @@ public class VirtualView implements ViewInterface {
         }
     }
 
+    //se lo username dell'evento è ALL
+    //inoltro l'evento a tutti i client
+    //alrimenti solo al client corrispondente allo username
     @Override
-    public void update(MyObservable o, Object arg) {
-        System.out.println(arg.toString());
+    public void update(MyObservable o, Object arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+        MVEvent event = (MVEvent) arg;
+        if (event.getUsername().equals("ALL")) {
+            for (String user : clients.keySet()) {
+                clients.get(user).sendMVEvent((MVEvent) arg);
+            }
+        }
+        else{
+            clients.get(event.getUsername()).sendMVEvent((MVEvent) arg);
+        }
     }
 
     public HashMap<String, ClientInterface> getClients() {
@@ -64,6 +94,13 @@ public class VirtualView implements ViewInterface {
         lobbyController.handleLogin(username);
     }*/
 
+    /**
+     * Receives an event from the server
+     * @param event event received
+     * @throws InvalidConnectionException thrown exception
+     * @throws RemoteException thrown exception
+     * @throws InvalidViewException thrown exception
+     */
     public void getEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         this.event = event;
         notifyObservers();

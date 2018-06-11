@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * @author Gregorio Galletti
+ */
 public class SocketConnection extends Thread {
     private SocketServer socketServer;
     private Socket connectionSocket;

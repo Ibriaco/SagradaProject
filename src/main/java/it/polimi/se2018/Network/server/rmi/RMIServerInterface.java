@@ -10,6 +10,9 @@ import it.polimi.se2018.View.ViewEvents.VCEvent;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * Interface that refers to the connection (Server side) using RMI
+ */
 public interface RMIServerInterface extends Remote, ServerInterface {
 
     //bisogna capire come gestire disconnessione

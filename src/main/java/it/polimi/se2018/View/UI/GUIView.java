@@ -16,6 +16,10 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * Graphic user interface
+ * @author Gregorio Galletti
+ */
 public class GUIView extends Application implements ViewInterface {
 
     private ArrayList<MyObserver> observerCollection;

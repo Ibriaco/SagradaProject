@@ -1,14 +1,15 @@
 package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Model.*;
+import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.Network.server.rmi.RMIServer;
 import it.polimi.se2018.Network.server.socket.SocketServer;
-import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
@@ -26,12 +27,13 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
 
-    public EventsController(RMIServer rmiS, SocketServer socketS, VirtualView vv) throws RemoteException {
+    public EventsController(RMIServer rmiS, SocketServer socketS, VirtualView vv) throws RemoteException, InvalidConnectionException, InvalidViewException {
         super();
         this.rmiServer = rmiS;
         this.socketServer = socketS;
         this.virtualView = vv;
         lobbyController = new LobbyController(virtualView);
+        registerObserver(virtualView);
     }
 
     private boolean checkPlayer(String username) {
@@ -111,10 +113,13 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     }
 
     @Override
-    public void update(MyObservable o, Object arg) throws RemoteException {
+    public void update(MyObservable o, Object arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
         if(arg.toString().equals("Login Event")){
             lobbyController.handleLogin((VCEvent) arg);
+            //prova
+            mvEvent = new LoggedUserEvent(((VCEvent) arg).getUsername());
+            notifyObservers();
         }
     }
 

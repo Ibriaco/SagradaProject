@@ -1,7 +1,5 @@
 package it.polimi.se2018.Model.Event;
 
-import it.polimi.se2018.Model.Player;
-
 /**
  *
  * @author Ibrahim El Shemy
@@ -13,19 +11,14 @@ public class LoggedUserEvent extends MVEvent {
 
     /**
      *
-     * @param player refers to the current player in game
+     * @param username refers to the current player in game
      */
-    public LoggedUserEvent(Player player) {
-        super(player);
-        this.username = player.getUsername();
-    }
-
-    public LoggedUserEvent(String s){
-        super(s);
+    public LoggedUserEvent(String username) {
+        super(username);
+        this.username = username;
     }
 
     public String getUsername() {
-
         return username;
     }
 

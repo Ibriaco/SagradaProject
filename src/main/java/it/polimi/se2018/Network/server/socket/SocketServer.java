@@ -13,6 +13,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that implements the ServerInterface
+ * @author Gregorio Galletti
+ */
 public class SocketServer implements ServerInterface {
     private static ServerSocket serverSocket;
     private static ConnectionManager connectionsHandler;

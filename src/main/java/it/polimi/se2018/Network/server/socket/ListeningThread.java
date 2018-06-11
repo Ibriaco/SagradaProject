@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * @author Gregorio Galletti
+ */
 public class ListeningThread extends Thread{
 
     private Socket socket;

@@ -1,7 +1,9 @@
 package it.polimi.se2018.Network.client.socket;
 
+import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.NetworkHandler;
 import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.Network.server.socket.ListeningThread;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -13,8 +15,10 @@ import java.rmi.RemoteException;
 public class SocketClient implements ClientInterface{
     private static Socket socket;
     private ListeningThread listeningThread;
+    private NetworkHandler networkHandler;
 
-    public SocketClient(String serverIP, Integer port) {
+    public SocketClient(String serverIP, Integer port, NetworkHandler nh) {
+        networkHandler = nh;
         try {
             socket = new Socket(serverIP, port);
         } catch (IOException e) {
@@ -28,6 +32,11 @@ public class SocketClient implements ClientInterface{
 
     @Override
     public void notify(String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendMVEvent(MVEvent event) {
 
     }
 
