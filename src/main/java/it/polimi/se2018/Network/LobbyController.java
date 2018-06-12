@@ -2,9 +2,11 @@ package it.polimi.se2018.Network;
 
 import it.polimi.se2018.Controller.EventsController;
 import it.polimi.se2018.Message;
+import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Game;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
@@ -24,10 +26,12 @@ public class LobbyController {
     private Game game;
     private static int timer = 10;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private EventsController eventsController;
 
-    public LobbyController() throws RemoteException {
+    public LobbyController(EventsController ec) throws RemoteException {
         waitingLobby = new Lobby();
         printOnConsole("Lobby controller creato");
+        eventsController = ec;
     }
 
     /**
@@ -35,26 +39,34 @@ public class LobbyController {
      * @param event notified by the Virtual View
      * @throws RemoteException thrown exception
      */
-    public void handleLogin(VCEvent event) throws RemoteException {
+    public void handleLogin(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
         String username = event.getUsername();
+        LoggedUserEvent logEvent;
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
             addInLobby(username);
+            logEvent = new LoggedUserEvent(username,true);
+            logEvent.setState("SEI STATO LOGGATO");
+            // queste 3 stampe sono sul server. si potrebbero rimuovere??
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
             printOnConsole("User " + username + " logged in successfully!");
             printOnConsole("Online players " + playersNumber);
 
-            System.out.println("notificare al client che si è loggato");
-            //getLobby().getVirtualView().getClients().get(username).notify("User " + username + " logged in!");
         }
-        else if(!checkTime())
-            System.out.println("notificare al client che il timer è scaduto");
-            //getLobby().getVirtualView().getClients().get(username).notify("Timer expired!");
-        else if(!checkOnlinePlayers())
-            System.out.println("notificare al client che la lobby è piena");
-            //getLobby().getVirtualView().getClients().get(username).notify("Lobby is already full! Please join another lobby!");
-        else if(!checkUser(username)) {
-            System.out.println("notificare al client che lo usernme è gia in uso");
-            //getLobby().getVirtualView().getClients().get(username).notify("Invalid username! Please try again!");
+        else {
+            logEvent = new LoggedUserEvent(username, false);
+            if (!checkTime()) {
+                logEvent.setState("TIMER EXEPIRED");
+            } else if (!checkOnlinePlayers()) {
+                logEvent.setState("LOBBY IS FULL");
+            } else if (!checkUser(username)) {
+                logEvent.setState("USERNAME ALREADY USED");
+            }
+        }
+        eventsController.setMvEvent(logEvent);
+        eventsController.notifyObservers();
+        if (checkStartGame()) {
+            //lancio setupGame
+            //setupGame();
         }
     }
 
@@ -129,6 +141,14 @@ public class LobbyController {
         }).start();
     }
 
+    public boolean checkStartGame(){
+        if(!checkOnlinePlayers() || !checkTime())
+            return true;
+        else
+            return false;
+    }
+
+    //in setupGame creo evento setupGameEvent
     /*public void setupGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
         game = new Game(virtualView.getClients().size());
         for (String s: virtualView.getClients().keySet()) {

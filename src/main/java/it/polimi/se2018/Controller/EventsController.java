@@ -1,15 +1,12 @@
 package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Model.*;
-import it.polimi.se2018.Model.Event.LoggedUserEvent;
+import it.polimi.se2018.Model.Event.GameUpdateEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.LobbyController;
-import it.polimi.se2018.Network.server.VirtualView;
-import it.polimi.se2018.Network.server.rmi.RMIServer;
-import it.polimi.se2018.Network.server.socket.SocketServer;
 import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
@@ -25,8 +22,8 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
 
-    public EventsController() throws RemoteException, InvalidConnectionException, InvalidViewException {
-        lobbyController = new LobbyController();
+    public EventsController() throws RemoteException{
+        lobbyController = new LobbyController(this);
     }
 
     private boolean checkPlayer(String username) {
@@ -82,12 +79,27 @@ public class EventsController extends Controller implements MyObserver, MyObserv
         } else
             return false;
 
-        return (control1 && control2);
+        return control1;
     }
 
     public void checkSelectDieEvent (SelectDieEvent e){
 
     }
+
+    public void setMvEvent(MVEvent mvEvent) {
+
+        this.mvEvent = mvEvent;
+    }
+
+    public LobbyController getLobbyController(){
+
+        return lobbyController;
+    }
+
+
+
+
+    //METODI OBSERVER E OBSERVABLE
 
     @Override
     public void registerObserver(MyObserver observer) {
@@ -98,6 +110,7 @@ public class EventsController extends Controller implements MyObserver, MyObserv
     public void unregisterObserver(MyObserver observer) {
         observerCollection.remove(observer);
     }
+
     @Override
     public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
         for (MyObserver o: observerCollection) {
@@ -110,13 +123,13 @@ public class EventsController extends Controller implements MyObserver, MyObserv
 
         if(arg.toString().equals("Login Event")){
             lobbyController.handleLogin((VCEvent) arg);
-            //prova
-            mvEvent = new LoggedUserEvent(((VCEvent) arg).getUsername());
-            notifyObservers();
         }
     }
 
-    public LobbyController getLobbyController(){
-        return lobbyController;
+    //METODI PER GENERARE EVENTI MV
+
+    public void createGameUpdateEvent () throws InvalidConnectionException, RemoteException, InvalidViewException {
+        mvEvent = new GameUpdateEvent("ALL");
+        notifyObservers();
     }
 }

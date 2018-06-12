@@ -1,7 +1,6 @@
 package it.polimi.se2018.View.ViewEvents;
 
 
-import it.polimi.se2018.Model.Color;
 
 /**
  * Events that lets the player place a die
@@ -10,37 +9,31 @@ import it.polimi.se2018.Model.Color;
  */
 public class PlaceDieEvent extends VCEvent {
 
-    private Color color;
-    private int value;
+
+    private int pos;
     private int coordX;
     private int coordY;
 
     /**
      *
      * @param username username of the current player
-     * @param color color of the die
-     * @param value value of the die
+     * @param pos is the position of die in the DraftPool
      * @param x x coordinate where the player wants to place the die
      * @param y y coordinate where the player wants to place the die
      */
-    public PlaceDieEvent(String username, Color color, int value, int x, int y) {
+    public PlaceDieEvent(String username, int pos, int x, int y) {
 
         super(username);
-        this.color = color;
-        this.value = value;
+
+        this.pos = pos;
         this.coordX = x;
         this.coordY = y;
     }
 
 
-    public Color getColor(){
+    public int getPos(){
 
-        return color;
-    }
-
-    public int getValue(){
-
-        return value;
+        return pos;
     }
 
     public int getCoordX() {

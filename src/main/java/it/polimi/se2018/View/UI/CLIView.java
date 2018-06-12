@@ -7,8 +7,7 @@ import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.NetworkHandler;
-import it.polimi.se2018.View.ViewEvents.LoginEvent;
-import it.polimi.se2018.View.ViewEvents.VCEvent;
+import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -54,10 +53,10 @@ public class CLIView implements ViewInterface {
                 registerObserver(nh);
                 nh.registerObserver(this);
                 validInput = true;
+                loginScreen();
             } else
                 consoleErrorWriter.println("Invalid input, please try again!");
         }
-            loginScreen();
     }
 
     /**
@@ -70,12 +69,7 @@ public class CLIView implements ViewInterface {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
         user = consoleScanner.next();
-        if (choice == 1)
-            vcEvent = new LoginEvent("RMI", user);
-        else if (choice == 2)
-            vcEvent = new LoginEvent("Socket", user);
-
-        notifyObservers();
+        createLoginEvent(choice);
     }
 
     @Override
@@ -85,8 +79,8 @@ public class CLIView implements ViewInterface {
 
     private int printConnectionChoice() {
         printOnConsole("Select the Connection type you want to use:");
-        printOnConsole("1) RMI");
-        printOnConsole("2) Socket");
+        printOnConsole("1) " + rmi);
+        printOnConsole("2) " + socket);
         return consoleScanner.nextInt();
     }
 
@@ -124,42 +118,54 @@ public class CLIView implements ViewInterface {
     public void selectEvent(String c){
 
     }
-
-    public LoginEvent createLoginEvent(String username, String command){
-        LoginEvent event = new LoginEvent();
-        return event;
-    }
-
-    public PlaceDieEvent createPlaceDieEvent(String username, String command){
-        PlaceDieEvent event = new PlaceDieEvent();
-        return event;
-    }
-
-    public SkipTurnEvent createSkipTurnEvent(String username, String command){
-        SkipTurnEvent event = new SkipTurnEvent();
-        return event;
-    }
-
-    public UseToolEvent createUseToolEvent(String username, String command){
-        UseToolEvent event = new UseToolEvent();
-        return event;
-    }
-
-    public RollDiceEvent createRollDiceEvent(String username, String command){
-        RollDiceEvent event = new RollDiceEvent();
-        return event;
-    }
-
-    public ChooseCardEvent createChooseCardEvent(String username, String command){
-        ChooseCardEvent event = new ChooseCardEvent();
-        return event;
-    }
-
-    public RoundTrackEvent createCheckRoundTrackEvent(String username, String command){
-        RoundTrackEvent event = new RoundTrackEvent();
-        return event;
-    }
 */
+    //METODI PER CREARE EVENTI VC
+    public void createLoginEvent(int connectionType) throws InvalidConnectionException, RemoteException, InvalidViewException {
+        if (connectionType == 1)
+            vcEvent = new LoginEvent(rmi, user);
+        else if (connectionType == 2)
+            vcEvent = new LoginEvent(socket, user);
+        notifyObservers();
+    }
 
+    public void createPlaceDieEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+        int pos = getNumber();
+        int coordX = getNumber();
+        int coordY = getNumber();
+        vcEvent = new PlaceDieEvent(user, pos, coordX, coordY);
+        notifyObservers();
+    }
+
+    public void createSkipTurnEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+        vcEvent = new SkipTurnEvent(user);
+        notifyObservers();
+    }
+
+    public void createUseToolEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+        int pos = getNumber()-1;
+        vcEvent = new UseToolEvent(user, pos);
+        notifyObservers();
+    }
+
+    public void createRollDiceEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+        vcEvent = new RollDiceEvent(user);
+        notifyObservers();
+    }
+
+    public void createChooseCardEvent(String username, String command) throws InvalidConnectionException, RemoteException, InvalidViewException {
+        String windowName = getString();
+        vcEvent = new ChooseCardEvent(username, windowName);
+        notifyObservers();
+    }
+
+public String getString() {
+
+    return consoleScanner.nextLine();
+}
+
+public int getNumber() {
+
+    return consoleScanner.nextInt();
+}
 
 }
