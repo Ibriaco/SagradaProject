@@ -31,9 +31,9 @@ public class RowColor extends ColumnRowColors {
                     ok = false;
             }
 
-            for(int index = 0; index < frequency.length; index++){
-                ok = frequency[index] == 1 && ok;
-            }
+            for (int aFrequency : frequency)
+                ok = aFrequency == 1 && ok;
+
 
            if(ok) validRows++;
         }

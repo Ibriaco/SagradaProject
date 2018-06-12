@@ -16,7 +16,6 @@ public class PlaceDieEvent extends MVEvent{
 
     private Color color;
     private int value;
-    private String username;
     private int coordX;
     private int coordY;
 

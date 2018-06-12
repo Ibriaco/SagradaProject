@@ -1,8 +1,6 @@
 package it.polimi.se2018.Model;
 
 
-import it.polimi.se2018.Controller.ToolCard;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -327,10 +325,8 @@ public class Game {
     }
 
     public Player findPlayer(String username) {
-        for(Player p: players)
-            if(username.equals(p.getUsername()))
-                return p;
 
-        return null;
+        return players.stream().filter(p -> username.equals(p.getUsername())).findFirst().orElse(null);
+
     }
 }

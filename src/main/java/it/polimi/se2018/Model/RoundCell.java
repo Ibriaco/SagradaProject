@@ -47,7 +47,7 @@ public class RoundCell {
             d1.setValue(val);
             d1.setColor(col);
         } catch (InvalidDieException e) {
-
+            e.printStackTrace();
         }
 
 

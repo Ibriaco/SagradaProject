@@ -15,7 +15,6 @@ import java.util.List;
 public class RollDiceEvent extends MVEvent{
 
     private List<Die> dice;
-    Game game;
 
     /**
      *

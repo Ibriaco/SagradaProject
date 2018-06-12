@@ -1,10 +1,11 @@
 package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Model.Die;
+import it.polimi.se2018.Model.ToolCard;
 
 import java.util.ArrayList;
 
-public class ToolCardController extends Controller {
+public class ToolCardController {
 
     private ArrayList<ToolCard> toolCards;
 

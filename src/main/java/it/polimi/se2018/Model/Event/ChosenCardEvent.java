@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class ChosenCardEvent extends MVEvent {
 
     private String windowName;
-    private String username;
     private String publicCardName;
     private String toolCardName;
     private String privateCardName;
@@ -53,10 +52,6 @@ public class ChosenCardEvent extends MVEvent {
         this.privateCardName = ownerPlayer.getPrivateObjective().getTitle();
     }
 
-
-    /*public ChosenCardEvent(Player player){
-
-    }*/
 
     public String getWindowName() {
 

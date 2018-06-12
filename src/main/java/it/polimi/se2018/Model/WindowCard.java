@@ -33,11 +33,6 @@ public class WindowCard {
      */
     public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade){
 
-        int previousR = row - 1;
-        int previousC = col - 1;
-        int nextR = row + 1;
-        int nextC = col + 1;
-
         if(!checkPlacement(getGridCell(row, col), d))
             return false;
 
@@ -53,10 +48,15 @@ public class WindowCard {
         if(getGridCell(row, col).isPlaced())
             return false;
 
-        return checkOrtogonal(d, row, col, previousR, previousC, nextC, nextR, color, shade) && checkAround(previousR, previousC, nextC, nextR);
+        return checkOrthogonal(d, row, col, color, shade) && checkAround(row, col);
     }
 
-    private boolean checkOrtogonal(Die d, int row, int col, int previousR, int previousC, int nextC, int nextR, Boolean color, Boolean shade) {
+    private boolean checkOrthogonal(Die d, int row, int col, Boolean color, Boolean shade) {
+
+        int previousR = row - 1;
+        int previousC = col - 1;
+        int nextR = row + 1;
+        int nextC = col + 1;
 
         boolean ok1 = checkNSEW(d, previousR, col, color, shade);
         boolean ok2 = checkNSEW(d, nextR, col, color, shade);
@@ -66,7 +66,12 @@ public class WindowCard {
         return(ok1 && ok2 && ok3 && ok4);
     }
 
-    private boolean checkAround(int previousR, int previousC, int nextC, int nextR) {
+    private boolean checkAround(int row, int col) {
+
+        int previousR = row - 1;
+        int previousC = col - 1;
+        int nextR = row + 1;
+        int nextC = col + 1;
 
         for(int i = previousR; i <= nextR; i++){
             for (int j = previousC; j <= nextC; j++){
@@ -86,7 +91,7 @@ public class WindowCard {
 
     }
 
-    private boolean checkNSEW(Die d, int r, int c, Boolean color, Boolean shade){
+    private boolean checkNSEW(Die d, int r, int c, Boolean color, Boolean shade) {
 
         Die toCheck;
         boolean ok = false;
@@ -94,11 +99,12 @@ public class WindowCard {
         boolean okShade;
 
         try {
-            ok = getGridCell(r,c).isPlaced();
-        }catch (ArrayIndexOutOfBoundsException e){}
+            ok = getGridCell(r, c).isPlaced();
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
 
-        if(ok)
-            toCheck = getGridCell(r,c).getPlacedDie();
+        if (ok)
+            toCheck = getGridCell(r, c).getPlacedDie();
         else
             return true;
 
@@ -106,21 +112,19 @@ public class WindowCard {
         okColor = toCheck.getColor() != d.getColor();
         okShade = toCheck.getValue() != d.getValue();
 
-        if(color && shade)
+        if (color && shade)
             return (okColor && okShade);
-        if(color)
+        if (color)
             return okColor;
-        if(shade)
-            return okShade;
 
-        return false;
+        return shade && okShade;
     }
 
     /**
      *
-     * @param c
-     * @param d
-     * @return
+     * @param c Refers to the cell where the Player wants to place the die.
+     * @param d Refers to the die to be placed.
+     * @return true if the placement can be done, false otherwise.
      */
     private boolean checkPlacement(Cell c, Die d){
 

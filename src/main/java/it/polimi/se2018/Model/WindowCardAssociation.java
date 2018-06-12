@@ -12,10 +12,8 @@ public class WindowCardAssociation {
             throw new WindowCardAssociationException();
         else if (back == null)
             throw new WindowCardAssociationException();
-        else {
-            this.front = front;
-            this.back = back;
-        }
+        this.front = front;
+        this.back = back;
     }
 
 

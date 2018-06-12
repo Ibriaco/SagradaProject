@@ -7,7 +7,6 @@ package it.polimi.se2018.Model.Event;
  */
 public class LoggedUserEvent extends MVEvent {
 
-    private String username;
     private Boolean approved;
     private String state = "";
 
@@ -17,7 +16,6 @@ public class LoggedUserEvent extends MVEvent {
      */
     public LoggedUserEvent(String username, Boolean approved) {
         super(username);
-        this.username = username;
         this.approved = approved;
     }
 

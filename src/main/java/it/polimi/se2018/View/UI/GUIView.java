@@ -3,7 +3,7 @@ package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.NetworkHandler;
+import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

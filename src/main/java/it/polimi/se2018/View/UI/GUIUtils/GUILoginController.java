@@ -5,7 +5,7 @@ import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.NetworkHandler;
+import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.View.UI.ViewInterface;
 import it.polimi.se2018.View.ViewEvents.LoginEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;

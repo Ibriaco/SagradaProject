@@ -16,7 +16,6 @@ import java.util.List;
 public class RoundTrackEvent extends MVEvent{
 
     private List<Die> trackDice;
-    private String username;
 
     /**
      *

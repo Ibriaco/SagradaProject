@@ -46,8 +46,7 @@ public class Die {
 
         if (value < 1 || value > 6)
             throw new InvalidDieException();
-        else
-            this.value = value;
+        this.value = value;
     }
 
 

@@ -6,13 +6,12 @@ import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.LobbyController;
 import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class EventsController extends Controller implements MyObserver, MyObservable {
+public class EventsController implements ControllerInterface, MyObserver, MyObservable {
 
     private Game game;
     private boolean control1;

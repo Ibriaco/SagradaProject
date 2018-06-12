@@ -228,11 +228,10 @@ public class Player {
             windowCardAssociations[cardN].getFront().setDifficulty(Integer.valueOf(d.substring(1)));
             return false;
         }
-        else {
-            windowCardAssociations[cardN].getBack().setWindowName(t);
-            windowCardAssociations[cardN].getBack().setDifficulty(Integer.valueOf(d.substring(1)));
-            return true;
-        }
+
+        windowCardAssociations[cardN].getBack().setWindowName(t);
+        windowCardAssociations[cardN].getBack().setDifficulty(Integer.valueOf(d.substring(1)));
+        return true;
     }
 
 

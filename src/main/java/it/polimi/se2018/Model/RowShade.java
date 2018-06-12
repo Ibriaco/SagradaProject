@@ -33,9 +33,9 @@ public class RowShade extends ColumnRowShades{
                        ok = false;
                }
 
-               for(int index = 0; index<frequency.length; index++){
-                   ok = frequency[index] < 2 && ok;
-               }
+            for (int aFrequency : frequency)
+                ok = aFrequency < 2 && ok;
+
 
               if (ok) validRows++;
         }
