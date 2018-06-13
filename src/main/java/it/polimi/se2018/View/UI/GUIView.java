@@ -3,6 +3,7 @@ package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.Event.SetupGameEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
@@ -52,6 +53,11 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
+
+    }
+
+    @Override
+    public void handleMVEvent(SetupGameEvent setupGameEvent) {
 
     }
 

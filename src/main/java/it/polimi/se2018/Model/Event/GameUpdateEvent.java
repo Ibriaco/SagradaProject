@@ -20,4 +20,6 @@ public class GameUpdateEvent implements MVEvent {
     public String getUsername() {
         return null;
     }
+
+
 }

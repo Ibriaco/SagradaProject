@@ -20,7 +20,7 @@ public interface RMIServerInterface extends Remote, ServerInterface {
 
     //void send(Message message) throws RemoteException;
 
-    void sendUser(String username, ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException;
+    void sendUser(ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException;
     void vceTransport(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException;
     //void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
     //void sendPrivateObjective(VCEvent event) throws RemoteException;

@@ -3,6 +3,7 @@ package it.polimi.se2018.Network.Server;
 
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.Event.SetupGameEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
@@ -28,6 +29,7 @@ public class VirtualView implements ViewInterface {
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private HashMap<String, ClientInterface> clients;
     private VCEvent event;
+    private ClientInterface clientTemp;
 
     public VirtualView(){
 
@@ -45,6 +47,7 @@ public class VirtualView implements ViewInterface {
     public void addClientToMap(String u, ClientInterface c){
         clients.put(u,c);
     }
+    public void removeClientFromMap(String u) {clients.remove(u); }
 
     public Map<String, ClientInterface> getClients() {
 
@@ -73,6 +76,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(SetupGameEvent setupGameEvent) {
+
+    }
+
     /**
      * Shows the user interface
      */
@@ -81,11 +89,20 @@ public class VirtualView implements ViewInterface {
         /*Intentionally left void, not used in this class*/
     }
 
+    public void setClientTemp(ClientInterface clientTemp) {
+        this.clientTemp = clientTemp;
+    }
+
+    public ClientInterface getClientTemp() {
+        return clientTemp;
+    }
+
     @Override
     public void registerObserver(MyObserver observer) {
 
         observerCollection.add(observer);
     }
+
 
     @Override
     public void unregisterObserver(MyObserver observer) {
@@ -110,14 +127,19 @@ public class VirtualView implements ViewInterface {
     //alrimenti solo al Client corrispondente allo username
     @Override
     public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
-
-        if (event.getUsername().equals("ALL")) {
+        if (arg.getUsername().equals("ALL")) {
             for (String user : clients.keySet()) {
                 clients.get(user).sendMVEvent(arg);
             }
         }
         else{
-            clients.get(event.getUsername()).sendMVEvent(arg);
+            clients.get(arg.getUsername()).sendMVEvent(arg);
+        }
+    }
+
+    public void stampa(){
+        for (String s: getClients().keySet()) {
+            System.out.println(getClients().keySet());
         }
     }
 }

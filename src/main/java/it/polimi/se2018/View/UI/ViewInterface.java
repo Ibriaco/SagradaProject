@@ -1,6 +1,7 @@
 package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
+import it.polimi.se2018.Model.Event.SetupGameEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
@@ -26,6 +27,8 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
 
     void handleMVEvent(LoggedUserEvent event);
+
+    void handleMVEvent(SetupGameEvent setupGameEvent);
 
 
 

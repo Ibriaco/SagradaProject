@@ -65,7 +65,7 @@ public class RMIClient implements RMIClientInterface {
         if (event.toString().equals("Login Event")) {
             String username = event.getUsername();
             System.out.println("Trying to authenticate " + username + " ...");
-            server.sendUser(username , remoteRef);
+            server.sendUser(remoteRef);
         }
 
         server.vceTransport(event);

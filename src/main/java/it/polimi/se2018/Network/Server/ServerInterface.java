@@ -19,7 +19,7 @@ public interface ServerInterface{
     //void send(Message message) throws RemoteException;
 
     void vceTransport(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
-    void sendUser(String username, ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException;
+    void sendUser(ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException;
    // void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
 
     //void sendPrivateObjective(VCEvent event) throws RemoteException;

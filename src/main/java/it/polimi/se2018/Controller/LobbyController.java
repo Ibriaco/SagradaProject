@@ -3,6 +3,7 @@ package it.polimi.se2018.Controller;
 import it.polimi.se2018.Message;
 import it.polimi.se2018.Model.*;
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
+import it.polimi.se2018.Model.Event.SetupGameEvent;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -43,6 +44,7 @@ public class LobbyController {
         String username = event.getUsername();
         LoggedUserEvent logEvent;
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
+            virtualView.addClientToMap(username, virtualView.getClientTemp());
             addInLobby(username);
             logEvent = new LoggedUserEvent(username,true);
             logEvent.setState("SEI STATO LOGGATO");
@@ -50,7 +52,8 @@ public class LobbyController {
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
             printOnConsole("User " + username + " logged in successfully!");
             printOnConsole("Online players " + playersNumber);
-
+            eventsController.setMvEvent(logEvent);
+            eventsController.notifyObservers();
         }
         else {
             logEvent = new LoggedUserEvent(username, false);
@@ -61,13 +64,10 @@ public class LobbyController {
             } else if (!checkUser(username)) {
                 logEvent.setState("USERNAME ALREADY USED");
             }
+            virtualView.getClientTemp().sendMVEvent(logEvent);
+            virtualView.stampa();
         }
-        eventsController.setMvEvent(logEvent);
-        eventsController.notifyObservers();
-        if (checkStartGame()) {
-            //lancio setupGame
-            setupGame();
-        }
+        if (checkStartGame())  setupGame();
     }
 
     /**
@@ -140,11 +140,10 @@ public class LobbyController {
     }
 
     //in setupGame creo evento setupGameEvent
-    public void setupGame() throws InvalidViewException, WindowCardAssociationException {
+    public void setupGame() throws InvalidViewException, WindowCardAssociationException, InvalidConnectionException, RemoteException {
         game = new Game(virtualView.getClients().size());
         for (String s: virtualView.getClients().keySet()) {
             game.getPlayers().add(new Player(s, "CLI"));
-
         }
         /*List<Integer> list = new ArrayList<>();
         IntStream.range(1,5).forEach(list::add);
@@ -154,9 +153,10 @@ public class LobbyController {
         }*/
         game.dealPrivateCards();
         for (Player p: game.getPlayers()) {
-
+            SetupGameEvent setupGameEvent = new SetupGameEvent(p.getUsername(),p.getPrivateObjective().toString());
+            eventsController.setMvEvent(setupGameEvent);
+            eventsController.notifyObservers();
         }
-        System.out.println(game.getPlayers().get(0).getPrivateObjective().toString());
     }
 
     public int getTimer() {

@@ -3,6 +3,7 @@ package it.polimi.se2018.View.UI;
 
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.Event.SetupGameEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
@@ -25,7 +26,6 @@ public class CLIView implements ViewInterface {
 
     private NetworkHandler nh;
     private VCEvent vcEvent;
-    private MVEvent mvEvent;
     private int choice;
     private String user;
     private ArrayList<MyObserver> observersCollection = new ArrayList<>();
@@ -111,11 +111,8 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void update(MyObservable o, MVEvent arg) {
-        mvEvent = arg;
+
         arg.accept(this);
-        //metodo per gestire eventi MV
-        //showEventResult();
-        System.out.println("evento MV di login tornato");
     }
 
 
@@ -169,6 +166,11 @@ public class CLIView implements ViewInterface {
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
         event.printState();
+    }
+
+    @Override
+    public void handleMVEvent (SetupGameEvent event){
+         event.printPrivateName();
     }
 
 }

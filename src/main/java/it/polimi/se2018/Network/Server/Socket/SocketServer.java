@@ -89,7 +89,8 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void sendUser(String username, ClientInterface client) {
+    public void sendUser(ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
     }
+
 }

@@ -9,7 +9,7 @@ import it.polimi.se2018.View.UI.ViewInterface;
  */
 public class LoggedUserEvent implements MVEvent {
 
-    private Boolean approved;
+    private boolean approved;
     private String state = "";
     private String username;
 
@@ -17,7 +17,7 @@ public class LoggedUserEvent implements MVEvent {
      *
      * @param username refers to the current player in game
      */
-    public LoggedUserEvent(String username, Boolean approved) {
+    public LoggedUserEvent(String username, boolean approved) {
         this.approved = approved;
         this.username = username;
     }
@@ -30,10 +30,7 @@ public class LoggedUserEvent implements MVEvent {
 
         return username;
     }
-    public Boolean getApproved() {
 
-        return approved;
-    }
 
     public void setState(String state) {
 

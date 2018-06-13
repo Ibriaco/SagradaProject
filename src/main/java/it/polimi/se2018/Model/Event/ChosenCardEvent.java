@@ -54,4 +54,6 @@ public class ChosenCardEvent implements MVEvent {
         return username;
     }
 
+
+
 }

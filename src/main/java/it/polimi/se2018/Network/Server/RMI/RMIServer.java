@@ -38,11 +38,11 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     /**
      * Puts into a HashMap a Client associated to a specific username
-     * @param username username of the player
+
      * @param client Client associated to the player
      */
-    public void sendUser(String username, ClientInterface client){
-        virtualView.addClientToMap(username,client);
+    public void sendUser(ClientInterface client){
+        virtualView.setClientTemp(client);
     }
 
 
