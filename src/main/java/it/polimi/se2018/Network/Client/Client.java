@@ -2,6 +2,7 @@ package it.polimi.se2018.Network.Client;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.View.UI.CLIView;
 import it.polimi.se2018.View.UI.GUIView;
 import it.polimi.se2018.View.UI.ViewInterface;
@@ -18,7 +19,7 @@ public class Client {
 
     private static ViewInterface vi;
 
-    public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
 
         printSplashArt();
         int choice = 0;

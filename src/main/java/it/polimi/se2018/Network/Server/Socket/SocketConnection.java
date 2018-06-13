@@ -3,6 +3,7 @@ package it.polimi.se2018.Network.Server.Socket;
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.ClientInterface;
@@ -48,6 +49,8 @@ public class SocketConnection extends Thread implements ClientInterface{
 
         } catch (IOException | ClassNotFoundException | InvalidConnectionException | InvalidViewException | NullPointerException e) {
             e.printStackTrace();
+        } catch (WindowCardAssociationException e) {
+            e.printStackTrace();
         }
     }
 
@@ -89,8 +92,14 @@ public class SocketConnection extends Thread implements ClientInterface{
 
     }
 
+
     @Override
-    public void update(MyObservable o, Object arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+
+    }
+
+    @Override
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
     }
 }

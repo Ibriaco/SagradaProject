@@ -3,6 +3,7 @@ package it.polimi.se2018.Network.Client.RMI;
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
@@ -27,7 +28,6 @@ public class RMIClient implements RMIClientInterface {
     private RMIServerInterface server;
     private NetworkHandler networkHandler;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
-    private VCEvent event;
 
     public void notify(String message) {
         System.out.println(message);
@@ -61,7 +61,7 @@ public class RMIClient implements RMIClientInterface {
 
     //metodo per inviare VCEvent da Client a Server
     @Override
-    public void sendEvent(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void sendEvent(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         if (event.toString().equals("Login Event")) {
             String username = event.getUsername();
             System.out.println("Trying to authenticate " + username + " ...");
@@ -84,14 +84,16 @@ public class RMIClient implements RMIClientInterface {
 
     @Override
     public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
-        for (MyObserver o: observerCollection) {
-            o.update(this, "");
-        }
+
     }
 
     @Override
-    public void update(MyObservable o, Object arg) throws RemoteException {
+    public void update(MyObservable o, VCEvent arg) throws RemoteException {
         System.out.println(arg.toString());
     }
 
+    @Override
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
+    }
 }

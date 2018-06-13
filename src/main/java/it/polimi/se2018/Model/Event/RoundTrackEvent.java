@@ -2,10 +2,8 @@ package it.polimi.se2018.Model.Event;
 
 
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Game;
-import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.View.UI.ViewInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,25 +11,20 @@ import java.util.List;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class RoundTrackEvent extends MVEvent{
+public class RoundTrackEvent implements MVEvent{
 
     private List<Die> trackDice;
+    private String username;
 
-    /**
-     *
-     * @param game refers to the actual game
-     * @param player refers to the current player
-     * @param roundNumber refers to the round number of the game
-     */
-    public RoundTrackEvent(Game game, Player player, int roundNumber) {
-        super(game, player);
-        this.trackDice = game.getRoundCells().get(roundNumber).getDiceList();
-        this.username = player.getUsername();
-    }
 
     public List<Die> getTrackDice() {
 
         return trackDice;
+    }
+
+    @Override
+    public void accept(ViewInterface vi) {
+
     }
 
     public String getUsername(){

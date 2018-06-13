@@ -1,12 +1,10 @@
 package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Message;
+import it.polimi.se2018.Model.*;
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
-import it.polimi.se2018.Model.Game;
-import it.polimi.se2018.Model.InvalidConnectionException;
-import it.polimi.se2018.Model.InvalidViewException;
-import it.polimi.se2018.Model.Lobby;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.Server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
@@ -27,9 +25,11 @@ public class LobbyController {
     private static int timer = 10;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private EventsController eventsController;
+    private VirtualView virtualView;
 
-    public LobbyController(EventsController ec) throws RemoteException {
+    public LobbyController(EventsController ec, VirtualView virtualView) throws RemoteException {
         waitingLobby = new Lobby();
+        this.virtualView = virtualView;
         printOnConsole("Lobby controller creato");
         eventsController = ec;
     }
@@ -39,7 +39,7 @@ public class LobbyController {
      * @param event notified by the Virtual View
      * @throws RemoteException thrown exception
      */
-    public void handleLogin(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void handleLogin(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         String username = event.getUsername();
         LoggedUserEvent logEvent;
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
@@ -66,7 +66,7 @@ public class LobbyController {
         eventsController.notifyObservers();
         if (checkStartGame()) {
             //lancio setupGame
-            //setupGame();
+            setupGame();
         }
     }
 
@@ -140,24 +140,24 @@ public class LobbyController {
     }
 
     //in setupGame creo evento setupGameEvent
-    /*public void setupGame() throws InvalidConnectionException, InvalidViewException, RemoteException {
+    public void setupGame() throws InvalidViewException, WindowCardAssociationException {
         game = new Game(virtualView.getClients().size());
         for (String s: virtualView.getClients().keySet()) {
             game.getPlayers().add(new Player(s, "CLI"));
 
         }
-        List<Integer> list = new ArrayList<>();
+        /*List<Integer> list = new ArrayList<>();
         IntStream.range(1,5).forEach(list::add);
         Collections.shuffle(list);
         for(int i = 0; i<game.getPlayers().size(); i++) {
             game.getPlayers().get(i).drawCard(list.get(i));
+        }*/
+        game.dealPrivateCards();
+        for (Player p: game.getPlayers()) {
+
         }
-        int j=0;
-        for (String username: virtualView.getClients().keySet()){
-            virtualView.getClients().get(username).notify(game.getPlayers().get(j).getPrivateObjective().toString());
-            j++;
-            }
-    }*/
+        System.out.println(game.getPlayers().get(0).getPrivateObjective().toString());
+    }
 
     public int getTimer() {
         return timer;
@@ -171,4 +171,10 @@ public class LobbyController {
         return waitingLobby;
     }
 
+    private void dealPrivate() throws WindowCardAssociationException {
+        game.dealPrivateCards();
+        for (String s: virtualView.getClients().keySet()) {
+
+        }
+    }
 }

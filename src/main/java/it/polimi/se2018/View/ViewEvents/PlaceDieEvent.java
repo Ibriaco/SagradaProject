@@ -1,18 +1,20 @@
 package it.polimi.se2018.View.ViewEvents;
 
 
+import it.polimi.se2018.Controller.ControllerInterface;
 
 /**
  * Events that lets the player place a die
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class PlaceDieEvent extends VCEvent {
+public class PlaceDieEvent implements VCEvent {
 
 
     private int pos;
     private int coordX;
     private int coordY;
+    private String username;
 
     /**
      *
@@ -23,13 +25,20 @@ public class PlaceDieEvent extends VCEvent {
      */
     public PlaceDieEvent(String username, int pos, int x, int y) {
 
-        super(username);
-
+        this.username = username;
         this.pos = pos;
         this.coordX = x;
         this.coordY = y;
     }
 
+    public String getUsername(){
+        return username;
+    }
+
+    @Override
+    public void accept(ControllerInterface controller) {
+        controller.handleVCEvent(this);
+    }
 
     public int getPos(){
 

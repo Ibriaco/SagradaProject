@@ -1,30 +1,36 @@
 package it.polimi.se2018.View.ViewEvents;
 
+import it.polimi.se2018.Controller.ControllerInterface;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
+import it.polimi.se2018.View.UI.ViewInterface;
+
+import java.rmi.RemoteException;
+
 /**
  * Events that return connection type and the username of the player who logs in.
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class LoginEvent extends VCEvent {
+public class LoginEvent implements VCEvent {
 
-    private String connectionType;
+    private String username;
 
-
-    /**
-     *
-     * @param connectionType connection type (either RMI/Socket).
-     * @param username username of the current player.
-     */
-    public LoginEvent(String connectionType, String username) {
-
-        super(username);
-        this.connectionType = connectionType;
+    public LoginEvent (String username) {
+        this.username = username;
 
     }
 
-    public String getConnectionType() {
 
-        return connectionType;
+    @Override
+    public void accept(ControllerInterface controller) throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException {
+        controller.handleVCEvent(this);
+    }
+
+    public String getUsername() {
+
+        return username;
     }
 
     @Override

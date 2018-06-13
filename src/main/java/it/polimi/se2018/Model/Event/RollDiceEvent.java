@@ -1,10 +1,8 @@
 package it.polimi.se2018.Model.Event;
 
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Game;
+import it.polimi.se2018.View.UI.ViewInterface;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,23 +10,24 @@ import java.util.List;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class RollDiceEvent extends MVEvent{
+public class RollDiceEvent implements MVEvent{
 
     private List<Die> dice;
+    private String username;
 
-    /**
-     *
-     * @param game refers to the actual game
-     */
-    public RollDiceEvent(Game game) {
-        super(game);
-        this.game = game;
-        this.dice = game.getRolledDice();
-    }
 
     public List<Die> getDice(){
 
         return dice;
     }
 
+    @Override
+    public void accept(ViewInterface vi) {
+
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
 }

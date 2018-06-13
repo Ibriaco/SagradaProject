@@ -1,19 +1,21 @@
 package it.polimi.se2018.View.ViewEvents;
 
-import it.polimi.se2018.Model.*;
+import it.polimi.se2018.Controller.ControllerInterface;
+import it.polimi.se2018.Model.Color;
 
 /**
  * Event that notifies that a die is being selected.
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class SelectDieEvent extends VCEvent{
+public class SelectDieEvent implements VCEvent{
 
     private Color color;
     private int value;
     private int coordX;
     private int coordY;
     private int position;
+    private String username;
 
     /**
      *
@@ -24,7 +26,7 @@ public class SelectDieEvent extends VCEvent{
      */
     public SelectDieEvent(String username, int coordX, int coordY, int value, Color color){
 
-        super(username);
+        this.username = username;
         this.coordX = coordX;
         this.coordY = coordY;
         this.value = value;
@@ -41,7 +43,7 @@ public class SelectDieEvent extends VCEvent{
      */
     public SelectDieEvent(String username, int position, Color color, int value){
 
-        super(username);
+        this.username = username;
         this.color = color;
         this.value = value;
         this.position = position;
@@ -56,10 +58,14 @@ public class SelectDieEvent extends VCEvent{
      */
     public SelectDieEvent(String username, Color color, int value, int position){
 
-        super(username);
+        this.username = username;
         this.color = color;
         this.value = value;
         this.position = position;
+    }
+
+    public String getUsername(){
+        return username;
     }
 
     public Color getColor() {
@@ -85,5 +91,10 @@ public class SelectDieEvent extends VCEvent{
     public int getPosition(){
 
         return position;
+    }
+
+    @Override
+    public void accept(ControllerInterface controller) {
+        controller.handleVCEvent(this);
     }
 }

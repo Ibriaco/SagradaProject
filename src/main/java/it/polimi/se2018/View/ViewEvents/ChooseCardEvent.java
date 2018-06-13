@@ -1,13 +1,15 @@
 package it.polimi.se2018.View.ViewEvents;
 
+import it.polimi.se2018.Controller.ControllerInterface;
 /**
  * Event that returns the number and the side of a chosen Card by the player
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class ChooseCardEvent extends VCEvent {
+public class ChooseCardEvent implements VCEvent {
 
     private String windowName;
+    private String username;
 
     /**
      *
@@ -16,12 +18,21 @@ public class ChooseCardEvent extends VCEvent {
      */
     public ChooseCardEvent(String username,String windowName) {
 
-        super(username);
+        this.username = username;
         this.windowName = windowName;
     }
 
     public String getWindowName() {
 
         return windowName;
+    }
+
+    @Override
+    public void accept(ControllerInterface controller){
+        controller.handleVCEvent(this);
+    }
+
+    public String getUsername(){
+        return username;
     }
 }

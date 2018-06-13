@@ -1,6 +1,10 @@
 package it.polimi.se2018.View.UI;
 
 
+import it.polimi.se2018.Model.Event.LoggedUserEvent;
+import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.InvalidConnectionException;
+import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
@@ -47,6 +51,11 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
+    public void handleMVEvent(LoggedUserEvent event) {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) {
 
     }
@@ -61,10 +70,6 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
-    @Override
-    public void update(MyObservable o, Object arg) {
-
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -87,12 +92,22 @@ public class GUIView extends Application implements ViewInterface {
         nh.registerObserver(this);
     }
 
+    @Override
+    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
+    }
+
+    @Override
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
+    }
+
 
 /*
     public void showTimer(int timer){
 
     }
-    public PlaceDieEvent createPlaceDieEvent(Player p, Game g){
+    public PlacedDieEvent createPlaceDieEvent(Player p, Game g){
 
     }
     public SkipTurnEvent createSkipTurnEvent (Player p, Game g) {

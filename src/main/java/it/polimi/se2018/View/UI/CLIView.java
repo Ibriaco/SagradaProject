@@ -1,9 +1,11 @@
 package it.polimi.se2018.View.UI;
 
 
+import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
@@ -43,7 +45,7 @@ public class CLIView implements ViewInterface {
      * @throws InvalidViewException thrown exception
      */
     @Override
-    public void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
 
         boolean validInput = false;
         while(!validInput) {
@@ -65,12 +67,13 @@ public class CLIView implements ViewInterface {
      * @throws InvalidConnectionException thrown exception
      * @throws InvalidViewException thrown exception
      */
-     public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException {
+     public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
         user = consoleScanner.next();
         createLoginEvent(choice);
     }
+
 
     @Override
     public void receiveEvent(VCEvent event) {
@@ -95,40 +98,34 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         for (MyObserver o : observersCollection) {
             o.update(this, vcEvent);
         }
     }
 
     @Override
-    public void update(MyObservable o, Object arg) {
-        mvEvent = (MVEvent) arg;
+    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
+    }
+
+    @Override
+    public void update(MyObservable o, MVEvent arg) {
+        mvEvent = arg;
+        arg.accept(this);
         //metodo per gestire eventi MV
         //showEventResult();
         System.out.println("evento MV di login tornato");
     }
 
 
-/*
-    public void writeOnLogger(String c){
-
-    }
-
-    public void selectEvent(String c){
-
-    }
-*/
     //METODI PER CREARE EVENTI VC
-    public void createLoginEvent(int connectionType) throws InvalidConnectionException, RemoteException, InvalidViewException {
-        if (connectionType == 1)
-            vcEvent = new LoginEvent(rmi, user);
-        else if (connectionType == 2)
-            vcEvent = new LoginEvent(socket, user);
+    public void createLoginEvent(int connectionType) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+        vcEvent = new LoginEvent(user);
         notifyObservers();
     }
 
-    public void createPlaceDieEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createPlaceDieEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         int pos = getNumber();
         int coordX = getNumber();
         int coordY = getNumber();
@@ -136,36 +133,42 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
-    public void createSkipTurnEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createSkipTurnEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         vcEvent = new SkipTurnEvent(user);
         notifyObservers();
     }
 
-    public void createUseToolEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createUseToolEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         int pos = getNumber()-1;
         vcEvent = new UseToolEvent(user, pos);
         notifyObservers();
     }
 
-    public void createRollDiceEvent() throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createRollDiceEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         vcEvent = new RollDiceEvent(user);
         notifyObservers();
     }
 
-    public void createChooseCardEvent(String username, String command) throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createChooseCardEvent(String username, String command) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         String windowName = getString();
         vcEvent = new ChooseCardEvent(username, windowName);
         notifyObservers();
     }
 
-public String getString() {
+    public String getString() {
 
-    return consoleScanner.nextLine();
-}
+        return consoleScanner.nextLine();
+    }
 
-public int getNumber() {
+    public int getNumber() {
 
-    return consoleScanner.nextInt();
-}
+        return consoleScanner.nextInt();
+    }
+
+    //METODI PER GESTIRE MVEVENT
+    @Override
+    public void handleMVEvent(LoggedUserEvent event) {
+        event.printState();
+    }
 
 }

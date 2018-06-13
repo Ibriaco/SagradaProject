@@ -32,7 +32,7 @@ public class Server {
     public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
         virtualView = new VirtualView();
-        eventsController = new EventsController();
+        eventsController = new EventsController(virtualView);
 
         virtualView.registerObserver(eventsController);
         eventsController.registerObserver(virtualView);

@@ -3,9 +3,9 @@ package it.polimi.se2018.Controller;
 import it.polimi.se2018.Model.*;
 import it.polimi.se2018.Model.Event.GameUpdateEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
-import it.polimi.se2018.Model.Event.PlaceDieEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.Network.Server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.*;
 
 import java.rmi.RemoteException;
@@ -21,8 +21,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
 
-    public EventsController() throws RemoteException{
-        lobbyController = new LobbyController(this);
+    public EventsController(VirtualView virtualView) throws RemoteException{
+        lobbyController = new LobbyController(this, virtualView);
     }
 
     private boolean checkPlayer(String username) {
@@ -31,7 +31,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     }
 
-    private boolean checkValidPlacementMove(PlaceDieEvent e) {
+    /*private boolean checkValidPlacementMove(PlacedDieEvent e) {
         control1 = this.checkPlayer(e.getUsername());
         Die die = null;
         for (Die d : game.getRolledDice()) {
@@ -45,7 +45,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             return false;
         else
             return (control1 && control2);
-    }
+    }*/
 
     private boolean checkValidSkip(SkipTurnEvent e) {
 
@@ -118,11 +118,14 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void update(MyObservable o, Object arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
 
-        if(arg.toString().equals("Login Event")){
-            lobbyController.handleLogin((VCEvent) arg);
-        }
+        arg.accept(this);
+    }
+
+    @Override
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
     }
 
     //METODI PER GENERARE EVENTI MV
@@ -130,5 +133,40 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     public void createGameUpdateEvent () throws InvalidConnectionException, RemoteException, InvalidViewException {
         mvEvent = new GameUpdateEvent("ALL");
         notifyObservers();
+    }
+
+    @Override
+    public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+        lobbyController.handleLogin(event);
+    }
+
+    @Override
+    public void handleVCEvent(PlaceDieEvent event) {
+
+    }
+
+    @Override
+    public void handleVCEvent(RollDiceEvent event) {
+
+    }
+
+    @Override
+    public void handleVCEvent(SkipTurnEvent event) {
+
+    }
+
+    @Override
+    public void handleVCEvent(SelectDieEvent event) {
+
+    }
+
+    @Override
+    public void handleVCEvent(UseToolEvent event) {
+
+    }
+
+    @Override
+    public void handleVCEvent(ChooseCardEvent event) {
+
     }
 }

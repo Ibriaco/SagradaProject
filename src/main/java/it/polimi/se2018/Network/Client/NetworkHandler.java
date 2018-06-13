@@ -3,9 +3,9 @@ package it.polimi.se2018.Network.Client;
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.ClientInterface;
 import it.polimi.se2018.Network.Client.RMI.RMIClient;
 import it.polimi.se2018.Network.Client.Socket.SocketClient;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -80,7 +80,12 @@ public class NetworkHandler implements MyObserver, MyObservable {
     }
 
     @Override
-    public void update(MyObservable o, Object event) throws RemoteException, InvalidConnectionException, InvalidViewException {
-        selectedClient.sendEvent((VCEvent) event);
+    public void update(MyObservable o, VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        selectedClient.sendEvent(event);
+    }
+
+    @Override
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+        //da non scrivere perchè in update non riceverò mai gli MV. da implementare su virtualView
     }
 }

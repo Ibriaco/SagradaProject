@@ -1,8 +1,11 @@
 package it.polimi.se2018.View.UI.GUIUtils;
 
 import com.jfoenix.controls.*;
+import it.polimi.se2018.Model.Event.LoggedUserEvent;
+import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
+import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
@@ -57,9 +60,11 @@ public class GUILoginController implements ViewInterface{
             try{
             nh.registerObserver(this);
             registerObserver(nh);
-                myEvent = new LoginEvent("x", userField.getText());
+                myEvent = new LoginEvent("x");
                 notifyObservers();
             } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (WindowCardAssociationException e) {
                 e.printStackTrace();
             }
 
@@ -122,6 +127,11 @@ public class GUILoginController implements ViewInterface{
     }
 
     @Override
+    public void handleMVEvent(LoggedUserEvent event) {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
         observerCollection.add(observer);
     }
@@ -132,7 +142,7 @@ public class GUILoginController implements ViewInterface{
     }
 
     @Override
-    public void notifyObservers() throws RemoteException {
+    public void notifyObservers() throws RemoteException, WindowCardAssociationException {
         for (MyObserver o: observerCollection) {
             try {
                 o.update(this, myEvent);
@@ -145,8 +155,18 @@ public class GUILoginController implements ViewInterface{
 
     }
 
-    @Override
+    /*@Override
     public void update(MyObservable o, Object arg) throws RemoteException {
         System.out.println("Sono la gui: " + arg.toString());
+    }*/
+
+    @Override
+    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        System.out.println("Sono la gui " + arg.toString());
+    }
+
+    @Override
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+
     }
 }
