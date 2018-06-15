@@ -1,11 +1,15 @@
 package it.polimi.se2018.Model;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.IOException;
+import java.util.*;
 
 import static it.polimi.se2018.Model.Color.*;
 
@@ -204,6 +208,8 @@ public class Game {
             case YELLOW:
                 yellowAmount--;
                 break;
+                default:
+                    break;
         }
     }
 
@@ -223,68 +229,58 @@ public class Game {
             players.add(p);
     }
 
-    public void dealPrivateCards() throws WindowCardAssociationException{
+    public void dealPrivateCards(){
 
-        //creo vettore e lo shufflo
-        int[] ar= {1,2,3,4,5};
-        Random rnd = new Random();
-        for (int i = ar.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            int a = ar[index];
-            ar[index] = ar[i];
-            ar[i] = a;
-        }
+        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
 
         int j = 0;
 
         for (Player p: players) {
-            p.drawCard(ar[j]);
+            p.drawCard(randomNumbers.get(j));
             j++;
         }
     }
 
-    public void dealWindowCards() throws WindowCardAssociationException{
-        //creo vettore e lo shufflo
-        //leggere da file il n di windowcard
-        //creare array / lista con i valori
-        //fare lo shuffle e a
-        int windowNumber = 0;
-        List<Integer> ar = new ArrayList<>();
+    public void dealWindowCards(){
 
-        String line;
-        String l = null;
-        //leggo da file
-        try (BufferedReader b = new BufferedReader(new FileReader("./src/WindowCard.txt"))) {
-            line = b.readLine();
-            while (line != null) {
-                windowNumber = Integer.valueOf(line);
+        JSONParser parser = new JSONParser();
 
-                for(int i = 0; i < 13; i++)
-                    l = b.readLine();
+        try{
+            JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/windows.json"));
 
-                line = l;
+            List<Integer> randomNumbers = new ArrayList<>();
+
+            int windowN = cards.size();
+
+            for (int i = 0; i < windowN; i+=2)
+                randomNumbers.add(i);
+
+            randomNumbers = randomizeList(randomNumbers);
+
+            int j = 0;
+
+            for (Player p: players) {
+                p.drawWindowCards(cards, randomNumbers.get(j), randomNumbers.get(j+1));
+                j+=2;
             }
-        } catch (Exception e) {}
 
-        for (int i = 0; i < windowNumber; i++)
-            ar.add(i + 1);
+        }
+        catch (IOException | ParseException e){
+            e.printStackTrace();
+        }
+    }
+
+    private List<Integer> randomizeList(List<Integer> list){
 
         Random rnd = new Random();
-        for (int i = ar.size() - 1; i > 0; i--)
+        for (int i = list.size() - 1; i > 0; i--)
         {
             int index = rnd.nextInt(i + 1);
-            int a = ar.get(index);
-            ar.set(index, ar.get(i));
-            ar.set(i, a);
+            int a = list.get(index);
+            list.set(index, list.get(i));
+            list.set(i, a);
         }
-
-        int j = 0;
-
-        for (Player p: players) {
-            p.drawWindowCardAssociation(ar.get(j), ar.get(j+1));
-            j+=2;
-        }
+        return list;
     }
 
     private void getAvailableColor() {
@@ -326,7 +322,9 @@ public class Game {
 
     public Player findPlayer(String username) {
 
-        return players.stream().filter(p -> username.equals(p.getUsername())).findFirst().orElse(null);
+        return players.stream()
+                .filter(p -> username.equals(p.getUsername()))
+                .findFirst().orElse(null);
 
     }
 }

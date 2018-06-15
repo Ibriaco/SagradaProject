@@ -8,5 +8,22 @@ public enum Color {
     PURPLE,
     RED,
     YELLOW,
-    WHITE
+    WHITE,
+    NOT_A_COLOR;
+
+    public static boolean contains(String s) {
+        for (Color c: Color.values()) {
+            if(c.name().equals(s))
+                return true;
+        }
+        return false;
+    }
+
+    public static Color returnMatch(String s) {
+        for (Color c: Color.values()) {
+            if(c.name().equals(s))
+                return c;
+        }
+        return NOT_A_COLOR;
+    }
 }

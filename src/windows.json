@@ -1,0 +1,122 @@
+[
+  {
+    "Title":"Kaleidoscopic Dream",
+    "Difficulty":"4",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Firmitas",
+    "Difficulty":"5",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Fractal Drops",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Ripples of Light",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Lux Mundi",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Lux Astram",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Gravitas",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Water of Life",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Sun catcher",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Shadow Thief",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Aurorae Magnificus",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Aurora Sagradis",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Symphony of Light",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Virtus",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Firelight",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Sun's Glory",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Battlo",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Bellesguard",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Fulgor del Cielo",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Lux Celestial",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Chromatic Splendor",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Comitas",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Via Lux",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  },
+  {
+    "Title":"Industria",
+    "Difficulty":"3",
+    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+  }
+]

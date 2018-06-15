@@ -33,6 +33,9 @@ public class WindowCard {
      */
     public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade){
 
+        if(!checkCoords(row, col))
+            return false;
+
         if(!checkPlacement(getGridCell(row, col), d))
             return false;
 
@@ -40,9 +43,6 @@ public class WindowCard {
             return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
 
         if(isFull())
-            return false;
-
-        if(!checkCoords(row, col))
             return false;
 
         if(getGridCell(row, col).isPlaced())

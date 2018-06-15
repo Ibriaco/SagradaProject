@@ -1,6 +1,12 @@
 package it.polimi.se2018.Model;
 
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
+
+import java.io.FileReader;
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -183,9 +189,20 @@ public class TestPlayer {
         } catch (InvalidViewException e) {
             fail();
         }
-        p.drawWindowCardAssociation(1,2);
+        JSONParser parser = new JSONParser();
+        JSONArray cards = null;
+        try {
+            cards = (JSONArray) parser.parse(new FileReader("./src/windows.json"));
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        p.drawWindowCards(cards, 0,2);
         c = new Cell(Color.YELLOW,0);
 
+
+//TEST DA RISCRIVERE
+        /*
         assertEquals("Kaleidoscopic Dream",p.getWindowCardAssociations()[0].getFront().getWindowName());
         assertEquals(4,p.getWindowCardAssociations()[0].getFront().getDifficulty());
         assertEquals("Firmitas",p.getWindowCardAssociations()[0].getBack().getWindowName());
@@ -202,6 +219,7 @@ public class TestPlayer {
         assertNull(p.getWindowCardAssociations()[1].getFront().getGridCell(0,0));
         assertEquals(Color.RED,p.getWindowCardAssociations()[1].getBack().getGridCell(0,3).getColor());
         assertEquals(6,p.getWindowCardAssociations()[1].getBack().getGridCell(2,4).getShade());
+        */
     }
 
 }

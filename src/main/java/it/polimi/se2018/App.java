@@ -1,6 +1,8 @@
 package it.polimi.se2018;
 
 
+import it.polimi.se2018.Model.*;
+
 /**
  * Hello world!
  *
@@ -23,29 +25,24 @@ public class App
 
         RMIClient rc = new RMIClient("localhost",10001);*/
 
-        /*
+
         System.out.println("Main");
         Game g = null;
-        try {
-            g = new Game(3);
-        } catch (InvalidGameCreationException e) {
-            e.printStackTrace();
-        }
+
+        g = new Game(3);
+
 
         try {
-            g.addPlayer(new Player("test1","RMI","CLI"));
-            g.addPlayer(new Player("test2","RMI","CLI"));
-        } catch (InvalidConnectionException | InvalidViewException e) {
+            g.addPlayer(new Player("test1","CLI"));
+            g.addPlayer(new Player("test2","CLI"));
+        } catch ( InvalidViewException e) {
             e.printStackTrace();
         }
+g.dealPrivateCards();
+        g.dealWindowCards();
 
-        try {
-            g.dealWindowCards();
-        } catch (WindowCardAssociationException e) {
-            e.printStackTrace();
-        }
-*/
-      /*  Color c;
+/*
+        Color c;
         int v;
         for (Player p: g.getPlayers()) {
 
@@ -64,9 +61,9 @@ public class App
             System.out.println(p.getWindowCardAssociations()[0].getBack().getWindowName());
             System.out.println(p.getWindowCardAssociations()[1].getFront().getWindowName());
             System.out.println(p.getWindowCardAssociations()[1].getBack().getWindowName());
-        }*/
+        }
 
-
+*/
     /*
         for (int i = 0; i < 3; i++) {
 

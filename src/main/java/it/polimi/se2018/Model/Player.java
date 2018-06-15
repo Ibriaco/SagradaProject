@@ -1,7 +1,13 @@
 package it.polimi.se2018.Model;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 /**Player class of the game.
  * @author Gregorio Galletti
  */
@@ -154,145 +160,55 @@ public class Player {
      * @param windowCardNumber1 Refers to the first WindowCard.
      * @param windowCardNumber2 Refers to the second WindowCard.
      */
-    public void drawWindowCardAssociation(int windowCardNumber1, int windowCardNumber2){
-        //apro file
-        //cerco i numeri passati come parametro
-        //appena ne trovo uno leggo: Nome, Difficoltà e Griglia
-        //devo interpretare la griglia e creare una windowcard
-        //leggo ancora nome, difficolta e griglia e creo la seconda windowcard
-        //setto il front e il back della prima WindowCardAssociation
-        //ripeto la stessa cosa con il secondo numero passato
-        //inserisco le windowcardassociation create nel vettore
-        //fine
-        WindowCard w1 = new WindowCard();
-        WindowCard w2 = new WindowCard();
+    public void drawWindowCards(JSONArray cards, int windowCardNumber1, int windowCardNumber2){
 
-        WindowCardAssociation a1 = null;
-        try {
-            a1 = new WindowCardAssociation(w1, w2);
-        } catch (WindowCardAssociationException e) {
-        }
-        windowCardAssociations[0] = a1;
+        List<WindowCard> windowCardList = new ArrayList<>();
 
-        WindowCard w3 = new WindowCard();
-        WindowCard w4 = new WindowCard();
+        WindowCard w1 = createCard(cards, windowCardNumber1);
+        WindowCard w2 = createCard(cards, windowCardNumber1 + 1);
+        WindowCard w3 = createCard(cards, windowCardNumber2);
+        WindowCard w4 = createCard(cards, windowCardNumber2 + 1);
 
-        WindowCardAssociation a2 = null;
-        try {
-            a2 = new WindowCardAssociation(w3, w4);
-        } catch (WindowCardAssociationException e) {
-        }
-        windowCardAssociations[1] = a2;
+        windowCardList.add(w1);
+        windowCardList.add(w2);
+        windowCardList.add(w3);
+        windowCardList.add(w4);
 
-        String line;
-        String x;
-        String t;
-        String d;
-        String row;
-        int counter = 0;
-        int cardN = 0;
-        boolean front = true;
-
-        //lettura da file
-        try (BufferedReader b = new BufferedReader(new FileReader("./src/WindowCard.txt"))) {
-            line = b.readLine();
-            while (counter < 4) {
-                x = line;
-                if (x.equals(String.valueOf(windowCardNumber1)) || x.equals(String.valueOf(windowCardNumber2))) {
-                    t = b.readLine();
-                    d = b.readLine();
-
-                    for(int i = 0; i < 4; i++){
-                        row = b.readLine();
-                        parseRow(row, i, counter, cardN);
-                    }
-
-                    front = updateSide(cardN,t,d,front);
-                    if(front)
-                        cardN = 1;
-                    counter++;
-                    line = b.readLine();
-
-                } else
-                    line = b.readLine();
-            }
-        } catch (Exception e) {
+        for (WindowCard w: windowCardList) {
+            System.out.println(w.getWindowName() + " " + w.getDifficulty());
         }
 
     }
 
-    private boolean updateSide(int cardN, String t, String d, boolean front) {
+    private WindowCard createCard(JSONArray cards, int windowCardNumber) {
 
-        if(front) {
-            windowCardAssociations[cardN].getFront().setWindowName(t);
-            windowCardAssociations[cardN].getFront().setDifficulty(Integer.valueOf(d.substring(1)));
-            return false;
-        }
+        int r = 0;
+        int c = 0;
+        WindowCard w = new WindowCard();
+        JSONObject obj = (JSONObject) cards.get(windowCardNumber);
 
-        windowCardAssociations[cardN].getBack().setWindowName(t);
-        windowCardAssociations[cardN].getBack().setDifficulty(Integer.valueOf(d.substring(1)));
-        return true;
-    }
+        w.setWindowName((String) obj.get("Title"));
+        w.setDifficulty(Integer.valueOf((String)obj.get("Difficulty")));
 
+        JSONArray rows = (JSONArray) obj.get("Grid");
 
-    private void parseRow(String row, int x, int side, int cardN){
+        for (Object row: rows) {
+            JSONArray elements = (JSONArray) row;
+            for (Object element: elements) {
+                //System.out.println(element);
+                String stringElement = (String) element;
+                Color currentColor = Color.returnMatch((stringElement));
 
-        String[] splitRow;
-        splitRow = row.split("-");
-
-        for(int i=0;i<5;i++)
-            selectComponent(splitRow[i], i, x, side, cardN);
-    }
-
-    private void selectComponent(String s, int y, int x, int side, int cardN) {
-
-        if(side == 0) {
-            switch (s) {
-                case "r":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.RED, 0), x, y);
-                    break;
-                case "y":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.YELLOW, 0), x, y);
-                    break;
-                case "b":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.BLUE, 0), x, y);
-                    break;
-                case "g":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.GREEN, 0), x, y);
-                    break;
-                case "p":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.PURPLE, 0), x, y);
-                    break;
-                case "x":
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.WHITE, 0), x, y);
-                    break;
-                default:
-                    windowCardAssociations[cardN].getFront().setCell(new Cell(Color.WHITE, Integer.valueOf(s)), x, y);
+                if(currentColor.equals(Color.NOT_A_COLOR))
+                    w.setCell(new Cell(Color.WHITE, Integer.parseInt(stringElement)), r, c);
+                else
+                    w.setCell(new Cell(currentColor, 0), r, c);
+                c++;
             }
+            r++;
+            c = 0;
         }
-        else{
-            switch (s) {
-                case "r":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.RED, 0), x, y);
-                    break;
-                case "y":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.YELLOW, 0), x, y);
-                    break;
-                case "b":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.BLUE, 0), x, y);
-                    break;
-                case "g":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.GREEN, 0), x, y);
-                    break;
-                case "p":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.PURPLE, 0), x, y);
-                    break;
-                case "x":
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.WHITE, 0), x, y);
-                    break;
-                default:
-                    windowCardAssociations[cardN].getBack().setCell(new Cell(Color.WHITE, Integer.valueOf(s)), x, y);
-            }
-        }
+
+        return w;
     }
 }
