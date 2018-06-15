@@ -14,5 +14,5 @@ public interface ControllerInterface {
     void handleVCEvent(SkipTurnEvent event);
     void handleVCEvent(SelectDieEvent event);
     void handleVCEvent(UseToolEvent event);
-    void handleVCEvent(ChooseCardEvent event);
+    void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException;
 }

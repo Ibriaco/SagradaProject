@@ -11,6 +11,6 @@ import java.rmi.RemoteException;
 public interface MyObserver {
 
     void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
-    void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException;
+    void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
 
 }

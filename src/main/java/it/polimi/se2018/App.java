@@ -1,8 +1,6 @@
 package it.polimi.se2018;
 
 
-import it.polimi.se2018.Model.*;
-
 /**
  * Hello world!
  *
@@ -16,6 +14,7 @@ public class App
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
     public static void main( String[] args ) {
        /* Server s = new Server();
@@ -26,7 +25,9 @@ public class App
         RMIClient rc = new RMIClient("localhost",10001);*/
 
 
-        System.out.println("Main");
+       /* System.out.println("Main");
+        String toPrint = "\u25FC";
+        System.out.print(ANSI_WHITE + toPrint + ANSI_RESET);
         Game g = null;
 
         g = new Game(3);
@@ -41,7 +42,7 @@ public class App
 g.dealPrivateCards();
         g.dealWindowCards();
 
-/*
+
         Color c;
         int v;
         for (Player p: g.getPlayers()) {

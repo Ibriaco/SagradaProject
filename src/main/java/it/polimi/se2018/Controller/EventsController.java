@@ -66,21 +66,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         return (control1 && control2);
     }
 
-    private boolean checkChooseCardEvent(ChooseCardEvent e) {
-        control1 = this.checkPlayer(e.getUsername());
-        Player p = game.findPlayer(e.getUsername());
-
-        if (p.getWindowCardAssociations()[0].getFront().getWindowName().equals(e.getWindowName()) ||
-                p.getWindowCardAssociations()[0].getBack().getWindowName().equals(e.getWindowName()) ||
-                p.getWindowCardAssociations()[1].getFront().getWindowName().equals(e.getWindowName()) ||
-                p.getWindowCardAssociations()[1].getBack().getWindowName().equals(e.getWindowName())) {
-            control2 = true;
-        } else
-            return false;
-
-        return control1;
-    }
-
     public void checkSelectDieEvent (SelectDieEvent e){
 
     }
@@ -111,7 +96,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }
@@ -130,11 +115,12 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     //METODI PER GENERARE EVENTI MV
 
-    public void createGameUpdateEvent () throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createGameUpdateEvent () throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         mvEvent = new GameUpdateEvent("ALL");
         notifyObservers();
     }
 
+    //HANDLE VCEVENT
     @Override
     public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         lobbyController.handleLogin(event);
@@ -166,7 +152,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void handleVCEvent(ChooseCardEvent event) {
-
+    public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+        lobbyController.handleWindowCard(event);
+        System.out.println("sono tornato nel lobbycontroller(windowcard)");
     }
 }

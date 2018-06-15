@@ -1,10 +1,12 @@
 package it.polimi.se2018.Model;
 
+import java.io.Serializable;
+
 /**WindowCard Class of the Game.
  * @author Ibrahim El Shemy
  * @author Gregorio Galletti
  */
-public class WindowCard {
+public class WindowCard implements Serializable{
     private static final int ROWS = 4;
     private static final int COLS = 5;
     private Cell[][] grid;

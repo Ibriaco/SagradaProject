@@ -7,57 +7,57 @@
   {
     "Title":"Firmitas",
     "Difficulty":"5",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Grid":[["PURPLE","6","WHITE","WHITE","3"],["5","PURPLE","3","WHITE","WHITE"],["WHITE","2","PURPLE","1","WHITE"],["WHITE","1","5","PURPLE","4"]]
   },
   {
     "Title":"Fractal Drops",
     "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Grid":[["WHITE","4","WHITE","YELLOW","6"],["RED","WHITE","2","WHITE","WHITE"],["WHITE","WHITE","RED","PURPLE","1"],["BLUE","YELLOW","WHITE","WHITE","WHITE"]]
   },
   {
     "Title":"Ripples of Light",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["WHITE","WHITE","WHITE","RED","5"],["WHITE","WHITE","PURPLE","4","BLUE"],["WHITE","BLUE","3","YELLOW","6"],["YELLOW","2","GREEN","1","RED"]]
   },
   {
     "Title":"Lux Mundi",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"6",
+    "Grid":[["WHITE","WHITE","1","WHITE","WHITE"],["1","GREEN","3","BLUE","2"],["BLUE","5","4","6","GREEN"],["WHITE","BLUE","5","GREEN","WHITE"]]
   },
   {
     "Title":"Lux Astram",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["WHITE","1","GREEN","PURPLE","4"],["6","PURPLE","2","5","GREEN"],["1","GREEN","5","3","PURPLE"],["WHITE","WHITE","WHITE","WHITE","WHITE"]]
   },
   {
     "Title":"Gravitas",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["1","WHITE","3","BLUE","WHITE"],["WHITE","2","BLUE","WHITE","WHITE"],["6","BLUE","WHITE","4","WHITE"],["BLUE","5","2","WHITE","1"]]
   },
   {
     "Title":"Water of Life",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"6",
+    "Grid":[["6","BLUE","WHITE","WHITE","1"],["WHITE","5","BLUE","WHITE","WHITE"],["4","RED","2","BLUE","WHITE"],["GREEN","6","YELLOW","3","PURPLE"]]
   },
   {
     "Title":"Sun catcher",
     "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Grid":[["WHITE","BLUE","2","WHITE","YELLOW"],["WHITE","4","WHITE","RED","WHITE"],["WHITE","WHITE","5","YELLOW","WHITE"],["GREEN","3","WHITE","WHITE","PURPLE"]]
   },
   {
     "Title":"Shadow Thief",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["6","PURPLE","WHITE","WHITE","5"],["5","WHITE","PURPLE","WHITE","WHITE"],["RED","6","WHITE","PURPLE","WHITE"],["YELLOW","RED","5","4","3"]]
   },
   {
     "Title":"Aurorae Magnificus",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["5","GREEN","BLUE","PURPLE","2"],["PURPLE","WHITE","WHITE","WHITE","YELLOW"],["YELLOW","WHITE","6","WHITE","PURPLE"],["1","WHITE","WHITE","GREEN","4"]]
   },
   {
     "Title":"Aurora Sagradis",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"4",
+    "Grid":[["RED","WHITE","BLUE","WHITE","YELLOW"],["4","PURPLE","3","GREEN","2"],["WHITE","1","WHITE","5","WHITE"],["WHITE","WHITE","6","WHITE","WHITE"]]
   },
   {
     "Title":"Symphony of Light",

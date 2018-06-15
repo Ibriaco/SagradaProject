@@ -1,11 +1,14 @@
 package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Message;
-import it.polimi.se2018.Model.*;
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
-import it.polimi.se2018.Model.Event.SetupGameEvent;
+import it.polimi.se2018.Model.Event.NewGameEvent;
+import it.polimi.se2018.Model.Event.PrivateCardEvent;
+import it.polimi.se2018.Model.Event.WindowCardEvent;
+import it.polimi.se2018.Model.*;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Server.VirtualView;
+import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
@@ -27,8 +30,9 @@ public class LobbyController {
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private EventsController eventsController;
     private VirtualView virtualView;
+    private static int ready=0;
 
-    public LobbyController(EventsController ec, VirtualView virtualView) throws RemoteException {
+    public LobbyController(EventsController ec, VirtualView virtualView) {
         waitingLobby = new Lobby();
         this.virtualView = virtualView;
         printOnConsole("Lobby controller creato");
@@ -47,7 +51,7 @@ public class LobbyController {
             virtualView.addClientToMap(username, virtualView.getClientTemp());
             addInLobby(username);
             logEvent = new LoggedUserEvent(username,true);
-            logEvent.setState("SEI STATO LOGGATO");
+            logEvent.setState("Logged in successfully!");
             // queste 3 stampe sono sul Server. si potrebbero rimuovere??
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
             printOnConsole("User " + username + " logged in successfully!");
@@ -58,11 +62,11 @@ public class LobbyController {
         else {
             logEvent = new LoggedUserEvent(username, false);
             if (!checkTime()) {
-                logEvent.setState("TIMER EXEPIRED");
+                logEvent.setState("TIMER EXEPIRED!");
             } else if (!checkOnlinePlayers()) {
-                logEvent.setState("LOBBY IS FULL");
+                logEvent.setState("LOBBY IS FULL!");
             } else if (!checkUser(username)) {
-                logEvent.setState("USERNAME ALREADY USED");
+                logEvent.setState("USERNAME ALREADY USED!");
             }
             virtualView.getClientTemp().sendMVEvent(logEvent);
             virtualView.stampa();
@@ -136,6 +140,7 @@ public class LobbyController {
     }
 
     public boolean checkStartGame(){
+
         return !checkOnlinePlayers() || !checkTime();
     }
 
@@ -145,18 +150,8 @@ public class LobbyController {
         for (String s: virtualView.getClients().keySet()) {
             game.getPlayers().add(new Player(s, "CLI"));
         }
-        /*List<Integer> list = new ArrayList<>();
-        IntStream.range(1,5).forEach(list::add);
-        Collections.shuffle(list);
-        for(int i = 0; i<game.getPlayers().size(); i++) {
-            game.getPlayers().get(i).drawCard(list.get(i));
-        }*/
-        game.dealPrivateCards();
-        for (Player p: game.getPlayers()) {
-            SetupGameEvent setupGameEvent = new SetupGameEvent(p.getUsername(),p.getPrivateObjective().toString());
-            eventsController.setMvEvent(setupGameEvent);
-            eventsController.notifyObservers();
-        }
+        dealPrivate();
+        dealWindow();
     }
 
     public int getTimer() {
@@ -171,10 +166,48 @@ public class LobbyController {
         return waitingLobby;
     }
 
-    private void dealPrivate() throws WindowCardAssociationException {
+    private void dealPrivate() throws WindowCardAssociationException, InvalidConnectionException, RemoteException, InvalidViewException {
         game.dealPrivateCards();
-        for (String s: virtualView.getClients().keySet()) {
-
+        for (Player p: game.getPlayers()) {
+            PrivateCardEvent privateCardEvent = new PrivateCardEvent(p.getUsername(),p.getPrivateObjective().toString());
+            eventsController.setMvEvent(privateCardEvent);
+            eventsController.notifyObservers();
         }
     }
+
+    private void dealWindow() throws WindowCardAssociationException, InvalidConnectionException, RemoteException, InvalidViewException {
+        game.dealWindowCards();
+        System.err.println("invio eventi Window");
+
+        for (Player p: game.getPlayers()){
+            WindowCardEvent windowCardEvent = new WindowCardEvent(p.getUsername(),p.getWindowCardList());
+            eventsController.setMvEvent(windowCardEvent);
+            eventsController.notifyObservers();
+        }
+
+    }
+
+    public void handleWindowCard (ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+        ArrayList<WindowCard> windowCardList= new ArrayList<>();
+        ArrayList<String> username = new ArrayList<>();
+        for (Player p : game.getPlayers()) {
+            if (p.getUsername().equals(event.getUsername())) {
+                p.setWindowCard(event.getWindowCard());
+                windowCardList.add(p.getWindowCard());
+                username.add(p.getUsername());
+                setReady();
+            }
+        }
+        if (ready == 4) {
+            NewGameEvent newGameEvent = new NewGameEvent(windowCardList, username);
+            eventsController.setMvEvent(newGameEvent);
+            eventsController.notifyObservers();
+        }
+        //mandare evento a tutti con tutte le carte settate
+    }
+
+    public static void setReady() {
+        LobbyController.ready++;
+    }
+
 }

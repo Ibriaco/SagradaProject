@@ -69,7 +69,7 @@ public class TestPlayer {
         assertNotEquals(-1,p.getTokens());
     }
 
-    @Test
+    /*@Test
     public void testChoice(){
         WindowCard w1 = new WindowCard();
         WindowCard w2 = new WindowCard();
@@ -112,7 +112,7 @@ public class TestPlayer {
         assertNotEquals(w2,p.getWindowCard());
 
 
-    }
+    }*/
 
     @Test
     public void testSetPlayerScore(){

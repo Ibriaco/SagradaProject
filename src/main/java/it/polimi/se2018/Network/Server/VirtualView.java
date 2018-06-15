@@ -1,9 +1,7 @@
 package it.polimi.se2018.Network.Server;
 
 
-import it.polimi.se2018.Model.Event.LoggedUserEvent;
-import it.polimi.se2018.Model.Event.MVEvent;
-import it.polimi.se2018.Model.Event.SetupGameEvent;
+import it.polimi.se2018.Model.Event.*;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
@@ -77,7 +75,17 @@ public class VirtualView implements ViewInterface {
     }
 
     @Override
-    public void handleMVEvent(SetupGameEvent setupGameEvent) {
+    public void handleMVEvent(PrivateCardEvent privateCardEvent) {
+
+    }
+
+    @Override
+    public void handleMVEvent(WindowCardEvent event) {
+
+    }
+
+    @Override
+    public void handleMVEvent(NewGameEvent newGameEvent) {
 
     }
 
@@ -126,7 +134,7 @@ public class VirtualView implements ViewInterface {
     //inoltro l'evento a tutti i Client
     //alrimenti solo al Client corrispondente allo username
     @Override
-    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         if (arg.getUsername().equals("ALL")) {
             for (String user : clients.keySet()) {
                 clients.get(user).sendMVEvent(arg);

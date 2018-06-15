@@ -1,20 +1,18 @@
 package it.polimi.se2018.View.UI;
 
 
-import it.polimi.se2018.Model.Event.LoggedUserEvent;
-import it.polimi.se2018.Model.Event.MVEvent;
-import it.polimi.se2018.Model.Event.SetupGameEvent;
-import it.polimi.se2018.Model.InvalidConnectionException;
-import it.polimi.se2018.Model.InvalidViewException;
-import it.polimi.se2018.Model.WindowCardAssociationException;
+import it.polimi.se2018.Model.*;
+import it.polimi.se2018.Model.Event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.*;
+import it.polimi.se2018.View.ViewEvents.RollDiceEvent;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import static it.polimi.se2018.App.*;
 import static it.polimi.se2018.View.UI.CLIUtils.*;
 
 /**
@@ -110,14 +108,14 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void update(MyObservable o, MVEvent arg) {
+    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException {
 
         arg.accept(this);
     }
 
 
     //METODI PER CREARE EVENTI VC
-    public void createLoginEvent(int connectionType) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    private void createLoginEvent(int connectionType) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         vcEvent = new LoginEvent(user);
         notifyObservers();
     }
@@ -146,9 +144,8 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
-    public void createChooseCardEvent(String username, String command) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
-        String windowName = getString();
-        vcEvent = new ChooseCardEvent(username, windowName);
+    private void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+        vcEvent = new ChooseCardEvent(user, windowCard);
         notifyObservers();
     }
 
@@ -169,8 +166,122 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void handleMVEvent (SetupGameEvent event){
+    public void handleMVEvent (PrivateCardEvent event){
          event.printPrivateName();
     }
 
+
+    @Override
+    public void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException {
+        Color color;
+        int value;
+        String windowName = "";
+        boolean correctName = false;
+        consoleWriter.println("[WINDOW CARD]\n");
+        for (WindowCard w: event.getWindowCards()) {
+            consoleWriter.println(w.getWindowName() + " " + w.getDifficulty());
+            for(int i=0; i<4; i++){
+                for(int j=0; j<5; j++){
+                    color = w.getGridCell(i, j).getColor();
+                    value = w.getGridCell(i, j).getShade();
+                    printCell(color, value);
+                }
+                consoleWriter.println("");
+            }
+        }
+
+        consoleWriter.println("INSERT THE NAME OF WINDOW CARD YOU WANT CHOOSE");
+        while (!correctName) {
+            windowName = getString();
+            for (WindowCard w: event.getWindowCards()) {
+                if (w.getWindowName().equals(windowName)) {
+                    correctName = true;
+                    createChooseCardEvent(w);
+                }
+            }
+            consoleWriter.println("NOT-EXISTENT WINDOW CARD");
+        }
+
+    }
+
+    @Override
+    public void handleMVEvent(NewGameEvent event) {
+        /*Color color;
+        int value;
+        int user=0;
+
+        for (WindowCard w: event.getWindowCardList()) {
+            consoleWriter.println(event.getUser().get(user));
+            consoleWriter.println(w.getWindowName() + " " + w.getDifficulty());
+            for(int i=0; i<4; i++){
+                for(int j=0; j<5; j++){
+                    color = w.getGridCell(i, j).getColor();
+                    value = w.getGridCell(i, j).getShade();
+                    printCell(color, value);
+                }
+                consoleWriter.println("");
+                user++;
+            }
+        }*/
+    }
+
+
+    private void printCell(Color color, int value){
+        String toPrint;
+        String ok;
+        if (value == 0) {
+            toPrint = "\u25FC";
+            if(color == null) {
+                consoleWriter.print(toPrint);
+            }
+            else{
+                switch (color) {
+                    case BLUE:
+                        consoleWriter.print(ANSI_BLUE + toPrint + ANSI_RESET);
+                        break;
+                    case RED:
+                        consoleWriter.print(ANSI_RED + toPrint + ANSI_RESET);
+                        break;
+                    case GREEN:
+                        consoleWriter.print(ANSI_GREEN + toPrint + ANSI_RESET);
+                        break;
+                    case YELLOW:
+                        consoleWriter.print(ANSI_YELLOW + toPrint + ANSI_RESET);
+                        break;
+                    case PURPLE:
+                        consoleWriter.print(ANSI_PURPLE + toPrint + ANSI_RESET);
+                        break;
+                    case WHITE:
+                        consoleWriter.print(ANSI_WHITE + toPrint + ANSI_RESET);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else {
+
+            switch(value){
+                case 1:
+                    consoleWriter.print("\u2680");
+                    break;
+                case 2:
+                    consoleWriter.print("\u2681");
+                    break;
+                case 3:
+                    consoleWriter.print("\u2682");
+                    break;
+                case 4:
+                    consoleWriter.print("\u2683");
+                    break;
+                case 5:
+                    consoleWriter.print("\u2684");
+                    break;
+                case 6:
+                    consoleWriter.print("\u2685");
+                    break;
+            }
+        }
+    }
 }
+
+

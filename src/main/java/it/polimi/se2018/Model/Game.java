@@ -1,15 +1,16 @@
 package it.polimi.se2018.Model;
 
-import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static it.polimi.se2018.Model.Color.*;
 
@@ -135,6 +136,15 @@ public class Game {
     public int getPlayerNumber() {
 
         return playerNumber;
+    }
+
+    public Player getPlayer (String username) throws InvalidViewException {
+        Player player = new Player(username, "CLI");
+        for (Player p: players) {
+            if (p.getUsername().equals(username))
+                player = p;
+        }
+        return player;
     }
 
     public int getTurn() {

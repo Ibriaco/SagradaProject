@@ -20,7 +20,7 @@ public class Player {
     private PrivateObjective privateObjective;
     private WindowCard windowCard;
     private WindowCardAssociation[] windowCardAssociations;
-    private int windowFrameNumber;
+    private List<WindowCard> windowCardList;
 
 
     public Player(String username, String viewType) throws InvalidViewException {
@@ -87,6 +87,10 @@ public class Player {
         return privateObjective;
     }
 
+    public List<WindowCard> getWindowCardList() {
+        return windowCardList;
+    }
+
 
     /**
      * Method that draws PrivateObjective.
@@ -134,25 +138,19 @@ public class Player {
     }
 
     /**
-     *Method that lets the Player choose either taking the front or the back of a given WindowCard.
-     * @param w Refers to a WindowCard.
-     * @param side Refers to a side of the WindowCard.
+     *Method that lets the Player choose a WindowCard.
+     * @param windowName Refers to a name of WindowCard that player choose.
      */
-    public void chooseWindowCard(WindowCardAssociation w, int side){
-        if(side == 0)
-            windowCard = w.getFront();
-        if(side == 1)
-            windowCard = w.getBack();
+    public void chooseWindowCard(String windowName){
+        for (WindowCard w : windowCardList) {
+            if (w.getWindowName().equals(windowName))
+                this.windowCard = w;
+        }
     }
 
     public void setWindowCard(WindowCard w){
 
         this.windowCard = w;
-    }
-
-    public int getWindowFrameNumber(){
-
-        return windowFrameNumber;
     }
 
     /**
@@ -162,7 +160,7 @@ public class Player {
      */
     public void drawWindowCards(JSONArray cards, int windowCardNumber1, int windowCardNumber2){
 
-        List<WindowCard> windowCardList = new ArrayList<>();
+        windowCardList = new ArrayList<>();
 
         WindowCard w1 = createCard(cards, windowCardNumber1);
         WindowCard w2 = createCard(cards, windowCardNumber1 + 1);

@@ -2,12 +2,12 @@ package it.polimi.se2018.Model.Event;
 
 import it.polimi.se2018.View.UI.ViewInterface;
 
-public class SetupGameEvent implements MVEvent {
+public class PrivateCardEvent implements MVEvent {
 
     private String privateName;
     private String username;
 
-    public SetupGameEvent(String username, String privateName) {
+    public PrivateCardEvent(String username, String privateName) {
         this.username = username;
         this.privateName = privateName;
     }
