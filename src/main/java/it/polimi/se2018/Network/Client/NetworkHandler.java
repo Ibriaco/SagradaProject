@@ -8,6 +8,7 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.RMI.RMIClient;
 import it.polimi.se2018.Network.Client.Socket.SocketClient;
+import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.rmi.RemoteException;
@@ -81,7 +82,14 @@ public class NetworkHandler implements MyObserver, MyObservable {
 
     @Override
     public void update(MyObservable o, VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        System.out.println("Ho ricevuto evento da View: " + event.getUsername());
         selectedClient.sendEvent(event);
+
+
+        if(event instanceof ChooseCardEvent){
+            ChooseCardEvent c = (ChooseCardEvent) event;
+            System.out.println(c.getWindowCard().getWindowName());
+        }
     }
 
     @Override

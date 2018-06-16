@@ -9,8 +9,14 @@ import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.*;
 import it.polimi.se2018.View.ViewEvents.RollDiceEvent;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.*;
 
 import static it.polimi.se2018.App.*;
 import static it.polimi.se2018.View.UI.CLIUtils.*;
@@ -27,6 +33,7 @@ public class CLIView implements ViewInterface {
     private int choice;
     private String user;
     private ArrayList<MyObserver> observersCollection = new ArrayList<>();
+    private List<WindowCard> myCardList;
 
     /**
      * Updates a window card
@@ -178,6 +185,7 @@ public class CLIView implements ViewInterface {
         String windowName = "";
         boolean correctName = false;
         consoleWriter.println("[WINDOW CARD]\n");
+        myCardList = event.getWindowCards();
         for (WindowCard w: event.getWindowCards()) {
             consoleWriter.println(w.getWindowName() + " " + w.getDifficulty());
             for(int i=0; i<4; i++){
@@ -190,9 +198,41 @@ public class CLIView implements ViewInterface {
             }
         }
 
-        consoleWriter.println("INSERT THE NAME OF WINDOW CARD YOU WANT CHOOSE");
+
+        try {
+            testL();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        //ReaderThread r = new ReaderThread();
+        //r.go();
+
+        /*
+        try {
+            System.out.println(testL());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        */
+        /*BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
+        //Scanner scanner = new Scanner(System.in);
+        String scelta = null;
+        try {
+            scelta = scanner.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(scelta);
+
+        /*consoleWriter.println("INSERT THE NAME OF WINDOW CARD YOU WANT CHOOSE");
         while (!correctName) {
-            windowName = getString();
+            windowName = consoleScanner.nextLine();
             for (WindowCard w: event.getWindowCards()) {
                 if (w.getWindowName().equals(windowName)) {
                     correctName = true;
@@ -201,7 +241,7 @@ public class CLIView implements ViewInterface {
             }
             consoleWriter.println("NOT-EXISTENT WINDOW CARD");
         }
-
+*/
     }
 
     @Override
@@ -281,6 +321,47 @@ public class CLIView implements ViewInterface {
                     break;
             }
         }
+    }
+
+    private void launchThread() {
+         new Thread(() -> {
+             System.out.println("inserisci carta:");
+             Scanner scanner = new Scanner(System.in);
+             String fromThread = scanner.nextLine();
+             System.out.println(fromThread);
+             VCEvent e = new ChooseCardEvent(user, findInCards(fromThread));
+             vcEvent = e;
+             try {
+                 notifyObservers();
+             } catch (RemoteException e1) {
+                 e1.printStackTrace();
+             } catch (InvalidConnectionException e1) {
+                 e1.printStackTrace();
+             } catch (InvalidViewException e1) {
+                 e1.printStackTrace();
+             } catch (WindowCardAssociationException e1) {
+                 e1.printStackTrace();
+             }
+
+         }).start();
+    }
+
+    private WindowCard findInCards(String n) {
+        return myCardList.stream().filter(w -> w.getWindowName().equals(n)).findFirst().orElse(null);
+    }
+
+    private String testL() throws InterruptedException, ExecutionException
+    {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Callable<String> callable = () -> {
+            System.out.println("inserisci");
+            try (Scanner scanner = new Scanner(System.in)) {
+                return scanner.nextLine();
+            }
+        };
+        Future<String> future = executor.submit(callable);
+        executor.shutdown();
+        return future.get();
     }
 }
 
