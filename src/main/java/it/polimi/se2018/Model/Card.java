@@ -38,4 +38,12 @@ public abstract class Card {
 
         return number;
     }
+
+    @Override
+    public String toString() {
+        return "PUBLIC OBJECTIVE{" +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,6 @@
 package it.polimi.se2018.View.UI;
 
-import it.polimi.se2018.Model.Event.LoggedUserEvent;
-import it.polimi.se2018.Model.Event.NewGameEvent;
-import it.polimi.se2018.Model.Event.PrivateCardEvent;
-import it.polimi.se2018.Model.Event.WindowCardEvent;
+import it.polimi.se2018.Model.Event.*;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
@@ -35,6 +32,8 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException;
 
     void handleMVEvent(NewGameEvent newGameEvent);
+
+    void handleMVEvent(PublicCardEvent publicCardEvent);
 
 
 

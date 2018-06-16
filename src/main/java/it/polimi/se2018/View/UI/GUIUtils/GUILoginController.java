@@ -146,6 +146,11 @@ public class GUILoginController implements ViewInterface{
     }
 
     @Override
+    public void handleMVEvent(PublicCardEvent publicCardEvent) {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
         observerCollection.add(observer);
     }

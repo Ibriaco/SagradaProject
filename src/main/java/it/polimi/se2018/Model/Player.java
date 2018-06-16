@@ -1,17 +1,21 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**Player class of the game.
  * @author Gregorio Galletti
  */
-public class Player {
+public class Player implements MyObservable{
 
     private String username;
     private String viewType;
@@ -21,6 +25,8 @@ public class Player {
     private WindowCard windowCard;
     private WindowCardAssociation[] windowCardAssociations;
     private List<WindowCard> windowCardList;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private MVEvent mvEvent;
 
 
     public Player(String username, String viewType) throws InvalidViewException {
@@ -208,5 +214,22 @@ public class Player {
         }
 
         return w;
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) throws RemoteException {
+        observerCollection.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) throws RemoteException {
+        observerCollection.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        for (MyObserver o: observerCollection) {
+            o.update(this, mvEvent);
+        }
     }
 }

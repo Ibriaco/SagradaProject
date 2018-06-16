@@ -1,5 +1,11 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.Model.Event.PrivateCardEvent;
+import it.polimi.se2018.Model.Event.PublicCardEvent;
+import it.polimi.se2018.Model.Event.WindowCardEvent;
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -7,6 +13,7 @@ import org.json.simple.parser.ParseException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +25,7 @@ import static it.polimi.se2018.Model.Color.*;
  * @author Gregorio Galletti
  * @author Ibrahim El Shemy
  */
-public class Game {
+public class Game implements MyObservable{
     private int playerNumber;
     private int turn = 1;
     private int round = 1;
@@ -34,6 +41,8 @@ public class Game {
     private List<Die> rolledDice;
     private List<RoundCell> roundCells;
     private List<Color> colorList;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private MVEvent mvEvent;
 
     public Game(int playerNumber) {
 
@@ -89,6 +98,10 @@ public class Game {
                     d = b.readLine();
                     c = b.readLine();
                     publicCards.add(selectType(x, t, d, c));
+                    PublicCardEvent publicCardEvent = new PublicCardEvent("ALL",publicCards.get(i).toString());
+                    setMvEvent(publicCardEvent);
+                    notifyObservers();
+
                     i++;
                     if(i == 3)
                         line = null;
@@ -239,7 +252,12 @@ public class Game {
             players.add(p);
     }
 
-    public void dealPrivateCards(){
+    public void setMvEvent(MVEvent mvEvent) {
+
+        this.mvEvent = mvEvent;
+    }
+
+    public void dealPrivateCards() throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException {
 
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
 
@@ -247,6 +265,9 @@ public class Game {
 
         for (Player p: players) {
             p.drawCard(randomNumbers.get(j));
+            PrivateCardEvent privateCardEvent = new PrivateCardEvent(p.getUsername(),p.getPrivateObjective().toString());
+            setMvEvent(privateCardEvent);
+            notifyObservers();
             j++;
         }
     }
@@ -271,11 +292,20 @@ public class Game {
 
             for (Player p: players) {
                 p.drawWindowCards(cards, randomNumbers.get(j), randomNumbers.get(j+1));
+                WindowCardEvent windowCardEvent = new WindowCardEvent(p.getUsername(),p.getWindowCardList());
+                setMvEvent(windowCardEvent);
+                notifyObservers();
                 j+=2;
             }
 
         }
         catch (IOException | ParseException e){
+            e.printStackTrace();
+        } catch (WindowCardAssociationException e) {
+            e.printStackTrace();
+        } catch (InvalidConnectionException e) {
+            e.printStackTrace();
+        } catch (InvalidViewException e) {
             e.printStackTrace();
         }
     }
@@ -336,5 +366,22 @@ public class Game {
                 .filter(p -> username.equals(p.getUsername()))
                 .findFirst().orElse(null);
 
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) throws RemoteException {
+        observerCollection.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) throws RemoteException {
+        observerCollection.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        for (MyObserver o: observerCollection) {
+            o.update(this, mvEvent);
+        }
     }
 }

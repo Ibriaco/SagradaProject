@@ -1,5 +1,10 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Model.Event.MVEvent;
+import it.polimi.se2018.MyObservable;
+import it.polimi.se2018.MyObserver;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +12,13 @@ import java.util.List;
  * Lobby class of the game
  * @author Gregorio Galletti
  */
-public class Lobby {
+public class Lobby implements MyObservable{
 
     private int onlinePlayersN;
     private ArrayList<Player> playersList;
     private ArrayList<String> onlinePlayers;
+    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private MVEvent mvEvent;
 
     public Lobby(){
         System.out.println("Lobby creata");
@@ -46,5 +53,22 @@ public class Lobby {
 
     public List<String> getOnlinePlayers(){
         return onlinePlayers;
+    }
+
+    @Override
+    public void registerObserver(MyObserver observer) throws RemoteException {
+        observerCollection.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(MyObserver observer) throws RemoteException {
+        observerCollection.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        for (MyObserver o: observerCollection) {
+            o.update(this, mvEvent);
+        }
     }
 }

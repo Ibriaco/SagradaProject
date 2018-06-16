@@ -89,6 +89,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(PublicCardEvent publicCardEvent) {
+
+    }
+
     /**
      * Shows the user interface
      */

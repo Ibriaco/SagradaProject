@@ -64,8 +64,14 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
+
     @Override
     public void handleMVEvent(NewGameEvent newGameEvent) {
+
+    }
+
+    @Override
+    public void handleMVEvent(PublicCardEvent publicCardEvent) {
 
     }
 

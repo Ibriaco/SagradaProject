@@ -3,8 +3,6 @@ package it.polimi.se2018.Controller;
 import it.polimi.se2018.Message;
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.NewGameEvent;
-import it.polimi.se2018.Model.Event.PrivateCardEvent;
-import it.polimi.se2018.Model.Event.WindowCardEvent;
 import it.polimi.se2018.Model.*;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Server.VirtualView;
@@ -147,11 +145,13 @@ public class LobbyController {
     //in setupGame creo evento setupGameEvent
     public void setupGame() throws InvalidViewException, WindowCardAssociationException, InvalidConnectionException, RemoteException {
         game = new Game(virtualView.getClients().size());
+        game.registerObserver(virtualView);
         for (String s: virtualView.getClients().keySet()) {
             game.getPlayers().add(new Player(s, "CLI"));
         }
-        dealPrivate();
-        dealWindow();
+        game.dealPrivateCards();
+        game.dealWindowCards();
+        game.setPublicObjectives();
     }
 
     public int getTimer() {
@@ -166,27 +166,6 @@ public class LobbyController {
         return waitingLobby;
     }
 
-    private void dealPrivate() throws WindowCardAssociationException, InvalidConnectionException, RemoteException, InvalidViewException {
-        game.dealPrivateCards();
-        for (Player p: game.getPlayers()) {
-            PrivateCardEvent privateCardEvent = new PrivateCardEvent(p.getUsername(),p.getPrivateObjective().toString());
-            eventsController.setMvEvent(privateCardEvent);
-            eventsController.notifyObservers();
-        }
-    }
-
-    private void dealWindow() throws WindowCardAssociationException, InvalidConnectionException, RemoteException, InvalidViewException {
-        game.dealWindowCards();
-        System.err.println("invio eventi Window");
-
-        for (Player p: game.getPlayers()){
-            WindowCardEvent windowCardEvent = new WindowCardEvent(p.getUsername(),p.getWindowCardList());
-            eventsController.setMvEvent(windowCardEvent);
-            eventsController.notifyObservers();
-        }
-
-    }
-
     public void handleWindowCard (ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         ArrayList<WindowCard> windowCardList= new ArrayList<>();
         ArrayList<String> username = new ArrayList<>();
@@ -198,7 +177,7 @@ public class LobbyController {
                 setReady();
             }
         }
-        if (ready == 4) {
+        if (ready == game.getPlayers().size()) {
             NewGameEvent newGameEvent = new NewGameEvent(windowCardList, username);
             eventsController.setMvEvent(newGameEvent);
             eventsController.notifyObservers();

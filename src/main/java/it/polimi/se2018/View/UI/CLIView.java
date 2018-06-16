@@ -9,9 +9,6 @@ import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.*;
 import it.polimi.se2018.View.ViewEvents.RollDiceEvent;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.*;
@@ -239,6 +236,7 @@ public class CLIView implements ViewInterface {
 */
     }
 
+
     @Override
     public void handleMVEvent(NewGameEvent event) {
         /*Color color;
@@ -348,7 +346,6 @@ public class CLIView implements ViewInterface {
              timer.scheduleAtFixedRate(timerTask, 0, 1000);//this line starts the timer at the same time its executed
 
              while(true) {
-
                  System.out.println("inserisci carta:");
                  Scanner scanner = new Scanner(System.in);
                  String fromThread = null;
@@ -364,13 +361,7 @@ public class CLIView implements ViewInterface {
 
                      try {
                          notifyObservers();
-                     } catch (RemoteException e1) {
-                         e1.printStackTrace();
-                     } catch (InvalidConnectionException e1) {
-                         e1.printStackTrace();
-                     } catch (InvalidViewException e1) {
-                         e1.printStackTrace();
-                     } catch (WindowCardAssociationException e1) {
+                     } catch (RemoteException | InvalidConnectionException | WindowCardAssociationException | InvalidViewException e1) {
                          e1.printStackTrace();
                      }
                      break;
@@ -378,6 +369,11 @@ public class CLIView implements ViewInterface {
 
              }
          }).start();
+    }
+
+    @Override
+    public void handleMVEvent(PublicCardEvent event) {
+        event.printPublicName();
     }
 
     private WindowCard findInCards(String n) {
