@@ -151,7 +151,8 @@ public class LobbyController {
         }
         game.dealPrivateCards();
         game.dealWindowCards();
-        game.setPublicObjectives();
+        eventsController.setGame(game);
+        //game.setPublicObjectives();
     }
 
     public int getTimer() {

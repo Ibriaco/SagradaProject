@@ -20,6 +20,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     private LobbyController lobbyController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
+    private int counter = 0;
 
     public EventsController(VirtualView virtualView) throws RemoteException{
         lobbyController = new LobbyController(this, virtualView);
@@ -153,7 +154,16 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+        counter++;
+        System.out.println("Risposte ricevute: " + counter);
         lobbyController.handleWindowCard(event);
+        if(counter == game.getPlayerNumber())
+            game.setPublicObjectives();
+
         System.out.println("sono tornato nel lobbycontroller(windowcard)");
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }
