@@ -46,6 +46,7 @@ public class SocketConnection extends Thread implements ClientInterface{
             virtualView.addClientToMap(receivedEvent.getUsername(),this);
             System.out.println("Arrivato un evento da " + receivedEvent.getUsername() + ", lo giro alla virtual view.");
             virtualView.receiveEvent(receivedEvent);
+            virtualView.addClientToMap(receivedEvent.getUsername(), this);
 
         } catch (IOException | ClassNotFoundException | InvalidConnectionException | InvalidViewException | NullPointerException e) {
             e.printStackTrace();

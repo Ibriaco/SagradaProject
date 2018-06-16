@@ -35,7 +35,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
         else if(value == 2){
             int port = requestPort();
             String ip = requestIP();
-            selectedClient = new SocketClient(ip, port);
+            selectedClient = new SocketClient(ip, port, this);
         }
         System.out.println("CREATOOOO");
     }
@@ -50,7 +50,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
         return consoleScanner.next();
     }
 
-    public void getMVEvent(MVEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void receciveMVEvent(MVEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
         mvEvent = event;
         notifyObservers();
     }

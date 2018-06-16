@@ -141,6 +141,8 @@ public class VirtualView implements ViewInterface {
             }
         }
         else{
+            stampa();
+            System.out.println(arg.getUsername());
             clients.get(arg.getUsername()).sendMVEvent(arg);
         }
     }

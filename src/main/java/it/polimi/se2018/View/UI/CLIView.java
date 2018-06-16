@@ -13,9 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.*;
 
 import static it.polimi.se2018.App.*;
@@ -27,6 +25,8 @@ import static it.polimi.se2018.View.UI.CLIUtils.*;
  * @author Marco Gasperini
  */
 public class CLIView implements ViewInterface {
+
+    static int counter = 0;
 
     private NetworkHandler nh;
     private VCEvent vcEvent;
@@ -186,6 +186,7 @@ public class CLIView implements ViewInterface {
         boolean correctName = false;
         consoleWriter.println("[WINDOW CARD]\n");
         myCardList = event.getWindowCards();
+
         for (WindowCard w: event.getWindowCards()) {
             consoleWriter.println(w.getWindowName() + " " + w.getDifficulty());
             for(int i=0; i<4; i++){
@@ -199,13 +200,7 @@ public class CLIView implements ViewInterface {
         }
 
 
-        try {
-            testL();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        launchThread();
 
         //ReaderThread r = new ReaderThread();
         //r.go();
@@ -325,24 +320,63 @@ public class CLIView implements ViewInterface {
 
     private void launchThread() {
          new Thread(() -> {
-             System.out.println("inserisci carta:");
-             Scanner scanner = new Scanner(System.in);
-             String fromThread = scanner.nextLine();
-             System.out.println(fromThread);
-             VCEvent e = new ChooseCardEvent(user, findInCards(fromThread));
-             vcEvent = e;
-             try {
-                 notifyObservers();
-             } catch (RemoteException e1) {
-                 e1.printStackTrace();
-             } catch (InvalidConnectionException e1) {
-                 e1.printStackTrace();
-             } catch (InvalidViewException e1) {
-                 e1.printStackTrace();
-             } catch (WindowCardAssociationException e1) {
-                 e1.printStackTrace();
-             }
+/*
+             final int[] t = {10};
+             new Thread(() ->{
+                 for (; t[0] >= 0 ; t[0]--) {
+                     try {
+                         Thread.sleep(1000);
+                         //System.out.println(t[0]);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+                 }
 
+             }).start();
+
+*/
+             TimerTask timerTask = new TimerTask() {
+
+                 @Override
+                 public void run() {
+                     //System.out.println("TimerTask executing counter is: " + counter);
+                     counter++;//increments the counter
+                 }
+             };
+
+             Timer timer = new Timer("MyTimer");//create a new Timer
+             timer.scheduleAtFixedRate(timerTask, 0, 1000);//this line starts the timer at the same time its executed
+
+             while(true) {
+
+                 System.out.println("inserisci carta:");
+                 Scanner scanner = new Scanner(System.in);
+                 String fromThread = null;
+                 //System.out.println(counter);
+
+                 fromThread = scanner.nextLine();
+
+                 System.out.println(fromThread);
+                 WindowCard selectedW = findInCards(fromThread);
+                 if(selectedW != null) {
+                     VCEvent e = new ChooseCardEvent(user, findInCards(fromThread));
+                     vcEvent = e;
+
+                     try {
+                         notifyObservers();
+                     } catch (RemoteException e1) {
+                         e1.printStackTrace();
+                     } catch (InvalidConnectionException e1) {
+                         e1.printStackTrace();
+                     } catch (InvalidViewException e1) {
+                         e1.printStackTrace();
+                     } catch (WindowCardAssociationException e1) {
+                         e1.printStackTrace();
+                     }
+                     break;
+                 }
+
+             }
          }).start();
     }
 

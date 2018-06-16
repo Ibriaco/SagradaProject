@@ -7,6 +7,7 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.ClientInterface;
+import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.Network.Server.Socket.ListeningThread;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
@@ -19,15 +20,17 @@ public class SocketClient implements ClientInterface{
     private static Socket socket;
     private ListeningThread listeningThread;
     private ObjectOutputStream toServer;
+    private NetworkHandler networkHandler;
 
-    public SocketClient(String serverIP, Integer port) {
+    public SocketClient(String serverIP, Integer port, NetworkHandler nh) {
         try {
+            networkHandler = nh;
             socket = new Socket(serverIP, port);
             toServer = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
         }
 
-        listeningThread = new ListeningThread(socket);
+        listeningThread = new ListeningThread(socket, networkHandler);
         listeningThread.start();
 
     }
