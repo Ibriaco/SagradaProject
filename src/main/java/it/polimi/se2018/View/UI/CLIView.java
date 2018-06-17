@@ -5,7 +5,7 @@ import it.polimi.se2018.Model.*;
 import it.polimi.se2018.Model.Event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.NetworkHandler;
+import it.polimi.se2018.Network.client.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.*;
 import it.polimi.se2018.View.ViewEvents.RollDiceEvent;
 import org.json.simple.parser.ParseException;

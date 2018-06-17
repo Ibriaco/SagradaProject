@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Client.Socket;
+package it.polimi.se2018.Network.client.socket;
 
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
@@ -6,9 +6,9 @@ import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.ClientInterface;
-import it.polimi.se2018.Network.Client.NetworkHandler;
-import it.polimi.se2018.Network.Server.Socket.ListeningThread;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.client.NetworkHandler;
+import it.polimi.se2018.Network.server.socket.ListeningThread;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
 import java.io.IOException;

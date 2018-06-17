@@ -1,10 +1,10 @@
-package it.polimi.se2018.Network.Server.RMI;
+package it.polimi.se2018.Network.server.rmi;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
-import it.polimi.se2018.Network.Client.ClientInterface;
-import it.polimi.se2018.Network.Server.VirtualView;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import org.json.simple.parser.ParseException;
 
@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * Class that implements RMI Server Interface
+ * Class that implements rmi server Interface
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
@@ -39,9 +39,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     /**
-     * Puts into a HashMap a Client associated to a specific username
+     * Puts into a HashMap a client associated to a specific username
 
-     * @param client Client associated to the player
+     * @param client client associated to the player
      */
     public void sendUser(ClientInterface client){
         virtualView.setClientTemp(client);

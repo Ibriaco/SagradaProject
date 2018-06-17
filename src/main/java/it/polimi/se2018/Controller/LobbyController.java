@@ -5,7 +5,7 @@ import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.NewGameEvent;
 import it.polimi.se2018.Model.*;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Server.VirtualView;
+import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 
@@ -50,7 +50,7 @@ public class LobbyController {
             addInLobby(username);
             logEvent = new LoggedUserEvent(username,true);
             logEvent.setState("Logged in successfully!");
-            // queste 3 stampe sono sul Server. si potrebbero rimuovere??
+            // queste 3 stampe sono sul server. si potrebbero rimuovere??
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
             printOnConsole("User " + username + " logged in successfully!");
             printOnConsole("Online players " + playersNumber);

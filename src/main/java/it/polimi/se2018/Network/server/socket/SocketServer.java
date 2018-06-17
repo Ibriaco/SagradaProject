@@ -1,10 +1,10 @@
-package it.polimi.se2018.Network.Server.Socket;
+package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
-import it.polimi.se2018.Network.Client.ClientInterface;
-import it.polimi.se2018.Network.Server.ServerInterface;
-import it.polimi.se2018.Network.Server.VirtualView;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.server.ServerInterface;
+import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import it.polimi.se2018.Controller.LobbyController;
 
@@ -46,7 +46,7 @@ public class SocketServer implements ServerInterface {
 
 /*
     @Override
-    public void removeClient(RMIClientInterface Client){
+    public void removeClient(RMIClientInterface client){
 
     }
 

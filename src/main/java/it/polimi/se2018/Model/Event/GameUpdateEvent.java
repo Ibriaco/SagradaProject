@@ -5,7 +5,7 @@ import it.polimi.se2018.View.UI.ViewInterface;
 public class GameUpdateEvent implements MVEvent {
 
     private String username;
-    //quando lo creo gli passo come username ALL. così l'evento verrà notificato a tutti i Client
+    //quando lo creo gli passo come username ALL. così l'evento verrà notificato a tutti i client
     public GameUpdateEvent(String username) {
 
         this.username = username;

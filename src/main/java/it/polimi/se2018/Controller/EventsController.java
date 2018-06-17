@@ -5,7 +5,7 @@ import it.polimi.se2018.Model.Event.GameUpdateEvent;
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Server.VirtualView;
+import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.*;
 import org.json.simple.parser.ParseException;
 

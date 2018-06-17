@@ -17,7 +17,7 @@ public class App
     public static final String ANSI_WHITE = "\u001B[37m";
 
     public static void main( String[] args ) {
-       /* Server s = new Server();
+       /* server s = new server();
         SocketClient sc = new SocketClient("localhost",10000);
         SocketClient sc2 = new SocketClient("localhost",10000);
         SocketClient sc3 = new SocketClient("localhost",10000);

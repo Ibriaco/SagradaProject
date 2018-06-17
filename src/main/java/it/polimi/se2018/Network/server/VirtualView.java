@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Server;
+package it.polimi.se2018.Network.server;
 
 
 import it.polimi.se2018.Model.Event.*;
@@ -7,7 +7,7 @@ import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.ClientInterface;
+import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.UI.ViewInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import org.json.simple.parser.ParseException;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class that works as a Proxy on the Server side
+ * Class that works as a Proxy on the server side
  * It is observed by the EventsController
  * It observes the EventsController
  * @author Ibrahim El Shemy
@@ -55,7 +55,7 @@ public class VirtualView implements ViewInterface {
     }
 
     /**
-     * Receives an event from the Server
+     * Receives an event from the server
      * @param event event received
      * @throws InvalidConnectionException thrown exception
      * @throws RemoteException thrown exception
@@ -143,8 +143,8 @@ public class VirtualView implements ViewInterface {
     }
 
     //se lo username dell'evento è ALL
-    //inoltro l'evento a tutti i Client
-    //alrimenti solo al Client corrispondente allo username
+    //inoltro l'evento a tutti i client
+    //alrimenti solo al client corrispondente allo username
     @Override
     public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
         if (arg.getUsername().equals("ALL")) {

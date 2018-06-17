@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Client.RMI;
+package it.polimi.se2018.Network.client.rmi;
 
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
@@ -6,8 +6,8 @@ import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.NetworkHandler;
-import it.polimi.se2018.Network.Server.RMI.RMIServerInterface;
+import it.polimi.se2018.Network.client.NetworkHandler;
+import it.polimi.se2018.Network.server.rmi.RMIServerInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import org.json.simple.parser.ParseException;
 
@@ -51,8 +51,8 @@ public class RMIClient implements RMIClientInterface {
     }
 
     /**
-     * Sends an event from the Client invoking a method from the Server
-     * @param event event sent to the Server
+     * Sends an event from the client invoking a method from the server
+     * @param event event sent to the server
      * @throws InvalidConnectionException thrown exception
      * @throws RemoteException thrown exception
      * @throws InvalidViewException thrown exception
@@ -61,7 +61,7 @@ public class RMIClient implements RMIClientInterface {
         networkHandler.receciveMVEvent(event);
     }
 
-    //metodo per inviare VCEvent da Client a Server
+    //metodo per inviare VCEvent da client a server
     @Override
     public void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
         if (event.toString().equals("Login Event")) {

@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Client;
+package it.polimi.se2018.Network.client;
 
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
@@ -6,8 +6,8 @@ import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.RMI.RMIClient;
-import it.polimi.se2018.Network.Client.Socket.SocketClient;
+import it.polimi.se2018.Network.client.rmi.RMIClient;
+import it.polimi.se2018.Network.client.socket.SocketClient;
 import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import org.json.simple.parser.ParseException;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
 
 /**
- * Class that works as a proxy on the Client side
+ * Class that works as a proxy on the client side
  * It is observed by the View
  * It observes the View
  * @author Gregorio Galletti

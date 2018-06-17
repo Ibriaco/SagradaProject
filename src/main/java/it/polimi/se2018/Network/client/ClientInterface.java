@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Client;
+package it.polimi.se2018.Network.client;
 
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;

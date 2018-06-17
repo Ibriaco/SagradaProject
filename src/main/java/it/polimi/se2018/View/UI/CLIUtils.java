@@ -6,7 +6,7 @@ import java.util.Scanner;
 public final class CLIUtils {
 
 
-    public static final String rmi = "RMI";
+    public static final String rmi = "rmi";
     public static final String socket = "SOCKET";
     public static final PrintWriter consoleWriter = new PrintWriter(System.out, true);
     public static final Scanner consoleScanner = new Scanner(System.in);

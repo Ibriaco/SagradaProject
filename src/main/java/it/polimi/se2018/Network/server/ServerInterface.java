@@ -1,9 +1,9 @@
-package it.polimi.se2018.Network.Server;
+package it.polimi.se2018.Network.server;
 
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
-import it.polimi.se2018.Network.Client.ClientInterface;
+import it.polimi.se2018.Network.client.ClientInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import org.json.simple.parser.ParseException;
 
@@ -11,12 +11,12 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
- * Interface that will be implemented by RMI/Socket Server
+ * Interface that will be implemented by rmi/socket server
  */
 public interface ServerInterface{
 
 
-    //void removeClient(RMIClientInterface Client) throws RemoteException;
+    //void removeClient(RMIClientInterface client) throws RemoteException;
 
     //void send(Message message) throws RemoteException;
 
