@@ -161,7 +161,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         lobbyController.handleWindowCard(event);
         if(counter == game.getPlayerNumber()) {
            game.setPublicObjectives();
-//           game.dealToolCards();
+           game.dealToolCards();
         }
 
         System.out.println("sono tornato nel lobbycontroller(windowcard)");

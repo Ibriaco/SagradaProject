@@ -1,10 +1,10 @@
-package it.polimi.se2018.Network.Server.Socket;
+package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
-import it.polimi.se2018.Network.Client.NetworkHandler;
+import it.polimi.se2018.Network.client.NetworkHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

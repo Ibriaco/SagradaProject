@@ -24,7 +24,7 @@ public class ToolCardEvent implements MVEvent {
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     public void printToolCards(){

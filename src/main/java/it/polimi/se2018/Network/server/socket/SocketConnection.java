@@ -1,4 +1,4 @@
-package it.polimi.se2018.Network.Server.Socket;
+package it.polimi.se2018.Network.server.socket;
 
 import it.polimi.se2018.Model.Event.MVEvent;
 import it.polimi.se2018.Model.InvalidConnectionException;
@@ -6,8 +6,9 @@ import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.Network.Client.ClientInterface;
-import it.polimi.se2018.Network.Server.VirtualView;
+import it.polimi.se2018.Network.client.ClientInterface;
+import it.polimi.se2018.Network.server.VirtualView;
+import it.polimi.se2018.Network.server.socket.SocketServer;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
 import org.json.simple.parser.ParseException;
 
@@ -20,7 +21,7 @@ import java.rmi.RemoteException;
 /**
  * @author Gregorio Galletti
  */
-public class SocketConnection extends Thread implements ClientInterface{
+public class SocketConnection extends Thread implements ClientInterface {
     private SocketServer socketServer;
     private Socket connectionSocket;
     private VCEvent receivedEvent;
