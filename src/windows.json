@@ -61,62 +61,62 @@
   },
   {
     "Title":"Symphony of Light",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"6",
+    "Grid":[["2","WHITE","5","WHITE","1"],["YELLOW","6","PURPLE","2","RED"],["WHITE","BLUE","4","GREEN","WHITE"],["WHITE","3","WHITE","5","WHITE"]]
   },
   {
     "Title":"Virtus",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["4","WHITE","2","5","GREEN"],["WHITE","WHITE","6","GREEN","2"],["WHITE","3","GREEN","4","WHITE"],["5","GREEN","1","WHITE","WHITE"]]
   },
   {
     "Title":"Firelight",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["3","4","1","5","WHITE"],["WHITE","6","2","WHITE","YELLOW"],["WHITE","WHITE","WHITE","YELLOW","RED"],["5","WHITE","YELLOW","RED","6"]]
   },
   {
     "Title":"Sun's Glory",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"6",
+    "Grid":[["1","PURPLE","YELLOW","WHITE","4"],["PURPLE","YELLOW","WHITE","WHITE","6"],["YELLOW","WHITE","WHITE","5","3"],["WHITE","5","4","2","1"]]
   },
   {
     "Title":"Battlo",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["WHITE","WHITE","6","WHITE","WHITE"],["WHITE","4","BLUE","4","WHITE"],["3","GREEN","YELLOW","PURPLE","2"],["1","4","RED","5","3"]]
   },
   {
     "Title":"Bellesguard",
     "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Grid":[["BLUE","6","WHITE","WHITE","YELLOW"],["WHITE","3","BLUE","WHITE","WHITE"],["WHITE","5","6","2","WHITE"],["WHITE","4","WHITE","1","GREEN"]]
   },
   {
     "Title":"Fulgor del Cielo",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["WHITE","BLUE","RED","WHITE","WHITE"],["WHITE","4","5","WHITE","BLUE"],["BLUE","2","WHITE","RED","5"],["6","RED","3","1","WHITE"]]
   },
   {
     "Title":"Lux Celestial",
     "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Grid":[["WHITE","WHITE","RED","5","WHITE"],["PURPLE","4","WHITE","GREEN","3"],["6","WHITE","WHITE","BLUE","WHITE"],["WHITE","YELLOW","2","WHITE","WHITE"]]
   },
   {
     "Title":"Chromatic Splendor",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"4",
+    "Grid":[["WHITE","WHITE","GREEN","WHITE","WHITE"],["2","YELLOW","5","BLUE","1"],["WHITE","RED","3","PURPLE","WHITE"],["1","WHITE","6","WHITE","4"]]
   },
   {
     "Title":"Comitas",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["YELLOW","WHITE","2","WHITE","6"],["WHITE","4","WHITE","5","YELLOW"],["WHITE","WHITE","WHITE","YELLOW","5"],["1","2","YELLOW","3","WHITE"]]
   },
   {
     "Title":"Via Lux",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"4",
+    "Grid":[["YELLOW","WHITE","6","WHITE","WHITE"],["WHITE","1","5","WHITE","2"],["3","YELLOW","RED","PURPLE","WHITE"],["WHITE","WHITE","4","3","RED"]]
   },
   {
     "Title":"Industria",
-    "Difficulty":"3",
-    "Grid":[["YELLOW","BLUE","WHITE","WHITE","1"],["GREEN","WHITE","5","WHITE","4"],["3","WHITE","RED","WHITE","GREEN"],["2","WHITE","WHITE","BLUE","YELLOW"]]
+    "Difficulty":"5",
+    "Grid":[["1","RED","3","WHITE","6"],["5","4","RED","2","WHITE"],["WHITE","WHITE","5","RED","1"],["WHITE","WHITE","WHITE","3","RED"]]
   }
 ]

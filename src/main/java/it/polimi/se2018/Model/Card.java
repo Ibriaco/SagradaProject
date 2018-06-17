@@ -41,9 +41,6 @@ public abstract class Card {
 
     @Override
     public String toString() {
-        return "PUBLIC OBJECTIVE{" +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "[PUBLIC OBJECTIVE]: TITLE: " + title + "      DESCRIPTION: " + description;
     }
 }

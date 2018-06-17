@@ -5,8 +5,9 @@ import it.polimi.se2018.Model.InvalidConnectionException;
 import it.polimi.se2018.Model.InvalidViewException;
 import it.polimi.se2018.Model.WindowCard;
 import it.polimi.se2018.Model.WindowCardAssociationException;
+import org.json.simple.parser.ParseException;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 
 /**
  * Event that returns the number and the side of a chosen Card by the player
@@ -33,7 +34,7 @@ public class ChooseCardEvent implements VCEvent {
     }
 
     @Override
-    public void accept(ControllerInterface controller) throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException {
+    public void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException, ParseException {
         controller.handleVCEvent(this);
     }
 

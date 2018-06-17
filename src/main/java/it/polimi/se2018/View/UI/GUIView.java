@@ -76,6 +76,11 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
+    public void handleMVEvent(ToolCardEvent toolCardEvent) {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) {
 
     }

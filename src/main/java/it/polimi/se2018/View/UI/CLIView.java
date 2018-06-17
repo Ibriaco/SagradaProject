@@ -8,7 +8,9 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.View.ViewEvents.*;
 import it.polimi.se2018.View.ViewEvents.RollDiceEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.*;
@@ -47,7 +49,7 @@ public class CLIView implements ViewInterface {
      * @throws InvalidViewException thrown exception
      */
     @Override
-    public void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+    public void showUI() throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
 
         boolean validInput = false;
         while(!validInput) {
@@ -69,7 +71,7 @@ public class CLIView implements ViewInterface {
      * @throws InvalidConnectionException thrown exception
      * @throws InvalidViewException thrown exception
      */
-     public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+     public void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
         user = consoleScanner.next();
@@ -100,7 +102,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
         for (MyObserver o : observersCollection) {
             o.update(this, vcEvent);
         }
@@ -119,12 +121,12 @@ public class CLIView implements ViewInterface {
 
 
     //METODI PER CREARE EVENTI VC
-    private void createLoginEvent(int connectionType) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    private void createLoginEvent(int connectionType) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         vcEvent = new LoginEvent(user);
         notifyObservers();
     }
 
-    public void createPlaceDieEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void createPlaceDieEvent() throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         int pos = getNumber();
         int coordX = getNumber();
         int coordY = getNumber();
@@ -132,23 +134,23 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
-    public void createSkipTurnEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         vcEvent = new SkipTurnEvent(user);
         notifyObservers();
     }
 
-    public void createUseToolEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void createUseToolEvent() throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         int pos = getNumber()-1;
         vcEvent = new UseToolEvent(user, pos);
         notifyObservers();
     }
 
-    public void createRollDiceEvent() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void createRollDiceEvent() throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         vcEvent = new RollDiceEvent(user);
         notifyObservers();
     }
 
-    private void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    private void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         vcEvent = new ChooseCardEvent(user, windowCard);
         notifyObservers();
     }
@@ -356,12 +358,10 @@ public class CLIView implements ViewInterface {
                  System.out.println(fromThread);
                  WindowCard selectedW = findInCards(fromThread);
                  if(selectedW != null) {
-                     VCEvent e = new ChooseCardEvent(user, findInCards(fromThread));
-                     vcEvent = e;
-
+                     vcEvent = new ChooseCardEvent(user, findInCards(fromThread));
                      try {
                          notifyObservers();
-                     } catch (RemoteException | InvalidConnectionException | WindowCardAssociationException | InvalidViewException e1) {
+                     } catch (InvalidConnectionException | WindowCardAssociationException | InvalidViewException | IOException | ParseException e1) {
                          e1.printStackTrace();
                      }
                      break;
@@ -376,6 +376,11 @@ public class CLIView implements ViewInterface {
         event.printPublicName();
     }
 
+    @Override
+    public void handleMVEvent(ToolCardEvent event) {
+        event.printToolCards();
+    }
+
     private WindowCard findInCards(String n) {
         return myCardList.stream().filter(w -> w.getWindowName().equals(n)).findFirst().orElse(null);
     }
@@ -384,7 +389,7 @@ public class CLIView implements ViewInterface {
     {
         ExecutorService executor = Executors.newCachedThreadPool();
         Callable<String> callable = () -> {
-            System.out.println("inserisci");
+            consoleWriter.println("inserisci");
             try (Scanner scanner = new Scanner(System.in)) {
                 return scanner.nextLine();
             }

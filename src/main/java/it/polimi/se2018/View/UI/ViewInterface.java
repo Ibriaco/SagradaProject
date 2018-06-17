@@ -7,7 +7,9 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
@@ -19,11 +21,11 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void updateWindowCard();
 
-    void showUI() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
+    void showUI() throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException;
 
-    void receiveEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException;
+    void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException;
 
-    void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
+    void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException;
 
     void handleMVEvent(LoggedUserEvent event);
 
@@ -34,6 +36,8 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(NewGameEvent newGameEvent);
 
     void handleMVEvent(PublicCardEvent publicCardEvent);
+
+    void handleMVEvent(ToolCardEvent toolCardEvent);
 
 
 

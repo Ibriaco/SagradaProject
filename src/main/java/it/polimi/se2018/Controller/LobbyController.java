@@ -90,7 +90,7 @@ public class LobbyController {
      * @return true if the players are less than 4, else, false is returned
      */
     public boolean checkOnlinePlayers() {
-        return waitingLobby.getOnlinePlayersN() != 4;
+        return waitingLobby.getOnlinePlayersN() != 2;
     }
 
     /**

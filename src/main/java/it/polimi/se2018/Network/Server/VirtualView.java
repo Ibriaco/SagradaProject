@@ -10,7 +10,9 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.ClientInterface;
 import it.polimi.se2018.View.UI.ViewInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +61,7 @@ public class VirtualView implements ViewInterface {
      * @throws RemoteException thrown exception
      * @throws InvalidViewException thrown exception
      */
-    public void receiveEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         this.event = event;
         notifyObservers();
     }
@@ -94,6 +96,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(ToolCardEvent toolCardEvent) {
+
+    }
+
     /**
      * Shows the user interface
      */
@@ -124,7 +131,7 @@ public class VirtualView implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void notifyObservers() throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         for (MyObserver o: observerCollection) {
             o.update(this, event);
         }

@@ -9,6 +9,8 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.ClientInterface;
 import it.polimi.se2018.Network.Server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,9 +50,7 @@ public class SocketConnection extends Thread implements ClientInterface{
             virtualView.receiveEvent(receivedEvent);
             virtualView.addClientToMap(receivedEvent.getUsername(), this);
 
-        } catch (IOException | ClassNotFoundException | InvalidConnectionException | InvalidViewException | NullPointerException e) {
-            e.printStackTrace();
-        } catch (WindowCardAssociationException e) {
+        } catch (IOException | ClassNotFoundException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException | WindowCardAssociationException e) {
             e.printStackTrace();
         }
     }

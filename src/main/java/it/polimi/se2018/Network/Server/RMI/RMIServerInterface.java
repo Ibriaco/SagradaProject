@@ -6,7 +6,9 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.Network.Client.ClientInterface;
 import it.polimi.se2018.Network.Server.ServerInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -21,7 +23,7 @@ public interface RMIServerInterface extends Remote, ServerInterface {
     //void send(Message message) throws RemoteException;
 
     void sendUser(ClientInterface client) throws RemoteException, InvalidConnectionException, InvalidViewException;
-    void vceTransport(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException;
+    void vceTransport(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException;
     //void startGame() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException;
     //void sendPrivateObjective(VCEvent event) throws RemoteException;
 

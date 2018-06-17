@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
@@ -151,6 +152,11 @@ public class GUILoginController implements ViewInterface{
     }
 
     @Override
+    public void handleMVEvent(ToolCardEvent toolCardEvent) {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
         observerCollection.add(observer);
     }
@@ -165,9 +171,7 @@ public class GUILoginController implements ViewInterface{
         for (MyObserver o: observerCollection) {
             try {
                 o.update(this, myEvent);
-            } catch (InvalidConnectionException e) {
-                e.printStackTrace();
-            } catch (InvalidViewException e) {
+            } catch (InvalidConnectionException | IOException | ParseException | InvalidViewException e) {
                 e.printStackTrace();
             }
         }

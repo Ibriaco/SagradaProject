@@ -7,19 +7,18 @@ import it.polimi.se2018.View.UI.CLIView;
 import it.polimi.se2018.View.UI.GUIView;
 import it.polimi.se2018.View.UI.ViewInterface;
 import javafx.application.Application;
+import org.json.simple.parser.ParseException;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.util.Scanner;
 
-import static it.polimi.se2018.View.UI.CLIUtils.consoleErrorWriter;
-import static it.polimi.se2018.View.UI.CLIUtils.consoleScanner;
-import static it.polimi.se2018.View.UI.CLIUtils.printSplashArt;
+import static it.polimi.se2018.View.UI.CLIUtils.*;
 
 public class Client {
 
     private static ViewInterface vi;
 
-    public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+    public static void main(String[] args) throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
 
         printSplashArt();
         int choice = 0;

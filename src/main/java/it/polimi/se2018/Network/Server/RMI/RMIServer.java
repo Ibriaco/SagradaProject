@@ -6,7 +6,9 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.Network.Client.ClientInterface;
 import it.polimi.se2018.Network.Server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -32,7 +34,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
      * @throws RemoteException thrown exception
      * @throws InvalidViewException thrown exception
      */
-    public void vceTransport(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void vceTransport(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         virtualView.receiveEvent(event);
     }
 

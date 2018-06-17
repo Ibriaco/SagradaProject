@@ -7,7 +7,9 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.*;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -104,7 +106,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+    public void update(MyObservable o, VCEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
 
         arg.accept(this);
     }
@@ -153,12 +155,14 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
+    public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, WindowCardAssociationException, ParseException {
         counter++;
         System.out.println("Risposte ricevute: " + counter);
         lobbyController.handleWindowCard(event);
-        if(counter == game.getPlayerNumber())
-            game.setPublicObjectives();
+        if(counter == game.getPlayerNumber()) {
+           game.setPublicObjectives();
+//           game.dealToolCards();
+        }
 
         System.out.println("sono tornato nel lobbycontroller(windowcard)");
     }

@@ -9,7 +9,9 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.Client.NetworkHandler;
 import it.polimi.se2018.Network.Server.RMI.RMIServerInterface;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -61,7 +63,7 @@ public class RMIClient implements RMIClientInterface {
 
     //metodo per inviare VCEvent da Client a Server
     @Override
-    public void sendEvent(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+    public void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException, ParseException {
         if (event.toString().equals("Login Event")) {
             String username = event.getUsername();
             System.out.println("Trying to authenticate " + username + " ...");

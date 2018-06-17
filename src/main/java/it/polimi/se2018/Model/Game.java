@@ -1,12 +1,10 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.Event.MVEvent;
-import it.polimi.se2018.Model.Event.PrivateCardEvent;
-import it.polimi.se2018.Model.Event.PublicCardEvent;
-import it.polimi.se2018.Model.Event.WindowCardEvent;
+import it.polimi.se2018.Model.Event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -98,7 +96,7 @@ public class Game implements MyObservable{
                     d = b.readLine();
                     c = b.readLine();
                     publicCards.add(selectType(x, t, d, c));
-                    PublicCardEvent publicCardEvent = new PublicCardEvent("ALL",publicCards.get(i).toString());
+                    PublicCardEvent publicCardEvent = new PublicCardEvent("ALL" ,publicCards.get(i).toString());
                     setMvEvent(publicCardEvent);
                     notifyObservers();
 
@@ -272,7 +270,28 @@ public class Game implements MyObservable{
         }
     }
 
-    public void dealWindowCards(){
+    public void dealToolCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        toolCards = new ArrayList<>();
+        ArrayList<String> toolCard = new ArrayList<>();
+        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0,1, 2, 3, 4, 5,6,7,8,9,10,11)));
+        for (int i=0; i<3; i++){
+            toolCards.add(drawToolCard(randomNumbers.get(i)));
+            toolCard.add("[TOOL CARD]: TITLE: " + getToolCards().get(i).getTitle() + "    DESCRIPTION:" + getToolCards().get(i).getDescription());
+        }
+        ToolCardEvent toolCardEvent = new ToolCardEvent("ALL", toolCard);
+        setMvEvent(toolCardEvent);
+        notifyObservers();
+    }
+
+    private ToolCard drawToolCard(int pos) throws ParseException, IOException{
+        JSONParser parser = new JSONParser();
+
+        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/toolCards.json"));
+        JSONObject obj = (JSONObject) cards.get(pos);
+        return new ToolCard(Integer.parseInt((String)obj.get("Number")),(String) obj.get("Title"),(String)obj.get("Description"));
+    }
+
+        public void dealWindowCards(){
 
         JSONParser parser = new JSONParser();
 
@@ -299,13 +318,7 @@ public class Game implements MyObservable{
             }
 
         }
-        catch (IOException | ParseException e){
-            e.printStackTrace();
-        } catch (WindowCardAssociationException e) {
-            e.printStackTrace();
-        } catch (InvalidConnectionException e) {
-            e.printStackTrace();
-        } catch (InvalidViewException e) {
+        catch (IOException | ParseException | WindowCardAssociationException | InvalidViewException | InvalidConnectionException e){
             e.printStackTrace();
         }
     }
