@@ -3,8 +3,8 @@ package it.polimi.se2018.Model;
 public class ToolCard extends Card {
     private boolean used = false;
 
-    public ToolCard(int number, String title, String description) {
-        super(number, title, description);
+    public ToolCard(String title, String description) {
+        super(title, description);
         this.used = used;
 
     }

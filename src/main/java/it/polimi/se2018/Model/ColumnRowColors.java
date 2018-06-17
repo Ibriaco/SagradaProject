@@ -4,8 +4,8 @@ package it.polimi.se2018.Model;
  * @author Gregorio Galletti
  */
 public class ColumnRowColors extends PublicObjective {
-    public ColumnRowColors(int number, String title, String description, int score) {
-        super(number, title, description, score);
+    public ColumnRowColors(String title, String description, int score) {
+        super(title, description, score);
     }
 
     /**

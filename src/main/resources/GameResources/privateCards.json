@@ -1,0 +1,27 @@
+[
+  {
+    "Title":"Red Shades",
+    "Description":"Sum of values on red dice",
+    "Color":"RED"
+  },
+  {
+    "Title":"Yellow Shades",
+    "Description":"Sum of values on yellow dice",
+    "Color":"YELLOW"
+  },
+  {
+    "Title":"Green Shades",
+    "Description":"Sum of values on green dice",
+    "Color":"GREEN"
+  },
+  {
+    "Title":"Blue Shades",
+    "Description":"Sum of values on blue dice",
+    "Color":"BLUE"
+  },
+  {
+    "Title":"Purple Shades",
+    "Description":"Sum of values on purple dice",
+    "Color":"PURPLE"
+  }
+]

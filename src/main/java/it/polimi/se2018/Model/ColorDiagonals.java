@@ -3,8 +3,8 @@ package it.polimi.se2018.Model;
  * @author Gregorio Galletti
  */
 public class ColorDiagonals extends PublicObjective {
-    public ColorDiagonals(int number, String title, String description, int score) {
-        super(number, title, description, score);
+    public ColorDiagonals(String title, String description, int score) {
+        super(title, description, score);
     }
 
     WindowCard temp;

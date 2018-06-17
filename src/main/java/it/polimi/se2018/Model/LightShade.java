@@ -4,8 +4,8 @@ package it.polimi.se2018.Model;
  * @author Marco Gasperini
  */
 public class LightShade extends PublicObjective {
-    public LightShade(int number, String title, String description, int score) {
-        super(number, title, description, score);
+    public LightShade(String title, String description, int score) {
+        super(title, description, score);
     }
 
     /**

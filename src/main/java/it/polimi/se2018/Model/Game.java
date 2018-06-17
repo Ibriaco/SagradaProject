@@ -86,7 +86,7 @@ public class Game implements MyObservable{
         int i = 0;
 
         //lettura da file
-        try (BufferedReader b = new BufferedReader(new FileReader("./src/PublicObjective.txt"))) {
+        try (BufferedReader b = new BufferedReader(new FileReader("./src/main/resources/GameResources/PublicObjective.txt"))) {
             line = b.readLine();
 
             while(line != null) {
@@ -121,25 +121,25 @@ public class Game implements MyObservable{
 
         switch (number){
         case 1:
-            return new LightShade(number, title, desc, scoreInt);
+            return new LightShade(title, desc, scoreInt);
         case 2:
-            return new MediumShade(number, title, desc, scoreInt);
+            return new MediumShade(title, desc, scoreInt);
         case 3:
-            return new DeepShade(number, title, desc, scoreInt);
+            return new DeepShade(title, desc, scoreInt);
         case 4:
-            return new ColorBonus(number, title, desc, scoreInt);
+            return new ColorBonus(title, desc, scoreInt);
         case 5:
-            return new Shade(number, title, desc, scoreInt);
+            return new Shade(title, desc, scoreInt);
         case 6:
-            return new ColumnShade(number, title, desc, scoreInt);
+            return new ColumnShade(title, desc, scoreInt);
         case 7:
-            return new RowShade(number, title, desc, scoreInt);
+            return new RowShade(title, desc, scoreInt);
         case 8:
-            return new RowColor(number, title, desc, scoreInt);
+            return new RowColor(title, desc, scoreInt);
         case 9:
-            return new ColumnShade(number, title, desc, scoreInt);
+            return new ColumnShade(title, desc, scoreInt);
         case 10:
-            return new ColorDiagonals(number, title, desc, scoreInt);
+            return new ColorDiagonals(title, desc, scoreInt);
         default: return null;
         }
     }
@@ -255,9 +255,9 @@ public class Game implements MyObservable{
         this.mvEvent = mvEvent;
     }
 
-    public void dealPrivateCards() throws RemoteException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException {
+    public void dealPrivateCards() throws IOException, InvalidConnectionException, WindowCardAssociationException, InvalidViewException, ParseException {
 
-        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
+        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4)));
 
         int j = 0;
 
@@ -286,9 +286,9 @@ public class Game implements MyObservable{
     private ToolCard drawToolCard(int pos) throws ParseException, IOException{
         JSONParser parser = new JSONParser();
 
-        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/toolCards.json"));
+        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/toolCards.json"));
         JSONObject obj = (JSONObject) cards.get(pos);
-        return new ToolCard(Integer.parseInt((String)obj.get("Number")),(String) obj.get("Title"),(String)obj.get("Description"));
+        return new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
     }
 
         public void dealWindowCards(){
@@ -296,7 +296,7 @@ public class Game implements MyObservable{
         JSONParser parser = new JSONParser();
 
         try{
-            JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/windows.json"));
+            JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/windows.json"));
 
             List<Integer> randomNumbers = new ArrayList<>();
 

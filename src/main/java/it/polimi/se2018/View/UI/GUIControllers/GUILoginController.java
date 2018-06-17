@@ -1,4 +1,4 @@
-package it.polimi.se2018.View.UI.GUIUtils;
+package it.polimi.se2018.View.UI.GUIControllers;
 
 import com.jfoenix.controls.*;
 import it.polimi.se2018.Model.Event.*;
@@ -60,7 +60,7 @@ public class GUILoginController implements ViewInterface{
             try{
             nh.registerObserver(this);
             registerObserver(nh);
-                myEvent = new LoginEvent("x");
+                myEvent = new LoginEvent(userField.getText());
                 notifyObservers();
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -74,7 +74,7 @@ public class GUILoginController implements ViewInterface{
             Scene scene = stage.getScene();
             URL url = null;
             try {
-                url = new File("src/main/java/it/polimi/se2018/View/UI/GUIUtils/waitingLobby.fxml").toURI().toURL();
+                url = new File("src/main/resources/GUIUtils/waitingLobby.fxml").toURI().toURL();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

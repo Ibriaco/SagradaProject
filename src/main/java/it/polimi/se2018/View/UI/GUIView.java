@@ -98,7 +98,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("src/main/java/it/polimi/se2018/View/UI/GUIUtils/loginJFoenix.fxml").toURI().toURL();
+        URL url = new File("src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
 
 

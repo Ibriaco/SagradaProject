@@ -8,7 +8,9 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -69,7 +71,13 @@ public class LobbyController {
             virtualView.getClientTemp().sendMVEvent(logEvent);
             virtualView.stampa();
         }
-        if (checkStartGame())  setupGame();
+        if (checkStartGame()) {
+            try {
+                setupGame();
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -143,7 +151,7 @@ public class LobbyController {
     }
 
     //in setupGame creo evento setupGameEvent
-    public void setupGame() throws InvalidViewException, WindowCardAssociationException, InvalidConnectionException, RemoteException {
+    public void setupGame() throws InvalidViewException, WindowCardAssociationException, InvalidConnectionException, IOException, ParseException {
         game = new Game(virtualView.getClients().size());
         game.registerObserver(virtualView);
         for (String s: virtualView.getClients().keySet()) {

@@ -144,7 +144,7 @@ public class TestPlayer {
     }
 
     @Test
-    public void testDrawCard(){
+    public void testDrawCard() throws IOException, ParseException {
         Player p= null;
         try {
             p = new Player("player", "CLI");
@@ -169,7 +169,7 @@ public class TestPlayer {
     }
 
     @Test
-    public void testWrongDrawCard(){
+    public void testWrongDrawCard() throws IOException, ParseException {
         Player p = null;
         try {
             p = new Player("player", "CLI");

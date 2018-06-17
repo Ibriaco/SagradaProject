@@ -4,8 +4,8 @@ package it.polimi.se2018.Model;
  * @author Marco Gasperini
  */
 public class MediumShade extends PublicObjective {
-    public MediumShade(int number, String title, String description, int score) {
-        super(number, title, description, score);
+    public MediumShade(String title, String description, int score) {
+        super(title, description, score);
     }
 
     /**

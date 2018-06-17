@@ -5,9 +5,13 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,45 +106,19 @@ public class Player implements MyObservable{
      * Method that draws PrivateObjective.
      * @param cardNumber Refers to the identification number of Private Objective Card .
      */
-    public void drawCard(int cardNumber){
+    public void drawCard(int cardNumber) throws IOException, ParseException {
 
-        String line;
-        String x;
-        String t;
-        String d;
-        Color c=null;
+        JSONParser parser = new JSONParser();
 
-        switch (cardNumber){
-            case 1:
-                c = Color.RED; break;
-            case 2:
-                c = Color.YELLOW; break;
-            case 3:
-                c = Color.GREEN; break;
-            case 4:
-                c = Color.BLUE; break;
-            case 5:
-                c = Color.PURPLE; break;
-            default: break;
-        }
+        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/privateCards.json"));
+        JSONObject obj = (JSONObject) cards.get(cardNumber);
 
-        try (BufferedReader b = new BufferedReader(new FileReader("./src/PrivateObjective.txt"))) {
-            line = b.readLine();
-            while(line != null) {
-                x = line;
+        String title = (String) obj.get("Title");
+        String description = (String) obj.get("Description");
+        Color color = Color.returnMatch((String) obj.get("Color"));
 
-                if(x.equals(String.valueOf(cardNumber))) {
-                    t = b.readLine();
-                    d = b.readLine();
-                    privateObjective = new PrivateObjective(Integer.parseInt(x), t, d,0, c);
-                    line = null;
-                }
-                else
-                    line = b.readLine();
-            }
-        }
-        catch (Exception e) {
-        }
+        privateObjective = new PrivateObjective(title, description, 0, color);
+
     }
 
     /**

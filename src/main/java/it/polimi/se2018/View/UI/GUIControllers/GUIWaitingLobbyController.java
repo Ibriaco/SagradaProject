@@ -1,4 +1,4 @@
-package it.polimi.se2018.View.UI.GUIUtils;
+package it.polimi.se2018.View.UI.GUIControllers;
 
 import javafx.fxml.FXML;
 
