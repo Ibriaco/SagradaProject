@@ -1,9 +1,9 @@
 it.polimi.se2018
 it.polimi.se2018.Client
-it.polimi.se2018.View
-it.polimi.se2018.Controller
-it.polimi.se2018.Model
-it.polimi.se2018.Model.Event
-it.polimi.se2018.Network
-it.polimi.se2018.Network.RMI
-it.polimi.se2018.Network.Socket
+it.polimi.se2018.view
+it.polimi.se2018.controller
+it.polimi.se2018.model
+it.polimi.se2018.model.event
+it.polimi.se2018.network
+it.polimi.se2018.network.RMI
+it.polimi.se2018.network.Socket

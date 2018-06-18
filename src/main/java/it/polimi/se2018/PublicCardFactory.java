@@ -1,9 +1,9 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.Model.DeepShade;
-import it.polimi.se2018.Model.LightShade;
-import it.polimi.se2018.Model.MediumShade;
-import it.polimi.se2018.Model.PublicObjective;
+import it.polimi.se2018.model.DeepShade;
+import it.polimi.se2018.model.LightShade;
+import it.polimi.se2018.model.MediumShade;
+import it.polimi.se2018.model.PublicObjective;
 
 public class PublicCardFactory {
 
