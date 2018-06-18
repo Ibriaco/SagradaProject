@@ -27,7 +27,7 @@ public class RowShade extends ColumnRowAbstract {
 
                for (int j=0; j < temp.getCols(); j++){
                    if(temp.getGridCell(i,j).isPlaced()) {
-                       frequency = super.calculateFrequency(temp, frequency, j, i, true);
+                       frequency = super.calculateFrequency(temp, frequency, i, j, true);
                    }
                    else
                        ok = false;

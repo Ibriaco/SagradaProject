@@ -64,6 +64,8 @@ public class ColumnRowAbstract extends PublicObjective{
                 case GREEN:
                     freq[4]++;
                     break;
+                case WHITE:
+                    break;
                 default:
             }
         }

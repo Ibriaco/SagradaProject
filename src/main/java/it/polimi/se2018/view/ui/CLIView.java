@@ -357,7 +357,9 @@ public class CLIView implements ViewInterface {
                  if(selectedW != null) {
                      try {
                          createChooseCardEvent(findInCards(fromThread));
-                     } catch (InvalidConnectionException | IOException | ParseException | InvalidViewException e) {
+                     } catch (InvalidConnectionException | IOException | InvalidViewException e) {
+                         e.printStackTrace();
+                     } catch (ParseException e) {
                          e.printStackTrace();
                      }
                      break;

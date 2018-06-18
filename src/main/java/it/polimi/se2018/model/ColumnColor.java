@@ -26,7 +26,7 @@ public class ColumnColor extends ColumnRowAbstract {
 
             for(int j = 0; j < temp.getRows(); j++) {
                 if (temp.getGridCell(j, i).isPlaced())
-                        frequency = super.calculateFrequency(temp, frequency, j, i, false);
+                        frequency = super.calculateFrequency(temp, frequency, i, j, false);
                 else
                     ok = false;
             }
