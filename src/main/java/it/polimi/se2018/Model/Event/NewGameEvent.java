@@ -13,7 +13,7 @@ public class NewGameEvent implements MVEvent {
 
     public NewGameEvent(List<WindowCard> windowCardList, List<String> username){
      this.windowCardList = windowCardList;
-     user = username;
+     this.user = username;
     }
 
     public List<WindowCard> getWindowCardList() {

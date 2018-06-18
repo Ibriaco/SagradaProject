@@ -6,7 +6,6 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.View.UI.ViewInterface;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PublicCardEvent implements MVEvent {
@@ -30,6 +29,8 @@ public class PublicCardEvent implements MVEvent {
     }
 
     public void printPublicName(){
-        System.out.println(publicName);
+        for (String s: publicName) {
+            System.out.println(s);
+        }
     }
 }

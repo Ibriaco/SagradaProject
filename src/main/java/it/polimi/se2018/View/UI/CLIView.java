@@ -241,13 +241,13 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(NewGameEvent event) {
-        /*Color color;
+        // consoleWriter.println(event.getWindowCardList().size());
+        Color color;
         int value;
         int user=0;
 
         for (WindowCard w: event.getWindowCardList()) {
-            consoleWriter.println(event.getUser().get(user));
-            consoleWriter.println(w.getWindowName() + " " + w.getDifficulty());
+            consoleWriter.println(event.getUser().get(user) + "\t" + w.getWindowName());
             for(int i=0; i<4; i++){
                 for(int j=0; j<5; j++){
                     color = w.getGridCell(i, j).getColor();
@@ -255,9 +255,9 @@ public class CLIView implements ViewInterface {
                     printCell(color, value);
                 }
                 consoleWriter.println("");
-                user++;
-            }
-        }*/
+
+            }user++;
+        }
     }
 
 
@@ -348,21 +348,19 @@ public class CLIView implements ViewInterface {
              timer.scheduleAtFixedRate(timerTask, 0, 1000);//this line starts the timer at the same time its executed
 
              while(true) {
-                 System.out.println("inserisci carta:");
+                 consoleWriter.println("inserisci carta:");
                  Scanner scanner = new Scanner(System.in);
                  String fromThread = null;
-                 //System.out.println(counter);
 
                  fromThread = scanner.nextLine();
 
-                 System.out.println(fromThread);
+                 consoleWriter.println(fromThread);
                  WindowCard selectedW = findInCards(fromThread);
                  if(selectedW != null) {
-                     vcEvent = new ChooseCardEvent(user, findInCards(fromThread));
                      try {
-                         notifyObservers();
-                     } catch (InvalidConnectionException | WindowCardAssociationException | InvalidViewException | IOException | ParseException e1) {
-                         e1.printStackTrace();
+                         createChooseCardEvent(findInCards(fromThread));
+                     } catch (InvalidConnectionException | IOException | ParseException | WindowCardAssociationException | InvalidViewException e) {
+                         e.printStackTrace();
                      }
                      break;
                  }

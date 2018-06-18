@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -150,15 +149,6 @@ public class Game implements MyObservable{
     public int getPlayerNumber() {
 
         return playerNumber;
-    }
-
-    public Player getPlayer (String username) throws InvalidViewException {
-        Player player = new Player(username, "CLI");
-        for (Player p: players) {
-            if (p.getUsername().equals(username))
-                player = p;
-        }
-        return player;
     }
 
     public int getTurn() {

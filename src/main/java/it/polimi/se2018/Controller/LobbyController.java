@@ -4,7 +4,6 @@ import it.polimi.se2018.Message;
 import it.polimi.se2018.Model.Event.LoggedUserEvent;
 import it.polimi.se2018.Model.Event.NewGameEvent;
 import it.polimi.se2018.Model.*;
-import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.Network.server.VirtualView;
 import it.polimi.se2018.View.ViewEvents.ChooseCardEvent;
 import it.polimi.se2018.View.ViewEvents.VCEvent;
@@ -27,10 +26,11 @@ public class LobbyController {
     private Lobby waitingLobby;
     private Game game;
     private static int timer = 10;
-    private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private EventsController eventsController;
     private VirtualView virtualView;
     private static int ready=0;
+    private ArrayList<WindowCard> windowCardList= new ArrayList<>();
+    private ArrayList<String> username = new ArrayList<>();
 
     public LobbyController(EventsController ec, VirtualView virtualView) {
         waitingLobby = new Lobby();
@@ -100,6 +100,7 @@ public class LobbyController {
     public boolean checkOnlinePlayers() {
         return waitingLobby.getOnlinePlayersN() != 2;
     }
+    //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
     /**
      * Checks if the timer's expired
@@ -176,16 +177,11 @@ public class LobbyController {
     }
 
     public void handleWindowCard (ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException, WindowCardAssociationException {
-        ArrayList<WindowCard> windowCardList= new ArrayList<>();
-        ArrayList<String> username = new ArrayList<>();
-        for (Player p : game.getPlayers()) {
-            if (p.getUsername().equals(event.getUsername())) {
-                p.setWindowCard(event.getWindowCard());
-                windowCardList.add(p.getWindowCard());
-                username.add(p.getUsername());
-                setReady();
-            }
-        }
+        game.findPlayer(event.getUsername()).setWindowCard(event.getWindowCard());
+        windowCardList.add(event.getWindowCard());
+        username.add(event.getUsername());
+        setReady();
+
         if (ready == game.getPlayers().size()) {
             NewGameEvent newGameEvent = new NewGameEvent(windowCardList, username);
             eventsController.setMvEvent(newGameEvent);
@@ -194,7 +190,7 @@ public class LobbyController {
         //mandare evento a tutti con tutte le carte settate
     }
 
-    public static void setReady() {
+    private static void setReady() {
         LobbyController.ready++;
     }
 
