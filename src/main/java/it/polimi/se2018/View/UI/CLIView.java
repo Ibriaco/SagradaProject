@@ -382,7 +382,7 @@ public class CLIView implements ViewInterface {
     }
 
     private WindowCard findInCards(String n) {
-        return myCardList.stream().filter(w -> w.getWindowName().equals(n)).findFirst().orElse(null);
+        return myCardList.stream().filter(w -> w.getWindowName().equalsIgnoreCase(n)).findFirst().orElse(null);
     }
 
     private String testL() throws InterruptedException, ExecutionException

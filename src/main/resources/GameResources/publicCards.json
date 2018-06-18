@@ -2,51 +2,51 @@
   {
     "Title":"Light Shades",
     "Description":"Set of 1 & 2 values anywhere",
-    "Score":"2"
+    "Score":2
   },
   {
     "Title":"Medium Shades",
     "Description":"Set of 3 & 4 values anywhere",
-    "Score":"2"
+    "Score":2
   },
   {
     "Title":"Deep Shades",
     "Description":"Set of 5 & 6 values anywhere",
-    "Score":"2"
+    "Score":2
   },
   {
     "Title":"Color Variety",
     "Description":"Sets of one of each color anywhere",
-    "Score":"4"
+    "Score":4
   },
   {
     "Title":"Shade Variety",
     "Description":"Sets of one of each value anywhere",
-    "Score":"5"
+    "Score":5
   },
   {
     "Title":"Column Shade Variety",
     "Description":"Columns with no repeated values",
-    "Score":"4"
+    "Score":4
   },
   {
     "Title":"Row Shade Variety",
     "Description":"Rows with no repeated values",
-    "Score":"5"
+    "Score":5
   },
   {
     "Title":"Row Color Variety",
     "Description":"Rows with no repeated colors",
-    "Score":"6"
+    "Score":6
   },
   {
     "Title":"Column Color Variety",
     "Description":"Columns with no repeated colors",
-    "Score":"5"
+    "Score":5
   },
   {
     "Title":"Color Diagonals",
     "Description":"Count of diagonally adjacent same color dice",
-    "Score":"0"
+    "Score":0
   }
 ]

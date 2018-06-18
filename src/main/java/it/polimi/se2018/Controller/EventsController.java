@@ -160,7 +160,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         System.out.println("Risposte ricevute: " + counter);
         lobbyController.handleWindowCard(event);
         if(counter == game.getPlayerNumber()) {
-           game.setPublicObjectives();
+           game.dealPublicCards();
            game.dealToolCards();
         }
 

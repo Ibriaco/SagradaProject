@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class RowColor extends ColumnRowColors {
+public class RowColor extends ColumnRowAbstract {
     public RowColor(String title, String description, int score) {
         super(title, description, score);
     }

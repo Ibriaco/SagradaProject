@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class ColumnShade extends ColumnRowShades {
+public class ColumnShade extends ColumnRowAbstract {
     public ColumnShade(String title, String description, int score) {
         super(title, description, score);
     }

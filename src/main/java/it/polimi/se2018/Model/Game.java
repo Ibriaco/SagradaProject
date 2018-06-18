@@ -3,6 +3,7 @@ package it.polimi.se2018.Model;
 import it.polimi.se2018.Model.Event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.PublicCardFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -49,13 +50,15 @@ public class Game implements MyObservable{
         rolledDice = new ArrayList<>();
         colorList = new ArrayList<>();
         publicCards = new ArrayList<>();
-        setPublicObjectives();
+        toolCards = new ArrayList<>();
         getAvailableColor();
     }
 
     /**
      *Method that reads from a file 3 PublicObjectives in a random way and returns them.
      */
+
+    /*
     public void setPublicObjectives() {
 
         //creo 3 valori 1-10 random che indicano le 3 PO da creare
@@ -143,7 +146,7 @@ public class Game implements MyObservable{
         default: return null;
         }
     }
-
+*/
     public int getPlayerNumber() {
 
         return playerNumber;
@@ -190,6 +193,7 @@ public class Game implements MyObservable{
     }
 
     public List<ToolCard> getToolCards() {
+
         return toolCards;
     }
 
@@ -270,13 +274,36 @@ public class Game implements MyObservable{
         }
     }
 
+    public void dealPublicCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
+        ArrayList<String> publicCard = new ArrayList<>();
+        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)));
+        for (int i=0; i<3; i++){
+            publicCards.add(drawPublicCard(randomNumbers.get(i)));
+            publicCard.add("[PUBLIC OBJECTIVE]:\tTITLE: " + getPublicCards().get(i).getTitle() + "\tDESCRIPTION: " + getPublicCards().get(i).getDescription() + "\tSCORE: " + getPublicCards().get(i).getScore());
+        }
+        PublicCardEvent publicCardEvent = new PublicCardEvent("ALL", publicCard);
+        setMvEvent(publicCardEvent);
+        notifyObservers();
+    }
+
+    private PublicObjective drawPublicCard(int pos) throws ParseException, IOException{
+        JSONParser parser = new JSONParser();
+
+        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/publicCards.json"));
+        JSONObject obj = (JSONObject) cards.get(pos);
+
+        PublicCardFactory publicCardFactory = new PublicCardFactory();
+
+
+        return publicCardFactory.createCard((String) obj.get("Title"), (String) obj.get("Description"), ((Long)obj.get("Score")).intValue());
+    }
+
     public void dealToolCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
-        toolCards = new ArrayList<>();
         ArrayList<String> toolCard = new ArrayList<>();
-        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0,1, 2, 3, 4, 5,6,7,8,9,10,11)));
+        List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
         for (int i=0; i<3; i++){
             toolCards.add(drawToolCard(randomNumbers.get(i)));
-            toolCard.add("[TOOL CARD]: TITLE: " + getToolCards().get(i).getTitle() + "    DESCRIPTION:" + getToolCards().get(i).getDescription());
+            toolCard.add("[TOOL CARD]:\tTITLE: " + getToolCards().get(i).getTitle() + "\tDESCRIPTION: " + getToolCards().get(i).getDescription());
         }
         ToolCardEvent toolCardEvent = new ToolCardEvent("ALL", toolCard);
         setMvEvent(toolCardEvent);
@@ -291,7 +318,8 @@ public class Game implements MyObservable{
         return new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
     }
 
-        public void dealWindowCards(){
+
+    public void dealWindowCards(){
 
         JSONParser parser = new JSONParser();
 

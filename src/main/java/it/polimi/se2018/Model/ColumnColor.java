@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class ColumnColor extends ColumnRowColors {
+public class ColumnColor extends ColumnRowAbstract {
     public ColumnColor(String title, String description, int score) {
         super(title, description, score);
     }
@@ -26,7 +26,7 @@ public class ColumnColor extends ColumnRowColors {
 
             for(int j = 0; j < temp.getRows(); j++) {
                 if (temp.getGridCell(j, i).isPlaced())
-                        frequency = super.calculateFrequency(temp, frequency, j, i, true);
+                        frequency = super.calculateFrequency(temp, frequency, j, i, false);
                 else
                     ok = false;
             }

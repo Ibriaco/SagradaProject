@@ -6,13 +6,15 @@ import it.polimi.se2018.Model.WindowCardAssociationException;
 import it.polimi.se2018.View.UI.ViewInterface;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PublicCardEvent implements MVEvent {
 
-    private String publicName;
+    private List<String> publicName;
     private String username;
 
-    public PublicCardEvent(String username, String publicName){
+    public PublicCardEvent(String username, List<String> publicName){
         this.username = username;
         this.publicName = publicName;
     }

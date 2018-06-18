@@ -7,12 +7,13 @@ import it.polimi.se2018.View.UI.ViewInterface;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ToolCardEvent implements MVEvent {
     private String username;
-    private ArrayList<String> toolCards;
+    private List<String> toolCards;
 
-    public ToolCardEvent(String username, ArrayList<String> toolCards) {
+    public ToolCardEvent(String username, List<String> toolCards) {
         this.username = username;
         this.toolCards = toolCards;
     }

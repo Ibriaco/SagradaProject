@@ -3,7 +3,7 @@ package it.polimi.se2018.Model;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini 
  */
-public class RowShade extends ColumnRowShades{
+public class RowShade extends ColumnRowAbstract {
     public RowShade(String title, String description, int score) {
         super(title, description, score);
     }
@@ -27,7 +27,7 @@ public class RowShade extends ColumnRowShades{
 
                for (int j=0; j < temp.getCols(); j++){
                    if(temp.getGridCell(i,j).isPlaced()) {
-                       frequency = super.calculateFrequency(temp, frequency, j, i, false);
+                       frequency = super.calculateFrequency(temp, frequency, j, i, true);
                    }
                    else
                        ok = false;
