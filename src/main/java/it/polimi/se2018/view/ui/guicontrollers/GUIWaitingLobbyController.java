@@ -14,10 +14,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GUIWaitingLobbyController implements GUIControllerIF{
 
     private GUIView guiView;
+    private static final Logger LOGGER = Logger.getLogger(GUIWaitingLobbyController.class.getName());
 
     @FXML
     private Pane pane;
@@ -43,7 +46,7 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
         try {
             url = new File("src/main/resources/GUIUtils/windowChoice.fxml").toURI().toURL();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         Parent root = null;
         FXMLLoader loader = null;
@@ -51,7 +54,7 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
             loader = new FXMLLoader(url);
             root = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         guiView.addGUIController(loader.getController());
         guiView.getControllerList().get(2).setEvent(event);

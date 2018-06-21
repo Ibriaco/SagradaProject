@@ -14,12 +14,15 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SocketClient implements ClientInterface{
     private static Socket socket;
     private ListeningThread listeningThread;
     private ObjectOutputStream toServer;
     private NetworkHandler networkHandler;
+    private static final Logger LOGGER = Logger.getLogger(SocketClient.class.getName());
 
     public SocketClient(String serverIP, Integer port, NetworkHandler nh) {
         try {
@@ -27,6 +30,7 @@ public class SocketClient implements ClientInterface{
             socket = new Socket(serverIP, port);
             toServer = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
         listeningThread = new ListeningThread(socket, networkHandler);
@@ -44,7 +48,7 @@ public class SocketClient implements ClientInterface{
         try {
             toServer.writeObject(event);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 

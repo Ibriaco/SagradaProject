@@ -10,6 +10,9 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static it.polimi.se2018.view.ui.CLIUtils.printOnConsole;
 
 /**
@@ -28,6 +31,7 @@ public class LobbyController {
     private static int ready=0;
     private ArrayList<WindowCard> windowCardList= new ArrayList<>();
     private ArrayList<String> username = new ArrayList<>();
+    private static final Logger LOGGER = Logger.getLogger(LobbyController.class.getName());
 
     public LobbyController(EventsController ec, VirtualView virtualView) {
         waitingLobby = new Lobby();
@@ -72,7 +76,7 @@ public class LobbyController {
             try {
                 setupGame();
             } catch (IOException | ParseException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
     }

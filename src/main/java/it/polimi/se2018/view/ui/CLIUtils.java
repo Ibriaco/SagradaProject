@@ -2,6 +2,7 @@ package it.polimi.se2018.view.ui;
 
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public final class CLIUtils {
 

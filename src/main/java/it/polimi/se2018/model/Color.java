@@ -1,7 +1,5 @@
 package it.polimi.se2018.model;
 
-import javafx.scene.paint.Paint;
-
 /**Color class of the Game. This class is an Enumeration class used by cells and dice. Contains all the colors available in the game.
  * @author Ibrahim El Shemy
  */

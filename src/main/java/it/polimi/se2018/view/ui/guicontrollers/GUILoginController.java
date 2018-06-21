@@ -24,6 +24,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static javafx.fxml.FXMLLoader.load;
 
@@ -33,6 +35,7 @@ public class GUILoginController implements GUIControllerIF{
     private VCEvent myEvent;
     private GUIView guiView;
     private Node node;
+    private static final Logger LOGGER = Logger.getLogger( GUILoginController.class.getName() );
     private static final String alertMessage = "Insert a valid connection type and username please.";
 
     @FXML
@@ -86,7 +89,7 @@ public class GUILoginController implements GUIControllerIF{
         try {
             url = new File("src/main/resources/GUIUtils/waitingLobby.fxml").toURI().toURL();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         Parent root = null;
         FXMLLoader loader = null;
@@ -94,7 +97,7 @@ public class GUILoginController implements GUIControllerIF{
             loader = new FXMLLoader(url);
             root = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         guiView.addGUIController(loader.getController());
         stage.setHeight(540);

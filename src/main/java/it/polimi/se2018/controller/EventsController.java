@@ -12,19 +12,20 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EventsController implements ControllerInterface, MyObserver, MyObservable {
 
     private Game game;
-    private boolean control1;
-    private boolean control2;
 
     private LobbyController lobbyController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private int counter = 0;
+    private static final Logger LOGGER = Logger.getLogger(EventsController.class.getName());
 
-    public EventsController(VirtualView virtualView) throws RemoteException{
+    public EventsController(VirtualView virtualView){
         lobbyController = new LobbyController(this, virtualView);
     }
 
@@ -56,7 +57,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     private boolean checkLoginEvent(LoginEvent e) {
-        control1 = this.checkPlayer(e.getUsername());
+        boolean control1 = this.checkPlayer(e.getUsername());
+        boolean control2;
         if (game.getPlayerNumber() < 4) {
             control2 = true;
         } else
@@ -77,13 +79,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
         this.mvEvent = mvEvent;
     }
-
-    public LobbyController getLobbyController(){
-
-        return lobbyController;
-    }
-
-
 
 
     //METODI OBSERVER E OBSERVABLE
@@ -112,7 +107,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, MVEvent arg){
 
     }
 
@@ -131,40 +126,40 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(PlaceDieEvent event) {
-
+        //still needs to be implemented
     }
 
     @Override
     public void handleVCEvent(RollDiceEvent event) {
-
+        //still needs to be implemented
     }
 
     @Override
     public void handleVCEvent(SkipTurnEvent event) {
-
+        //still needs to be implemented
     }
 
     @Override
     public void handleVCEvent(SelectDieEvent event) {
-
+        //still needs to be implemented
     }
 
     @Override
     public void handleVCEvent(UseToolEvent event) {
-
+        //still needs to be implemented
     }
 
     @Override
     public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         counter++;
-        System.out.println("Risposte ricevute: " + counter);
+        LOGGER.log(Level.INFO, "Risposte ricevute: " + counter);
         lobbyController.handleWindowCard(event);
         if(counter == game.getPlayerNumber()) {
            game.dealPublicCards();
            game.dealToolCards();
         }
 
-        System.out.println("sono tornato nel lobbycontroller(windowcard)");
+        LOGGER.log(Level.INFO, "Sono tornato nel lobbycontroller(windowcard)");
     }
 
     public void setGame(Game game) {
