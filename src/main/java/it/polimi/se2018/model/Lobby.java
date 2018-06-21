@@ -15,7 +15,6 @@ import java.util.List;
 public class Lobby implements MyObservable{
 
     private int onlinePlayersN;
-    private ArrayList<Player> playersList;
     private ArrayList<String> onlinePlayers;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
@@ -56,12 +55,12 @@ public class Lobby implements MyObservable{
     }
 
     @Override
-    public void registerObserver(MyObserver observer) throws RemoteException {
+    public void registerObserver(MyObserver observer) {
         observerCollection.add(observer);
     }
 
     @Override
-    public void unregisterObserver(MyObserver observer) throws RemoteException {
+    public void unregisterObserver(MyObserver observer){
         observerCollection.remove(observer);
     }
 

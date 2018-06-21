@@ -15,6 +15,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Gregorio Galletti
@@ -24,6 +26,7 @@ public class SocketConnection extends Thread implements ClientInterface {
     private Socket connectionSocket;
     private VCEvent receivedEvent;
     private VirtualView virtualView;
+    private static final Logger LOGGER = Logger.getLogger( SocketConnection.class.getName() );
 
     public SocketConnection(Socket socket, SocketServer socketServer, VirtualView v){
         connectionSocket = socket;
@@ -34,23 +37,24 @@ public class SocketConnection extends Thread implements ClientInterface {
     @Override
     public void run(){
         System.out.println("Client connesso!");
-        ObjectInputStream fromClient = null;
+        /*ObjectInputStream fromClient = null;
         try {
             fromClient = new ObjectInputStream(connectionSocket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         boolean loop = true;
         while(loop)
         try {
-            receivedEvent = (VCEvent) fromClient.readObject();
+            receivedEvent = (VCEvent) new ObjectInputStream(connectionSocket.getInputStream());
+                    //fromClient.readObject();
             virtualView.addClientToMap(receivedEvent.getUsername(),this);
             System.out.println("Arrivato un evento da " + receivedEvent.getUsername() + ", lo giro alla virtual view.");
             virtualView.receiveEvent(receivedEvent);
             virtualView.addClientToMap(receivedEvent.getUsername(), this);
 
-        } catch (IOException | ClassNotFoundException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException  e) {
-            e.printStackTrace();
+        } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException  e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -68,7 +72,7 @@ public class SocketConnection extends Thread implements ClientInterface {
             ObjectOutputStream toClient = new ObjectOutputStream(this.getConnectionSocket().getOutputStream());
             toClient.writeObject(event);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 

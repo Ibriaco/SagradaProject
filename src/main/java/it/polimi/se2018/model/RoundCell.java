@@ -2,12 +2,16 @@ package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**Class for the Round Cell of the game.
  * @author Ibrahim El Shemy
  */
 public class RoundCell {
     private int value;
     private List<Die> diceList;
+    private static final Logger LOGGER = Logger.getLogger( RoundCell.class.getName() );
 
     public RoundCell(int value) {
         this.value = value;
@@ -47,7 +51,7 @@ public class RoundCell {
             d1.setValue(val);
             d1.setColor(col);
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
 

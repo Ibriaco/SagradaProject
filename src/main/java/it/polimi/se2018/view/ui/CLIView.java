@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static it.polimi.se2018.view.ui.CLIUtils.*;
 
 /**
@@ -31,6 +34,7 @@ public class CLIView implements ViewInterface {
     private String user;
     private ArrayList<MyObserver> observersCollection = new ArrayList<>();
     private List<WindowCard> myCardList;
+    private static final Logger LOGGER = Logger.getLogger( CLIView.class.getName() );
 
     /**
      * Updates a window card
@@ -357,9 +361,9 @@ public class CLIView implements ViewInterface {
                      try {
                          createChooseCardEvent(findInCards(fromThread));
                      } catch (InvalidConnectionException | IOException | InvalidViewException e) {
-                         e.printStackTrace();
+                         LOGGER.log(Level.SEVERE, e.toString(), e);
                      } catch (ParseException e) {
-                         e.printStackTrace();
+                         LOGGER.log(Level.SEVERE, e.toString(), e);
                      }
                      break;
                  }

@@ -8,6 +8,8 @@ import it.polimi.se2018.network.client.NetworkHandler;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Gregorio Galletti
@@ -16,6 +18,7 @@ public class ListeningThread extends Thread{
 
     private Socket socket;
     private NetworkHandler networkHandler;
+    private static final Logger LOGGER = Logger.getLogger( ListeningThread.class.getName() );
 
     public ListeningThread(Socket socket, NetworkHandler networkHandler){
         this.socket = socket;
@@ -26,23 +29,24 @@ public class ListeningThread extends Thread{
     public void run() {
         boolean loop = true;
 
-            ObjectInputStream fromServer = null;
-            try {
+            //ObjectInputStream fromServer = null;
+            /*try {
                 fromServer = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
         while(loop) {
             try {
-                MVEvent receivedEvent = (MVEvent) fromServer.readObject();
+                MVEvent receivedEvent = (MVEvent) new ObjectInputStream(socket.getInputStream());
+                        //fromServer.readObject();
                 networkHandler.receciveMVEvent(receivedEvent);
                 System.out.println("ricevuto evento, " + receivedEvent.getUsername());
-            } catch (IOException | ClassNotFoundException | NullPointerException e) {
+            } catch (IOException | NullPointerException e) {
                 //e.printStackTrace();
                 System.out.println("stream chiuso");
             } catch (InvalidConnectionException | InvalidViewException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
 

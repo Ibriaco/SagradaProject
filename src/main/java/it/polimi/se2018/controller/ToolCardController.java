@@ -10,6 +10,7 @@ public class ToolCardController {
     private ArrayList<ToolCard> toolCards;
 
     public ToolCardController() {
+        //still needs to be implemented
     }
 
     /*public boolean checkValidToolCardUse(UseToolCardEvent e){

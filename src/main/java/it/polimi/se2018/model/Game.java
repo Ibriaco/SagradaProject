@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.se2018.model.Color.*;
 
@@ -41,6 +43,7 @@ public class Game implements MyObservable{
     private List<Color> colorList;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
+    private static final Logger LOGGER = Logger.getLogger( Game.class.getName() );
 
     public Game(int playerNumber) {
 
@@ -53,99 +56,6 @@ public class Game implements MyObservable{
         getAvailableColor();
     }
 
-    /**
-     *Method that reads from a file 3 PublicObjectives in a random way and returns them.
-     */
-
-    /*
-    public void setPublicObjectives() {
-
-        //creo 3 valori 1-10 random che indicano le 3 PO da creare
-        //"cerco" gli indici nel file e per ognuno leggo titolo, descrizione e costo
-        //creo quindi 3 diversi oggetti
-        //li inserisco nell'arraylist
-
-        String line;
-        String x;
-        String t;
-        String d;
-        String c;
-
-        //1) creo i 3 indici random per estrarre le carte dal file
-        int[] index = {0,0,0};
-        Random rnd = new Random();
-
-        index[0] = rnd.nextInt(9)+1;
-
-        do
-            index[1] = rnd.nextInt(9)+1;
-        while (index[1] == index[0]);
-
-        do
-            index[2] = rnd.nextInt(9)+1;
-        while (index[2] == index[1] || index[2] == index[0]);
-
-        int i = 0;
-
-        //lettura da file
-        try (BufferedReader b = new BufferedReader(new FileReader("./src/main/resources/GameResources/PublicObjective.txt"))) {
-            line = b.readLine();
-
-            while(line != null) {
-                x = line;
-                if(x.equals(String.valueOf(index[0])) || x.equals(String.valueOf(index[1])) || x.equals(String.valueOf(index[2]))) {
-                    t = b.readLine();
-                    d = b.readLine();
-                    c = b.readLine();
-                    publicCards.add(selectType(x, t, d, c));
-                    PublicCardEvent publicCardEvent = new PublicCardEvent("ALL" ,publicCards.get(i).toString());
-                    setMvEvent(publicCardEvent);
-                    notifyObservers();
-
-                    i++;
-                    if(i == 3)
-                        line = null;
-                    else
-                        line = b.readLine();
-                }
-                else
-                    line = b.readLine();
-            }
-        }
-        catch (Exception e) {
-
-        }
-    }
-
-    private PublicObjective selectType(String numberStr, String title, String desc, String score) {
-        int scoreInt = Integer.parseInt(score.substring(1));
-        int number = Integer.parseInt(numberStr);
-
-        switch (number){
-        case 1:
-            return new LightShade(title, desc, scoreInt);
-        case 2:
-            return new MediumShade(title, desc, scoreInt);
-        case 3:
-            return new DeepShade(title, desc, scoreInt);
-        case 4:
-            return new ColorBonus(title, desc, scoreInt);
-        case 5:
-            return new Shade(title, desc, scoreInt);
-        case 6:
-            return new ColumnShade(title, desc, scoreInt);
-        case 7:
-            return new RowShade(title, desc, scoreInt);
-        case 8:
-            return new RowColor(title, desc, scoreInt);
-        case 9:
-            return new ColumnShade(title, desc, scoreInt);
-        case 10:
-            return new ColorDiagonals(title, desc, scoreInt);
-        default: return null;
-        }
-    }
-*/
     public int getPlayerNumber() {
 
         return playerNumber;
@@ -337,7 +247,7 @@ public class Game implements MyObservable{
 
         }
         catch (IOException | ParseException | InvalidViewException | InvalidConnectionException e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
