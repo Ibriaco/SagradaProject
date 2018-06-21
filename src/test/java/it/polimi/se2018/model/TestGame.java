@@ -1,9 +1,12 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.MyObserver;
 import org.json.simple.parser.ParseException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.fail;
@@ -15,6 +18,13 @@ import static org.junit.Assert.assertNotEquals;
  * Unit Test Class for Class Game
  */
 public class TestGame {
+    ArrayList<MyObserver> observerCollection;
+    MyObserver observer;
+
+    @Before
+    public void init(){
+        observerCollection = new ArrayList<>();
+    }
 
     @Test
     public void testGameCreation(){
@@ -99,4 +109,60 @@ public class TestGame {
         assertEquals(2,game.getPlayers().size());
     }
 
+    @Test
+    public void testPrivateCards() throws IOException, InvalidConnectionException, ParseException, InvalidViewException {
+
+        Game game = new Game(3);
+
+        try {
+            game.addPlayer(new Player("test1", "CLI"));
+            game.addPlayer(new Player("test2", "CLI"));
+            game.addPlayer(new Player("test3","CLI"));
+        } catch (InvalidViewException e) {
+        }
+        game.dealPrivateCards();
+        assertNotEquals(null, game.getPlayers().get(0).getPrivateObjective());
+        assertNotEquals(null, game.getPlayers().get(1).getPrivateObjective());
+        assertNotEquals(null, game.getPlayers().get(2).getPrivateObjective());
+    }
+
+    @Test
+    public void testToolCards() throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        Game game = new Game(2);
+
+        try {
+            game.addPlayer(new Player("test1", "CLI"));
+            game.addPlayer(new Player("test2", "CLI"));
+        } catch (InvalidViewException e) {
+        }
+        game.dealToolCards();
+        assertNotEquals(null, game.getToolCards().get(0));
+        assertNotEquals(null, game.getToolCards().get(1));
+    }
+
+    @Test
+    public void testWindowCards(){
+        Game game = new Game(2);
+
+        try {
+            game.addPlayer(new Player("test1", "CLI"));
+            game.addPlayer(new Player("test2", "CLI"));
+        } catch (InvalidViewException e) {
+        }
+        game.dealWindowCards();
+        assertNotEquals(null, game.getPlayers().get(0).getWindowCard());
+        assertNotEquals(null, game.getPlayers().get(1).getWindowCard());
+    }
+
+    @Test
+    public void registerObserver(){
+        observerCollection.add(observer);
+        assertEquals(1, observerCollection.size());
+    }
+
+    @Test
+    public void unregisterObserver(){
+        observerCollection.remove(observer);
+        assertEquals(0, observerCollection.size());
+    }
 }
