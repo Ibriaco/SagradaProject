@@ -100,6 +100,21 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void createNH(int choice) throws RemoteException {
+        /*Intentionally left void, not used in this class*/
+    }
+
+    @Override
+    public void setUsername(String u) {
+        /*Intentionally left void, not used in this class*/
+    }
+
+    @Override
+    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+        /*Intentionally left void, not used in this class*/
+    }
+
     /**
      * Shows the user interface
      */

@@ -42,4 +42,11 @@ public class LoggedUserEvent implements MVEvent {
         System.out.println(state);
     }
 
+    public boolean isApproved(){
+        return approved;
+    }
+
+    public String getState() {
+        return state;
+    }
 }

@@ -53,9 +53,7 @@ public class CLIView implements ViewInterface {
         while(!validInput) {
             choice = printConnectionChoice();
             if (choice == 1 || choice == 2) {
-                nh = new NetworkHandler(choice);
-                registerObserver(nh);
-                nh.registerObserver(this);
+                createNH(choice);
                 validInput = true;
                 loginScreen();
             } else
@@ -72,8 +70,8 @@ public class CLIView implements ViewInterface {
      public void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
-        user = consoleScanner.next();
-        createLoginEvent(choice);
+        setUsername(consoleScanner.next());
+        createLoginEvent();
     }
 
 
@@ -119,7 +117,8 @@ public class CLIView implements ViewInterface {
 
 
     //METODI PER CREARE EVENTI VC
-    private void createLoginEvent(int connectionType) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    @Override
+    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         vcEvent = new LoginEvent(user);
         notifyObservers();
     }
@@ -377,6 +376,18 @@ public class CLIView implements ViewInterface {
     @Override
     public void handleMVEvent(ToolCardEvent event) {
         event.printToolCards();
+    }
+
+    @Override
+    public void createNH(int choice) throws RemoteException {
+        nh = new NetworkHandler(choice);
+        registerObserver(nh);
+        nh.registerObserver(this);
+    }
+
+    @Override
+    public void setUsername(String u) {
+        user = u;
     }
 
     private WindowCard findInCards(String n) {

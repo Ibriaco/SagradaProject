@@ -1,24 +1,75 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
+import it.polimi.se2018.model.WindowCard;
+import it.polimi.se2018.model.event.WindowCardEvent;
+import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-public class GUIWaitingLobbyController {
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-    public GUIWaitingLobbyController(){
-        System.out.println("ok");
-    }
+public class GUIWaitingLobbyController implements GUIControllerIF{
 
+    private GUIView guiView;
 
     @FXML
-    public void initialize(){
+    private Pane pane;
 
 
-        /*Media media = new Media("animation.mp4");
-
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
-        mediaView.setMediaPlayer(mediaPlayer);
-        */
+    @Override
+    public void setView(GUIView vi) {
+        guiView = vi;
     }
 
+    @Override
+    public void changeScene() {
+
+    }
+
+    @Override
+    public void changeScene(WindowCardEvent event) {
+        Stage stage = (Stage) pane.getScene().getWindow();
+
+        Scene scene = stage.getScene();
+
+        URL url = null;
+        try {
+            url = new File("src/main/resources/GUIUtils/windowChoice.fxml").toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Parent root = null;
+        FXMLLoader loader = null;
+        try{
+            loader = new FXMLLoader(url);
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        guiView.addGUIController(loader.getController());
+        guiView.getControllerList().get(2).setEvent(event);
+
+        stage.setHeight(624);
+        stage.setWidth(900);
+        stage.centerOnScreen();
+        scene.setRoot(root);
+
+    }
+
+    @Override
+    public void reLogin(String state) {
+        /*Intentionally left void, not used.*/
+    }
+
+    @Override
+    public void setEvent(WindowCardEvent event) {
+
+    }
 }

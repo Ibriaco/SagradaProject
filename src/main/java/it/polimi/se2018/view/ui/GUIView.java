@@ -7,17 +7,24 @@ import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
+import it.polimi.se2018.view.ui.guicontrollers.GUIControllerIF;
+import it.polimi.se2018.view.ui.guicontrollers.GUILoginController;
+import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Graphic user interface
@@ -25,8 +32,11 @@ import java.util.ArrayList;
  */
 public class GUIView extends Application implements ViewInterface {
 
-    private ArrayList<MyObserver> observerCollection;
+    private List<MyObserver> observersCollection;
     private NetworkHandler nh;
+    private List<GUIControllerIF> controllerList;
+    private VCEvent vcEvent;
+    private String user;
 
 
     @Override
@@ -51,7 +61,11 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
-
+        if (event.isApproved())
+            controllerList.get(0).changeScene();
+        else
+            Platform.runLater(()-> controllerList.get(0).reLogin(event.getState()));
+            //controllerList.get(0).reLogin(event.getState());
     }
 
     @Override
@@ -61,10 +75,9 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(WindowCardEvent event) {
-
+        Platform.runLater(()->controllerList.get(1).changeScene(event));
     }
-
-
+    
     @Override
     public void handleMVEvent(NewGameEvent newGameEvent) {
 
@@ -82,25 +95,32 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void registerObserver(MyObserver observer) {
-
+        observersCollection.add(observer);
     }
 
     @Override
     public void unregisterObserver(MyObserver observer) {
-
+        observersCollection.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
-
+    public void notifyObservers() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        for (MyObserver o : observersCollection) {
+            o.update(this, vcEvent);
+        }
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        URL url = new File("./src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
 
+        controllerList = new ArrayList<>();
+        observersCollection = new ArrayList<>();
+
+        addGUIController(loader.getController());
 
         Scene scene = new Scene(root, 580, 380);
 
@@ -112,9 +132,22 @@ public class GUIView extends Application implements ViewInterface {
         primaryStage.show();
     }
 
+    @Override
     public void createNH(int choice) throws RemoteException{
-        //nh = new NetworkHandler(choice);
+        nh = new NetworkHandler(choice);
+        registerObserver(nh);
         nh.registerObserver(this);
+    }
+
+    @Override
+    public void setUsername(String u) {
+        user = u;
+    }
+
+    @Override
+    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+        vcEvent = new LoginEvent(user);
+        notifyObservers();
     }
 
     @Override
@@ -124,7 +157,17 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+        arg.accept(this);
+    }
 
+    public void addGUIController(GUIControllerIF gc){
+
+        gc.setView(this);
+        controllerList.add(gc);
+    }
+
+    public List<GUIControllerIF> getControllerList() {
+        return controllerList;
     }
 
 

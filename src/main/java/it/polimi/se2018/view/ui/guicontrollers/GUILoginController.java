@@ -1,14 +1,11 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
 import com.jfoenix.controls.*;
-import it.polimi.se2018.model.event.*;
+import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
-import it.polimi.se2018.MyObservable;
-import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.network.client.NetworkHandler;
-import it.polimi.se2018.view.ui.ViewInterface;
-import it.polimi.se2018.view.viewevents.LoginEvent;
+import it.polimi.se2018.model.event.WindowCardEvent;
+import it.polimi.se2018.view.ui.GUIView;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,15 +25,18 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class GUILoginController implements ViewInterface{
+import static javafx.fxml.FXMLLoader.load;
+
+public class GUILoginController implements GUIControllerIF{
 
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private VCEvent myEvent;
+    private GUIView guiView;
+    private Node node;
+    private static final String alertMessage = "Insert a valid connection type and username please.";
 
     @FXML
     JFXButton loginBtn;
-    @FXML
-    JFXSpinner spin;
     @FXML
     JFXToggleButton rmiBtn;
     @FXML
@@ -45,51 +45,24 @@ public class GUILoginController implements ViewInterface{
     JFXTextField userField;
 
     @FXML
-    public void handleLogin(MouseEvent event) throws RemoteException{
+    public void handleLogin(MouseEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         int c;
         if((rmiBtn.isSelected() || socketBtn.isSelected()) && !userField.getText().equals("")) {
-            spin.setVisible(true);
-            NetworkHandler nh;
 
             if (rmiBtn.isSelected())
-                nh = new NetworkHandler(1);
+                c = 1;
             else
-                nh = new NetworkHandler(2);
+                c = 2;
 
-            try{
-            nh.registerObserver(this);
-            registerObserver(nh);
-                myEvent = new LoginEvent(userField.getText());
-                notifyObservers();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            guiView.createNH(c);
 
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            stage.centerOnScreen();
-            Scene scene = stage.getScene();
-            URL url = null;
-            try {
-                url = new File("src/main/resources/GUIUtils/waitingLobby.fxml").toURI().toURL();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            Parent root = null;
-            try{root = FXMLLoader.load(url);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setHeight(540);
-            stage.setWidth(960);
-            scene.setRoot(root);
+            guiView.setUsername(userField.getText());
+            guiView.createLoginEvent();
+
+            //node = (Node) event.getSource();
         }
-        else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Insert a valid connection type and username please.");
-            alert.showAndWait()
-                    .filter(response -> response == ButtonType.OK);
-        }
+        else
+            makeAlert(alertMessage);
     }
 
     public void handleToggle(MouseEvent mouseEvent) {
@@ -104,89 +77,64 @@ public class GUILoginController implements ViewInterface{
     }
 
     @Override
-    public void updateWindowCard() {
+    public void changeScene(){
+        Stage stage = (Stage) rmiBtn.getScene().getWindow();
 
-    }
+        Scene scene = stage.getScene();
 
-    @Override
-    public void showUI() throws RemoteException {
-
-    }
-
-    @Override
-    public void receiveEvent(VCEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
-
-    }
-
-    @Override
-    public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException {
-
-    }
-
-    @Override
-    public void handleMVEvent(LoggedUserEvent event) {
-
-    }
-
-    @Override
-    public void handleMVEvent(PrivateCardEvent privateCardEvent) {
-
-    }
-
-    @Override
-    public void handleMVEvent(WindowCardEvent event) {
-
-    }
-
-    @Override
-    public void handleMVEvent(NewGameEvent newGameEvent) {
-
-    }
-
-    @Override
-    public void handleMVEvent(PublicCardEvent publicCardEvent) {
-
-    }
-
-    @Override
-    public void handleMVEvent(ToolCardEvent toolCardEvent) {
-
-    }
-
-    @Override
-    public void registerObserver(MyObserver observer) throws RemoteException {
-        observerCollection.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(MyObserver observer) throws RemoteException {
-
-    }
-
-    @Override
-    public void notifyObservers() throws RemoteException {
-        for (MyObserver o: observerCollection) {
-            try {
-                o.update(this, myEvent);
-            } catch (InvalidConnectionException | IOException | ParseException | InvalidViewException e) {
-                e.printStackTrace();
-            }
+        URL url = null;
+        try {
+            url = new File("src/main/resources/GUIUtils/waitingLobby.fxml").toURI().toURL();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+        Parent root = null;
+        FXMLLoader loader = null;
+        try{
+            loader = new FXMLLoader(url);
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        guiView.addGUIController(loader.getController());
+        stage.setHeight(540);
+        stage.setWidth(960);
+        //stage.centerOnScreen();
+        scene.setRoot(root);
+    }
+
+    @Override
+    public void changeScene(WindowCardEvent event) {
 
     }
 
-    /*@Override
-    public void update(MyObservable o, Object arg) throws RemoteException {
-        System.out.println("Sono la gui: " + arg.toString());
-    }*/
-
-    @Override
-    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
-        System.out.println("Sono la gui " + arg.toString());
+    @FXML
+    public void reLogin(String message){
+        resetScreen();
+        makeAlert(message);
     }
 
     @Override
-    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void setEvent(WindowCardEvent event) {
 
+    }
+
+    @Override
+    public void setView(GUIView vi) {
+        guiView = vi;
+    }
+
+    private void resetScreen(){
+        loginBtn.setDisableVisualFocus(true);
+        rmiBtn.setSelected(false);
+        socketBtn.setSelected(false);
+        userField.setText("");
+    }
+
+    private void makeAlert(String content){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(content);
+        alert.showAndWait()
+                .filter(response -> response == ButtonType.OK);
     }
 }

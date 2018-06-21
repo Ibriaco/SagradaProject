@@ -63,7 +63,6 @@
                      <font>
                         <Font name="Montserrat Regular" size="12.0" />
                      </font></JFXTextField>
-                  <JFXSpinner fx:id="spin" layoutX="275.0" layoutY="134.0" visible="false" />
                   <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="268.0" layoutY="88.0" onMouseClicked="#handleLogin" prefHeight="27.0" prefWidth="64.0" ripplerFill="#ffea00" text="LOGIN" textFill="WHITE" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="268.0" AnchorPane.topAnchor="88.0">
                      <font>
                         <Font name="Montserrat Regular" size="11.0" />

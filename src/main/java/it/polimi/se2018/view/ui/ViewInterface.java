@@ -38,6 +38,12 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void handleMVEvent(ToolCardEvent toolCardEvent);
 
+    void createNH(int choice) throws RemoteException;
+
+    void setUsername(String u);
+
+    void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
+
 
 
     /*
