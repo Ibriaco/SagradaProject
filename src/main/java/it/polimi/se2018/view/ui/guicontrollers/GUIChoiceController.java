@@ -1,15 +1,20 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
+import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+
+import java.io.IOException;
 
 
 public class GUIChoiceController implements GUIControllerIF {
@@ -130,4 +135,19 @@ public class GUIChoiceController implements GUIControllerIF {
     public void reLogin(String state) {
 
     }
+
+    @FXML
+    public void handleSelection(MouseEvent mouseEvent) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException {
+        GridPane selectedGrid = (GridPane) mouseEvent.getSource();
+        if(selectedGrid.equals(gridNW))
+            guiView.createChooseCardEvent(guiView.findInCards(titleNW.getText()));
+        else if (selectedGrid.equals(gridNE))
+            guiView.createChooseCardEvent(guiView.findInCards(titleNE.getText()));
+        else if (selectedGrid.equals(gridSW))
+            guiView.createChooseCardEvent(guiView.findInCards(titleSW.getText()));
+        else if (selectedGrid.equals(gridSE))
+            guiView.createChooseCardEvent(guiView.findInCards(titleSE.getText()));
+
+    }
+
 }

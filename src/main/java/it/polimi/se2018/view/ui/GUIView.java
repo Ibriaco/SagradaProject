@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.ui;
 
 
+import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -9,6 +10,7 @@ import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.ui.guicontrollers.GUIControllerIF;
 import it.polimi.se2018.view.ui.guicontrollers.GUILoginController;
+import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.application.Application;
@@ -37,7 +39,7 @@ public class GUIView extends Application implements ViewInterface {
     private List<GUIControllerIF> controllerList;
     private VCEvent vcEvent;
     private String user;
-
+    private List<WindowCard> myCardList;
 
     @Override
     public void updateWindowCard() {
@@ -75,6 +77,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(WindowCardEvent event) {
+        myCardList = event.getWindowCards();
         Platform.runLater(()->controllerList.get(1).changeScene(event));
     }
     
@@ -150,6 +153,12 @@ public class GUIView extends Application implements ViewInterface {
         notifyObservers();
     }
 
+
+    public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+        vcEvent = new ChooseCardEvent(user, windowCard);
+        notifyObservers();
+    }
+
     @Override
     public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
@@ -170,7 +179,9 @@ public class GUIView extends Application implements ViewInterface {
         return controllerList;
     }
 
-
+    public WindowCard findInCards(String n) {
+        return myCardList.stream().filter(w -> w.getWindowName().equalsIgnoreCase(n)).findFirst().orElse(null);
+    }
 /*
     public void showTimer(int timer){
 
