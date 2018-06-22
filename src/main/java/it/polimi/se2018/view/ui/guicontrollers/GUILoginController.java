@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.model.event.PrivateCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -107,7 +108,7 @@ public class GUILoginController implements GUIControllerIF{
     }
 
     @Override
-    public void changeScene(WindowCardEvent event) {
+    public void changeScene(PrivateCardEvent event) {
 
     }
 
@@ -119,6 +120,11 @@ public class GUILoginController implements GUIControllerIF{
 
     @Override
     public void setEvent(WindowCardEvent event) {
+
+    }
+
+    @Override
+    public void setEvent(PrivateCardEvent event) {
 
     }
 

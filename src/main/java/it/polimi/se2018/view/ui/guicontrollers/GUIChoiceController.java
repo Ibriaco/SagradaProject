@@ -4,26 +4,31 @@ import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.Color;
+import it.polimi.se2018.model.event.PrivateCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
+import java.io.File;
 import java.io.IOException;
 
 
 public class GUIChoiceController implements GUIControllerIF {
 
-    private static final double R_HEIGHT = 50;
-    private static final double R_WIDTH = 50;
+    private static final double R_HEIGHT = 37.5;
+    private static final double R_WIDTH = 40;
 
     private GUIView guiView;
-    private WindowCardEvent event;
+    private WindowCardEvent windowCardEvent;
+    private PrivateCardEvent privateCardEvent;
 
     @FXML
     private Label titleNW;
@@ -49,15 +54,28 @@ public class GUIChoiceController implements GUIControllerIF {
     private GridPane gridSW;
     @FXML
     private GridPane gridSE;
+    @FXML
+    private ImageView privateImage;
 
     private int index = 0;
 
     public void setEvent(WindowCardEvent event){
-        this.event = event;
+        this.windowCardEvent = event;
         for (WindowCard w : event.getWindowCards()){
             showCard(w, index);
             index++;
         }
+    }
+
+    public void setEvent(PrivateCardEvent event){
+        this.privateCardEvent = event;
+        placeCard(privateCardEvent.getPrivateName());
+    }
+
+    private void placeCard(String privateName) {
+        privateImage.setImage(new Image(new File("./src/main/resources/GUIUtils/privates/" + privateName + ".png").toURI().toString()));
+        //privateImage.setImage(new Image(new File("./src/main/resources/GUIUtils/background.png").toURI().toString()));
+
     }
 
     private void showCard(WindowCard windowCard, int index) {
@@ -127,7 +145,7 @@ public class GUIChoiceController implements GUIControllerIF {
     }
 
     @Override
-    public void changeScene(WindowCardEvent event) {
+    public void changeScene(PrivateCardEvent event) {
 
     }
 

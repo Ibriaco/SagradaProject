@@ -105,6 +105,7 @@ public class Player implements MyObservable{
         JSONObject obj = (JSONObject) cards.get(cardNumber);
 
         String title = (String) obj.get("Title");
+        System.out.println(title);
         String description = (String) obj.get("Description");
         Color color = Color.returnMatch((String) obj.get("Color"));
 

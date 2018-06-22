@@ -141,7 +141,7 @@ public class TestGame {
     }
 
     @Test
-    public void testWindowCards(){
+    public void testWindowCards() throws ParseException {
         Game game = new Game(2);
 
         try {

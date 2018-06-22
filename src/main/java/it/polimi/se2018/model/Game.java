@@ -167,7 +167,7 @@ public class Game implements MyObservable{
 
         for (Player p: players) {
             p.drawCard(randomNumbers.get(j));
-            PrivateCardEvent privateCardEvent = new PrivateCardEvent(p.getUsername(),p.getPrivateObjective().toString());
+            PrivateCardEvent privateCardEvent = new PrivateCardEvent(p.getUsername(),p.getPrivateObjective().getTitle());
             setMvEvent(privateCardEvent);
             notifyObservers();
             j++;
@@ -219,7 +219,7 @@ public class Game implements MyObservable{
     }
 
 
-    public void dealWindowCards(){
+    public void dealWindowCards() throws ParseException{
 
         JSONParser parser = new JSONParser();
 
@@ -246,7 +246,7 @@ public class Game implements MyObservable{
             }
 
         }
-        catch (IOException | ParseException | InvalidViewException | InvalidConnectionException e){
+        catch (IOException | InvalidViewException | InvalidConnectionException e){
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }

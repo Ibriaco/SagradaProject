@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
 import it.polimi.se2018.model.WindowCard;
+import it.polimi.se2018.model.event.PrivateCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import javax.swing.table.TableRowSorter;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,14 +39,14 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
     }
 
     @Override
-    public void changeScene(WindowCardEvent event) {
+    public void changeScene(PrivateCardEvent event) {
         Stage stage = (Stage) pane.getScene().getWindow();
 
         Scene scene = stage.getScene();
 
         URL url = null;
         try {
-            url = new File("src/main/resources/GUIUtils/windowChoice.fxml").toURI().toURL();
+            url = new File("src/main/resources/GUIUtils/windowChoice2.fxml").toURI().toURL();
         } catch (MalformedURLException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
@@ -59,8 +61,8 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
         guiView.addGUIController(loader.getController());
         guiView.getControllerList().get(2).setEvent(event);
 
-        stage.setHeight(624);
-        stage.setWidth(900);
+        stage.setHeight(600);
+        stage.setWidth(1000);
         stage.centerOnScreen();
         scene.setRoot(root);
 
@@ -73,6 +75,11 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
 
     @Override
     public void setEvent(WindowCardEvent event) {
+
+    }
+
+    @Override
+    public void setEvent(PrivateCardEvent event) {
 
     }
 }

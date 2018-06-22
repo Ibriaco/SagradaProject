@@ -22,6 +22,10 @@ public class PrivateCardEvent implements MVEvent {
         return username;
     }
 
+    public String getPrivateName() {
+        return privateName;
+    }
+
     public void printPrivateName(){
 
         System.out.println(privateName);

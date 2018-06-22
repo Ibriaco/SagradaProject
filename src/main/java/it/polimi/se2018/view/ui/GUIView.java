@@ -40,6 +40,7 @@ public class GUIView extends Application implements ViewInterface {
     private VCEvent vcEvent;
     private String user;
     private List<WindowCard> myCardList;
+    private boolean something = false;
 
     @Override
     public void updateWindowCard() {
@@ -72,13 +73,13 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(PrivateCardEvent privateCardEvent) {
-
+        Platform.runLater(()->controllerList.get(1).changeScene(privateCardEvent));
     }
 
     @Override
     public void handleMVEvent(WindowCardEvent event) {
         myCardList = event.getWindowCards();
-        Platform.runLater(()->controllerList.get(1).changeScene(event));
+        Platform.runLater(()->controllerList.get(2).setEvent(event));
     }
     
     @Override
@@ -182,6 +183,7 @@ public class GUIView extends Application implements ViewInterface {
     public WindowCard findInCards(String n) {
         return myCardList.stream().filter(w -> w.getWindowName().equalsIgnoreCase(n)).findFirst().orElse(null);
     }
+
 /*
     public void showTimer(int timer){
 
