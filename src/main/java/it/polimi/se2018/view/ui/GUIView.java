@@ -9,7 +9,6 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.ui.guicontrollers.GUIControllerIF;
-import it.polimi.se2018.view.ui.guicontrollers.GUILoginController;
 import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -34,17 +33,17 @@ import java.util.List;
  */
 public class GUIView extends Application implements ViewInterface {
 
+    private static final String SAGRADA_TITLE = "Welcome to Sagrada Game";
     private List<MyObserver> observersCollection;
     private NetworkHandler nh;
     private List<GUIControllerIF> controllerList;
     private VCEvent vcEvent;
     private String user;
     private List<WindowCard> myCardList;
-    private boolean something = false;
 
     @Override
     public void updateWindowCard() {
-
+        /* Intentionally left void (for now)*/
     }
 
     @Override
@@ -54,12 +53,12 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void receiveEvent(VCEvent event) {
-
+        /*Intentionally left void, used only in VirtualView and GUIView*/
     }
 
     @Override
     public void loginScreen() {
-
+        /* Intentionally left void (for now)*/
     }
 
     @Override
@@ -68,7 +67,6 @@ public class GUIView extends Application implements ViewInterface {
             controllerList.get(0).changeScene();
         else
             Platform.runLater(()-> controllerList.get(0).reLogin(event.getState()));
-            //controllerList.get(0).reLogin(event.getState());
     }
 
     @Override
@@ -114,7 +112,6 @@ public class GUIView extends Application implements ViewInterface {
         }
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL url = new File("./src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
@@ -130,7 +127,7 @@ public class GUIView extends Application implements ViewInterface {
 
         primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
-        primaryStage.setTitle("Welcome to Sagrada Game");
+        primaryStage.setTitle(SAGRADA_TITLE);
         primaryStage.setScene(scene);
 
         primaryStage.show();

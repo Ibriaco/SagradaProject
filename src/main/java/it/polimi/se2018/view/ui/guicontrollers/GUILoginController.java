@@ -13,8 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
@@ -23,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,9 +32,8 @@ public class GUILoginController implements GUIControllerIF{
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private VCEvent myEvent;
     private GUIView guiView;
-    private Node node;
     private static final Logger LOGGER = Logger.getLogger( GUILoginController.class.getName() );
-    private static final String alertMessage = "Insert a valid connection type and username please.";
+    private static final String ALERT_MESSAGE = "Insert a valid connection type and username please.";
 
     @FXML
     JFXButton loginBtn;
@@ -49,7 +45,7 @@ public class GUILoginController implements GUIControllerIF{
     JFXTextField userField;
 
     @FXML
-    public void handleLogin(MouseEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void handleLogin() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         int c;
         if((rmiBtn.isSelected() || socketBtn.isSelected()) && !userField.getText().equals("")) {
 
@@ -59,14 +55,11 @@ public class GUILoginController implements GUIControllerIF{
                 c = 2;
 
             guiView.createNH(c);
-
             guiView.setUsername(userField.getText());
             guiView.createLoginEvent();
-
-            //node = (Node) event.getSource();
         }
         else
-            makeAlert(alertMessage);
+            GUIControllerUtils.makeAlertError(ALERT_MESSAGE);
     }
 
     public void handleToggle(MouseEvent mouseEvent) {
@@ -103,29 +96,28 @@ public class GUILoginController implements GUIControllerIF{
         guiView.addGUIController(loader.getController());
         stage.setHeight(540);
         stage.setWidth(960);
-        //stage.centerOnScreen();
         scene.setRoot(root);
     }
 
     @Override
     public void changeScene(PrivateCardEvent event) {
-
+        /*Not used in this class*/
     }
 
     @FXML
     public void reLogin(String message){
         resetScreen();
-        makeAlert(message);
+        GUIControllerUtils.makeAlertError(message);
     }
 
     @Override
     public void setEvent(WindowCardEvent event) {
-
+        /*Not used in this class*/
     }
 
     @Override
     public void setEvent(PrivateCardEvent event) {
-
+        /*Not used in this class*/
     }
 
     @Override
@@ -138,12 +130,5 @@ public class GUILoginController implements GUIControllerIF{
         rmiBtn.setSelected(false);
         socketBtn.setSelected(false);
         userField.setText("");
-    }
-
-    private void makeAlert(String content){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(content);
-        alert.showAndWait()
-                .filter(response -> response == ButtonType.OK);
     }
 }

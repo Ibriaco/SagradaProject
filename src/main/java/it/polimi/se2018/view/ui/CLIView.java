@@ -26,8 +26,6 @@ import static it.polimi.se2018.view.ui.CLIUtils.*;
  */
 public class CLIView implements ViewInterface {
 
-    static int counter = 0;
-
     private NetworkHandler nh;
     private VCEvent vcEvent;
     private int choice;
@@ -81,7 +79,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void receiveEvent(VCEvent event) {
-
+        /*Intentionally left void, used only in VirtualView*/
     }
 
     private int printConnectionChoice() {
@@ -109,8 +107,8 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void update(MyObservable o, VCEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
-
+    public void update(MyObservable o, VCEvent arg){
+        /*Intentionally left void, used only in VirtualView*/
     }
 
     @Override
@@ -198,73 +196,34 @@ public class CLIView implements ViewInterface {
                 consoleWriter.println("");
             }
         }
-
-
         launchThread();
-
-        //ReaderThread r = new ReaderThread();
-        //r.go();
-
-        /*
-        try {
-            System.out.println(testL());
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        */
-        /*BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
-        //Scanner scanner = new Scanner(System.in);
-        String scelta = null;
-        try {
-            scelta = scanner.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(scelta);
-
-        /*consoleWriter.println("INSERT THE NAME OF WINDOW CARD YOU WANT CHOOSE");
-        while (!correctName) {
-            windowName = consoleScanner.nextLine();
-            for (WindowCard w: event.getWindowCards()) {
-                if (w.getWindowName().equals(windowName)) {
-                    correctName = true;
-                    createChooseCardEvent(w);
-                }
-            }
-            consoleWriter.println("NOT-EXISTENT WINDOW CARD");
-        }
-*/
     }
 
 
     @Override
     public void handleMVEvent(NewGameEvent event) {
-        // consoleWriter.println(event.getWindowCardList().size());
         Color color;
         int value;
-        int user=0;
+        int userN = 0;
 
         for (WindowCard w: event.getWindowCardList()) {
-            consoleWriter.println(event.getUser().get(user) + "\t" + w.getWindowName());
-            for(int i=0; i<4; i++){
-                for(int j=0; j<5; j++){
+            consoleWriter.println(event.getUser().get(userN) + "\t" + w.getWindowName());
+            for(int i = 0; i < w.getRows(); i++){
+                for(int j = 0; j < w.getCols(); j++){
                     color = w.getGridCell(i, j).getColor();
                     value = w.getGridCell(i, j).getShade();
                     printCell(color, value);
                 }
                 consoleWriter.println("");
 
-            }user++;
+            }userN++;
         }
     }
 
 
     private void printCell(Color color, int value){
         String toPrint;
-        String ok;
+
         if (value == 0) {
             toPrint = "\u25FC";
             if(color == null) {
@@ -315,43 +274,19 @@ public class CLIView implements ViewInterface {
                 case 6:
                     consoleWriter.print("\u2685");
                     break;
+                default:
+                        break;
             }
         }
     }
 
     private void launchThread() {
          new Thread(() -> {
-/*
-             final int[] t = {10};
-             new Thread(() ->{
-                 for (; t[0] >= 0 ; t[0]--) {
-                     try {
-                         Thread.sleep(1000);
-                         //System.out.println(t[0]);
-                     } catch (InterruptedException e) {
-                         e.printStackTrace();
-                     }
-                 }
-
-             }).start();
-
-*/
-             TimerTask timerTask = new TimerTask() {
-
-                 @Override
-                 public void run() {
-                     //System.out.println("TimerTask executing counter is: " + counter);
-                     counter++;//increments the counter
-                 }
-             };
-
-             Timer timer = new Timer("MyTimer");//create a new Timer
-             timer.scheduleAtFixedRate(timerTask, 0, 1000);//this line starts the timer at the same time its executed
 
              while(true) {
                  consoleWriter.println("inserisci carta:");
                  Scanner scanner = new Scanner(System.in);
-                 String fromThread = null;
+                 String fromThread;
 
                  fromThread = scanner.nextLine();
 
@@ -360,9 +295,7 @@ public class CLIView implements ViewInterface {
                  if(selectedW != null) {
                      try {
                          createChooseCardEvent(findInCards(fromThread));
-                     } catch (InvalidConnectionException | IOException | InvalidViewException e) {
-                         LOGGER.log(Level.SEVERE, e.toString(), e);
-                     } catch (ParseException e) {
+                     } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
                          LOGGER.log(Level.SEVERE, e.toString(), e);
                      }
                      break;
