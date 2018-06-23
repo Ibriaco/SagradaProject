@@ -4,6 +4,7 @@ import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public class Lobby implements MyObservable{
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException {
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }

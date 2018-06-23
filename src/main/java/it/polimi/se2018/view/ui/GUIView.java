@@ -81,7 +81,7 @@ public class GUIView extends Application implements ViewInterface {
     }
     
     @Override
-    public void handleMVEvent(NewGameEvent newGameEvent) {
+    public void handleMVEvent(UpdateGameEvent updateGameEvent) {
 
     }
 
@@ -151,6 +151,11 @@ public class GUIView extends Application implements ViewInterface {
         notifyObservers();
     }
 
+    @Override
+    public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+
+    }
+
 
     public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         vcEvent = new ChooseCardEvent(user, windowCard);
@@ -163,7 +168,7 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
-    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         arg.accept(this);
     }
 

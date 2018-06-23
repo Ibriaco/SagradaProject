@@ -32,7 +32,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException;
 
-    void handleMVEvent(NewGameEvent newGameEvent);
+    void handleMVEvent(UpdateGameEvent updateGameEvent);
 
     void handleMVEvent(PublicCardEvent publicCardEvent);
 
@@ -43,6 +43,8 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void setUsername(String u);
 
     void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
+
+    void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
 
 
 

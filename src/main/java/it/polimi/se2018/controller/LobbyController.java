@@ -1,8 +1,9 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.model.event.IsTurnEvent;
 import it.polimi.se2018.model.event.LoggedUserEvent;
-import it.polimi.se2018.model.event.NewGameEvent;
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -28,8 +29,6 @@ public class LobbyController {
     private static int timer = 10;
     private EventsController eventsController;
     private VirtualView virtualView;
-    private static int ready=0;
-    private ArrayList<WindowCard> windowCardList= new ArrayList<>();
     private ArrayList<String> username = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(LobbyController.class.getName());
 
@@ -40,12 +39,18 @@ public class LobbyController {
         eventsController = ec;
     }
 
+
+    public ArrayList<String> getUsername() {
+        return username;
+    }
+
+
     /**
      * Handles the login event
      * @param event notified by the Virtual view
      * @throws RemoteException thrown exception
      */
-    public void handleLogin(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void handleLogin(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         String username = event.getUsername();
         LoggedUserEvent logEvent;
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
@@ -178,20 +183,29 @@ public class LobbyController {
 
     public void handleWindowCard (ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         game.findPlayer(event.getUsername()).setWindowCard(event.getWindowCard());
-        windowCardList.add(event.getWindowCard());
+        game.getWindowCardList().add(event.getWindowCard());
         username.add(event.getUsername());
-        setReady();
+        /*setReady();
 
         if (ready == game.getPlayers().size()) {
-            NewGameEvent newGameEvent = new NewGameEvent(windowCardList, username);
+            UpdateGameEvent newGameEvent = new UpdateGameEvent(windowCardList, username);
             eventsController.setMvEvent(newGameEvent);
             eventsController.notifyObservers();
-        }
-        //mandare evento a tutti con tutte le carte settate
+        }*/
     }
 
-    private static void setReady() {
-        LobbyController.ready++;
+    public void newGame() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+        for (int i=0; i<username.size()*2+1; i++) {
+            game.getRolledDice().add(new Die(game.getColorList()));
+        }
+        UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(),username,game.getRolledDice());
+        eventsController.setMvEvent(updateGameEvent);
+        eventsController.notifyObservers();
+        IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername());
+        eventsController.setMvEvent(isTurnEvent);
+        eventsController.notifyObservers();
     }
+
+
 
 }

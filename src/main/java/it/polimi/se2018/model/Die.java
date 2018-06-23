@@ -1,12 +1,13 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
 /**Die class of the game. Contains methods to handle colors and values of dice.
  * @author Ibrahim El Shemy
  */
-public class Die {
+public class Die implements Serializable{
     private Color color;
     private int value;
 

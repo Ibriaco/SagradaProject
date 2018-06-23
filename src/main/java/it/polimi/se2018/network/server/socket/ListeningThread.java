@@ -4,6 +4,7 @@ import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.network.client.NetworkHandler;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,7 +46,7 @@ public class ListeningThread extends Thread{
             } catch (IOException | NullPointerException e) {
                 //e.printStackTrace();
                 System.out.println("stream chiuso");
-            } catch (InvalidConnectionException | InvalidViewException e) {
+            } catch (InvalidConnectionException | InvalidViewException | ParseException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }

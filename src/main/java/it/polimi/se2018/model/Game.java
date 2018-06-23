@@ -35,6 +35,7 @@ public class Game implements MyObservable{
     private int purpleAmount = 18;
     private int blueAmount = 18;
     private boolean init = true;
+    private ArrayList<WindowCard> windowCardList= new ArrayList<>();
     private List<PublicObjective> publicCards;
     private List<ToolCard> toolCards;
     private List<Player> players;
@@ -70,6 +71,11 @@ public class Game implements MyObservable{
 
         return round;
     }
+
+    public ArrayList<WindowCard> getWindowCardList() {
+        return windowCardList;
+    }
+
 
 
     public List<PublicObjective> getPublicCards() {
@@ -309,6 +315,15 @@ public class Game implements MyObservable{
 
     }
 
+    public void updateWindowCardList(){
+        int i=0;
+        for (WindowCard w: windowCardList) {
+            for (Player p: players) {
+                if (w.getWindowName().equals(p.getWindowCard().getWindowName()))
+                    windowCardList.set(i,p.getWindowCard());
+            }i++;
+        }
+    }
     @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
         observerCollection.add(observer);
@@ -320,7 +335,7 @@ public class Game implements MyObservable{
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }

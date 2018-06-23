@@ -1,6 +1,9 @@
 package it.polimi.se2018;
 
 
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_BLUE;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_RESET;
+
 /**
  * Hello world!
  *

@@ -19,7 +19,7 @@ public class TestCell {
 
     @Test
     public void testPlacedCell(){
-        Cell c = new Cell(Color.BLUE,3);
+        Cell c = new Cell(Color.WHITE,3);
         Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
         try {

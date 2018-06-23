@@ -51,7 +51,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
         return consoleScanner.next();
     }
 
-    public void receciveMVEvent(MVEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void receciveMVEvent(MVEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         mvEvent = event;
         notifyObservers();
     }
@@ -75,7 +75,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }

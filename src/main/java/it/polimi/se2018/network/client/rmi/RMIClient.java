@@ -56,7 +56,7 @@ public class RMIClient implements RMIClientInterface {
      * @throws RemoteException thrown exception
      * @throws InvalidViewException thrown exception
      */
-    public void sendMVEvent (MVEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void sendMVEvent (MVEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         networkHandler.receciveMVEvent(event);
     }
 

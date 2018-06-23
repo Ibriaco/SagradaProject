@@ -86,7 +86,7 @@ public class VirtualView implements ViewInterface {
     }
 
     @Override
-    public void handleMVEvent(NewGameEvent newGameEvent) {
+    public void handleMVEvent(UpdateGameEvent updateGameEvent) {
 
     }
 
@@ -113,6 +113,11 @@ public class VirtualView implements ViewInterface {
     @Override
     public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         /*Intentionally left void, not used in this class*/
+    }
+
+    @Override
+    public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+
     }
 
     /**
@@ -160,7 +165,7 @@ public class VirtualView implements ViewInterface {
     //inoltro l'evento a tutti i client
     //alrimenti solo al client corrispondente allo username
     @Override
-    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         if (arg.getUsername().equals("ALL")) {
             for (String user : clients.keySet()) {
                 clients.get(user).sendMVEvent(arg);

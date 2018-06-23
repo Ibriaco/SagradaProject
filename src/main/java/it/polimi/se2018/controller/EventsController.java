@@ -5,6 +5,7 @@ import it.polimi.se2018.model.event.GameUpdateEvent;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.viewevents.*;
 import org.json.simple.parser.ParseException;
@@ -94,7 +95,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void notifyObservers() throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }
@@ -113,20 +114,26 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     //METODI PER GENERARE EVENTI MV
 
-    public void createGameUpdateEvent () throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void createGameUpdateEvent () throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         mvEvent = new GameUpdateEvent("ALL");
         notifyObservers();
     }
 
     //HANDLE VCEVENT
     @Override
-    public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         lobbyController.handleLogin(event);
     }
 
     @Override
-    public void handleVCEvent(PlaceDieEvent event) {
-        //still needs to be implemented
+    public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()),event.getCoordY(),event.getCoordX(),false, false);
+        game.updateWindowCardList();
+        System.out.println(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(0,0).isPlaced());
+        game.getRolledDice().remove(event.getPos());
+        //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
+        mvEvent = new UpdateGameEvent(game.getWindowCardList(),lobbyController.getUsername(),game.getRolledDice());
+        notifyObservers();
     }
 
     @Override
@@ -157,8 +164,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         if(counter == game.getPlayerNumber()) {
            game.dealPublicCards();
            game.dealToolCards();
+           lobbyController.newGame();
         }
-
         LOGGER.log(Level.INFO, "Sono tornato nel lobbycontroller(windowcard)");
     }
 

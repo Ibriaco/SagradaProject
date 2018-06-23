@@ -2,6 +2,7 @@ package it.polimi.se2018.view.ui;
 
 
 import it.polimi.se2018.model.*;
+import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
@@ -10,9 +11,11 @@ import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
 
+import java.awt.*;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,7 +115,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
+    public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
 
         arg.accept(this);
     }
@@ -126,9 +129,12 @@ public class CLIView implements ViewInterface {
     }
 
     public void createPlaceDieEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
-        int pos = getNumber();
-        int coordX = getNumber();
-        int coordY = getNumber();
+        consoleWriter.println("insert the number of Die");
+        int pos = getNumber()-1;
+        consoleWriter.println("insert the number of column in which you want place the Die");
+        int coordX = getNumber()-1;
+        consoleWriter.println("insert the number of row in which you want place the Die");
+        int coordY = getNumber()-1;
         vcEvent = new PlaceDieEvent(user, pos, coordX, coordY);
         notifyObservers();
     }
@@ -180,8 +186,6 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
         Color color;
         int value;
-        String windowName = "";
-        boolean correctName = false;
         consoleWriter.println("[WINDOW CARD]\n");
         myCardList = event.getWindowCards();
 
@@ -201,7 +205,7 @@ public class CLIView implements ViewInterface {
 
 
     @Override
-    public void handleMVEvent(NewGameEvent event) {
+    public void handleMVEvent(UpdateGameEvent event) {
         Color color;
         int value;
         int userN = 0;
@@ -210,13 +214,82 @@ public class CLIView implements ViewInterface {
             consoleWriter.println(event.getUser().get(userN) + "\t" + w.getWindowName());
             for(int i = 0; i < w.getRows(); i++){
                 for(int j = 0; j < w.getCols(); j++){
-                    color = w.getGridCell(i, j).getColor();
-                    value = w.getGridCell(i, j).getShade();
-                    printCell(color, value);
+                    if (w.getGridCell(i,j).isPlaced()) {
+                        System.out.println("sono in is placed");
+                        printDie(w.getGridCell(i, j).getPlacedDie());
+                    }
+                    else {
+                        color = w.getGridCell(i, j).getColor();
+                        value = w.getGridCell(i, j).getShade();
+                        printCell(color, value);
+                    }
                 }
                 consoleWriter.println("");
 
-            }userN++;
+            }
+            userN++;
+            consoleWriter.println("\n");
+
+        }
+        int i=1;
+        for (Die d: event.getDice()) {
+            System.out.print(i + ")  ");
+            printDie(d);
+            System.out.print("\t");
+            i++;
+        }
+    }
+
+
+    @Override
+    public void handleMVEvent(IsTurnEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        menuGame();
+    }
+
+    private void printDie(Die d){
+        Color color = d.getColor();
+         int value = d.getValue();
+         String number = "";
+         switch(value){
+            case 1:
+                number = "\u2680";
+                break;
+            case 2:
+                number = "\u2681";
+                break;
+            case 3:
+                number = "\u2682";
+                break;
+            case 4:
+                number = "\u2683";
+                break;
+            case 5:
+                number = "\u2684";
+                break;
+            case 6:
+                number = "\u2685";
+                break;
+            default:
+                break;
+         }
+        switch (color) {
+            case BLUE:
+                System.out.print(ANSI_BLUE + number + ANSI_RESET);
+                break;
+            case RED:
+                System.out.print(ANSI_RED + number + ANSI_RESET);
+                break;
+            case GREEN:
+                System.out.print(ANSI_GREEN + number + ANSI_RESET);
+                break;
+            case YELLOW:
+                System.out.print(ANSI_YELLOW + number + ANSI_RESET);
+                break;
+            case PURPLE:
+                System.out.print(ANSI_PURPLE + number + ANSI_RESET);
+                break;
+            default:
+                break;
         }
     }
 
@@ -275,7 +348,7 @@ public class CLIView implements ViewInterface {
                     consoleWriter.print("\u2685");
                     break;
                 default:
-                        break;
+                    break;
             }
         }
     }
@@ -344,6 +417,27 @@ public class CLIView implements ViewInterface {
         executor.shutdown();
         return future.get();
     }
+
+    private void menuGame() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+         boolean turn = true;
+         int choose;
+        System.out.println("");
+         while (turn){
+             System.out.println("CHOOSE YOUR MOVE\n1- Place Die\n2- Use Toolcard\n3- Skip turn");
+             choose = consoleScanner.nextInt();
+             switch (choose) {
+                 case 1:createPlaceDieEvent();
+                     turn = false;
+                     break;
+                 case 2: createUseToolEvent();//devo gestirlo lato server
+                     turn = false;
+                     break;
+                 case 3:turn = false;
+                     break;
+                 default:
+                     break;
+             }
+         }
+         createSkipTurnEvent();//devo gestirlo lato server
+    }
 }
-
-

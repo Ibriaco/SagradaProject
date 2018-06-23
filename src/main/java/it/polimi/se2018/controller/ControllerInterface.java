@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public interface ControllerInterface {
-    void handleVCEvent(LoginEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException;
-    void handleVCEvent(PlaceDieEvent event);
+    void handleVCEvent(LoginEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
+    void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
     void handleVCEvent(RollDiceEvent event);
     void handleVCEvent(SkipTurnEvent event);
     void handleVCEvent(SelectDieEvent event);
