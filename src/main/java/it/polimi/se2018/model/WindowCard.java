@@ -152,7 +152,7 @@ public class WindowCard implements Serializable{
     public void placeDie(Die d, int row, int col, Boolean color, Boolean shade){
 
         if(checkLegalPlacement(d,row,col,color,shade))
-            getGridCell(row,col).placeDie(d);
+            getGridCell(row, col).placeDie(d);
     }
 
     /**

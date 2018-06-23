@@ -127,9 +127,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()),event.getCoordY(),event.getCoordX(),false, false);
+        game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()),event.getCoordY(),event.getCoordX(),true, true);
         game.updateWindowCardList();
-        System.out.println(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(0,0).isPlaced());
         game.getRolledDice().remove(event.getPos());
         //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
         mvEvent = new UpdateGameEvent(game.getWindowCardList(),lobbyController.getUsername(),game.getRolledDice());
