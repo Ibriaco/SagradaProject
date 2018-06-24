@@ -166,10 +166,14 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         }
         //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
          else {
-            if (!reverse)
+            if (!reverse&&playerIndex!=game.getPlayerNumber()-1)
                 mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername());
-            else
+            else if (!reverse&&playerIndex==game.getPlayerNumber()-1)
+                mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername());
+            else if(reverse&&playerIndex!=0)
                 mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername());
+            else
+                mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername());
             game.nextTurn();
         }
         notifyObservers();

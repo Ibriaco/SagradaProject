@@ -86,7 +86,7 @@ public class CLIView implements ViewInterface {
         printOnConsole("Select the Connection type you want to use:");
         printOnConsole("1) " + rmi);
         printOnConsole("2) " + socket);
-        return consoleScanner.nextLine();
+        return consoleScanner.next();
     }
 
     @Override
