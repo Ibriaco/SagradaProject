@@ -4,8 +4,12 @@ import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.event.PrivateCardEvent;
+import it.polimi.se2018.model.event.PublicCardEvent;
+import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
+import it.polimi.se2018.view.viewevents.ChooseCardEvent;
+import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -28,6 +32,9 @@ public class GUIChoiceController implements GUIControllerIF {
     private GUIView guiView;
     private WindowCardEvent windowCardEvent;
     private PrivateCardEvent privateCardEvent;
+    private PublicCardEvent publicCardEvent;
+    private ToolCardEvent toolCardEvent;
+
 
     @FXML
     private Label titleNW;
@@ -69,6 +76,17 @@ public class GUIChoiceController implements GUIControllerIF {
     public void setEvent(PrivateCardEvent event){
         this.privateCardEvent = event;
         placeCard(privateCardEvent.getPrivateName());
+    }
+
+    @Override
+    public void setEvent(PublicCardEvent publicCardEvent) {
+        this.publicCardEvent = publicCardEvent;
+    }
+
+    @Override
+    public void setEvent(ToolCardEvent toolCardEvent) {
+        this.toolCardEvent = toolCardEvent;
+        changeScene();
     }
 
     private void placeCard(String privateName) {
@@ -132,6 +150,8 @@ public class GUIChoiceController implements GUIControllerIF {
     @Override
     public void changeScene() {
         //load the game screen
+        System.out.println("CIAOOOOOOOOOOOOOO INIZIA IL GAMEEEEEEEEEEE");
+        //pass the private and the tool event to the new controller
     }
 
     @Override
@@ -158,9 +178,11 @@ public class GUIChoiceController implements GUIControllerIF {
 
         makeUnClickable();
         GUIControllerUtils.makeAlertInfo(SELECTION_MESSAGE);
+        //guiView.createChooseCardEvent(guiView.findInCards(selectedGridTitle));
         //changeScene();
 
     }
+
 
     private void makeUnClickable() {
         gridNW.setDisable(true);

@@ -9,6 +9,7 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.ui.guicontrollers.GUIControllerIF;
+import it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils;
 import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -34,6 +35,7 @@ import java.util.List;
 public class GUIView extends Application implements ViewInterface {
 
     private static final String SAGRADA_TITLE = "Welcome to Sagrada Game";
+    private static final String NOTIFY_TURN = "It's up to you. You have 60 seconds to do your move.";
     private List<MyObserver> observersCollection;
     private NetworkHandler nh;
     private List<GUIControllerIF> controllerList;
@@ -87,12 +89,12 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(PublicCardEvent publicCardEvent) {
-
+        Platform.runLater(()->controllerList.get(2).setEvent(publicCardEvent));
     }
 
     @Override
     public void handleMVEvent(ToolCardEvent toolCardEvent) {
-
+        Platform.runLater(()->controllerList.get(2).setEvent(toolCardEvent));
     }
 
     @Override
@@ -153,7 +155,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-
+        Platform.runLater(()->GUIControllerUtils.makeAlertInfo(NOTIFY_TURN));
     }
 
 
@@ -173,7 +175,6 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     public void addGUIController(GUIControllerIF gc){
-
         gc.setView(this);
         controllerList.add(gc);
     }

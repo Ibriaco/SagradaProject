@@ -2,6 +2,8 @@ package it.polimi.se2018.view.ui.guicontrollers;
 
 import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.event.PrivateCardEvent;
+import it.polimi.se2018.model.event.PublicCardEvent;
+import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
@@ -64,6 +66,8 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.centerOnScreen();
+        //stage.minHeightProperty().bind(stage.widthProperty().multiply(0.5));
+        //stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.5));
         scene.setRoot(root);
 
     }
@@ -80,6 +84,16 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
 
     @Override
     public void setEvent(PrivateCardEvent event) {
+
+    }
+
+    @Override
+    public void setEvent(PublicCardEvent publicCardEvent) {
+
+    }
+
+    @Override
+    public void setEvent(ToolCardEvent toolCardEvent) {
 
     }
 }
