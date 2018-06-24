@@ -2,6 +2,7 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.GameUpdateEvent;
+import it.polimi.se2018.model.event.IsTurnEvent;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 public class EventsController implements ControllerInterface, MyObserver, MyObservable {
 
     private Game game;
-
+    private boolean reverse = false;
     private LobbyController lobbyController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
@@ -141,8 +142,37 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void handleVCEvent(SkipTurnEvent event) {
-        //still needs to be implemented
+    public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        int playerIndex = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+        // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
+        if (game.getTurn() == game.getPlayerNumber()*2){
+            reverse = false;
+            if (game.getRound() == game.getPlayerNumber())
+                game.setFirstPlayer(game.getPlayers().get(0));
+            else {
+                int index = game.getPlayers().indexOf(game.getFirstPlayer());
+                index++;
+                game.setFirstPlayer(game.getPlayers().get(index));
+            }
+            //gestire lancio nuovi dadi e settare player che inizia (first player in game che ho gia ottenuto qua sopra
+            game.nextTurn();
+            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername());
+        }
+        //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
+        else if (game.getTurn()%game.getPlayerNumber()==0  && !reverse){
+            mvEvent = new IsTurnEvent(event.getUsername());
+            reverse = true;
+            game.nextTurn();
+        }
+        //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
+         else {
+            if (!reverse)
+                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername());
+            else
+                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername());
+            game.nextTurn();
+        }
+        notifyObservers();
     }
 
     @Override

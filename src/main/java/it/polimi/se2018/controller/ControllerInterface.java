@@ -12,7 +12,7 @@ public interface ControllerInterface {
     void handleVCEvent(LoginEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
     void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
     void handleVCEvent(RollDiceEvent event);
-    void handleVCEvent(SkipTurnEvent event);
+    void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
     void handleVCEvent(SelectDieEvent event);
     void handleVCEvent(UseToolEvent event);
     void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;

@@ -425,13 +425,15 @@ public class CLIView implements ViewInterface {
              if (choose.equals("1") || choose.equals("2") || choose.equals("3"))
              switch (choose) {
                  case "1" :createPlaceDieEvent();
+                     createSkipTurnEvent();
                      turn = false;
                      break;
                  case "2":
                      createUseToolEvent();//devo gestirlo lato server
                      turn = false;
                      break;
-                 case "3":turn = false;
+                 case "3":createSkipTurnEvent();
+                     turn = false;
                      break;
                  default:
                      break;
@@ -439,7 +441,7 @@ public class CLIView implements ViewInterface {
              else
                  System.out.println("Invalid choice, try again!");
          }
-         createSkipTurnEvent();//devo gestirlo lato server
+
     }
 
 

@@ -35,6 +35,7 @@ public class Game implements MyObservable{
     private int purpleAmount = 18;
     private int blueAmount = 18;
     private boolean init = true;
+    private Player firstPlayer; //attriubuto che indica il palyer che inizai il round. NON IL TURNO.
     private ArrayList<WindowCard> windowCardList= new ArrayList<>();
     private List<PublicObjective> publicCards;
     private List<ToolCard> toolCards;
@@ -103,6 +104,14 @@ public class Game implements MyObservable{
         return toolCards;
     }
 
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
+
     public void setPlayerNumber(int playerNumber) {
 
         this.playerNumber = playerNumber;
@@ -145,13 +154,17 @@ public class Game implements MyObservable{
     }
 
     public void nextRound(){
-
         round++;
     }
 
     public void nextTurn(){
-
-        turn++;
+        System.out.println(turn);
+        if (turn == 2*playerNumber){
+            turn = 1;
+            nextRound();
+        }
+        else
+            turn++;
     }
 
     public void addPlayer(Player p){

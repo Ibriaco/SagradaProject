@@ -104,7 +104,7 @@ public class LobbyController {
      * @return true if the players are less than 4, else, false is returned
      */
     public boolean checkOnlinePlayers() {
-        return waitingLobby.getOnlinePlayersN() != 2;
+        return waitingLobby.getOnlinePlayersN() != 4;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
@@ -164,6 +164,7 @@ public class LobbyController {
         for (String s: virtualView.getClients().keySet()) {
             game.getPlayers().add(new Player(s, "CLI"));
         }
+        game.setPlayerNumber(game.getPlayers().size());
         game.dealPrivateCards();
         game.dealWindowCards();
         eventsController.setGame(game);
@@ -201,6 +202,7 @@ public class LobbyController {
         UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(),username,game.getRolledDice());
         eventsController.setMvEvent(updateGameEvent);
         eventsController.notifyObservers();
+        game.setFirstPlayer(game.getPlayers().get(0));
         IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername());
         eventsController.setMvEvent(isTurnEvent);
         eventsController.notifyObservers();
