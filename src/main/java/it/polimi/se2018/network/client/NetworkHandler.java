@@ -29,11 +29,11 @@ public class NetworkHandler implements MyObserver, MyObservable {
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
 
-    public NetworkHandler(int value) throws RemoteException {
-        if(value == 1){
+    public NetworkHandler(String value) throws RemoteException {
+        if(value.equals("1")){
             selectedClient = new RMIClient(this);
         }
-        else if(value == 2){
+        else if(value.equals("2")){
             int port = requestPort();
             String ip = requestIP();
             selectedClient = new SocketClient(ip, port, this);

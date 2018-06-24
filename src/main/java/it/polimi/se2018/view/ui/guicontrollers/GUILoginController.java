@@ -48,13 +48,13 @@ public class GUILoginController implements GUIControllerIF{
 
     @FXML
     public void handleLogin() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
-        int c;
+        String c;
         if((rmiBtn.isSelected() || socketBtn.isSelected()) && !userField.getText().equals("")) {
 
             if (rmiBtn.isSelected())
-                c = 1;
+                c = "1";
             else
-                c = 2;
+                c = "2";
 
             guiView.createNH(c);
             guiView.setUsername(userField.getText());

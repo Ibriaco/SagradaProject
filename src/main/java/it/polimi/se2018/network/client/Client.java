@@ -20,18 +20,18 @@ public class Client {
     public static void main(String[] args) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
 
         printSplashArt();
-        int choice = 0;
+        String choice = null;
 
         boolean validInput = false;
         while(!validInput){
             choice = printChoice();
-            if(choice == 1 || choice == 2)
+            if(choice.equals("1") || choice.equals("2"))
                 validInput = true;
             else
                 consoleErrorWriter.println("Invalid input, please try again!");
         }
 
-        if(choice == 1){
+        if(choice.equals("1")){
             vi = new CLIView();
             vi.showUI();
         }
@@ -42,12 +42,12 @@ public class Client {
 
     }
 
-    private static int printChoice() {
+    private static String printChoice() {
 
         System.out.println("Select the ui:");
         System.out.println("1) CLI");
         System.out.println("2) GUI");
-        return consoleScanner.nextInt();
+        return consoleScanner.next();
     }
 
 

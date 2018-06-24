@@ -24,7 +24,7 @@ public class TestWindowCard {
 
         //creo una windowcard con questi specifici valori
         w = new WindowCard();
-        w.setCell(new Cell(Color.RED,3),0,0);
+        w.setCell(new Cell(Color.BLUE,0),0,0);
         w.setCell(new Cell(Color.RED,2),0 ,1);
         w.setCell(new Cell(Color.GREEN,3),0,2);
         w.setCell(new Cell(Color.RED,4),0,3);

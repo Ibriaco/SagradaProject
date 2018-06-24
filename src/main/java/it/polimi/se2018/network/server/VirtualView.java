@@ -101,7 +101,7 @@ public class VirtualView implements ViewInterface {
     }
 
     @Override
-    public void createNH(int choice) throws RemoteException {
+    public void createNH(String choice) throws RemoteException {
         /*Intentionally left void, not used in this class*/
     }
 

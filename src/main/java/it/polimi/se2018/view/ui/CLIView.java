@@ -10,8 +10,6 @@ import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
-
-import java.awt.*;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -31,7 +29,6 @@ public class CLIView implements ViewInterface {
 
     private NetworkHandler nh;
     private VCEvent vcEvent;
-    private int choice;
     private String user;
     private ArrayList<MyObserver> observersCollection = new ArrayList<>();
     private List<WindowCard> myCardList;
@@ -53,11 +50,11 @@ public class CLIView implements ViewInterface {
      */
     @Override
     public void showUI() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
-
+        String choice;
         boolean validInput = false;
         while(!validInput) {
             choice = printConnectionChoice();
-            if (choice == 1 || choice == 2) {
+            if (choice.equals("1") || choice.equals("2")) {
                 createNH(choice);
                 validInput = true;
                 loginScreen();
@@ -85,11 +82,11 @@ public class CLIView implements ViewInterface {
         /*Intentionally left void, used only in VirtualView*/
     }
 
-    private int printConnectionChoice() {
+    private String printConnectionChoice() {
         printOnConsole("Select the Connection type you want to use:");
         printOnConsole("1) " + rmi);
         printOnConsole("2) " + socket);
-        return consoleScanner.nextInt();
+        return consoleScanner.nextLine();
     }
 
     @Override
@@ -215,7 +212,7 @@ public class CLIView implements ViewInterface {
             for(int i = 0; i < w.getRows(); i++){
                 for(int j = 0; j < w.getCols(); j++){
                     if (w.getGridCell(i,j).isPlaced()) {
-                        System.out.println("sono in is placed");
+                        //System.out.println("sono in is placed");
                         printDie(w.getGridCell(i, j).getPlacedDie());
                     }
                     else {
@@ -247,7 +244,7 @@ public class CLIView implements ViewInterface {
     }
 
     private void printDie(Die d){
-        Color color = d.getColor();
+         Color color = d.getColor();
          int value = d.getValue();
          String number = "";
          switch(value){
@@ -305,22 +302,22 @@ public class CLIView implements ViewInterface {
             else{
                 switch (color) {
                     case BLUE:
-                        consoleWriter.print(ANSI_BLUE + toPrint + ANSI_RESET);
+                        System.out.print(ANSI_BLUE + toPrint + ANSI_RESET);
                         break;
                     case RED:
-                        consoleWriter.print(ANSI_RED + toPrint + ANSI_RESET);
+                        System.out.print(ANSI_RED + toPrint + ANSI_RESET);
                         break;
                     case GREEN:
-                        consoleWriter.print(ANSI_GREEN + toPrint + ANSI_RESET);
+                        System.out.print(ANSI_GREEN + toPrint + ANSI_RESET);
                         break;
                     case YELLOW:
-                        consoleWriter.print(ANSI_YELLOW + toPrint + ANSI_RESET);
+                        System.out.print(ANSI_YELLOW + toPrint + ANSI_RESET);
                         break;
                     case PURPLE:
-                        consoleWriter.print(ANSI_PURPLE + toPrint + ANSI_RESET);
+                        System.out.print(ANSI_PURPLE + toPrint + ANSI_RESET);
                         break;
                     case WHITE:
-                        consoleWriter.print(ANSI_WHITE + toPrint + ANSI_RESET);
+                        System.out.print(ANSI_WHITE + toPrint + ANSI_RESET);
                         break;
                     default:
                         break;
@@ -330,22 +327,22 @@ public class CLIView implements ViewInterface {
 
             switch(value){
                 case 1:
-                    consoleWriter.print("\u2680");
+                    System.out.print("\u2680");
                     break;
                 case 2:
-                    consoleWriter.print("\u2681");
+                    System.out.print("\u2681");
                     break;
                 case 3:
-                    consoleWriter.print("\u2682");
+                    System.out.print("\u2682");
                     break;
                 case 4:
-                    consoleWriter.print("\u2683");
+                    System.out.print("\u2683");
                     break;
                 case 5:
-                    consoleWriter.print("\u2684");
+                    System.out.print("\u2684");
                     break;
                 case 6:
-                    consoleWriter.print("\u2685");
+                    System.out.print("\u2685");
                     break;
                 default:
                     break;
@@ -389,7 +386,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void createNH(int choice) throws RemoteException {
+    public void createNH(String choice) throws RemoteException {
         nh = new NetworkHandler(choice);
         registerObserver(nh);
         nh.registerObserver(this);
@@ -420,24 +417,30 @@ public class CLIView implements ViewInterface {
 
     private void menuGame() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
          boolean turn = true;
-         int choose;
-        System.out.println("");
+         String choose;
+         System.out.println("");
          while (turn){
              System.out.println("CHOOSE YOUR MOVE\n1- Place Die\n2- Use Toolcard\n3- Skip turn");
-             choose = consoleScanner.nextInt();
+             choose = consoleScanner.next();
+             if (choose.equals("1") || choose.equals("2") || choose.equals("3"))
              switch (choose) {
-                 case 1:createPlaceDieEvent();
+                 case "1" :createPlaceDieEvent();
                      turn = false;
                      break;
-                 case 2: createUseToolEvent();//devo gestirlo lato server
+                 case "2":
+                     createUseToolEvent();//devo gestirlo lato server
                      turn = false;
                      break;
-                 case 3:turn = false;
+                 case "3":turn = false;
                      break;
                  default:
                      break;
              }
+             else
+                 System.out.println("Invalid choice, try again!");
          }
          createSkipTurnEvent();//devo gestirlo lato server
     }
+
+
 }

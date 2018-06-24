@@ -136,7 +136,7 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
-    public void createNH(int choice) throws RemoteException{
+    public void createNH(String choice) throws RemoteException{
         nh = new NetworkHandler(choice);
         registerObserver(nh);
         nh.registerObserver(this);
