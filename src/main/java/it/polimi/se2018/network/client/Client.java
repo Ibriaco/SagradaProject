@@ -43,18 +43,18 @@ public class Client {
     }
 
     private static String printChoice() {
-
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Select the ui:");
         System.out.println("1) CLI");
         System.out.println("2) GUI");
-        return consoleScanner.next();
+        return scanner.nextLine();
     }
 
 
     private static String loginScreen(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Inserire username:");
-        return scanner.next();
+        return scanner.nextLine();
 
     }
 

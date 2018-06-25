@@ -10,7 +10,10 @@ import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
@@ -82,11 +85,13 @@ public class CLIView implements ViewInterface {
         /*Intentionally left void, used only in VirtualView*/
     }
 
-    private String printConnectionChoice() {
+    private String printConnectionChoice() throws IOException {
+         Scanner scanner = new Scanner(System.in);
         printOnConsole("Select the Connection type you want to use:");
         printOnConsole("1) " + rmi);
         printOnConsole("2) " + socket);
-        return consoleScanner.next();
+        return scanner.nextLine();
+        //return consoleScanner.nextLine();
     }
 
     @Override
