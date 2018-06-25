@@ -8,8 +8,7 @@ import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
-import it.polimi.se2018.view.ui.guicontrollers.GUIControllerIF;
-import it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils;
+import it.polimi.se2018.view.ui.guicontrollers.*;
 import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -43,6 +42,11 @@ public class GUIView extends Application implements ViewInterface {
     private String user;
     private List<WindowCard> myCardList;
 
+
+    private GUILoginController guiLoginController;
+    private GUIWaitingLobbyController guiWaitingLobbyController;
+    private GUIChoiceController guiChoiceController;
+
     @Override
     public void updateWindowCard() {
         /* Intentionally left void (for now)*/
@@ -66,20 +70,20 @@ public class GUIView extends Application implements ViewInterface {
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
         if (event.isApproved())
-            controllerList.get(0).changeScene();
+            guiLoginController.changeScene();
         else
-            Platform.runLater(()-> controllerList.get(0).reLogin(event.getState()));
+            Platform.runLater(()-> guiLoginController.reLogin(event.getState()));
     }
 
     @Override
     public void handleMVEvent(PrivateCardEvent privateCardEvent) {
-        Platform.runLater(()->controllerList.get(1).changeScene(privateCardEvent));
+        Platform.runLater(()->guiWaitingLobbyController.changeScene(privateCardEvent));
     }
 
     @Override
     public void handleMVEvent(WindowCardEvent event) {
         myCardList = event.getWindowCards();
-        Platform.runLater(()->controllerList.get(2).setEvent(event));
+        Platform.runLater(()->guiChoiceController.setEvent(event));
     }
     
     @Override
@@ -89,12 +93,12 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(PublicCardEvent publicCardEvent) {
-        Platform.runLater(()->controllerList.get(2).setEvent(publicCardEvent));
+        Platform.runLater(()->guiChoiceController.setEvent(publicCardEvent));
     }
 
     @Override
     public void handleMVEvent(ToolCardEvent toolCardEvent) {
-        Platform.runLater(()->controllerList.get(2).setEvent(toolCardEvent));
+        Platform.runLater(()->guiChoiceController.setEvent(toolCardEvent));
     }
 
     @Override
@@ -120,10 +124,9 @@ public class GUIView extends Application implements ViewInterface {
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
 
-        controllerList = new ArrayList<>();
         observersCollection = new ArrayList<>();
 
-        addGUIController(loader.getController());
+        setGuiLoginController(loader.getController());
 
         Scene scene = new Scene(root, 580, 380);
 
@@ -174,20 +177,39 @@ public class GUIView extends Application implements ViewInterface {
         arg.accept(this);
     }
 
-    public void addGUIController(GUIControllerIF gc){
-        gc.setView(this);
-        controllerList.add(gc);
-    }
-
-    public List<GUIControllerIF> getControllerList() {
-        return controllerList;
-    }
-
     public WindowCard findInCards(String n) {
         return myCardList.stream().filter(w -> w.getWindowName().equalsIgnoreCase(n)).findFirst().orElse(null);
     }
 
-/*
+
+    public void setGuiLoginController(GUILoginController guiLoginController) {
+        this.guiLoginController = guiLoginController;
+        this.guiLoginController.setView(this);
+    }
+
+    public void setGuiWaitingLobbyController(GUIWaitingLobbyController guiWaitingLobbyController) {
+        this.guiWaitingLobbyController = guiWaitingLobbyController;
+        this.guiWaitingLobbyController.setView(this);
+    }
+
+    public void setGuiChoiceController(GUIChoiceController guiChoiceController) {
+        this.guiChoiceController = guiChoiceController;
+        this.guiChoiceController.setView(this);
+    }
+
+    public GUILoginController getGuiLoginController() {
+        return guiLoginController;
+    }
+
+    public GUIWaitingLobbyController getGuiWaitingLobbyController() {
+        return guiWaitingLobbyController;
+    }
+
+    public GUIChoiceController getGuiChoiceController() {
+        return guiChoiceController;
+    }
+
+    /*
     public void showTimer(int timer){
 
     }

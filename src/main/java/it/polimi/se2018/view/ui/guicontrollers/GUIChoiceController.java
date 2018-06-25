@@ -8,9 +8,8 @@ import it.polimi.se2018.model.event.PublicCardEvent;
 import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
-import it.polimi.se2018.view.viewevents.ChooseCardEvent;
-import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,11 +29,8 @@ public class GUIChoiceController implements GUIControllerIF {
     private static final String SELECTION_MESSAGE = "You selected the Window Card. Waiting for the other players. \nGood Luck!";
 
     private GUIView guiView;
-    private WindowCardEvent windowCardEvent;
-    private PrivateCardEvent privateCardEvent;
     private PublicCardEvent publicCardEvent;
     private ToolCardEvent toolCardEvent;
-
 
     @FXML
     private Label titleNW;
@@ -66,7 +62,6 @@ public class GUIChoiceController implements GUIControllerIF {
     private int index = 0;
 
     public void setEvent(WindowCardEvent event){
-        this.windowCardEvent = event;
         for (WindowCard w : event.getWindowCards()){
             showCard(w, index);
             index++;
@@ -74,16 +69,13 @@ public class GUIChoiceController implements GUIControllerIF {
     }
 
     public void setEvent(PrivateCardEvent event){
-        this.privateCardEvent = event;
-        placeCard(privateCardEvent.getPrivateName());
+        placeCard(event.getPrivateName());
     }
 
-    @Override
     public void setEvent(PublicCardEvent publicCardEvent) {
         this.publicCardEvent = publicCardEvent;
     }
 
-    @Override
     public void setEvent(ToolCardEvent toolCardEvent) {
         this.toolCardEvent = toolCardEvent;
         changeScene();
@@ -96,7 +88,7 @@ public class GUIChoiceController implements GUIControllerIF {
     private void showCard(WindowCard windowCard, int index) {
         for (int i = 0; i < windowCard.getRows(); i++) {
             for (int j = 0; j < windowCard.getCols(); j++) {
-                putInGrid(index, createRect(windowCard, i, j), j, i);
+                putInGrid(index, createCell(windowCard, i, j), j, i);
                 putNameAndDiff(windowCard);
             }
         }
@@ -121,25 +113,35 @@ public class GUIChoiceController implements GUIControllerIF {
         }
     }
 
-    private void putInGrid(int index, Rectangle rect, int j, int i) {
+    private void putInGrid(int index, Node node, int j, int i) {
         if(index == 0)
-            gridNW.add(rect, j, i);
+            gridNW.add(node, j, i);
         else if(index == 1)
-            gridNE.add(rect, j, i);
+            gridNE.add(node, j, i);
         else if(index == 2)
-            gridSW.add(rect, j, i);
+            gridSW.add(node, j, i);
         else if(index == 3)
-            gridSE.add(rect, j, i);
-
+            gridSE.add(node, j, i);
     }
 
-    private Rectangle createRect(WindowCard windowCard, int i, int j) {
-        Rectangle rect = new Rectangle(R_WIDTH, R_HEIGHT, GUIControllerUtils.getMatch(windowCard.getGridCell(i, j).getColor()));
-        rect.setStrokeType(StrokeType.INSIDE);
-        rect.setStroke(javafx.scene.paint.Color.BLACK);
-        rect.setStrokeWidth(2);
+    private Node createCell(WindowCard windowCard, int i, int j) {
 
-        return rect;
+        int value = windowCard.getGridCell(i,j).getShade();
+        if(value != 0)
+        {
+            ImageView imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/" + value + ".png").toURI().toString()));
+            imageView.setFitHeight(R_HEIGHT);
+            imageView.setFitWidth(R_WIDTH);
+            return imageView;
+        }
+        else {
+            Rectangle rect = new Rectangle(R_WIDTH, R_HEIGHT, GUIControllerUtils.getMatch(windowCard.getGridCell(i, j).getColor()));
+            rect.setStrokeType(StrokeType.INSIDE);
+            rect.setStroke(javafx.scene.paint.Color.BLACK);
+            rect.setStrokeWidth(2);
+
+            return rect;
+        }
     }
 
     @Override
@@ -152,16 +154,6 @@ public class GUIChoiceController implements GUIControllerIF {
         //load the game screen
         System.out.println("CIAOOOOOOOOOOOOOO INIZIA IL GAMEEEEEEEEEEE");
         //pass the private and the tool event to the new controller
-    }
-
-    @Override
-    public void changeScene(PrivateCardEvent event) {
-        /*Not used in this class*/
-    }
-
-    @Override
-    public void reLogin(String state) {
-        /*Not used in this class*/
     }
 
     @FXML
@@ -180,9 +172,7 @@ public class GUIChoiceController implements GUIControllerIF {
         GUIControllerUtils.makeAlertInfo(SELECTION_MESSAGE);
         //guiView.createChooseCardEvent(guiView.findInCards(selectedGridTitle));
         //changeScene();
-
     }
-
 
     private void makeUnClickable() {
         gridNW.setDisable(true);
@@ -190,5 +180,4 @@ public class GUIChoiceController implements GUIControllerIF {
         gridSW.setDisable(true);
         gridSE.setDisable(true);
     }
-
 }

@@ -1,10 +1,6 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
-import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.event.PrivateCardEvent;
-import it.polimi.se2018.model.event.PublicCardEvent;
-import it.polimi.se2018.model.event.ToolCardEvent;
-import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import javax.swing.table.TableRowSorter;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -37,10 +32,10 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
 
     @Override
     public void changeScene() {
-
+        /*Not used in this class*/
     }
 
-    @Override
+
     public void changeScene(PrivateCardEvent event) {
         Stage stage = (Stage) pane.getScene().getWindow();
 
@@ -60,8 +55,8 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-        guiView.addGUIController(loader.getController());
-        guiView.getControllerList().get(2).setEvent(event);
+        guiView.setGuiChoiceController(loader.getController());
+        guiView.getGuiChoiceController().setEvent(event);
 
         stage.setHeight(600);
         stage.setWidth(1000);
@@ -69,31 +64,6 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
         //stage.minHeightProperty().bind(stage.widthProperty().multiply(0.5));
         //stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.5));
         scene.setRoot(root);
-
-    }
-
-    @Override
-    public void reLogin(String state) {
-        /*Intentionally left void, not used.*/
-    }
-
-    @Override
-    public void setEvent(WindowCardEvent event) {
-
-    }
-
-    @Override
-    public void setEvent(PrivateCardEvent event) {
-
-    }
-
-    @Override
-    public void setEvent(PublicCardEvent publicCardEvent) {
-
-    }
-
-    @Override
-    public void setEvent(ToolCardEvent toolCardEvent) {
 
     }
 }
