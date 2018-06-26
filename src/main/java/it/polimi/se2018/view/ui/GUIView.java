@@ -47,6 +47,8 @@ public class GUIView extends Application implements ViewInterface {
     private GUIWaitingLobbyController guiWaitingLobbyController;
     private GUIChoiceController guiChoiceController;
 
+    private GUIGameScreenController guiGameScreenController;
+
     @Override
     public void updateWindowCard() {
         /* Intentionally left void (for now)*/
@@ -71,8 +73,19 @@ public class GUIView extends Application implements ViewInterface {
     public void handleMVEvent(LoggedUserEvent event) {
         if (event.isApproved())
             guiLoginController.changeScene();
-        else
-            Platform.runLater(()-> guiLoginController.reLogin(event.getState()));
+        else {
+            try {
+                destroyNH();
+            } catch (RemoteException e) {
+            }
+            Platform.runLater(() -> {
+                try {
+                    guiLoginController.reLogin(event.getState());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     @Override
@@ -145,6 +158,11 @@ public class GUIView extends Application implements ViewInterface {
         nh.registerObserver(this);
     }
 
+    public void destroyNH() throws RemoteException {
+        unregisterObserver(nh);
+        nh.unregisterObserver(this);
+    }
+
     @Override
     public void setUsername(String u) {
         user = u;
@@ -208,6 +226,11 @@ public class GUIView extends Application implements ViewInterface {
     public GUIChoiceController getGuiChoiceController() {
         return guiChoiceController;
     }
+
+    public void setGuiGameScreenController(GUIGameScreenController guiGameScreenController) {
+        this.guiGameScreenController = guiGameScreenController;
+    }
+
 
     /*
     public void showTimer(int timer){

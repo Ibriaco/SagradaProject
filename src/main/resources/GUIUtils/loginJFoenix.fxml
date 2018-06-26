@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="479.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.ui.guicontrollers.GUILoginController">
+<AnchorPane fx:id="anchor" prefHeight="479.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.ui.guicontrollers.GUILoginController">
    <children>
       <ImageView fitHeight="625.0" fitWidth="618.0" preserveRatio="true">
          <image>

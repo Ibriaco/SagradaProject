@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.json.simple.parser.ParseException;
 
@@ -19,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +31,7 @@ public class GUILoginController implements GUIControllerIF{
     private GUIView guiView;
     private static final Logger LOGGER = Logger.getLogger( GUILoginController.class.getName() );
     private static final String ALERT_MESSAGE = "Insert a valid connection type and username please.";
+    private StackPane stack = new StackPane();
 
     @FXML
     JFXButton loginBtn;
@@ -37,6 +41,16 @@ public class GUILoginController implements GUIControllerIF{
     JFXToggleButton socketBtn;
     @FXML
     JFXTextField userField;
+    @FXML
+    AnchorPane anchor;
+    private boolean firstLogin = true;
+
+    @FXML
+    public void initialize(){
+        stack.setLayoutX(100);
+        stack.setLayoutY(100);
+        anchor.getChildren().add(stack);
+    }
 
     @FXML
     public void handleLogin() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
@@ -49,11 +63,17 @@ public class GUILoginController implements GUIControllerIF{
                 c = "2";
 
             guiView.createNH(c);
+
             guiView.setUsername(userField.getText());
             guiView.createLoginEvent();
         }
         else
-            GUIControllerUtils.makeAlertError(ALERT_MESSAGE);
+            setupDialog(ALERT_MESSAGE);
+    }
+
+    private void setupDialog(String message) {
+        //migliorare
+        GUIControllerUtils.makeAlertError(message, stack);
     }
 
     public void handleToggle(MouseEvent mouseEvent) {
@@ -94,9 +114,10 @@ public class GUILoginController implements GUIControllerIF{
     }
 
     @FXML
-    public void reLogin(String message){
+    public void reLogin(String message) throws RemoteException {
         resetScreen();
-        GUIControllerUtils.makeAlertError(message);
+        guiView.destroyNH();
+        setupDialog(message);
     }
 
     @Override

@@ -9,7 +9,10 @@ import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,9 +20,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GUIChoiceController implements GUIControllerIF {
@@ -27,6 +35,7 @@ public class GUIChoiceController implements GUIControllerIF {
     private static final double R_HEIGHT = 37.5;
     private static final double R_WIDTH = 40;
     private static final String SELECTION_MESSAGE = "You selected the Window Card. Waiting for the other players. \nGood Luck!";
+    private static final Logger LOGGER = Logger.getLogger(GUIWaitingLobbyController.class.getName());
 
     private GUIView guiView;
     private PublicCardEvent publicCardEvent;
@@ -154,6 +163,33 @@ public class GUIChoiceController implements GUIControllerIF {
         //load the game screen
         System.out.println("CIAOOOOOOOOOOOOOO INIZIA IL GAMEEEEEEEEEEE");
         //pass the private and the tool event to the new controller
+        Stage stage = (Stage) titleNW.getScene().getWindow();
+
+        Scene scene = stage.getScene();
+
+        URL url = null;
+        try {
+            url = new File("src/main/resources/GUIUtils/gameScreen.fxml").toURI().toURL();
+        } catch (MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
+        Parent root = null;
+        FXMLLoader loader = null;
+        try{
+            loader = new FXMLLoader(url);
+            root = loader.load();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
+        guiView.setGuiGameScreenController(loader.getController());
+        stage.setHeight(600);
+        stage.setWidth(800);
+        stage.setResizable(true);
+        stage.setMinHeight(600);
+        stage.setMinWidth(800);
+        stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        scene.setRoot(root);
     }
 
     @FXML
