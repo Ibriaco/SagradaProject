@@ -19,4 +19,6 @@ public interface ClientInterface extends MyObservable, MyObserver {
     void sendMVEvent (MVEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
 
     void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
+
+    void ping() throws RemoteException;
 }

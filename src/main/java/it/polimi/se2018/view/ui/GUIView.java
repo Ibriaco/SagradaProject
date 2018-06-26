@@ -89,6 +89,11 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
+    public void handleMVEvent(DisconnectedEvent event) {
+
+    }
+
+    @Override
     public void handleMVEvent(PrivateCardEvent privateCardEvent) {
         Platform.runLater(()->guiWaitingLobbyController.changeScene(privateCardEvent));
     }

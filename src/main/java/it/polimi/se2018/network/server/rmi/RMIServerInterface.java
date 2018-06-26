@@ -18,4 +18,5 @@ public interface RMIServerInterface extends Remote, ServerInterface {
     void sendUser(ClientInterface client) throws RemoteException, InvalidViewException;
     void vceTransport(VCEvent event) throws IOException, InvalidViewException, ParseException, InvalidConnectionException;
 
+    void broadcast() throws RemoteException;
 }

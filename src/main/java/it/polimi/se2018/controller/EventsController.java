@@ -21,13 +21,16 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     private Game game;
     private boolean reverse = false;
+    boolean reconnection = false;
     private LobbyController lobbyController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
+    private VirtualView virtualView;
     private int counter = 0;
     private static final Logger LOGGER = Logger.getLogger(EventsController.class.getName());
 
     public EventsController(VirtualView virtualView){
+        this.virtualView = virtualView;
         lobbyController = new LobbyController(this, virtualView);
     }
 
@@ -57,6 +60,11 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
         return this.checkPlayer(e.getUsername());
     }
+
+    public void setReconnection(boolean reconnection) {
+        this.reconnection = reconnection;
+    }
+
 
     private boolean checkLoginEvent(LoginEvent e) {
         boolean control1 = this.checkPlayer(e.getUsername());
@@ -123,7 +131,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     //HANDLE VCEVENT
     @Override
     public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
-        lobbyController.handleLogin(event);
+        if (!reconnection)
+            lobbyController.handleLogin(event);
+        else if (reconnection)
+            lobbyController.handleReconnection(event);
     }
 
     @Override
@@ -144,41 +155,93 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         int playerIndex = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+
+        /*while(!reverse &&playerIndex<game.getPlayers().size()-1&& virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex + 1).getUsername())){
+            playerIndex++;
+            if (playerIndex==game.getPlayers().size())
+                playerIndex = 0;
+            if(!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex + 1).getUsername())&&playerIndex<=game.getPlayers().size()-1) {
+                game.nextTurn();
+                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
+            }
+        }
+        while (reverse && playerIndex>0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex - 1).getUsername())){
+            playerIndex--;
+            if(playerIndex ==0)
+                playerIndex = game.getPlayers().size()-1;
+            if(!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex - 1).getUsername())&&playerIndex!=0) {
+                game.nextTurn();
+                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
+            }
+        }*/
+
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         if (game.getTurn() == game.getPlayerNumber()*2){
             reverse = false;
-            if (game.getRound() == game.getPlayerNumber())
+            if (game.getRound() == game.getPlayerNumber()&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
                 game.setFirstPlayer(game.getPlayers().get(0));
+            else if (game.getRound() == game.getPlayerNumber()&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername())){
+                checkRound(playerIndex);
+            }
             else {
                 int index = game.getPlayers().indexOf(game.getFirstPlayer());
                 index++;
                 game.setFirstPlayer(game.getPlayers().get(index));
             }
-            //gestire lancio nuovi dadi e settare player che inizia (first player in game che ho gia ottenuto qua sopra
+            game.setRolledDice();
             game.nextTurn();
-            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername());
+            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername(), true);
         }
         //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
         else if (game.getTurn()%game.getPlayerNumber()==0  && !reverse){
-            mvEvent = new IsTurnEvent(event.getUsername());
+            mvEvent = new IsTurnEvent(event.getUsername(), true);
             reverse = true;
             game.nextTurn();
         }
         //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
          else {
-            if (!reverse&&playerIndex!=game.getPlayerNumber()-1)
-                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername());
+            checkSkip(playerIndex);
+            /*if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
+                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
             else if (!reverse&&playerIndex==game.getPlayerNumber()-1)
-                mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername());
+                mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
             else if(reverse&&playerIndex!=0)
-                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername());
+                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
             else
-                mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername());
-            game.nextTurn();
+                mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true);
+            game.nextTurn();*/
         }
         notifyObservers();
     }
 
+    private void checkRound(int playerIndex){
+
+        if(playerIndex!=0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
+            game.setFirstPlayer(game.getPlayers().get(playerIndex-1));
+        else if(playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
+            checkRound(playerIndex - 1);
+        game.nextTurn();
+    }
+    private void checkSkip(int playerIndex){
+        if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
+            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
+        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
+            checkSkip(playerIndex+1);
+        else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
+            mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
+        else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
+            checkSkip(0);
+
+        else if(reverse&&playerIndex!=0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
+            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
+        else if(reverse&&playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
+            checkSkip(playerIndex-1);
+        else if(reverse&&playerIndex==0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
+            mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true);
+        else if (reverse&&playerIndex==0&&virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
+            checkSkip(game.getPlayerNumber()-1);
+        game.nextTurn();
+    }
     @Override
     public void handleVCEvent(SelectDieEvent event) {
         //still needs to be implemented

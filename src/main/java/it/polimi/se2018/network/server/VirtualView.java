@@ -13,9 +13,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class that works as a Proxy on the server side
@@ -27,12 +25,14 @@ public class VirtualView implements ViewInterface {
 
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private HashMap<String, ClientInterface> clients;
+    private List<String> removedClients;
     private VCEvent event;
     private ClientInterface clientTemp;
 
     public VirtualView(){
 
         clients = new HashMap<>();
+        removedClients = new ArrayList<>();
     }
 
     /**
@@ -43,7 +43,7 @@ public class VirtualView implements ViewInterface {
 
     }
 
-    public void addClientToMap(String u, ClientInterface c){
+    public synchronized void addClientToMap(String u, ClientInterface c){
         clients.put(u,c);
     }
     public void removeClientFromMap(String u) {clients.remove(u); }
@@ -52,6 +52,13 @@ public class VirtualView implements ViewInterface {
 
         return clients;
     }
+
+
+    public List<String> getRemovedClients() {
+
+        return removedClients;
+    }
+
 
     /**
      * Receives an event from the server
@@ -72,6 +79,11 @@ public class VirtualView implements ViewInterface {
 
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
+
+    }
+
+    @Override
+    public void handleMVEvent(DisconnectedEvent event) {
 
     }
 
@@ -182,5 +194,42 @@ public class VirtualView implements ViewInterface {
         for (String s: getClients().keySet()) {
             System.out.println(getClients().keySet());
         }
+    }
+
+    public void disconnectAlert(MVEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        for (String user : clients.keySet()) {
+            clients.get(user).sendMVEvent(event);
+            System.out.println("disconnectALert:  dimensione hasmap" + clients.size() + "   dimensione removedlist:  " + removedClients.size());
+        }
+    }
+    public synchronized void serverBeat(String user){
+        new Thread(new Runnable(){
+            public void run() {
+                boolean ok = true;
+                while (ok) {
+                    try {
+                        clients.get(user).ping();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (RemoteException e) {
+                        removedClients.add(user);
+                        clients.remove(user);
+
+                        ok = false;
+                        DisconnectedEvent disconnectedEvent = new DisconnectedEvent(user);
+                        try {
+                            disconnectAlert(disconnectedEvent);
+                            System.out.println("ho creato evento disconnessione");
+                        } catch (InvalidConnectionException | ParseException | IOException | InvalidViewException e1) {
+                            e1.printStackTrace();
+
+                        }
+                    }
+                }
+            }
+        }).start();
     }
 }

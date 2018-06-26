@@ -82,6 +82,11 @@ public class SocketConnection extends Thread implements ClientInterface {
     }
 
     @Override
+    public void ping() throws RemoteException {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
 
     }

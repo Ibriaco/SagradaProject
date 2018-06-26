@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.model.event.GameUpdateEvent;
 import it.polimi.se2018.model.event.IsTurnEvent;
 import it.polimi.se2018.model.event.LoggedUserEvent;
 import it.polimi.se2018.model.*;
@@ -55,6 +56,7 @@ public class LobbyController {
         LoggedUserEvent logEvent;
         if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
             virtualView.addClientToMap(username, virtualView.getClientTemp());
+            virtualView.serverBeat(username);
             addInLobby(username);
             logEvent = new LoggedUserEvent(username,true);
             logEvent.setState("Logged in successfully!");
@@ -79,10 +81,30 @@ public class LobbyController {
         }
         if (checkStartGame()) {
             try {
+                eventsController.setReconnection(true);
                 setupGame();
             } catch (IOException | ParseException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
             }
+        }
+    }
+
+    public void handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        String username = event.getUsername();
+
+        if (virtualView.getRemovedClients().contains(username)){
+            virtualView.getClients().put(username, virtualView.getClientTemp());
+            virtualView.getRemovedClients().remove(username);
+            virtualView.serverBeat(username);
+            UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(), this.username, game.getRolledDice());
+            updateGameEvent.setUsername(username);
+            eventsController.setMvEvent(updateGameEvent);
+            eventsController.notifyObservers();
+        }
+        else {
+            LoggedUserEvent logEvent = new LoggedUserEvent(username, false);
+            logEvent.setState("INVALID USERNAME!");
+            virtualView.getClientTemp().sendMVEvent(logEvent);
         }
     }
 
@@ -104,7 +126,7 @@ public class LobbyController {
      * @return true if the players are less than 4, else, false is returned
      */
     public boolean checkOnlinePlayers() {
-        return waitingLobby.getOnlinePlayersN() != 4;
+        return waitingLobby.getOnlinePlayersN() != 3;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
@@ -203,7 +225,7 @@ public class LobbyController {
         eventsController.setMvEvent(updateGameEvent);
         eventsController.notifyObservers();
         game.setFirstPlayer(game.getPlayers().get(0));
-        IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername());
+        IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
         eventsController.setMvEvent(isTurnEvent);
         eventsController.notifyObservers();
     }

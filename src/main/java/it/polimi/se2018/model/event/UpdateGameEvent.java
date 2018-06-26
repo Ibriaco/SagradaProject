@@ -26,6 +26,9 @@ public class UpdateGameEvent implements MVEvent {
      this.user = username;
      this.dice = dice;
     }
+    public UpdateGameEvent(List<WindowCard> windowCardList, List<String> username, List<Die> dice, String privateObjective){
+
+    }
 
     public List<WindowCard> getWindowCardList() {
         return windowCardList;
@@ -52,4 +55,9 @@ public class UpdateGameEvent implements MVEvent {
     public String getUsername() {
         return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 }

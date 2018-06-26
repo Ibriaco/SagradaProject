@@ -2,13 +2,17 @@ package it.polimi.se2018.network.server.rmi;
 
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.model.event.DisconnectedEvent;
 import it.polimi.se2018.network.client.ClientInterface;
+import it.polimi.se2018.network.client.rmi.RMIClient;
+import it.polimi.se2018.network.client.rmi.RMIClientInterface;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Iterator;
 
 /**
  * Class that implements rmi server Interface
@@ -19,7 +23,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
 
     private VirtualView virtualView;
     private static final long serialVersionUID = -7098548671967083832L;
-
     public RMIServer(VirtualView virtualView)throws RemoteException {
         this.virtualView = virtualView;
     }
@@ -31,6 +34,14 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
      */
     public void vceTransport(VCEvent event) throws IOException, ParseException, InvalidConnectionException, InvalidViewException {
         virtualView.receiveEvent(event);
+    }
+
+
+    @Override
+    public void broadcast() throws RemoteException {
+        for (String s: virtualView.getClients().keySet()) {
+
+        }
     }
 
     /**

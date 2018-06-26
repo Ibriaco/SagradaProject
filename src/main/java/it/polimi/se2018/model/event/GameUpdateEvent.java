@@ -18,7 +18,7 @@ public class GameUpdateEvent implements MVEvent {
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
 

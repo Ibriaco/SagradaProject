@@ -47,6 +47,27 @@ public class RMIClient implements RMIClientInterface {
         } catch (NotBoundException e) {
             System.err.println("Il riferimento passato non è associato a nulla!");
         }
+
+        /*new Thread(new Runnable(){
+            public void run(){
+                boolean ok = true;
+                while(ok){
+                    try {
+                        server.ping();
+                        Thread.sleep(10000);
+                    }
+                    catch(RemoteException e){
+                        ok = false;
+                        System.exit(-1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();*/
+    }
+
+    public void ping() throws RemoteException{
     }
 
     /**
@@ -96,5 +117,9 @@ public class RMIClient implements RMIClientInterface {
     @Override
     public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
 
+    }
+
+    public void broadcast() throws RemoteException{
+        server.broadcast();
     }
 }

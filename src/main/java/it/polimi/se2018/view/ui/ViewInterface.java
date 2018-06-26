@@ -28,6 +28,8 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void handleMVEvent(LoggedUserEvent event);
 
+    void handleMVEvent(DisconnectedEvent event);
+
     void handleMVEvent(PrivateCardEvent privateCardEvent);
 
     void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException;

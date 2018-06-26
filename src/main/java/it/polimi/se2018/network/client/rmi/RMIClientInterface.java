@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
  */
 public interface RMIClientInterface extends Remote, ClientInterface {
 
+    void ping() throws RemoteException;
     void sendMVEvent (MVEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
 
     void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;

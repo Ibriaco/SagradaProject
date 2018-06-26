@@ -53,6 +53,11 @@ public class SocketClient implements ClientInterface{
     }
 
     @Override
+    public void ping() throws RemoteException {
+
+    }
+
+    @Override
     public void registerObserver(MyObserver observer) {
 
     }

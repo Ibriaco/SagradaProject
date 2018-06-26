@@ -9,9 +9,11 @@ import java.rmi.RemoteException;
 
 public class IsTurnEvent implements MVEvent {
     private String username;
+    private boolean connected;
 
-    public IsTurnEvent (String username){
+    public IsTurnEvent (String username, boolean connected){
         this.username = username;
+        this.connected = connected;
     }
 
 
@@ -23,5 +25,9 @@ public class IsTurnEvent implements MVEvent {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }
