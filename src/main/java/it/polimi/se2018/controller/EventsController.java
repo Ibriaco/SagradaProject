@@ -21,7 +21,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     private Game game;
     private boolean reverse = false;
-    boolean reconnection = false;
+    private boolean reconnection = false;
     private LobbyController lobbyController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
@@ -39,22 +39,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         return (game.getPlayers().indexOf(game.findPlayer(username)) == game.getTurn());
 
     }
-
-    /*private boolean checkValidPlacementMove(PlacedDieEvent e) {
-        control1 = this.checkPlayer(e.getUsername());
-        Die die = null;
-        for (Die d : game.getRolledDice()) {
-            if (d.getValue() == e.getValue() && d.getColor() == e.getColor()) {
-                die = d;
-                control2 = true;
-                break;
-            }
-        }
-        if (!game.findPlayer(e.getUsername()).getWindowCard().checkLegalPlacement(die, e.getCoordX(), e.getCoordY(), true, true))
-            return false;
-        else
-            return (control1 && control2);
-    }*/
 
     private boolean checkValidSkip(SkipTurnEvent e) {
 
@@ -81,9 +65,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         return (control1 && control2);
     }
 
-    public void checkSelectDieEvent (SelectDieEvent e){
-
-    }
 
     public void setMvEvent(MVEvent mvEvent) {
 
@@ -133,7 +114,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         if (!reconnection)
             lobbyController.handleLogin(event);
-        else if (reconnection)
+        else
             lobbyController.handleReconnection(event);
     }
 
@@ -154,94 +135,96 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        int playerIndex = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+        handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
+    }
 
-        /*while(!reverse &&playerIndex<game.getPlayers().size()-1&& virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex + 1).getUsername())){
-            playerIndex++;
-            if (playerIndex==game.getPlayers().size())
-                playerIndex = 0;
-            if(!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex + 1).getUsername())&&playerIndex<=game.getPlayers().size()-1) {
-                game.nextTurn();
-                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
-            }
-        }
-        while (reverse && playerIndex>0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex - 1).getUsername())){
-            playerIndex--;
-            if(playerIndex ==0)
-                playerIndex = game.getPlayers().size()-1;
-            if(!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex - 1).getUsername())&&playerIndex!=0) {
-                game.nextTurn();
-                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
-            }
-        }*/
-
+    private void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //BISOGNA GESIRE MEGLIO A CHI VIENE ASSEGNATO IL FIRST PLAYER
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         if (game.getTurn() == game.getPlayerNumber()*2){
-            reverse = false;
-            if (game.getRound() == game.getPlayerNumber()&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
-                game.setFirstPlayer(game.getPlayers().get(0));
-            else if (game.getRound() == game.getPlayerNumber()&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername())){
-                checkRound(playerIndex);
-            }
-            else {
-                int index = game.getPlayers().indexOf(game.getFirstPlayer());
-                index++;
-                game.setFirstPlayer(game.getPlayers().get(index));
-            }
-            game.setRolledDice();
-            game.nextTurn();
-            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername(), true);
+            System.out.println("Sono nel caso di inizio nuovo round");
+            System.out.println("Valore di player index: " + playerIndex );
+            checkRound(playerIndex);
         }
+
         //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
-        else if (game.getTurn()%game.getPlayerNumber()==0  && !reverse){
-            mvEvent = new IsTurnEvent(event.getUsername(), true);
+        else if (game.getTurn()-game.getPlayerNumber()==0 && !virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+            System.out.println("Sono nel caso di fine primo giro con client corrente online");
+            System.out.println("Valore di player index: " + playerIndex );
+            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
             reverse = true;
             game.nextTurn();
         }
-        //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
-         else {
+        else if(game.getTurn()-game.getPlayerNumber()==0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+            System.out.println("Sono nel caso di fine primo giro con client corrente offline");
+            System.out.println("Valore di player index: " + playerIndex );
+            reverse = true;
+            game.nextTurn();
             checkSkip(playerIndex);
-            /*if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
-                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
-            else if (!reverse&&playerIndex==game.getPlayerNumber()-1)
-                mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
-            else if(reverse&&playerIndex!=0)
-                mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
-            else
-                mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true);
-            game.nextTurn();*/
+        }
+        //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
+        else {
+            System.out.println("Sono nel caso di skip");
+            System.out.println("Valore di player index: " + playerIndex );
+            checkSkip(playerIndex);
         }
         notifyObservers();
     }
 
-    private void checkRound(int playerIndex){
+    private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        System.out.println("Valore di index in check round: " + playerIndex);
+        if(playerIndex==game.getPlayerNumber()-1) {
+            game.setFirstPlayer(game.getPlayers().get(0));
+        }
+        else{
+            playerIndex++;
+            game.setFirstPlayer(game.getPlayers().get(playerIndex));
+        }
 
-        if(playerIndex!=0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
-            game.setFirstPlayer(game.getPlayers().get(playerIndex-1));
-        else if(playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
-            checkRound(playerIndex - 1);
+        //roudtrack e gestione distribuzione dadi
+        reverse = false;
         game.nextTurn();
+        if(virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername()))
+            checkSkip(playerIndex);
+        else
+            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
+        //mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername(), true);
     }
-    private void checkSkip(int playerIndex){
+
+    /*private boolean checkBound(int index, boolean reverse) {
+        return (reverse || index == game.getPlayerNumber() - 1) && (!reverse && index == game.getPlayerNumber() - 1 || !reverse || index == 0);
+    }*/
+
+
+    private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
             mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
-        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
-            checkSkip(playerIndex+1);
+        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())){
+            game.nextTurn();
+            handleSkipTurn(playerIndex+1);
+        }
         else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
             mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
-        else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
-            checkSkip(0);
+        else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername())) {
+            game.nextTurn();
+            handleSkipTurn(0);
+        }
 
         else if(reverse&&playerIndex!=0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
             mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
-        else if(reverse&&playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
-            checkSkip(playerIndex-1);
+        else if(reverse&&playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername())) {
+            game.nextTurn();
+            handleSkipTurn(playerIndex - 1);
+        }
         else if(reverse&&playerIndex==0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
             mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true);
-        else if (reverse&&playerIndex==0&&virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
-            checkSkip(game.getPlayerNumber()-1);
+        else if (reverse&&playerIndex==0&&virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername())) {
+            game.nextTurn();
+            handleSkipTurn(game.getPlayerNumber() - 1);
+        }
         game.nextTurn();
     }
+
     @Override
     public void handleVCEvent(SelectDieEvent event) {
         //still needs to be implemented

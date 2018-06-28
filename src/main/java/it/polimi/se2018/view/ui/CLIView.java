@@ -10,6 +10,8 @@ import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -190,21 +192,40 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
         Color color;
         int value;
-        consoleWriter.println("[WINDOW CARD]\n");
+        System.out.println("[WINDOW CARD]\n");
         myCardList = event.getWindowCards();
-
+        boolean ok = true;
         for (WindowCard w: event.getWindowCards()) {
-            consoleWriter.println(w.getWindowName() + " " + w.getDifficulty());
+            System.out.println(w.getWindowName() + " " + w.getDifficulty());
             for(int i=0; i<4; i++){
                 for(int j=0; j<5; j++){
                     color = w.getGridCell(i, j).getColor();
                     value = w.getGridCell(i, j).getShade();
                     printCell(color, value);
                 }
-                consoleWriter.println("");
+                System.out.println("");
             }
         }
         launchThread();
+        /*while (ok) {
+            System.out.println("inserisci carta:");
+            Scanner scanner = new Scanner(System.in);
+            String fromThread;
+
+            fromThread = scanner.nextLine();
+
+            System.out.println(fromThread);
+            WindowCard selectedW = findInCards(fromThread);
+            if (selectedW != null) {
+                try {
+                    createChooseCardEvent(findInCards(fromThread));
+                } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
+                    LOGGER.log(Level.SEVERE, e.toString(), e);
+                }
+                ok = false;
+            }
+
+        }*/
     }
 
 
@@ -215,7 +236,7 @@ public class CLIView implements ViewInterface {
         int userN = 0;
 
         for (WindowCard w: event.getWindowCardList()) {
-            consoleWriter.println(event.getUser().get(userN) + "\t" + w.getWindowName());
+            System.out.println(event.getUser().get(userN) + "\t" + w.getWindowName());
             for(int i = 0; i < w.getRows(); i++){
                 for(int j = 0; j < w.getCols(); j++){
                     if (w.getGridCell(i,j).isPlaced()) {
@@ -357,28 +378,32 @@ public class CLIView implements ViewInterface {
         }
     }
 
-    private void launchThread() {
-         new Thread(() -> {
-
-             while(true) {
-                 consoleWriter.println("inserisci carta:");
-                 Scanner scanner = new Scanner(System.in);
+    private synchronized void launchThread() {
+         new Thread(new Runnable(){
+             public void run() {
                  String fromThread;
+                 while (true) {
+                     consoleWriter.println("inserisci carta:");
+                     Scanner scanner = new Scanner(System.in);
 
-                 fromThread = scanner.nextLine();
 
-                 consoleWriter.println(fromThread);
-                 WindowCard selectedW = findInCards(fromThread);
-                 if(selectedW != null) {
-                     try {
-                         createChooseCardEvent(findInCards(fromThread));
-                     } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
-                         LOGGER.log(Level.SEVERE, e.toString(), e);
+                     fromThread = scanner.nextLine();
+
+                     consoleWriter.println(fromThread);
+                     WindowCard selectedW = findInCards(fromThread);
+                     if (selectedW != null) {
+                         System.out.println("faccio il breack del tread");
+                         break;
                      }
-                     break;
-                 }
 
+                 }
+                 try {
+                     createChooseCardEvent(findInCards(fromThread));
+                 } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
+                     LOGGER.log(Level.SEVERE, e.toString(), e);
+                 }
              }
+
          }).start();
     }
 

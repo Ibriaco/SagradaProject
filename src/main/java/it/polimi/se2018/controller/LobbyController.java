@@ -89,7 +89,7 @@ public class LobbyController {
         }
     }
 
-    public void handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    public void     handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         String username = event.getUsername();
 
         if (virtualView.getRemovedClients().contains(username)){
@@ -126,7 +126,7 @@ public class LobbyController {
      * @return true if the players are less than 4, else, false is returned
      */
     public boolean checkOnlinePlayers() {
-        return waitingLobby.getOnlinePlayersN() != 3;
+        return waitingLobby.getOnlinePlayersN() != 4;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
