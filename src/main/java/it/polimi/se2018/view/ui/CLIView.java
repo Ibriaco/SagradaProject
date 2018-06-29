@@ -206,7 +206,29 @@ public class CLIView implements ViewInterface {
                 System.out.println("");
             }
         }
-        launchThread();
+        String fromThread;
+        while (true) {
+            consoleWriter.println("inserisci carta:");
+            Scanner scanner = new Scanner(System.in);
+
+
+            fromThread = scanner.nextLine();
+
+            consoleWriter.println(fromThread);
+            WindowCard selectedW = findInCards(fromThread);
+            if (selectedW != null) {
+                System.out.println("faccio il breack del tread");
+                break;
+            }
+
+        }
+        try {
+            createChooseCardEvent(findInCards(fromThread));
+        } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
+
+        //launchThread();
         /*while (ok) {
             System.out.println("inserisci carta:");
             Scanner scanner = new Scanner(System.in);

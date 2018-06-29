@@ -259,13 +259,25 @@ public class Game implements MyObservable{
             for (Player p: players) {
                 p.drawWindowCards(cards, randomNumbers.get(j), randomNumbers.get(j+1));
                 WindowCardEvent windowCardEvent = new WindowCardEvent(p.getUsername(),p.getWindowCardList());
-                setMvEvent(windowCardEvent);
-                notifyObservers();
+                new Thread(new Runnable(){
+                    public void run() {setMvEvent(windowCardEvent);
+                        try {
+                            notifyObservers();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InvalidConnectionException e) {
+                            e.printStackTrace();
+                        } catch (InvalidViewException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }}).start();
                 j+=2;
             }
 
         }
-        catch (IOException | InvalidViewException | InvalidConnectionException e){
+        catch (IOException e){
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
