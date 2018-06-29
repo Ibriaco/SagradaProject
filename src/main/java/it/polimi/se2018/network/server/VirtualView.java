@@ -8,6 +8,7 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.ClientInterface;
 import it.polimi.se2018.view.ui.ViewInterface;
+import it.polimi.se2018.view.viewevents.SkipTurnEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import org.json.simple.parser.ParseException;
 
@@ -132,6 +133,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(StopTurnEvent stopTurnEvent) {
+
+    }
+
     /**
      * Shows the user interface
      */
@@ -233,4 +239,10 @@ public class VirtualView implements ViewInterface {
             }
         }).start();
     }
-}
+    public void createSkipTurnEvent(String username) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+        event = new SkipTurnEvent(username);
+        notifyObservers();
+    }
+
+
+    }

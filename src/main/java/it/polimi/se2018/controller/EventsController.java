@@ -1,14 +1,12 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.model.event.GameUpdateEvent;
-import it.polimi.se2018.model.event.IsTurnEvent;
-import it.polimi.se2018.model.event.MVEvent;
+import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.viewevents.*;
+import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -22,11 +20,13 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     private Game game;
     private boolean reverse = false;
     private boolean reconnection = false;
+    private boolean stopThread = false;
     private LobbyController lobbyController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private VirtualView virtualView;
     private int counter = 0;
+    private int playerIndex;
     private static final Logger LOGGER = Logger.getLogger(EventsController.class.getName());
 
     public EventsController(VirtualView virtualView){
@@ -120,12 +120,14 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()),event.getCoordY(),event.getCoordX(),true, true);
-        game.updateWindowCardList();
-        game.getRolledDice().remove(event.getPos());
-        //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
-        mvEvent = new UpdateGameEvent(game.getWindowCardList(),lobbyController.getUsername(),game.getRolledDice());
-        notifyObservers();
+        if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
+            game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
+            game.updateWindowCardList();
+            game.getRolledDice().remove(event.getPos());
+            //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
+            mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice());
+            notifyObservers();
+        }
     }
 
     @Override
@@ -135,7 +137,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
+        if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
+            handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
+            stopThread = true;
+        }
     }
 
     private void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
@@ -168,7 +173,39 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             System.out.println("Valore di player index: " + playerIndex );
             checkSkip(playerIndex);
         }
+        playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
+        launchThread(playerIndex);
         notifyObservers();
+    }
+
+    public void launchThread(int playerIndex) {new Thread(() -> {
+        int cont=0;
+        stopThread = false;
+        System.out.println("prima del while del thread");
+        while (cont < 10 && !stopThread) {
+            try {
+                Thread.sleep(1000);
+                System.out.println(cont);
+                cont++;
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (playerIndex == getPlayerIndex()&& !stopThread)    {
+            try {
+                System.out.println("invio stopturnevent");
+                mvEvent = new StopTurnEvent(game.getPlayers().get(playerIndex).getUsername());
+                notifyObservers();
+                System.out.println("invio skipturn a virtualview");
+                virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
+            } catch (InvalidConnectionException | ParseException | InvalidViewException | IOException e) {
+                e.printStackTrace();
+            }
+            stopThread = false;
+        }
+
+    }).start();
     }
 
     private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
@@ -250,5 +287,9 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
     }
 }

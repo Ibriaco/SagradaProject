@@ -8,12 +8,16 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class IsTurnEvent implements MVEvent {
-    private String username;
+    private String username = "ALL";
+    private String playerInTurn;
+    private String user;
+
     private boolean connected;
 
-    public IsTurnEvent (String username, boolean connected){
-        this.username = username;
+    public IsTurnEvent (String playerInTurn, boolean connected){
+        this.playerInTurn = playerInTurn;
         this.connected = connected;
+        user = playerInTurn;
     }
 
 
@@ -29,5 +33,13 @@ public class IsTurnEvent implements MVEvent {
 
     public boolean isConnected() {
         return connected;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void printPlayerInTurn(){
+        System.out.println("\nE' IL TURNO DI: " + playerInTurn);
     }
 }
