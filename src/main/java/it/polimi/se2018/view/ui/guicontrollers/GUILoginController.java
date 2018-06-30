@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.view.ui.GUIView;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -54,7 +55,7 @@ public class GUILoginController implements GUIControllerIF{
     }
 
     @FXML
-    public void handleLogin() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void handleLogin() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         String c;
         if((rmiBtn.isSelected() || socketBtn.isSelected()) && !userField.getText().equals("")) {
 

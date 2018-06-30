@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.client;
 
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.view.ui.CLIView;
 import it.polimi.se2018.view.ui.GUIView;
@@ -17,7 +18,7 @@ public class Client {
 
     private static ViewInterface vi;
 
-    public static void main(String[] args) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public static void main(String[] args) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
 
         printSplashArt();
         String choice = null;

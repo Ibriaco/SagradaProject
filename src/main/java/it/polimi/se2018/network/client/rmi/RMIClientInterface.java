@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.client.rmi;
 
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -19,5 +20,5 @@ public interface RMIClientInterface extends Remote, ClientInterface {
     void ping() throws RemoteException;
     void sendMVEvent (MVEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
 
-    void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
+    void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException;
 }

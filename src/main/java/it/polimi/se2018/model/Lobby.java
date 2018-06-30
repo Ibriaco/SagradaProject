@@ -68,7 +68,11 @@ public class Lobby implements MyObservable{
     @Override
     public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException {
         for (MyObserver o: observerCollection) {
-            o.update(this, mvEvent);
+            try {
+                o.update(this, mvEvent);
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.server.rmi;
 
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.event.DisconnectedEvent;
 import it.polimi.se2018.network.client.ClientInterface;
@@ -32,7 +33,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
      * @param event event to be sent to the Virtual view
      * @throws RemoteException thrown exception
      */
-    public void vceTransport(VCEvent event) throws IOException, ParseException, InvalidConnectionException, InvalidViewException {
+    public void vceTransport(VCEvent event) throws IOException, ParseException, InvalidConnectionException, InvalidViewException, InvalidDieException {
         virtualView.receiveEvent(event);
     }
 

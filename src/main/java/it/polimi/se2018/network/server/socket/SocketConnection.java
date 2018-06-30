@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.server.socket;
 
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -55,6 +56,8 @@ public class SocketConnection extends Thread implements ClientInterface {
 
         } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException  e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
         }
     }
 
