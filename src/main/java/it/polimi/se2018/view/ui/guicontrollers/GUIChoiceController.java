@@ -18,6 +18,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
@@ -28,7 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 
 public class GUIChoiceController implements GUIControllerIF {
 
@@ -36,11 +38,15 @@ public class GUIChoiceController implements GUIControllerIF {
     private static final double R_WIDTH = 40;
     private static final String SELECTION_MESSAGE = "You selected the Window Card. Waiting for the other players. \nGood Luck!";
     private static final Logger LOGGER = Logger.getLogger(GUIWaitingLobbyController.class.getName());
+    private StackPane stack = new StackPane();
 
     private GUIView guiView;
     private PublicCardEvent publicCardEvent;
     private ToolCardEvent toolCardEvent;
+    private PrivateCardEvent privateCardEvent;
 
+    @FXML
+    private Pane pane;
     @FXML
     private Label titleNW;
     @FXML
@@ -70,6 +76,13 @@ public class GUIChoiceController implements GUIControllerIF {
 
     private int index = 0;
 
+    @FXML
+    public void initialize(){
+        stack.setLayoutX(100);
+        stack.setLayoutY(100);
+        pane.getChildren().add(stack);
+    }
+
     public void setEvent(WindowCardEvent event){
         for (WindowCard w : event.getWindowCards()){
             showCard(w, index);
@@ -78,6 +91,7 @@ public class GUIChoiceController implements GUIControllerIF {
     }
 
     public void setEvent(PrivateCardEvent event){
+        this.privateCardEvent = event;
         placeCard(event.getPrivateName());
     }
 
@@ -181,7 +195,9 @@ public class GUIChoiceController implements GUIControllerIF {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-        guiView.setGuiGameScreenController(loader.getController());
+        GUIGameScreenController gameCtrl = loader.getController();
+        gameCtrl.showCards(privateCardEvent, publicCardEvent, toolCardEvent);
+        guiView.setGuiGameScreenController(gameCtrl);
         stage.setHeight(600);
         stage.setWidth(800);
         stage.setResizable(true);
@@ -189,7 +205,11 @@ public class GUIChoiceController implements GUIControllerIF {
         stage.setMinWidth(800);
         stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
         stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        stage.setFullScreen(false);
         scene.setRoot(root);
+
+
+
     }
 
     @FXML
@@ -205,7 +225,7 @@ public class GUIChoiceController implements GUIControllerIF {
             guiView.createChooseCardEvent(guiView.findInCards(titleSE.getText()));
 
         makeUnClickable();
-        GUIControllerUtils.makeAlertInfo(SELECTION_MESSAGE);
+        makeDialog(SELECTION_MESSAGE, stack, INFO_TYPE);
         //guiView.createChooseCardEvent(guiView.findInCards(selectedGridTitle));
         //changeScene();
     }

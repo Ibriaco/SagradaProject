@@ -16,10 +16,12 @@ public final class GUIControllerUtils {
 
     private GUIControllerUtils(){}
 
-    public static void makeAlertError(String content, StackPane pane){
+    public static final String ERROR_TYPE = "ERROR";
+    public static final String INFO_TYPE = "INFO";
+
+    public static void makeDialog(String content, StackPane pane, String type){
 
         JFXDialogLayout layout = new JFXDialogLayout();
-        layout.setHeading(new Text("ERROR"));
         layout.setBody(new Text(content));
         JFXDialog dialog = new JFXDialog(pane, layout, JFXDialog.DialogTransition.CENTER);
         JFXButton button = new JFXButton("CLOSE");
@@ -27,21 +29,10 @@ public final class GUIControllerUtils {
         button.setTextFill(javafx.scene.paint.Color.WHITE);
         button.setOnAction(event -> dialog.close());
         layout.setActions(button);
+
+        layout.setHeading(new Text(type));
+
         dialog.show();
-
-        /*
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(content);
-        alert.showAndWait()
-                .filter(response -> response == ButtonType.OK);
-        */
-    }
-
-    public static void makeAlertInfo(String content){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(content);
-        alert.showAndWait()
-                .filter(response -> response == ButtonType.OK);
     }
 
     public static Paint getMatch(Color c){

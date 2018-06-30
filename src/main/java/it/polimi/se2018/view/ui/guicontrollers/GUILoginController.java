@@ -1,5 +1,6 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
+import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
@@ -72,8 +73,7 @@ public class GUILoginController implements GUIControllerIF{
     }
 
     private void setupDialog(String message) {
-        //migliorare
-        GUIControllerUtils.makeAlertError(message, stack);
+        makeDialog(message, stack, ERROR_TYPE);
     }
 
     public void handleToggle(MouseEvent mouseEvent) {

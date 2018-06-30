@@ -34,7 +34,6 @@ import java.util.List;
 public class GUIView extends Application implements ViewInterface {
 
     private static final String SAGRADA_TITLE = "Welcome to Sagrada Game";
-    private static final String NOTIFY_TURN = "It's up to you. You have 60 seconds to do your move.";
     private List<MyObserver> observersCollection;
     private NetworkHandler nh;
     private List<GUIControllerIF> controllerList;
@@ -181,7 +180,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        Platform.runLater(()->GUIControllerUtils.makeAlertInfo(NOTIFY_TURN));
+        Platform.runLater(()->guiGameScreenController.showTurnDialog());
     }
 
 
@@ -220,6 +219,10 @@ public class GUIView extends Application implements ViewInterface {
         this.guiChoiceController.setView(this);
     }
 
+    public void setGuiGameScreenController(GUIGameScreenController guiGameScreenController) {
+        this.guiGameScreenController = guiGameScreenController;
+    }
+
     public GUILoginController getGuiLoginController() {
         return guiLoginController;
     }
@@ -232,10 +235,9 @@ public class GUIView extends Application implements ViewInterface {
         return guiChoiceController;
     }
 
-    public void setGuiGameScreenController(GUIGameScreenController guiGameScreenController) {
-        this.guiGameScreenController = guiGameScreenController;
+    public GUIGameScreenController getGuiGameScreenController() {
+        return guiGameScreenController;
     }
-
 
     /*
     public void showTimer(int timer){
