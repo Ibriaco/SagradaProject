@@ -183,6 +183,11 @@ public class GUIView extends Application implements ViewInterface {
         Platform.runLater(()->guiGameScreenController.showTurnDialog());
     }
 
+    @Override
+    public void handleMVEvent(StopTurnEvent stopTurnEvent) {
+
+    }
+
 
     public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         vcEvent = new ChooseCardEvent(user, windowCard);

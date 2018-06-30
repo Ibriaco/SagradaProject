@@ -217,7 +217,7 @@ public class CLIView implements ViewInterface {
             consoleWriter.println(fromThread);
             WindowCard selectedW = findInCards(fromThread);
             if (selectedW != null) {
-                System.out.println("faccio il breack del tread");
+                System.out.println("faccio il break del tread");
                 break;
             }
 
@@ -290,7 +290,16 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        menuGame(event.isConnected());
+        if(user.equals(event.getUser()))
+            menuGame(event.isConnected());
+        else
+            event.printPlayerInTurn();
+
+    }
+
+    @Override
+    public void handleMVEvent(StopTurnEvent event) {
+        event.printMessage();
     }
 
     private void printDie(Die d){
@@ -472,36 +481,31 @@ public class CLIView implements ViewInterface {
     private void menuGame(boolean connected) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
          boolean turn = true;
          String choose;
-         if (!connected)
-             createSkipTurnEvent();
-         else {
-             System.out.println("");
-             while (turn) {
-                 System.out.println("CHOOSE YOUR MOVE\n1- Place Die\n2- Use Toolcard\n3- Skip turn");
-                 choose = consoleScanner.next();
-                 if (choose.equals("1") || choose.equals("2") || choose.equals("3"))
-                     switch (choose) {
-                         case "1":
-                             createPlaceDieEvent();
-                             createSkipTurnEvent();
-                             turn = false;
-                             break;
-                         case "2":
-                             createUseToolEvent();//devo gestirlo lato server
-                             turn = false;
-                             break;
-                         case "3":
-                             createSkipTurnEvent();
-                             turn = false;
-                             break;
-                         default:
-                             break;
-                     }
-                 else
-                     System.out.println("Invalid choice, try again!");
-             }
+         System.out.println("");
+         while (turn) {
+             System.out.println("CHOOSE YOUR MOVE\n1- Place Die\n2- Use Toolcard\n3- Skip turn");
+             choose = consoleScanner.next();
+             if (choose.equals("1") || choose.equals("2") || choose.equals("3"))
+                 switch (choose) {
+                     case "1":
+                         createPlaceDieEvent();
+                         createSkipTurnEvent();
+                         turn = false;
+                         break;
+                     case "2":
+                         createUseToolEvent();//devo gestirlo lato server
+                         turn = false;
+                         break;
+                     case "3":
+                         createSkipTurnEvent();
+                         turn = false;
+                         break;
+                     default:
+                         break;
+                 }
+             else
+                 System.out.println("Invalid choice, try again!");
          }
-    }
-
+     }
 
 }

@@ -263,13 +263,7 @@ public class Game implements MyObservable{
                     public void run() {setMvEvent(windowCardEvent);
                         try {
                             notifyObservers();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InvalidConnectionException e) {
-                            e.printStackTrace();
-                        } catch (InvalidViewException e) {
-                            e.printStackTrace();
-                        } catch (ParseException e) {
+                        } catch (IOException | ParseException | InvalidViewException | InvalidConnectionException e) {
                             e.printStackTrace();
                         }
                     }}).start();

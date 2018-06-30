@@ -9,6 +9,8 @@ import java.io.Serializable;
 public class WindowCard implements Serializable{
     private static final int ROWS = 4;
     private static final int COLS = 5;
+    static final long serialVersionUID = 42L;
+
     private Cell[][] grid;
     private String windowName;
     private int difficulty;

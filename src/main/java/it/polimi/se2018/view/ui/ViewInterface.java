@@ -48,6 +48,8 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
 
+    void handleMVEvent(StopTurnEvent stopTurnEvent);
+
 
 
     /*
