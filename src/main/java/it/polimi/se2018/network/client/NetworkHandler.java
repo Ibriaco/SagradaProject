@@ -31,39 +31,18 @@ public class NetworkHandler implements MyObserver, MyObservable {
     private MVEvent mvEvent;
 
     public NetworkHandler(String value) throws RemoteException {
-        if(value.equals("1")){
+        if(value.equals("1"))
             selectedClient = new RMIClient(this);
-        }
-        else if(value.equals("2")){
-            int port = requestPort();
-            String ip = requestIP();
-            selectedClient = new SocketClient(ip, port, this);
-        }
-        System.out.println("CREATOOOO");
+
+        else if(value.equals("2"))
+            selectedClient = new SocketClient("localhost", 10000, this);
     }
 
-    private int requestPort(){
-        System.out.println("Select which port you want to use:");
-        return consoleScanner.nextInt();
-    }
 
-    private String requestIP(){
-        System.out.println("Select the IP you want to connect to:");
-        return consoleScanner.next();
-    }
-
-    public void receciveMVEvent(MVEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void receiveMVEvent(MVEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         mvEvent = event;
         notifyObservers();
     }
-
-   /*public void loginScreen() throws RemoteException, InvalidConnectionException, InvalidViewException, WindowCardAssociationException {
-        String user;
-        printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
-        printOnConsole("Insert your username here: ");
-        user = consoleScanner.next();
-        selectedClient.loginRequest(user);
-    }*/
 
     @Override
     public void registerObserver(MyObserver observer) throws RemoteException {
@@ -90,12 +69,6 @@ public class NetworkHandler implements MyObserver, MyObservable {
     public void update(MyObservable o, VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         System.out.println("Ho ricevuto evento da view: " + event.getUsername());
         selectedClient.sendEvent(event);
-
-
-        if(event instanceof ChooseCardEvent){
-            ChooseCardEvent c = (ChooseCardEvent) event;
-            System.out.println(c.getWindowCard().getWindowName());
-        }
     }
 
     @Override

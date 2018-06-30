@@ -47,6 +47,7 @@ public class VirtualView implements ViewInterface {
     }
 
     public synchronized void addClientToMap(String u, ClientInterface c){
+        System.out.println("VV=aggiunto: " + u + " " + c);
         clients.put(u,c);
     }
     public void removeClientFromMap(String u) {clients.remove(u); }
@@ -72,6 +73,7 @@ public class VirtualView implements ViewInterface {
      */
     public void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         this.event = event;
+        System.out.println("settato");
         notifyObservers();
     }
 
@@ -204,7 +206,8 @@ public class VirtualView implements ViewInterface {
         }
         else{
             stampa();
-            System.out.println(arg.getUsername());
+            System.out.println("devo mandare a " + arg.getUsername());
+            System.out.println(clients.get(arg.getUsername()));
             clients.get(arg.getUsername()).sendMVEvent(arg);
         }
     }
@@ -224,9 +227,9 @@ public class VirtualView implements ViewInterface {
 
     /**
      * Method that pings current player
-     * @param user user of the current player
+     * //@param user user of the current player
      */
-    public synchronized void serverBeat(String user){
+    /*public synchronized void serverBeat(String user){
         new Thread(new Runnable(){
             public void run() {
                 boolean ok = true;
@@ -256,7 +259,7 @@ public class VirtualView implements ViewInterface {
                 }
             }
         }).start();
-    }
+    }*/
 
     public void createSkipTurnEvent(String username) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         event = new SkipTurnEvent(username);

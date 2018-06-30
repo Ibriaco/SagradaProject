@@ -28,7 +28,8 @@ public class SocketConnection extends Thread implements ClientInterface {
     private VCEvent receivedEvent;
     private VirtualView virtualView;
     private static final Logger LOGGER = Logger.getLogger( SocketConnection.class.getName() );
-
+    private ObjectInputStream fromClient;
+    private ObjectOutputStream toClient;
     public SocketConnection(Socket socket, SocketServer socketServer, VirtualView v){
         connectionSocket = socket;
         this.socketServer = socketServer;
@@ -38,25 +39,28 @@ public class SocketConnection extends Thread implements ClientInterface {
     @Override
     public void run(){
         System.out.println("Client connesso!");
-        /*ObjectInputStream fromClient = null;
+        virtualView.setClientTemp(socketServer.getSocketConnections().get(socketServer.getSocketConnections().indexOf(this)));
         try {
-            fromClient = new ObjectInputStream(connectionSocket.getInputStream());
+            fromClient = new ObjectInputStream(this.getConnectionSocket().getInputStream());
+            toClient = new ObjectOutputStream(this.getConnectionSocket().getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
+
         boolean loop = true;
         while(loop)
         try {
-            receivedEvent = (VCEvent) new ObjectInputStream(connectionSocket.getInputStream());
-                    //fromClient.readObject();
-            virtualView.addClientToMap(receivedEvent.getUsername(),this);
+            receivedEvent = (VCEvent) fromClient.readObject();
             System.out.println("Arrivato un evento da " + receivedEvent.getUsername() + ", lo giro alla virtual view.");
             virtualView.receiveEvent(receivedEvent);
-            virtualView.addClientToMap(receivedEvent.getUsername(), this);
+
 
         } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException  e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
+            e.printStackTrace();
         } catch (InvalidDieException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -71,8 +75,9 @@ public class SocketConnection extends Thread implements ClientInterface {
 
     @Override
     public void sendMVEvent(MVEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
+        System.out.println("mando");
         try {
-            ObjectOutputStream toClient = new ObjectOutputStream(this.getConnectionSocket().getOutputStream());
+            System.out.println("MANDO");
             toClient.writeObject(event);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
@@ -86,6 +91,11 @@ public class SocketConnection extends Thread implements ClientInterface {
 
     @Override
     public void ping() throws RemoteException {
+        try {
+            connectionSocket.getOutputStream().write(0);
+        } catch (IOException e) {
+            System.out.println("disconnesso");
+        }
 
     }
 

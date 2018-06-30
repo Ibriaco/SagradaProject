@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +42,7 @@ public class LobbyController {
     }
 
 
-    public ArrayList<String> getUsername() {
+    public List<String> getUsername() {
         return username;
     }
 
@@ -54,9 +55,11 @@ public class LobbyController {
     public void handleLogin(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         String username = event.getUsername();
         LoggedUserEvent logEvent;
-        if(checkUser(username)&&checkOnlinePlayers()&&checkTime()) {
+        launchTimer();
+
+        if(checkUser(username) && checkOnlinePlayers() && checkTime()) {
             virtualView.addClientToMap(username, virtualView.getClientTemp());
-            virtualView.serverBeat(username);
+            //virtualView.serverBeat(username);
             addInLobby(username);
             logEvent = new LoggedUserEvent(username,true);
             logEvent.setState("Logged in successfully!");
@@ -100,11 +103,10 @@ public class LobbyController {
      */
     public void handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         String username = event.getUsername();
-
         if (virtualView.getRemovedClients().contains(username)){
             virtualView.getClients().put(username, virtualView.getClientTemp());
             virtualView.getRemovedClients().remove(username);
-            virtualView.serverBeat(username);
+            //virtualView.serverBeat(username);
             UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(), this.username, game.getRolledDice());
             updateGameEvent.setUsername(username);
             eventsController.setMvEvent(updateGameEvent);
@@ -117,12 +119,41 @@ public class LobbyController {
         }
     }
 
+    private void launchTimer(){
+        new Thread(()->{
+            synchronized (waitingLobby.getLock()) {
+                while (waitingLobby.getOnlinePlayersN() < 2) {
+
+                    try {
+                        waitingLobby.getLock().wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            System.out.println("almeno 2 giocatori connessi: parte timer");
+
+            while (timer > 0) {
+            System.out.println("Timer: " + timer);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            timer--;
+            }
+
+
+        }).start();
+    }
+
     /**
      * Checks if there are no occurrences of the same username in the lobby
      * @param user username of the player
      * @return true if there are no occurrences, else, false is returned
      */
-    public boolean checkUser(String user) {
+    private boolean checkUser(String user) {
         for (String u : waitingLobby.getOnlinePlayers()) {
             if (user.equals(u))
                 return false;
@@ -134,7 +165,7 @@ public class LobbyController {
      * Checks if the players in the lobby are not more than 4
      * @return true if the players are less than 4, else, false is returned
      */
-    public boolean checkOnlinePlayers() {
+    private boolean checkOnlinePlayers() {
         return waitingLobby.getOnlinePlayersN() != 3;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
@@ -143,7 +174,7 @@ public class LobbyController {
      * Checks if the timer's expired
      * @return true if the timer's expired, else, false is returned
      */
-    public boolean checkTime() {
+    private boolean checkTime() {
         return waitingLobby.getOnlinePlayersN() < 2 || getTimer() != 0;
     }
 
@@ -151,7 +182,7 @@ public class LobbyController {
      * Adds a player in the lobby
      * @param user username of the player
      */
-    public synchronized void addInLobby(String user) {
+    private synchronized void addInLobby(String user) {
 
         waitingLobby.addOnlinePlayer(user);
 
@@ -161,7 +192,7 @@ public class LobbyController {
      * Method that checks if a game can start
      * @return true if game can start, false otherwise
      */
-    public boolean checkStartGame(){
+    private boolean checkStartGame(){
 
         return !checkOnlinePlayers() || !checkTime();
     }
@@ -173,7 +204,7 @@ public class LobbyController {
      * @throws IOException exception
      * @throws ParseException exception
      */
-    public void setupGame() throws InvalidViewException, InvalidConnectionException, IOException, ParseException {
+    private void setupGame() throws InvalidViewException, InvalidConnectionException, IOException, ParseException {
         game = new Game(virtualView.getClients().size());
         game.registerObserver(virtualView);
         for (String s: virtualView.getClients().keySet()) {

@@ -26,9 +26,7 @@ public class ConnectionManager extends Thread{
         while(loop) {
             try {
                 Socket socket = serverSocket.accept();
-                SocketConnection connection = new SocketConnection(socket, socketServer, virtualView);
-                connection.start();
-                socketServer.addSocketConnection(connection);
+                socketServer.addSocketConnection(socket);
             } catch(IOException e) {
                  loop = false;
             }

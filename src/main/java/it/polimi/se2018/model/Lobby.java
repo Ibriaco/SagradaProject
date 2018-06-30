@@ -19,6 +19,11 @@ public class Lobby implements MyObservable{
     private ArrayList<String> onlinePlayers;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
+    private static final Object lock = new Object();
+
+    public Object getLock() {
+        return lock;
+    }
 
     public Lobby(){
         System.out.println("Lobby creata");
@@ -33,6 +38,10 @@ public class Lobby implements MyObservable{
      * @param p player added in the lobby
      */
     public void addOnlinePlayer(String p){
+        synchronized (lock) {
+            if (getOnlinePlayersN() == 2)
+                lock.notifyAll();
+        }
         onlinePlayers.add(p);
         onlinePlayersN++;
     }
@@ -42,7 +51,6 @@ public class Lobby implements MyObservable{
      * @param p player removed from the lobby
      */
     public void removeOnlinePlayer(String p){
-
         onlinePlayers.remove(p);
         onlinePlayersN--;
     }

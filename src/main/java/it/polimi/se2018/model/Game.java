@@ -74,7 +74,7 @@ public class Game implements MyObservable{
         return round;
     }
 
-    public ArrayList<WindowCard> getWindowCardList() {
+    public List<WindowCard> getWindowCardList() {
         return windowCardList;
     }
 

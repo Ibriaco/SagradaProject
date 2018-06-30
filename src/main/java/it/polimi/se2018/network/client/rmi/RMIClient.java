@@ -79,7 +79,7 @@ public class RMIClient implements RMIClientInterface {
      * @throws InvalidViewException thrown exception
      */
     public void sendMVEvent (MVEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
-        networkHandler.receciveMVEvent(event);
+        networkHandler.receiveMVEvent(event);
     }
 
     //metodo per inviare VCEvent da client a server

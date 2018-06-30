@@ -10,6 +10,7 @@ import it.polimi.se2018.controller.LobbyController;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,48 +41,13 @@ public class SocketServer implements ServerInterface {
         return socketConnections;
     }
 
-    public void addSocketConnection(SocketConnection sc){
-        socketConnections.add(sc);
+    public void addSocketConnection(Socket sc){
+        System.out.println("aggiungo : " + sc);
+        SocketConnection conn = new SocketConnection(sc, this, virtualView);
+        conn.start();
+        socketConnections.add(conn);
     }
 
-/*
-    @Override
-    public void removeClient(RMIClientInterface client){
-
-    }
-
-    @Override
-    public void send(Message message){
-        ObjectOutputStream b;
-        Iterator<SocketConnection> clientIterator = socketConnections.iterator();
-        while(clientIterator.hasNext()){
-            try {
-                b = new ObjectOutputStream(clientIterator.next().getConnectionSocket().getOutputStream());
-                b.writeObject(message);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            }
-        }
-
-
-*/
-    /*@Override
-    public void loginUser(VCEvent event){
-        String user = event.getUsername();
-
-        if(lobbyController.checkUser(user)) {
-            lobbyController.addInLobby(user);
-
-            System.out.println("Utente loggato!");
-        }
-        else{
-            System.out.println("Utente non loggato!");
-        }
-
-    }*/
 
     @Override
     public void vceTransport(VCEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {

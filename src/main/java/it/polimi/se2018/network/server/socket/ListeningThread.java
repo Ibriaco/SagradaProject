@@ -20,6 +20,7 @@ public class ListeningThread extends Thread{
     private Socket socket;
     private NetworkHandler networkHandler;
     private static final Logger LOGGER = Logger.getLogger( ListeningThread.class.getName() );
+    private ObjectInputStream fromServer;
 
     public ListeningThread(Socket socket, NetworkHandler networkHandler){
         this.socket = socket;
@@ -29,25 +30,25 @@ public class ListeningThread extends Thread{
     @Override
     public void run() {
         boolean loop = true;
-
-            //ObjectInputStream fromServer = null;
-            /*try {
-                fromServer = new ObjectInputStream(socket.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
+        try {
+            fromServer = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while(loop) {
             try {
-                MVEvent receivedEvent = (MVEvent) new ObjectInputStream(socket.getInputStream());
-                        //fromServer.readObject();
-                networkHandler.receciveMVEvent(receivedEvent);
+
+                MVEvent receivedEvent = (MVEvent) fromServer.readObject();
+                networkHandler.receiveMVEvent(receivedEvent);
                 System.out.println("ricevuto evento, " + receivedEvent.getUsername());
             } catch (IOException | NullPointerException e) {
                 //e.printStackTrace();
                 System.out.println("stream chiuso");
             } catch (InvalidConnectionException | InvalidViewException | ParseException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
 
