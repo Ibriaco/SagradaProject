@@ -19,10 +19,13 @@ public final class GUIControllerUtils {
     public static final String ERROR_TYPE = "ERROR";
     public static final String INFO_TYPE = "INFO";
 
-    public static void makeDialog(String content, StackPane pane, String type){
+    public static void makeDialog(String content, StackPane pane, String type, String data){
 
         JFXDialogLayout layout = new JFXDialogLayout();
-        layout.setBody(new Text(content));
+        if(data.equals(""))
+            layout.setBody(new Text(content));
+        else
+            layout.setBody(new Text(data + " " + content));
         JFXDialog dialog = new JFXDialog(pane, layout, JFXDialog.DialogTransition.CENTER);
         JFXButton button = new JFXButton("CLOSE");
         button.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));

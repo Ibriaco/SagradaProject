@@ -36,17 +36,33 @@ public class GUIView extends Application implements ViewInterface {
     private static final String SAGRADA_TITLE = "Welcome to Sagrada Game";
     private List<MyObserver> observersCollection;
     private NetworkHandler nh;
-    private List<GUIControllerIF> controllerList;
     private VCEvent vcEvent;
     private String user;
     private List<WindowCard> myCardList;
-
-
     private GUILoginController guiLoginController;
     private GUIWaitingLobbyController guiWaitingLobbyController;
     private GUIChoiceController guiChoiceController;
-
     private GUIGameScreenController guiGameScreenController;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        URL url = new File("./src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = loader.load();
+
+        observersCollection = new ArrayList<>();
+
+        setGuiLoginController(loader.getController());
+
+        Scene scene = new Scene(root, 580, 380);
+
+        primaryStage.centerOnScreen();
+        primaryStage.setResizable(false);
+        primaryStage.setTitle(SAGRADA_TITLE);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+    }
 
     @Override
     public void updateWindowCard() {
@@ -70,8 +86,10 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
-        if (event.isApproved())
+        if (event.isApproved()) {
             guiLoginController.changeScene();
+            setUsername(event.getUsername());
+        }
         else {
             try {
                 destroyNH();
@@ -89,7 +107,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(DisconnectedEvent event) {
-
+        Platform.runLater(()->guiGameScreenController.showDisconnectDialog(event.getUsername()));
     }
 
     @Override
@@ -136,26 +154,6 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        URL url = new File("./src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = loader.load();
-
-        observersCollection = new ArrayList<>();
-
-        setGuiLoginController(loader.getController());
-
-        Scene scene = new Scene(root, 580, 380);
-
-        primaryStage.centerOnScreen();
-        primaryStage.setResizable(false);
-        primaryStage.setTitle(SAGRADA_TITLE);
-        primaryStage.setScene(scene);
-
-        primaryStage.show();
-    }
-
-    @Override
     public void createNH(String choice) throws RemoteException{
         nh = new NetworkHandler(choice);
         registerObserver(nh);
@@ -172,6 +170,10 @@ public class GUIView extends Application implements ViewInterface {
         user = u;
     }
 
+    public String getUser() {
+        return user;
+    }
+
     @Override
     public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         vcEvent = new LoginEvent(user);
@@ -180,7 +182,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        Platform.runLater(()->guiGameScreenController.showTurnDialog());
+        Platform.runLater(()->guiGameScreenController.showTurnDialog(isTurnEvent.getUser()));
     }
 
     @Override

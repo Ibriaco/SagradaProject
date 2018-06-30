@@ -73,7 +73,7 @@ public class GUILoginController implements GUIControllerIF{
     }
 
     private void setupDialog(String message) {
-        makeDialog(message, stack, ERROR_TYPE);
+        makeDialog(message, stack, ERROR_TYPE, "");
     }
 
     public void handleToggle(MouseEvent mouseEvent) {

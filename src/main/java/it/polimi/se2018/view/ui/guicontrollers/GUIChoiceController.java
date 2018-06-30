@@ -174,9 +174,6 @@ public class GUIChoiceController implements GUIControllerIF {
 
     @Override
     public void changeScene() {
-        //load the game screen
-        System.out.println("CIAOOOOOOOOOOOOOO INIZIA IL GAMEEEEEEEEEEE");
-        //pass the private and the tool event to the new controller
         Stage stage = (Stage) titleNW.getScene().getWindow();
 
         Scene scene = stage.getScene();
@@ -198,6 +195,7 @@ public class GUIChoiceController implements GUIControllerIF {
         GUIGameScreenController gameCtrl = loader.getController();
         gameCtrl.showCards(privateCardEvent, publicCardEvent, toolCardEvent);
         guiView.setGuiGameScreenController(gameCtrl);
+
         stage.setHeight(600);
         stage.setWidth(800);
         stage.setResizable(true);
@@ -206,27 +204,26 @@ public class GUIChoiceController implements GUIControllerIF {
         stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
         stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
         stage.setFullScreen(false);
+        stage.centerOnScreen();
         scene.setRoot(root);
-
-
-
     }
 
     @FXML
     public void handleSelection(MouseEvent mouseEvent) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException {
         GridPane selectedGrid = (GridPane) mouseEvent.getSource();
+        String windowName = "";
         if(selectedGrid.equals(gridNW))
-            guiView.createChooseCardEvent(guiView.findInCards(titleNW.getText()));
+            windowName = titleNW.getText();
         else if (selectedGrid.equals(gridNE))
-            guiView.createChooseCardEvent(guiView.findInCards(titleNE.getText()));
+            windowName = titleNE.getText();
         else if (selectedGrid.equals(gridSW))
-            guiView.createChooseCardEvent(guiView.findInCards(titleSW.getText()));
+            windowName = titleSW.getText();
         else if (selectedGrid.equals(gridSE))
-            guiView.createChooseCardEvent(guiView.findInCards(titleSE.getText()));
+            windowName = titleSE.getText();
 
+        guiView.createChooseCardEvent(guiView.findInCards(windowName));
         makeUnClickable();
-        makeDialog(SELECTION_MESSAGE, stack, INFO_TYPE);
-        //guiView.createChooseCardEvent(guiView.findInCards(selectedGridTitle));
+        makeDialog(SELECTION_MESSAGE, stack, windowName, "");
         //changeScene();
     }
 

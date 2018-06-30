@@ -61,8 +61,6 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.centerOnScreen();
-        //stage.minHeightProperty().bind(stage.widthProperty().multiply(0.5));
-        //stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.5));
         scene.setRoot(root);
 
     }
