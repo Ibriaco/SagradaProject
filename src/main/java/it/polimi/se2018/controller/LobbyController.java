@@ -227,8 +227,8 @@ public class LobbyController {
         game.setFirstPlayer(game.getPlayers().get(0));
         IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
         eventsController.setMvEvent(isTurnEvent);
-        System.out.println("lancio il tread del primo player");
-        eventsController.launchThread(0);
+        //System.out.println("lancio il tread del primo player");
+        //eventsController.launchThread(0);
         eventsController.notifyObservers();
     }
 

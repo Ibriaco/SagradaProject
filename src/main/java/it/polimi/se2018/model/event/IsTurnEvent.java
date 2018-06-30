@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class IsTurnEvent implements MVEvent {
-    private String username = "ALL";
+    private String username;
     private String playerInTurn;
     private String user;
 
@@ -18,6 +18,7 @@ public class IsTurnEvent implements MVEvent {
         this.playerInTurn = playerInTurn;
         this.connected = connected;
         user = playerInTurn;
+        username = playerInTurn;
     }
 
 
