@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.view.viewevents.*;
 import org.json.simple.parser.ParseException;
@@ -13,7 +14,9 @@ public interface ControllerInterface {
     void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
     void handleVCEvent(RollDiceEvent event);
     void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
-    void handleVCEvent(SelectDieEvent event);
-    void handleVCEvent(UseToolEvent event);
+    void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException;
+    void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
     void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
+
+    void handleVCEvent(PlaceModifiedDie placeModifiedDie);
 }

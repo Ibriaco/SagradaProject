@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.client;
 
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -77,12 +78,16 @@ public class NetworkHandler implements MyObserver, MyObservable {
     @Override
     public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         for (MyObserver o: observerCollection) {
-            o.update(this, mvEvent);
+            try {
+                o.update(this, mvEvent);
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
-    public void update(MyObservable o, VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void update(MyObservable o, VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         System.out.println("Ho ricevuto evento da view: " + event.getUsername());
         selectedClient.sendEvent(event);
 

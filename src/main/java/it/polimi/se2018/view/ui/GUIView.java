@@ -1,6 +1,8 @@
 package it.polimi.se2018.view.ui;
 
 
+import it.polimi.se2018.controller.ChangeDieEvent;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.model.InvalidConnectionException;
@@ -129,7 +131,7 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    public void notifyObservers() throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         for (MyObserver o : observersCollection) {
             o.update(this, vcEvent);
         }
@@ -173,7 +175,7 @@ public class GUIView extends Application implements ViewInterface {
     }
 
     @Override
-    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new LoginEvent(user);
         notifyObservers();
     }
@@ -188,8 +190,18 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
-    public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    }
+
+    @Override
+    public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) {
+
+    }
+
+
+    public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new ChooseCardEvent(user, windowCard);
         notifyObservers();
     }
@@ -201,7 +213,11 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
-        arg.accept(this);
+        try {
+            arg.accept(this);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
     }
 
     public WindowCard findInCards(String n) {
@@ -248,7 +264,7 @@ public class GUIView extends Application implements ViewInterface {
     public void showTimer(int timer){
 
     }
-    public PlacedDieEvent createPlaceDieEvent(Player p, Game g){
+    public PlacingDieEvent createPlaceDieEvent(Player p, Game g){
 
     }
     public SkipTurnEvent createSkipTurnEvent (Player p, Game g) {

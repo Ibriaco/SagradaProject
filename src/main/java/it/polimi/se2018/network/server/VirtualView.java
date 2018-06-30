@@ -1,6 +1,8 @@
 package it.polimi.se2018.network.server;
 
 
+import it.polimi.se2018.controller.ChangeDieEvent;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -19,7 +21,7 @@ import java.util.*;
 /**
  * Class that works as a Proxy on the server side
  * It is observed by the EventsController
- * It observes the EventsController
+ * It observes the Model
  * @author Ibrahim El Shemy
  */
 public class VirtualView implements ViewInterface {
@@ -68,7 +70,7 @@ public class VirtualView implements ViewInterface {
      * @throws RemoteException thrown exception
      * @throws InvalidViewException thrown exception
      */
-    public void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         this.event = event;
         notifyObservers();
     }
@@ -138,6 +140,17 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+    }
+
+    @Override
+    public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+    }
+
+
     /**
      * Shows the user interface
      */
@@ -168,7 +181,7 @@ public class VirtualView implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void notifyObservers() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         for (MyObserver o: observerCollection) {
             o.update(this, event);
         }
@@ -208,6 +221,11 @@ public class VirtualView implements ViewInterface {
             System.out.println("disconnectALert:  dimensione hasmap" + clients.size() + "   dimensione removedlist:  " + removedClients.size());
         }
     }
+
+    /**
+     * Method that pings current player
+     * @param user user of the current player
+     */
     public synchronized void serverBeat(String user){
         new Thread(new Runnable(){
             public void run() {
@@ -239,7 +257,8 @@ public class VirtualView implements ViewInterface {
             }
         }).start();
     }
-    public void createSkipTurnEvent(String username) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+
+    public void createSkipTurnEvent(String username) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         event = new SkipTurnEvent(username);
         notifyObservers();
     }

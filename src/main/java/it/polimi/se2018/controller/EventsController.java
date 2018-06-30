@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.MyObservable;
@@ -9,13 +8,17 @@ import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller class that handles events
+ * @author Ibrahim El Shemy
+ * @author Marco Gasperini
+ * @author Gregorio Galletti
+ */
 public class EventsController implements ControllerInterface, MyObserver, MyObservable {
 
     private Game game;
@@ -23,47 +26,40 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     private boolean reconnection = false;
     private boolean stopThread = false;
     private LobbyController lobbyController;
+
+    public ToolCardController getToolCardController() {
+        return toolCardController;
+    }
+
+    private ToolCardController toolCardController;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private VirtualView virtualView;
     private int counter = 0;
-    private int playerIndex=0;
+    private int playerIndex;
     private static final Logger LOGGER = Logger.getLogger(EventsController.class.getName());
 
     public EventsController(VirtualView virtualView){
         this.virtualView = virtualView;
         lobbyController = new LobbyController(this, virtualView);
+        toolCardController = new ToolCardController(this, lobbyController);
     }
 
+    /**
+     *
+     * @param username user of the player
+     * @return return true if it's the player turn, false otherwise
+     */
     private boolean checkPlayer(String username) {
 
         return (game.getPlayers().indexOf(game.findPlayer(username)) == game.getTurn());
 
     }
 
-    private boolean checkValidSkip(SkipTurnEvent e) {
-
-        return this.checkPlayer(e.getUsername());
-    }
 
     public void setReconnection(boolean reconnection) {
+
         this.reconnection = reconnection;
-    }
-
-
-    private boolean checkLoginEvent(LoginEvent e) {
-        boolean control1 = this.checkPlayer(e.getUsername());
-        boolean control2;
-        if (game.getPlayerNumber() < 4) {
-            control2 = true;
-        } else
-            return false;
-        for (Player p : game.getPlayers()) {
-            if (p.getUsername().equals(e.getUsername())) {
-                return false;
-            }
-        }
-        return (control1 && control2);
     }
 
 
@@ -88,12 +84,16 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         for (MyObserver o: observerCollection) {
-            o.update(this, mvEvent);
+            try {
+                o.update(this, mvEvent);
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
-    public void update(MyObservable o, VCEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void update(MyObservable o, VCEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
 
         arg.accept(this);
     }
@@ -110,7 +110,14 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         notifyObservers();
     }
 
-    //HANDLE VCEVENT
+    /**
+     * Method that handles a login event
+     * @param event login event
+     * @throws InvalidConnectionException exception
+     * @throws IOException exception
+     * @throws InvalidViewException exception
+     * @throws ParseException exception
+     */
     @Override
     public void handleVCEvent(LoginEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         if (!reconnection)
@@ -119,13 +126,20 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             lobbyController.handleReconnection(event);
     }
 
+    /**
+     * Method that handles a place die event
+     * @param event place die event
+     * @throws InvalidConnectionException exception
+     * @throws ParseException exception
+     * @throws InvalidViewException exception
+     * @throws IOException exception
+     */
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        System.out.println("player index : " + playerIndex + "corrispondente a : " + game.getPlayers().get(playerIndex).getUsername());
-        System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
             game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
             game.updateWindowCardList();
+            //if(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getCoordY(), event.getCoordX()).isPlaced())
             game.getRolledDice().remove(event.getPos());
             //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
             mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice());
@@ -138,37 +152,50 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         //still needs to be implemented
     }
 
+    /**
+     * Method that handles a skip turn event
+     * @param event skip turn event
+     * @throws InvalidConnectionException exception
+     * @throws ParseException exception
+     * @throws InvalidViewException exception
+     * @throws IOException exception
+     */
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        //System.out.println("player index : " + playerIndex + "\tcorrispondente a : " + game.getPlayers().get(playerIndex).getUsername());
-        System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
-        System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
             handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
             stopThread = true;
         }
     }
 
+    /**
+     * Method that handles concretely the skin turn
+     * @param playerIndex index of the current player
+     * @throws InvalidConnectionException exception
+     * @throws ParseException exception
+     * @throws InvalidViewException exception
+     * @throws IOException exception
+     */
     private void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         //BISOGNA GESIRE MEGLIO A CHI VIENE ASSEGNATO IL FIRST PLAYER
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         if (game.getTurn() == game.getPlayerNumber()*2){
             System.out.println("Sono nel caso di inizio nuovo round");
-            //System.out.println("Valore di player index: " + playerIndex );
+            System.out.println("Valore di player index: " + playerIndex );
             checkRound(playerIndex);
         }
 
         //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
-        else if ((game.getTurn() - game.getPlayerNumber())==0 && !virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+        else if (game.getTurn()-game.getPlayerNumber()==0 && !virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
             System.out.println("Sono nel caso di fine primo giro con client corrente online");
-           // System.out.println("Valore di player index: " + playerIndex );
+            System.out.println("Valore di player index: " + playerIndex );
             mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
             reverse = true;
             game.nextTurn();
         }
         else if(game.getTurn()-game.getPlayerNumber()==0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
             System.out.println("Sono nel caso di fine primo giro con client corrente offline");
-           // System.out.println("Valore di player index: " + playerIndex );
+            System.out.println("Valore di player index: " + playerIndex );
             reverse = true;
             game.nextTurn();
             checkSkip(playerIndex);
@@ -179,16 +206,15 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             System.out.println("Valore di player index: " + playerIndex );
             checkSkip(playerIndex);
         }
-
-
-        System.out.println(" turno in uscita:" + game.getTurn());
-        this.playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
-        //System.out.println("PLAYER INDEX AGGIORNATO PRIMA DI NOTIFICARE EVENTO. ULTIMO AGGIORNAMENTO PRIMA DEL CHECKEVENT: " + this.playerIndex);
-        //launchThread(this.playerIndex);
-        System.out.println(" ROUND: " + game.getRound());
+        playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
+        //launchThread(playerIndex);
         notifyObservers();
     }
 
+    /**
+     * Method that launchs timer
+     * @param playerIndex index of the current player
+     */
     public void launchThread(int playerIndex) {new Thread(() -> {
         int cont=0;
         stopThread = false;
@@ -212,6 +238,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                 virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
             } catch (InvalidConnectionException | ParseException | InvalidViewException | IOException e) {
                 e.printStackTrace();
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
             }
             stopThread = false;
         }
@@ -219,11 +247,18 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }).start();
     }
 
+    /**
+     * Method that checks rounds and sets the first player to play in the current round
+     * @param playerIndex index of the current player
+     * @throws InvalidConnectionException exception
+     * @throws InvalidViewException exception
+     * @throws ParseException exception
+     * @throws IOException exception
+     */
     private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        System.out.println("sono in checkRound");
+        System.out.println("Valore di index in check round: " + playerIndex);
         if(playerIndex==game.getPlayerNumber()-1) {
             game.setFirstPlayer(game.getPlayers().get(0));
-            System.out.println("checkRound su ultimo player");
         }
         else{
             playerIndex++;
@@ -233,86 +268,90 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         //roudtrack e gestione distribuzione dadi
         reverse = false;
         game.nextTurn();
-        if(virtualView.getRemovedClients().contains(game.getFirstPlayer().getUsername())){
-            System.out.println("il primo giocatore del primo turno è offline");
+        if(virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername()))
             checkSkip(playerIndex);
-        }
-
         else
-          //  mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
-            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername(), true);
+            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
     }
 
-    /*private boolean checkBound(int index, boolean reverse) {
-        return (reverse || index == game.getPlayerNumber() - 1) && (!reverse && index == game.getPlayerNumber() - 1 || !reverse || index == 0);
-    }*/
 
-
+    /**
+     * Method that checks if turn can skipped to the incoming/previous player
+     * @param playerIndex index of the current player
+     * @throws InvalidConnectionException exception
+     * @throws InvalidViewException exception
+     * @throws ParseException exception
+     * @throws IOException exception
+     */
     private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())) {
+        if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
             mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
-            System.out.println("CS\tPROX ONLINE/CRESCENTE/NON ULTIMO");
-        }
         else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())){
             game.nextTurn();
-            System.out.println("CS\tNEXT TURN/ PROX OFFLINE/CRESCENTE/NON ULTIMO ----> CHIAMO HANDLE SKIP TURN SUL PROX");
             handleSkipTurn(playerIndex+1);
         }
-        else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername())) {
+        else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
             mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
-            System.out.println("CS\tPLAYER IN 0 ONLINE/CRESCENTE/ULTIMO");
-        }
         else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername())) {
             game.nextTurn();
-            System.out.println("CS\tNEXT TURN/PLAYER IN 0 OFFLINE/CRESCENTE/ULTIMO ----> CHIAMO HANDLE SKIP TURN SU 0");
             handleSkipTurn(0);
         }
 
         else if(reverse&&playerIndex!=0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
-        {mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
-            System.out.println("CS\tPREV ONLINE/DECRESCENTE/NON PRIMO");
-        }
+            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
         else if(reverse&&playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername())) {
             game.nextTurn();
-            System.out.println("CS\tNEXT TURN/ PREV OFFLINE/DECRESCENTE/NON PRIMO ----> CHIAMO HANDLE SKIP TURN SUL PREV");
             handleSkipTurn(playerIndex - 1);
         }
-        else if(reverse&&playerIndex==0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername())) {
-            mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber() - 1).getUsername(), true);
-            System.out.println("CS\tULTIMO PLAYER ONLINE/DECRESCENTE/PRIMO");
-        }
+        else if(reverse&&playerIndex==0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
+            mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true);
         else if (reverse&&playerIndex==0&&virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername())) {
             game.nextTurn();
-            System.out.println("CS\tNEXT TURN/ULTIMO PLAYER OFFLINE/DECRESCENTE/PRIMO ----> CHIAMO HANDLE SKIP TURN SU ULTIMO");
             handleSkipTurn(game.getPlayerNumber() - 1);
         }
         game.nextTurn();
     }
 
     @Override
-    public void handleVCEvent(SelectDieEvent event) {
-        //still needs to be implemented
+    public void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
+        toolCardController.handleVCEvent(event);
     }
 
     @Override
-    public void handleVCEvent(UseToolEvent event) {
-        //still needs to be implemented
+    public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+
+        toolCardController.handleVCEvent(event);
     }
 
+    /**
+     * Method that handles choice of a Window Card
+     * @param event choose card event
+     * @throws InvalidConnectionException exception
+     * @throws IOException exception
+     * @throws InvalidViewException exception
+     * @throws ParseException exception
+     */
     @Override
     public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         counter++;
         LOGGER.log(Level.INFO, "Risposte ricevute: " + counter);
         lobbyController.handleWindowCard(event);
         if(counter == game.getPlayerNumber()) {
-           game.dealPublicCards();
-           game.dealToolCards();
-           lobbyController.newGame();
+            game.dealPublicCards();
+            game.dealToolCards();
+            lobbyController.newGame();
         }
         LOGGER.log(Level.INFO, "Sono tornato nel lobbycontroller(windowcard)");
     }
 
+    @Override
+    public void handleVCEvent(PlaceModifiedDie placeModifiedDie) {
+
+        toolCardController.handleVCEvent(placeModifiedDie);
+    }
+
     public void setGame(Game game) {
+
         this.game = game;
     }
 

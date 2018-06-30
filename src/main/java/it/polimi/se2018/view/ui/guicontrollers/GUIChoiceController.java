@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.WindowCard;
 import it.polimi.se2018.model.event.PrivateCardEvent;
@@ -213,7 +214,7 @@ public class GUIChoiceController implements GUIControllerIF {
     }
 
     @FXML
-    public void handleSelection(MouseEvent mouseEvent) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException {
+    public void handleSelection(MouseEvent mouseEvent) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException, InvalidDieException {
         GridPane selectedGrid = (GridPane) mouseEvent.getSource();
         if(selectedGrid.equals(gridNW))
             guiView.createChooseCardEvent(guiView.findInCards(titleNW.getText()));

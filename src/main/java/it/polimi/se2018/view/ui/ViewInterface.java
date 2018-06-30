@@ -1,5 +1,7 @@
 package it.polimi.se2018.view.ui;
 
+import it.polimi.se2018.controller.ChangeDieEvent;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -20,11 +22,11 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void updateWindowCard();
 
-    void showUI() throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
+    void showUI() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException;
 
-    void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
+    void receiveEvent(VCEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException;
 
-    void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
+    void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException;
 
     void handleMVEvent(LoggedUserEvent event);
 
@@ -44,61 +46,17 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void setUsername(String u);
 
-    void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
+    void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException;
 
-    void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
+    void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException;
 
     void handleMVEvent(StopTurnEvent stopTurnEvent);
 
 
+    //void handleMVEvent(PlacingDieEvent placedDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
 
-    /*
-    public void updateRoundTrack(Game game){
+    void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException;
 
-    }
-    public void updateRoundDice(Game game){
-
-    }
-    public void updateRolledDice(Game game){
-
-    }
-
-    public void updateToolCard(){
-
-    }
-
-    public void showRoundTrack(Game game){
-
-    }
-    public void showRoundDice(Game game){
-
-    }
-    public void showRolledDice(Game game){
-
-    }
-    public void showPublicCards(Game game){
-
-    }
-    public void showToolCards(Game game){
-
-    }
-    public void showPrivateCard(Game game){
-
-    }
-    public void showPlayersWindow(Game game){
-
-    }
-    public void rollDice(){
-
-    }
-    public void skipTurn(){
-
-    }
-
-    public void update(VCEvent event) {
-
-    }
-*/
-
+    void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException;
 }
 

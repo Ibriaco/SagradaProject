@@ -2,6 +2,7 @@ package it.polimi.se2018.view.viewevents;
 
 import it.polimi.se2018.controller.ControllerInterface;
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import org.json.simple.parser.ParseException;
 
@@ -16,6 +17,6 @@ import java.io.Serializable;
 public interface VCEvent extends Serializable {
 
     static final long serialVersionUID = 42L;
-    void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, InvalidViewException, ParseException;
+    void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException;
     String getUsername();
 }

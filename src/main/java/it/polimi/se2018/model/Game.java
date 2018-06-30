@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.ToolCardFactory;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
@@ -219,10 +220,13 @@ public class Game implements MyObservable{
 
     public void dealToolCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException {
         ArrayList<String> toolCard = new ArrayList<>();
+        //ToolCardFactory toolCardFactory = new ToolCardFactory();
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
         for (int i=0; i<3; i++){
             toolCards.add(drawToolCard(randomNumbers.get(i)));
             toolCard.add("[TOOL CARD]:\tTITLE: " + getToolCards().get(i).getTitle() + "\tDESCRIPTION: " + getToolCards().get(i).getDescription());
+            //toolCards.get(i).getEffectList().add(toolCardFactory.createEffect(getToolCards().get(i).getTitle()));
+
         }
         ToolCardEvent toolCardEvent = new ToolCardEvent("ALL", toolCard);
         setMvEvent(toolCardEvent);
@@ -231,10 +235,13 @@ public class Game implements MyObservable{
 
     private ToolCard drawToolCard(int pos) throws ParseException, IOException{
         JSONParser parser = new JSONParser();
-
+        ToolCardFactory toolCardFactory = new ToolCardFactory();
         JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/toolCards.json"));
         JSONObject obj = (JSONObject) cards.get(pos);
-        return new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
+        ToolCard tc = new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
+        //return new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
+        tc.getEffectList().add(toolCardFactory.createEffect(tc.getTitle()));
+        return tc;
     }
 
 
@@ -356,7 +363,11 @@ public class Game implements MyObservable{
     @Override
     public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         for (MyObserver o: observerCollection) {
-            o.update(this, mvEvent);
+            try {
+                o.update(this, mvEvent);
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

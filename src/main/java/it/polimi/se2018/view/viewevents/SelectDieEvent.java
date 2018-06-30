@@ -2,6 +2,12 @@ package it.polimi.se2018.view.viewevents;
 
 import it.polimi.se2018.controller.ControllerInterface;
 import it.polimi.se2018.model.Color;
+import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
+import it.polimi.se2018.model.InvalidViewException;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 
 /**
  * event that notifies that a die is being selected.
@@ -53,14 +59,10 @@ public class SelectDieEvent implements VCEvent{
      *
      * @param username username of the current player.
      * @param position position of the die in the Draft Pool.
-     * @param color color of the die.
-     * @param value value of the die.
      */
-    public SelectDieEvent(String username, Color color, int value, int position){
+    public SelectDieEvent(String username,int position){
 
         this.username = username;
-        this.color = color;
-        this.value = value;
         this.position = position;
     }
 
@@ -94,7 +96,7 @@ public class SelectDieEvent implements VCEvent{
     }
 
     @Override
-    public void accept(ControllerInterface controller) {
+    public void accept(ControllerInterface controller) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         controller.handleVCEvent(this);
     }
 }

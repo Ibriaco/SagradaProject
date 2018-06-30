@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.network.client.ClientInterface;
 import it.polimi.se2018.view.viewevents.VCEvent;
@@ -14,6 +15,6 @@ import java.rmi.RemoteException;
  */
 public interface ServerInterface{
 
-    void vceTransport(VCEvent event) throws IOException, InvalidViewException, ParseException, InvalidConnectionException;
+    void vceTransport(VCEvent event) throws IOException, InvalidViewException, ParseException, InvalidConnectionException, InvalidDieException;
     void sendUser(ClientInterface client) throws RemoteException, InvalidViewException;
 }

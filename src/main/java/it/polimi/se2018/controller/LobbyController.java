@@ -89,7 +89,16 @@ public class LobbyController {
         }
     }
 
-    public void     handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    /**
+     * Method that handles reconnection of a player
+     * @author Marco Gasperini
+     * @param event event
+     * @throws InvalidConnectionException exception
+     * @throws ParseException exception
+     * @throws InvalidViewException exception
+     * @throws IOException exception
+     */
+    public void handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         String username = event.getUsername();
 
         if (virtualView.getRemovedClients().contains(username)){
@@ -149,37 +158,21 @@ public class LobbyController {
     }
 
     /**
-     * Creates a thread and decrements an integer value second by second, simulating a timer
-     * @author Gregorio Galletti
+     * Method that checks if a game can start
+     * @return true if game can start, false otherwise
      */
-    /*public void launchTimer() {
-        new Thread(() -> {
-            Message timeout = new Message("");
-            boolean startGame = false;
-            while (!startGame) {
-                    while (timer != 0) {
-                        timeout.setMessage(String.valueOf(timer));
-                        //socketServer.send(timeout);
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        timer--;
-                        if(getTimer()==0)
-                            startGame = true;
-                    }
-            }
-        }).start();
-    }*/
-
     public boolean checkStartGame(){
 
         return !checkOnlinePlayers() || !checkTime();
     }
 
-    //in setupGame creo evento setupGameEvent
+    /**
+     * Method that sets up a game
+     * @throws InvalidViewException exception
+     * @throws InvalidConnectionException exception
+     * @throws IOException exception
+     * @throws ParseException exception
+     */
     public void setupGame() throws InvalidViewException, InvalidConnectionException, IOException, ParseException {
         game = new Game(virtualView.getClients().size());
         game.registerObserver(virtualView);
@@ -190,6 +183,7 @@ public class LobbyController {
         game.dealPrivateCards();
         game.dealWindowCards();
         eventsController.setGame(game);
+        eventsController.getToolCardController().setGame(game);
     }
 
     public int getTimer() {
@@ -204,6 +198,13 @@ public class LobbyController {
         return waitingLobby;
     }
 
+    /**
+     * Method that adds a chosen card in the list of window cards
+     * @param event choose card event
+     * @throws InvalidConnectionException exception
+     * @throws RemoteException exception
+     * @throws InvalidViewException exception
+     */
     public void handleWindowCard (ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
         game.findPlayer(event.getUsername()).setWindowCard(event.getWindowCard());
         game.getWindowCardList().add(event.getWindowCard());

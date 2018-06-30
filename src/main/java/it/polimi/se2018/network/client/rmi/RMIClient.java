@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.client.rmi;
 
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -83,7 +84,7 @@ public class RMIClient implements RMIClientInterface {
 
     //metodo per inviare VCEvent da client a server
     @Override
-    public void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         if (event.toString().equals("Login event")) {
             String username = event.getUsername();
             System.out.println("Trying to authenticate " + username + " ...");

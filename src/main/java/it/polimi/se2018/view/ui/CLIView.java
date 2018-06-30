@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.ui;
 
 
+import it.polimi.se2018.controller.ChangeDieEvent;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.event.*;
@@ -8,6 +9,7 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.view.viewevents.*;
+import it.polimi.se2018.view.viewevents.PlaceDieEvent;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
 
@@ -51,7 +53,7 @@ public class CLIView implements ViewInterface {
      * @throws InvalidViewException thrown exception
      */
     @Override
-    public void showUI() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void showUI() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         String choice;
         boolean validInput = false;
         while(!validInput) {
@@ -71,7 +73,7 @@ public class CLIView implements ViewInterface {
      * @throws InvalidConnectionException thrown exception
      * @throws InvalidViewException thrown exception
      */
-     public void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+     public void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
         printOnConsole("Insert your username here: ");
         setUsername(consoleScanner.next());
@@ -104,7 +106,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         for (MyObserver o : observersCollection) {
             o.update(this, vcEvent);
         }
@@ -116,7 +118,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
 
         arg.accept(this);
     }
@@ -124,12 +126,12 @@ public class CLIView implements ViewInterface {
 
     //METODI PER CREARE EVENTI VC
     @Override
-    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new LoginEvent(user);
         notifyObservers();
     }
 
-    public void createPlaceDieEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void createPlaceDieEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         consoleWriter.println("insert the number of Die");
         int pos = getNumber()-1;
         consoleWriter.println("insert the number of column in which you want place the Die");
@@ -140,23 +142,24 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
-    public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new SkipTurnEvent(user);
         notifyObservers();
     }
 
-    public void createUseToolEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void createUseToolEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
+        consoleWriter.println("Insert the number of the Tool card you want to use");
         int pos = getNumber()-1;
         vcEvent = new UseToolEvent(user, pos);
         notifyObservers();
     }
 
-    public void createRollDiceEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    public void createRollDiceEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new RollDiceEvent(user);
         notifyObservers();
     }
 
-    private void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
+    private void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new ChooseCardEvent(user, windowCard);
         notifyObservers();
     }
@@ -174,12 +177,14 @@ public class CLIView implements ViewInterface {
     //METODI PER GESTIRE MVEVENT
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
-        event.printState();
+
+         event.printState();
     }
 
     @Override
     public void handleMVEvent(DisconnectedEvent event) {
-        event.printDisconnection();
+
+         event.printDisconnection();
     }
 
     @Override
@@ -211,9 +216,7 @@ public class CLIView implements ViewInterface {
             consoleWriter.println("inserisci carta:");
             Scanner scanner = new Scanner(System.in);
 
-
             fromThread = scanner.nextLine();
-
             consoleWriter.println(fromThread);
             WindowCard selectedW = findInCards(fromThread);
             if (selectedW != null) {
@@ -226,28 +229,10 @@ public class CLIView implements ViewInterface {
             createChooseCardEvent(findInCards(fromThread));
         } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
         }
 
-        //launchThread();
-        /*while (ok) {
-            System.out.println("inserisci carta:");
-            Scanner scanner = new Scanner(System.in);
-            String fromThread;
-
-            fromThread = scanner.nextLine();
-
-            System.out.println(fromThread);
-            WindowCard selectedW = findInCards(fromThread);
-            if (selectedW != null) {
-                try {
-                    createChooseCardEvent(findInCards(fromThread));
-                } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
-                    LOGGER.log(Level.SEVERE, e.toString(), e);
-                }
-                ok = false;
-            }
-
-        }*/
     }
 
 
@@ -289,7 +274,7 @@ public class CLIView implements ViewInterface {
 
 
     @Override
-    public void handleMVEvent(IsTurnEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    public void handleMVEvent(IsTurnEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
         if(user.equals(event.getUser()))
             menuGame(event.isConnected());
         else
@@ -300,6 +285,26 @@ public class CLIView implements ViewInterface {
     @Override
     public void handleMVEvent(StopTurnEvent event) {
         event.printMessage();
+    }
+
+
+    //metodo per gestire dado da modificare con tool card
+    @Override
+    public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
+        consoleWriter.println("Select the die you want to change: ");
+        int pos = getNumber()-1;
+        vcEvent = new SelectDieEvent(user, pos);
+        notifyObservers();
+    }
+
+    @Override
+    public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
+        consoleWriter.println("In what column do you want to place the die?");
+        int x = getNumber()-1;
+        consoleWriter.println("In what row do you want to place the die?");
+        int y = getNumber()-1;
+        vcEvent = new PlaceModifiedDie(user, modifiedPlaceEvent.getPos(), x, y);
+        notifyObservers();
     }
 
     private void printDie(Die d){
@@ -432,6 +437,8 @@ public class CLIView implements ViewInterface {
                      createChooseCardEvent(findInCards(fromThread));
                  } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
                      LOGGER.log(Level.SEVERE, e.toString(), e);
+                 } catch (InvalidDieException e) {
+                     e.printStackTrace();
                  }
              }
 
@@ -478,7 +485,7 @@ public class CLIView implements ViewInterface {
         return future.get();
     }
 
-    private void menuGame(boolean connected) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    private void menuGame(boolean connected) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
          boolean turn = true;
          String choose;
          System.out.println("");
@@ -494,6 +501,7 @@ public class CLIView implements ViewInterface {
                          break;
                      case "2":
                          createUseToolEvent();//devo gestirlo lato server
+                         createSkipTurnEvent();
                          turn = false;
                          break;
                      case "3":

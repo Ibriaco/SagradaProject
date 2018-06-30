@@ -197,7 +197,7 @@ public class Player implements MyObservable{
     }
 
     @Override
-    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
+    public void notifyObservers() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }

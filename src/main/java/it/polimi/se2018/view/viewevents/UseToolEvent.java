@@ -1,6 +1,11 @@
 package it.polimi.se2018.view.viewevents;
 
 import it.polimi.se2018.controller.ControllerInterface;
+import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidViewException;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 
 /**
  * event that lets the player use a Tool Card
@@ -32,7 +37,7 @@ public class UseToolEvent implements VCEvent{
     }
 
     @Override
-    public void accept(ControllerInterface controller){
+    public void accept(ControllerInterface controller) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         controller.handleVCEvent(this);
     }
 }
