@@ -146,6 +146,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice());
             notifyObservers();
         }
+        else {
+            mvEvent = new IsNotYourTurn(event.getUsername());
+            notifyObservers();
+        }
     }
 
     @Override
@@ -163,9 +167,16 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      */
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("player index : " + playerIndex + "\tcorrispondente a : " + game.getPlayers().get(playerIndex).getUsername());
+        System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
+        System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
             handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
             stopThread = true;
+        }
+        else {
+            mvEvent = new IsNotYourTurn(event.getUsername());
+            notifyObservers();
         }
     }
 
@@ -182,21 +193,21 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         if (game.getTurn() == game.getPlayerNumber()*2){
             System.out.println("Sono nel caso di inizio nuovo round");
-            System.out.println("Valore di player index: " + playerIndex );
+            //System.out.println("Valore di player index: " + playerIndex );
             checkRound(playerIndex);
         }
 
         //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
-        else if (game.getTurn()-game.getPlayerNumber()==0 && !virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+        else if ((game.getTurn()-game.getPlayerNumber())==0 && !virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
             System.out.println("Sono nel caso di fine primo giro con client corrente online");
-            System.out.println("Valore di player index: " + playerIndex );
+            //System.out.println("Valore di player index: " + playerIndex );
             mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
             reverse = true;
             game.nextTurn();
         }
-        else if(game.getTurn()-game.getPlayerNumber()==0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+        else if((game.getTurn()-game.getPlayerNumber())==0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
             System.out.println("Sono nel caso di fine primo giro con client corrente offline");
-            System.out.println("Valore di player index: " + playerIndex );
+            //System.out.println("Valore di player index: " + playerIndex );
             reverse = true;
             //game.nextTurn();
             checkSkip(playerIndex);
@@ -207,23 +218,25 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             System.out.println("Valore di player index: " + playerIndex );
             checkSkip(playerIndex);
         }
+
+        System.out.println(" turno in uscita:" + game.getTurn());
         this.playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
-        //launchThread(playerIndex);
+        launchThread(this.playerIndex);
         notifyObservers();
     }
 
     /**
-     * Method that launchs timer
+     * Method that launch timer
      * @param playerIndex index of the current player
      */
     public void launchThread(int playerIndex) {new Thread(() -> {
         int cont=0;
         stopThread = false;
         System.out.println("prima del while del thread");
-        while (cont < 10 && !stopThread) {
+        while (cont < 20 && !stopThread) {
             try {
                 Thread.sleep(1000);
-                System.out.println(cont);
+                System.out.println(game.getPlayers().get(playerIndex).getUsername() + " : " + cont);
                 cont++;
 
             } catch (InterruptedException e) {
@@ -257,9 +270,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      * @throws IOException exception
      */
     private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        System.out.println("Valore di index in check round: " + playerIndex);
+        System.out.println("sono in checkRound");
         if(playerIndex==game.getPlayerNumber()-1) {
             game.setFirstPlayer(game.getPlayers().get(0));
+            System.out.println("checkRound su ultimo player");
         }
         else{
             playerIndex++;
@@ -269,10 +283,12 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         //roudtrack e gestione distribuzione dadi
         reverse = false;
         game.nextTurn();
-        if(virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername()))
+        if(virtualView.getRemovedClients().contains(game.getFirstPlayer().getUsername())){
+            System.out.println("il primo giocatore del primo turno è offline");
             checkSkip(playerIndex);
+        }
         else
-            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
+            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername(), true);
     }
 
 

@@ -152,6 +152,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(IsNotYourTurn isNotYourTurn) {
+
+    }
+
 
     /**
      * Shows the user interface

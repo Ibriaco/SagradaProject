@@ -225,6 +225,7 @@ public class CLIView implements ViewInterface {
             }
 
         }
+
         try {
             createChooseCardEvent(findInCards(fromThread));
         } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
@@ -308,6 +309,11 @@ public class CLIView implements ViewInterface {
         vcEvent = new PlaceDieEvent(modifiedPlaceEvent.getUsername(), modifiedPlaceEvent.getPos(), x, y);
         //vcEvent = new PlaceModifiedDie(user, modifiedPlaceEvent.getPos(), x, y);
         notifyObservers();
+    }
+
+    @Override
+    public void handleMVEvent(IsNotYourTurn event) {
+        event.printMessage();
     }
 
     private void printDie(Die d){

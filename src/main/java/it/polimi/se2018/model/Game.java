@@ -266,14 +266,7 @@ public class Game implements MyObservable{
             for (Player p: players) {
                 p.drawWindowCards(cards, randomNumbers.get(j), randomNumbers.get(j+1));
                 WindowCardEvent windowCardEvent = new WindowCardEvent(p.getUsername(),p.getWindowCardList());
-                new Thread(new Runnable(){
-                    public void run() {setMvEvent(windowCardEvent);
-                        try {
-                            notifyObservers();
-                        } catch (IOException | ParseException | InvalidViewException | InvalidConnectionException e) {
-                            e.printStackTrace();
-                        }
-                    }}).start();
+                windowCardThread(windowCardEvent);
                 j+=2;
             }
 
@@ -281,6 +274,16 @@ public class Game implements MyObservable{
         catch (IOException e){
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
+    }
+
+    private synchronized void windowCardThread(WindowCardEvent windowCardEvent){
+        new Thread(() -> {setMvEvent(windowCardEvent);
+            try {
+                notifyObservers();
+            } catch (IOException | ParseException | InvalidViewException | InvalidConnectionException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private List<Integer> randomizeList(List<Integer> list){
