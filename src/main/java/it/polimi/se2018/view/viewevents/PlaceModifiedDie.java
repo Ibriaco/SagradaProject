@@ -16,6 +16,9 @@ public class PlaceModifiedDie implements VCEvent {
 
     public PlaceModifiedDie(String username, int pos, int x, int y){
         this.username = username;
+        this.pos = pos;
+        this.x = x;
+        this.y = y;
     }
 
     @Override

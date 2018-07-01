@@ -19,8 +19,7 @@ public class ToolCardController{
     private String user;
     private int pos;
     private Die d;
-    private int diePos;
-    MVEvent mvEvent;
+    private MVEvent mvEvent;
     private EventsController eventsController;
     private LobbyController lc;
 
@@ -71,22 +70,20 @@ public class ToolCardController{
 
     public void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
-        System.out.println("Valore del dado: " + game.getRolledDice().get(event.getPosition()).getValue());
-        d = new Die(game.getColorList());
-        d = game.getRolledDice().get(diePos);
-        System.out.println("Dimensione lista effetti: " + game.getToolCards().get(pos).getEffectList().size());
-        System.out.println(game.getToolCards().get(pos).getTitle());
+        //d = new Die(game.getColorList());
+        d = game.getRolledDice().get(event.getPosition());
+
         try {
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
-        mvEvent = new ModifiedPlaceEvent(user, diePos);
+        mvEvent = new ModifiedPlaceEvent(user, event.getPosition());
         eventsController.setMvEvent(mvEvent);
         eventsController.notifyObservers();
     }
 
-    public void handleVCEvent(PlaceModifiedDie placeModifiedDie){
+    /*public void handleVCEvent(PlaceModifiedDie placeModifiedDie){
         System.out.println("Sto per piazzare il dado");
         game.findPlayer(placeModifiedDie.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(placeModifiedDie.getPos()), placeModifiedDie.getY(), placeModifiedDie.getX(), true, true);
         System.out.println("Sto per aggiornare la card");
@@ -107,7 +104,7 @@ public class ToolCardController{
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     public void setGame(Game game) {
 

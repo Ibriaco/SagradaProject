@@ -139,8 +139,9 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
             game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
             game.updateWindowCardList();
-            //if(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getCoordY(), event.getCoordX()).isPlaced())
-            game.getRolledDice().remove(event.getPos());
+            System.out.println("Pos of die is: "+event.getPos());
+            if(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getCoordY(), event.getCoordX()).isPlaced())
+                game.getRolledDice().remove(event.getPos());
             //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
             mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice());
             notifyObservers();
@@ -197,7 +198,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             System.out.println("Sono nel caso di fine primo giro con client corrente offline");
             System.out.println("Valore di player index: " + playerIndex );
             reverse = true;
-            game.nextTurn();
+            //game.nextTurn();
             checkSkip(playerIndex);
         }
         //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
@@ -206,7 +207,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             System.out.println("Valore di player index: " + playerIndex );
             checkSkip(playerIndex);
         }
-        playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
+        this.playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
         //launchThread(playerIndex);
         notifyObservers();
     }
@@ -347,8 +348,13 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(PlaceModifiedDie placeModifiedDie) {
 
-        toolCardController.handleVCEvent(placeModifiedDie);
     }
+
+    /*@Override
+    public void handleVCEvent(PlaceModifiedDie placeModifiedDie) {
+
+        toolCardController.handleVCEvent(placeModifiedDie);
+    }*/
 
     public void setGame(Game game) {
 

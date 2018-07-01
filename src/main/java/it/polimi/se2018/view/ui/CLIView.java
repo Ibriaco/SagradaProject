@@ -293,7 +293,8 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         consoleWriter.println("Select the die you want to change: ");
         int pos = getNumber()-1;
-        vcEvent = new SelectDieEvent(user, pos);
+        System.out.println("La posizione del dado nell'array e': "+pos);
+        vcEvent = new SelectDieEvent(changeDieEvent.getUsername(), pos);
         notifyObservers();
     }
 
@@ -303,7 +304,9 @@ public class CLIView implements ViewInterface {
         int x = getNumber()-1;
         consoleWriter.println("In what row do you want to place the die?");
         int y = getNumber()-1;
-        vcEvent = new PlaceModifiedDie(user, modifiedPlaceEvent.getPos(), x, y);
+        System.out.println("La pos del dado e' "+modifiedPlaceEvent.getPos());
+        vcEvent = new PlaceDieEvent(modifiedPlaceEvent.getUsername(), modifiedPlaceEvent.getPos(), x, y);
+        //vcEvent = new PlaceModifiedDie(user, modifiedPlaceEvent.getPos(), x, y);
         notifyObservers();
     }
 

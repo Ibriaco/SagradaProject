@@ -14,6 +14,7 @@ public class ChangeDieEvent implements MVEvent {
     private String username;
 
     public ChangeDieEvent(String user) {
+
         this.username = user;
     }
 
