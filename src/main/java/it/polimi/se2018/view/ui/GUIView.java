@@ -127,7 +127,7 @@ public class GUIView extends Application implements ViewInterface {
     
     @Override
     public void handleMVEvent(UpdateGameEvent updateGameEvent) {
-        if(guiGameScreenController != null)
+        if(guiChoiceController != null)
             Platform.runLater(()->guiGameScreenController.updateScreen(updateGameEvent));
         else
             Platform.runLater(()->guiLoginController.returnToGame(updateGameEvent));
@@ -176,6 +176,7 @@ public class GUIView extends Application implements ViewInterface {
     @Override
     public void setUsername(String u) {
         user = u;
+        System.out.println("inserisco " + u);
     }
 
     public String getUser() {

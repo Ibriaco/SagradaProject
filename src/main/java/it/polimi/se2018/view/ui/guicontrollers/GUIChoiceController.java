@@ -198,16 +198,19 @@ public class GUIChoiceController implements GUIControllerIF {
         }
         GUIGameScreenController gameCtrl = loader.getController();
         gameCtrl.showCards(privateCardEvent, publicCardEvent, toolCardEvent);
+        gameCtrl.setView(guiView);
         guiView.setGuiGameScreenController(gameCtrl);
 
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setHeight(screenBounds.getHeight()*0.7);
-        stage.setWidth(screenBounds.getWidth()*0.7);
-        //stage.setResizable(true);
-        stage.setMinHeight(600);
-        stage.setMinWidth(800);
-        stage.setOnCloseRequest(event -> System.exit(0));
+        //Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        //stage.setHeight(screenBounds.getHeight()*0.7);
+        //stage.setWidth(screenBounds.getWidth()*0.7);
 
+        stage.setWidth(900);
+        stage.setHeight(650);
+        stage.setMinHeight(650);
+        stage.setMinWidth(900);
+        stage.setOnCloseRequest(event -> System.exit(0));
+        stage.setResizable(true);
 
         stage.centerOnScreen();
         scene.setRoot(root);

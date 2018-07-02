@@ -6,8 +6,13 @@ import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 
@@ -21,6 +26,8 @@ public class GUIGameScreenController {
 
     @FXML
     private AnchorPane anchor;
+    @FXML
+    private ImageView privatecard;
 
     @FXML
     public void initialize(){
@@ -30,6 +37,7 @@ public class GUIGameScreenController {
     }
 
     public void showTurnDialog(String user) {
+        System.out.println("user event: " + user + "; gui user: " + guiView.getUser());
         if (user.equals(guiView.getUser()))
             makeDialog(MY_TURN, stack, INFO_TYPE, "");
         else
@@ -38,6 +46,7 @@ public class GUIGameScreenController {
 
     public void showCards(PrivateCardEvent privateCardEvent, PublicCardEvent publicCardEvent, ToolCardEvent toolCardEvent) {
         privateCardEvent.printPrivateName();
+        privatecard.setImage(new Image(new File("./src/main/resources/GUIUtils/privates/" + privateCardEvent.getPrivateName() + ".png").toURI().toString()));
         publicCardEvent.printPublicName();
         toolCardEvent.printToolCards();
     }
