@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -8,7 +9,7 @@ import java.util.logging.Logger;
 /**Class for the Round Cell of the game.
  * @author Ibrahim El Shemy
  */
-public class RoundCell {
+public class RoundCell implements Serializable{
     private int value;
     private List<Die> diceList;
     private static final Logger LOGGER = Logger.getLogger( RoundCell.class.getName() );

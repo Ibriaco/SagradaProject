@@ -244,7 +244,7 @@ public class CLIView implements ViewInterface {
         int userN = 0;
 
         for (WindowCard w: event.getWindowCardList()) {
-            System.out.println(event.getUser().get(userN) + "\t" + w.getWindowName());
+            System.out.println("\n" + event.getUser().get(userN) + "\t" + w.getWindowName());
             for(int i = 0; i < w.getRows(); i++){
                 for(int j = 0; j < w.getCols(); j++){
                     if (w.getGridCell(i,j).isPlaced()) {
@@ -271,7 +271,20 @@ public class CLIView implements ViewInterface {
             System.out.print("\t");
             i++;
         }
-    }
+
+        if (!event.getRoundTrack().isEmpty()) {
+            i = 1;
+            System.out.println("\n----------ROUND TRACK----------");
+            for (RoundCell roundCell : event.getRoundTrack()) {
+                System.out.println(i + ")  ");
+                for (Die die : roundCell.getDiceList()) {
+                    printDie(die);
+                    System.out.print("\t");
+                    i++;
+                }
+            }
+        }
+     }
 
 
     @Override

@@ -67,7 +67,6 @@ public class NetworkHandler implements MyObserver, MyObservable {
 
     @Override
     public void update(MyObservable o, VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-        System.out.println("Ho ricevuto evento da view: " + event.getUsername());
         selectedClient.sendEvent(event);
     }
 

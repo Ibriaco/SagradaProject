@@ -22,19 +22,16 @@ import java.util.logging.Logger;
 public class EventsController implements ControllerInterface, MyObserver, MyObservable {
 
     private Game game;
-    private boolean reverse = false;
     private boolean reconnection = false;
-    private boolean stopThread = false;
+
     private LobbyController lobbyController;
-
-    public ToolCardController getToolCardController() {
-        return toolCardController;
-    }
-
+    private  TurnController turnController;
     private ToolCardController toolCardController;
+
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private VirtualView virtualView;
+    private TimerThread timer;
     private int counter = 0;
     private int playerIndex;
     private static final Logger LOGGER = Logger.getLogger(EventsController.class.getName());
@@ -43,6 +40,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         this.virtualView = virtualView;
         lobbyController = new LobbyController(this, virtualView);
         toolCardController = new ToolCardController(this, lobbyController);
+        timer = new TimerThread(this, 0);
+        turnController = new TurnController(this);
     }
 
     /**
@@ -61,12 +60,35 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
         this.reconnection = reconnection;
     }
+    public Game getGame() {
+        return game;
+    }
+    public MVEvent getMvEvent() {
+        return mvEvent;
+    }
+    public VirtualView getVirtualView() {
+        return virtualView;
+    }
+    public ToolCardController getToolCardController() {
+        return toolCardController;
+    }
+
+    public TimerThread getTimer() {
+        return timer;
+    }
 
 
     public void setMvEvent(MVEvent mvEvent) {
-
         this.mvEvent = mvEvent;
     }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+    public void setTimer(TimerThread timer) {
+        this.timer = timer;
+    }
+
 
 
     //METODI OBSERVER E OBSERVABLE
@@ -139,11 +161,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
             game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
             game.updateWindowCardList();
-            System.out.println("Pos of die is: "+event.getPos());
-            if(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getCoordY(), event.getCoordX()).isPlaced())
+            if(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getCoordY(), event.getCoordX()).isPlaced()) {
                 game.getRolledDice().remove(event.getPos());
-            //devo aggiungere round track al construttore di updateGameEvent-->game.getRoundCells()
-            mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice());
+            }
+            mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
             notifyObservers();
         }
         else {
@@ -167,12 +188,18 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      */
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        //System.out.println("player index : " + playerIndex + "\tcorrispondente a : " + game.getPlayers().get(playerIndex).getUsername());
         System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
         System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
-            handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
-            stopThread = true;
+            //if cont del timer è 60 allora genero eventi di skip turn e isotyouturn
+            if (timer.getCont() == 59){
+                timerExpired();
+            }
+            else{
+                timer.interrupt();
+                turnController.handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
+
+            }
         }
         else {
             mvEvent = new IsNotYourTurn(event.getUsername());
@@ -180,154 +207,19 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         }
     }
 
-    /**
-     * Method that handles concretely the skin turn
-     * @param playerIndex index of the current player
-     * @throws InvalidConnectionException exception
-     * @throws ParseException exception
-     * @throws InvalidViewException exception
-     * @throws IOException exception
-     */
-    private void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        //BISOGNA GESIRE MEGLIO A CHI VIENE ASSEGNATO IL FIRST PLAYER
-        // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
-        if (game.getTurn() == game.getPlayerNumber()*2){
-            System.out.println("Sono nel caso di inizio nuovo round");
-            //System.out.println("Valore di player index: " + playerIndex );
-            checkRound(playerIndex);
-        }
-
-        //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
-        else if ((game.getTurn()-game.getPlayerNumber())==0 && !virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
-            System.out.println("Sono nel caso di fine primo giro con client corrente online");
-            //System.out.println("Valore di player index: " + playerIndex );
-            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true);
-            reverse = true;
-            game.nextTurn();
-        }
-        else if((game.getTurn()-game.getPlayerNumber())==0 && virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
-            System.out.println("Sono nel caso di fine primo giro con client corrente offline");
-            //System.out.println("Valore di player index: " + playerIndex );
-            reverse = true;
-            //game.nextTurn();
-            checkSkip(playerIndex);
-        }
-        //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
-        else {
-            System.out.println("Sono nel caso di skip");
-            System.out.println("Valore di player index: " + playerIndex );
-            checkSkip(playerIndex);
-        }
-
-        System.out.println(" turno in uscita:" + game.getTurn());
-        this.playerIndex = game.getPlayers().indexOf(game.findPlayer(mvEvent.getUsername()));
-        launchThread(this.playerIndex);
+    public void timerExpired() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        timer.interrupt();
+        System.out.println("invio stopturnevent");
+        mvEvent = new StopTurnEvent(game.getPlayers().get(playerIndex).getUsername());
         notifyObservers();
+        System.out.println("invio skipturn a virtualview");
+        try {
+            virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
+        } catch (InvalidDieException | InvalidViewException | InvalidConnectionException | IOException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Method that launch timer
-     * @param playerIndex index of the current player
-     */
-    public void launchThread(int playerIndex) {new Thread(() -> {
-        int cont=0;
-        stopThread = false;
-        System.out.println("prima del while del thread");
-        while (cont < 20 && !stopThread) {
-            try {
-                Thread.sleep(1000);
-                System.out.println(game.getPlayers().get(playerIndex).getUsername() + " : " + cont);
-                cont++;
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        if (playerIndex == getPlayerIndex()&& !stopThread)    {
-            try {
-                System.out.println("invio stopturnevent");
-                mvEvent = new StopTurnEvent(game.getPlayers().get(playerIndex).getUsername());
-                notifyObservers();
-                System.out.println("invio skipturn a virtualview");
-                virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
-            } catch (InvalidConnectionException | ParseException | InvalidViewException | IOException e) {
-                e.printStackTrace();
-            } catch (InvalidDieException e) {
-                e.printStackTrace();
-            }
-            stopThread = false;
-        }
-
-    }).start();
-    }
-
-    /**
-     * Method that checks rounds and sets the first player to play in the current round
-     * @param playerIndex index of the current player
-     * @throws InvalidConnectionException exception
-     * @throws InvalidViewException exception
-     * @throws ParseException exception
-     * @throws IOException exception
-     */
-    private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        System.out.println("sono in checkRound");
-        if(playerIndex==game.getPlayerNumber()-1) {
-            game.setFirstPlayer(game.getPlayers().get(0));
-            System.out.println("checkRound su ultimo player");
-        }
-        else{
-            playerIndex++;
-            game.setFirstPlayer(game.getPlayers().get(playerIndex));
-        }
-
-        //roudtrack e gestione distribuzione dadi
-        reverse = false;
-        game.nextTurn();
-        if(virtualView.getRemovedClients().contains(game.getFirstPlayer().getUsername())){
-            System.out.println("il primo giocatore del primo turno è offline");
-            checkSkip(playerIndex);
-        }
-        else
-            mvEvent = new IsTurnEvent(game.getFirstPlayer().getUsername(), true);
-    }
-
-
-    /**
-     * Method that checks if turn can skipped to the incoming/previous player
-     * @param playerIndex index of the current player
-     * @throws InvalidConnectionException exception
-     * @throws InvalidViewException exception
-     * @throws ParseException exception
-     * @throws IOException exception
-     */
-    private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
-            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true);
-        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())){
-            game.nextTurn();
-            handleSkipTurn(playerIndex+1);
-        }
-        else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
-            mvEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
-        else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&virtualView.getRemovedClients().contains(game.getPlayers().get(0).getUsername())) {
-            game.nextTurn();
-            handleSkipTurn(0);
-        }
-
-        else if(reverse&&playerIndex!=0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
-            mvEvent = new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true);
-        else if(reverse&&playerIndex!=0&&virtualView.getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername())) {
-            game.nextTurn();
-            handleSkipTurn(playerIndex - 1);
-        }
-        else if(reverse&&playerIndex==0&&!virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
-            mvEvent = new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true);
-        else if (reverse&&playerIndex==0&&virtualView.getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername())) {
-            game.nextTurn();
-            handleSkipTurn(game.getPlayerNumber() - 1);
-        }
-        game.nextTurn();
-    }
 
     @Override
     public void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {

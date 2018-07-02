@@ -8,7 +8,6 @@ import it.polimi.se2018.view.ui.ViewInterface;
 import java.util.List;
 
 public class UpdateGameEvent implements MVEvent {
-    //aggiungere draftpool e roundtrack
     private String username = "ALL";
     private List<WindowCard> windowCardList;
     private List<String> user;
@@ -25,9 +24,6 @@ public class UpdateGameEvent implements MVEvent {
      this.windowCardList = windowCardList;
      this.user = username;
      this.dice = dice;
-    }
-    public UpdateGameEvent(List<WindowCard> windowCardList, List<String> username, List<Die> dice, String privateObjective){
-
     }
 
     public List<WindowCard> getWindowCardList() {

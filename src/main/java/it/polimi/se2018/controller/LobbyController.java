@@ -166,7 +166,7 @@ public class LobbyController {
      * @return true if the players are less than 4, else, false is returned
      */
     private boolean checkOnlinePlayers() {
-        return waitingLobby.getOnlinePlayersN() != 4;
+        return waitingLobby.getOnlinePlayersN() != 2;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
@@ -253,14 +253,13 @@ public class LobbyController {
         for (int i=0; i<username.size()*2+1; i++) {
             game.getRolledDice().add(new Die(game.getColorList()));
         }
-        UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(),username,game.getRolledDice());
+        UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(),username,game.getRolledDice(), game.getRoundCells());
         eventsController.setMvEvent(updateGameEvent);
         eventsController.notifyObservers();
         game.setFirstPlayer(game.getPlayers().get(0));
         IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
         eventsController.setMvEvent(isTurnEvent);
-        //System.out.println("lancio il tread del primo player");
-        eventsController.launchThread(0);
+        eventsController.getTimer().start();
         eventsController.notifyObservers();
     }
 

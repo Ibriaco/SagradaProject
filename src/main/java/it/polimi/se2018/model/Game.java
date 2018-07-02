@@ -56,6 +56,7 @@ public class Game implements MyObservable{
         colorList = new ArrayList<>();
         publicCards = new ArrayList<>();
         toolCards = new ArrayList<>();
+        roundCells = new ArrayList<>();
         getAvailableColor();
     }
 
