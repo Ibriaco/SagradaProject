@@ -40,9 +40,6 @@ public class GUIGameScreenController {
         privateCardEvent.printPrivateName();
         publicCardEvent.printPublicName();
         toolCardEvent.printToolCards();
-
-
-
     }
 
     public void updateScreen(UpdateGameEvent updateGameEvent){
@@ -53,4 +50,7 @@ public class GUIGameScreenController {
         makeDialog(DISCONNECTION_MESSAGE, stack, INFO_TYPE, user);
     }
 
+    public void setView(GUIView guiView){
+        this.guiView = guiView;
+    }
 }

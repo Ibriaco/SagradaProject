@@ -11,6 +11,7 @@ import it.polimi.se2018.model.event.WindowCardEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +24,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -197,14 +200,15 @@ public class GUIChoiceController implements GUIControllerIF {
         gameCtrl.showCards(privateCardEvent, publicCardEvent, toolCardEvent);
         guiView.setGuiGameScreenController(gameCtrl);
 
-        stage.setHeight(600);
-        stage.setWidth(800);
-        stage.setResizable(true);
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setHeight(screenBounds.getHeight()*0.7);
+        stage.setWidth(screenBounds.getWidth()*0.7);
+        //stage.setResizable(true);
         stage.setMinHeight(600);
         stage.setMinWidth(800);
-        stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
-        stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
-        stage.setFullScreen(false);
+        stage.setOnCloseRequest(event -> System.exit(0));
+
+
         stage.centerOnScreen();
         scene.setRoot(root);
     }
@@ -225,7 +229,6 @@ public class GUIChoiceController implements GUIControllerIF {
         guiView.createChooseCardEvent(guiView.findInCards(windowName));
         makeUnClickable();
         makeDialog(SELECTION_MESSAGE, stack, windowName, "");
-        //changeScene();
     }
 
     private void makeUnClickable() {

@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
 import it.polimi.se2018.model.event.PrivateCardEvent;
+import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +37,7 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
     }
 
 
-    public void changeScene(PrivateCardEvent event) {
+    public void changeScene(PrivateCardEvent privateCardEvent) {
         Stage stage = (Stage) pane.getScene().getWindow();
 
         Scene scene = stage.getScene();
@@ -56,12 +57,14 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         guiView.setGuiChoiceController(loader.getController());
-        guiView.getGuiChoiceController().setEvent(event);
+        guiView.getGuiChoiceController().setEvent(privateCardEvent);
 
+        stage.setOnCloseRequest(event -> System.exit(0));
         stage.setHeight(600);
         stage.setWidth(1000);
         stage.centerOnScreen();
         scene.setRoot(root);
 
     }
+
 }

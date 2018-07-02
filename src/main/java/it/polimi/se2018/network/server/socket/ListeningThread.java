@@ -39,9 +39,9 @@ public class ListeningThread extends Thread{
         while(loop) {
             try {
 
-                MVEvent receivedEvent = (MVEvent) fromServer.readObject();
-                networkHandler.receiveMVEvent(receivedEvent);
-                System.out.println("ricevuto evento, " + receivedEvent.getUsername());
+                Object receivedEvent = fromServer.readObject();
+                networkHandler.receiveMVEvent((MVEvent)receivedEvent);
+                //System.out.println("ricevuto evento, " + receivedEvent.getUsername());
             } catch (IOException | NullPointerException e) {
                 //e.printStackTrace();
                 System.out.println("stream chiuso");

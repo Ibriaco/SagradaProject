@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXToggleButton;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.view.ui.GUIView;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.fxml.FXML;
@@ -111,6 +112,7 @@ public class GUILoginController implements GUIControllerIF{
         guiView.setGuiWaitingLobbyController(loader.getController());
         stage.setHeight(540);
         stage.setWidth(960);
+        stage.setOnCloseRequest(event -> System.exit(0));
         scene.setRoot(root);
     }
 
@@ -132,4 +134,47 @@ public class GUILoginController implements GUIControllerIF{
         socketBtn.setSelected(false);
         userField.setText("");
     }
+
+    public void returnToGame(UpdateGameEvent updateGameEvent) {
+        Stage stage = (Stage) anchor.getScene().getWindow();
+
+        Scene scene = stage.getScene();
+
+        URL url = null;
+        try {
+            url = new File("src/main/resources/GUIUtils/gameScreen.fxml").toURI().toURL();
+        } catch (MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
+        Parent root = null;
+        FXMLLoader loader = null;
+        try{
+            loader = new FXMLLoader(url);
+            root = loader.load();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
+        }
+        GUIGameScreenController gameCtrl = loader.getController();
+        gameCtrl.setView(guiView);
+        guiView.setGuiGameScreenController(gameCtrl);
+
+        stage.setHeight(600);
+        stage.setWidth(800);
+        //stage.setResizable(true);
+        stage.setMinHeight(600);
+        stage.setMinWidth(800);
+        stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        stage.setFullScreen(false);
+        stage.centerOnScreen();
+        scene.setRoot(root);
+        stage.setOnCloseRequest(event -> System.exit(0));
+
+        guiView.getGuiGameScreenController().updateScreen(updateGameEvent);
+    }
+
+    public void showExitDialog() {
+        makeChoiceDialog(EXIT_MESSAGE, stack);
+    }
+
 }

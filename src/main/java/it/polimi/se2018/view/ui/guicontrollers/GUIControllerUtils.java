@@ -18,6 +18,7 @@ public final class GUIControllerUtils {
 
     public static final String ERROR_TYPE = "ERROR";
     public static final String INFO_TYPE = "INFO";
+    public static final String EXIT_MESSAGE = "Are you sure you want to close the game?";
 
     public static void makeDialog(String content, StackPane pane, String type, String data){
 
@@ -41,6 +42,29 @@ public final class GUIControllerUtils {
     public static Paint getMatch(Color c){
 
         return javafx.scene.paint.Color.valueOf(c.toString());
+    }
+
+    public static void makeChoiceDialog(String content, StackPane pane){
+
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setBody(new Text(content));
+        JFXDialog dialog = new JFXDialog(pane, layout, JFXDialog.DialogTransition.CENTER);
+        JFXButton button = new JFXButton("CLOSE");
+        button.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));
+        button.setTextFill(javafx.scene.paint.Color.WHITE);
+        button.setOnAction(event -> dialog.close());
+
+        JFXButton button2 = new JFXButton("CLOSE");
+        button2.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));
+        button2.setTextFill(javafx.scene.paint.Color.WHITE);
+        button2.setOnAction(event -> dialog.close());
+
+        layout.setActions(button);
+        layout.setActions(button2);
+
+        layout.setHeading(new Text(INFO_TYPE));
+
+        dialog.show();
     }
 
 }

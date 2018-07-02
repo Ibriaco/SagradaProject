@@ -16,10 +16,12 @@ import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
@@ -62,7 +64,7 @@ public class GUIView extends Application implements ViewInterface {
         primaryStage.setResizable(false);
         primaryStage.setTitle(SAGRADA_TITLE);
         primaryStage.setScene(scene);
-
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
         primaryStage.show();
     }
 
@@ -125,6 +127,10 @@ public class GUIView extends Application implements ViewInterface {
     
     @Override
     public void handleMVEvent(UpdateGameEvent updateGameEvent) {
+        if(guiGameScreenController != null)
+            Platform.runLater(()->guiGameScreenController.updateScreen(updateGameEvent));
+        else
+            Platform.runLater(()->guiLoginController.returnToGame(updateGameEvent));
 
     }
 
