@@ -60,5 +60,9 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException;
 
     void handleMVEvent(IsNotYourTurn isNotYourTurn);
+
+    void handleMVEvent(ChangedDieEvent changedDieEvent);
+
+    void handleMVEvent(MoveDieEvent moveDieEffect) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
 }
 

@@ -1,10 +1,7 @@
 package it.polimi.se2018;
 
 import it.polimi.se2018.controller.ToolCardController;
-import it.polimi.se2018.controller.effects.Effect;
-import it.polimi.se2018.controller.effects.IncDecEffect;
-import it.polimi.se2018.controller.effects.ReverseDieEffect;
-import it.polimi.se2018.controller.effects.RollDieEffect;
+import it.polimi.se2018.controller.effects.*;
 
 public class ToolCardFactory {
     private static final String GROZING_PLIERS = "Grozing Pliers";
@@ -30,13 +27,14 @@ public class ToolCardFactory {
         else if(title.equalsIgnoreCase(FLUX_BRUSH))
             return new RollDieEffect();
 
-        /*else if(title.equalsIgnoreCase(COLOR_VARIETY))
-            return new MediumShade(title, description, score);
+        else if(title.equalsIgnoreCase(ENGLOMISE_BRUSH)) {
+            return new MoveDieEffect(false, true, 1);
+        }
 
-        else if(title.equalsIgnoreCase(SHADE_VARIETY))
-            return new MediumShade(title, description, score);
+        else if(title.equalsIgnoreCase(COPPER_FOIL_BRUSHER))
+            return new MoveDieEffect(true, false, 1);
 
-        else if(title.equalsIgnoreCase(COLUMN_SHADE_VARIETY))
+        /*else if(title.equalsIgnoreCase(COLUMN_SHADE_VARIETY))
             return new MediumShade(title, description, score);
 
         else if(title.equalsIgnoreCase(ROW_SHADE_VARIETY))

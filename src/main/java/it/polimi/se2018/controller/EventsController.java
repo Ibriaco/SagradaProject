@@ -192,7 +192,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
             //if cont del timer è 60 allora genero eventi di skip turn e isotyouturn
-            if (timer.getCont() == 59){
+            if (timer.getCont() == 119){
                 timerExpired();
             }
             else{
@@ -258,11 +258,11 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     }
 
-    /*@Override
-    public void handleVCEvent(PlaceModifiedDie placeModifiedDie) {
+    @Override
+    public void handleVCEvent(MovingDieEvent movingDieEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        toolCardController.handleVCEvent(movingDieEvent);
+    }
 
-        toolCardController.handleVCEvent(placeModifiedDie);
-    }*/
 
     public void setGame(Game game) {
 

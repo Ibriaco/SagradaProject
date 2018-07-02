@@ -2,9 +2,8 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.controller.effects.*;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.model.event.MVEvent;
-import it.polimi.se2018.model.event.ModifiedPlaceEvent;
-import it.polimi.se2018.model.event.UpdateGameEvent;
+import it.polimi.se2018.model.event.*;
+import it.polimi.se2018.view.viewevents.MovingDieEvent;
 import it.polimi.se2018.view.viewevents.PlaceModifiedDie;
 import it.polimi.se2018.view.viewevents.SelectDieEvent;
 import it.polimi.se2018.view.viewevents.UseToolEvent;
@@ -20,6 +19,9 @@ public class ToolCardController{
     private int pos;
     private Die d;
     private MVEvent mvEvent;
+    private int newX;
+    private int newY;
+    private WindowCard w;
     private EventsController eventsController;
     private LobbyController lc;
 
@@ -40,7 +42,11 @@ public class ToolCardController{
     public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         user = event.getUsername();
         pos = event.getToolCardNumber();
-        mvEvent = new ChangeDieEvent(user);
+        if(game.getToolCards().get(pos).getType().equals("AD"))
+            mvEvent = new ChangeDieEvent(user);
+        else if(game.getToolCards().get(pos).getType().equals("OW"))
+            mvEvent = new MoveDieEvent(user);
+
         eventsController.setMvEvent(mvEvent);
         eventsController.notifyObservers();
     }
@@ -66,11 +72,11 @@ public class ToolCardController{
     }
 
     public void checkApplyEffect(MoveDieEffect moveDieEffect) {
+        moveDieEffect.applyEffect(w, d, newX, newY);
     }
 
     public void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
-        //d = new Die(game.getColorList());
         d = game.getRolledDice().get(event.getPosition());
 
         try {
@@ -78,36 +84,38 @@ public class ToolCardController{
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
+        mvEvent = new ChangedDieEvent(user, d);
+        eventsController.setMvEvent(mvEvent);
+        eventsController.notifyObservers();
+
         mvEvent = new ModifiedPlaceEvent(user, event.getPosition());
         eventsController.setMvEvent(mvEvent);
         eventsController.notifyObservers();
     }
 
-    /*public void handleVCEvent(PlaceModifiedDie placeModifiedDie){
-        System.out.println("Sto per piazzare il dado");
-        game.findPlayer(placeModifiedDie.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(placeModifiedDie.getPos()), placeModifiedDie.getY(), placeModifiedDie.getX(), true, true);
-        System.out.println("Sto per aggiornare la card");
-        game.updateWindowCardList();
-        System.out.println("Ho aggiornato la carta");
-        game.getRolledDice().remove(placeModifiedDie.getPos());
-        mvEvent = new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice());
-        eventsController.setMvEvent(mvEvent);
+    public void handleVCEvent(MovingDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        int index;
+        index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+        d = game.getPlayers().get(index).getWindowCard().getGridCell(event.getOldX(), event.getOldY()).getPlacedDie();
+        game.getPlayers().get(index).getWindowCard().removeDie(event.getOldY(), event.getOldX());
+        w = game.getPlayers().get(index).getWindowCard();
+        newX = event.getNewX();
+        newY = event.getNewY();
         try {
-            eventsController.notifyObservers();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConnectionException e) {
-            e.printStackTrace();
-        } catch (InvalidViewException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+            game.getToolCards().get(pos).getEffectList().get(0).accept(this);
+        } catch (InvalidDieException e) {
             e.printStackTrace();
         }
+        MVEvent updateEvent = new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice());
+        eventsController.setMvEvent(updateEvent);
+        eventsController.notifyObservers();
+    }
 
-    }*/
 
     public void setGame(Game game) {
 
         this.game = game;
     }
+
+
 }

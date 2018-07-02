@@ -157,6 +157,16 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(ChangedDieEvent changedDieEvent) {
+
+    }
+
+    @Override
+    public void handleMVEvent(MoveDieEvent moveDieEvent) {
+
+    }
+
 
     /**
      * Shows the user interface

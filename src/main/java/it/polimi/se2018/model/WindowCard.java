@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+
 import java.io.Serializable;
 
 /**WindowCard Class of the Game.

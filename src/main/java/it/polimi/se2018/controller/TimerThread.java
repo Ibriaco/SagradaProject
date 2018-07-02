@@ -19,7 +19,7 @@ public class TimerThread extends Thread{
 
     @Override
     public void run (){
-        while (cont < 60) {
+        while (cont < 120) {
             try {
                 Thread.sleep(1000);
                 //System.out.println("player index: " + playerIndex + " timer: " + cont);

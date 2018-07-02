@@ -239,8 +239,7 @@ public class Game implements MyObservable{
         ToolCardFactory toolCardFactory = new ToolCardFactory();
         JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/toolCards.json"));
         JSONObject obj = (JSONObject) cards.get(pos);
-        ToolCard tc = new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
-        //return new ToolCard((String) obj.get("Title"),(String)obj.get("Description"));
+        ToolCard tc = new ToolCard((String) obj.get("Title"),(String)obj.get("Description"),(String)obj.get("Type"));
         tc.getEffectList().add(toolCardFactory.createEffect(tc.getTitle()));
         return tc;
     }

@@ -272,7 +272,7 @@ public class CLIView implements ViewInterface {
             i++;
         }
 
-        if (!event.getRoundTrack().isEmpty()) {
+       /* if (!event.getRoundTrack().isEmpty()) {
             i = 1;
             System.out.println("\n----------ROUND TRACK----------");
             for (RoundCell roundCell : event.getRoundTrack()) {
@@ -283,7 +283,7 @@ public class CLIView implements ViewInterface {
                     i++;
                 }
             }
-        }
+        }*/
      }
 
 
@@ -307,20 +307,17 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         consoleWriter.println("Select the die you want to change: ");
         int pos = getNumber()-1;
-        System.out.println("La posizione del dado nell'array e': "+pos);
         vcEvent = new SelectDieEvent(changeDieEvent.getUsername(), pos);
         notifyObservers();
     }
 
     @Override
     public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        consoleWriter.println("In what column do you want to place the die?");
-        int x = getNumber()-1;
         consoleWriter.println("In what row do you want to place the die?");
+        int x = getNumber()-1;
+        consoleWriter.println("In what column do you want to place the die?");
         int y = getNumber()-1;
-        System.out.println("La pos del dado e' "+modifiedPlaceEvent.getPos());
         vcEvent = new PlaceDieEvent(modifiedPlaceEvent.getUsername(), modifiedPlaceEvent.getPos(), x, y);
-        //vcEvent = new PlaceModifiedDie(user, modifiedPlaceEvent.getPos(), x, y);
         notifyObservers();
     }
 
@@ -328,6 +325,31 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(IsNotYourTurn event) {
         event.printMessage();
     }
+
+    @Override
+    public void handleMVEvent(ChangedDieEvent changedDieEvent) {
+        System.out.println("New value of the die is: ");
+        printDie(changedDieEvent.getDie());
+        System.out.println("");
+    }
+
+    @Override
+    public void handleMVEvent(MoveDieEvent moveDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+        consoleWriter.println("Insert the column of the die you want to move: ");
+        int oldX = getNumber()-1;
+        consoleWriter.println("Insert the row of the die you want to move: ");
+        int oldY = getNumber()-1;
+        consoleWriter.println("Insert the column where you want to move the die: ");
+        int newX = getNumber()-1;
+        consoleWriter.println("Insert the row where you want to move the die: ");
+        int newY = getNumber()-1;
+        vcEvent = new MovingDieEvent(moveDieEvent.getUsername(), oldX, oldY, newX, newY);
+        notifyObservers();
+
+
+    }
+
 
     private void printDie(Die d){
          Color color = d.getColor();
