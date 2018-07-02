@@ -271,26 +271,27 @@ public class CLIView implements ViewInterface {
             System.out.print("\t");
             i++;
         }
-
-       /* if (!event.getRoundTrack().isEmpty()) {
-            i = 1;
+        //System.out.println("size di roundTrack: " + event.getRoundTrack().size());
+        if (!event.getRoundTrack().isEmpty()) {
+            int roundTrack = 1;
             System.out.println("\n----------ROUND TRACK----------");
             for (RoundCell roundCell : event.getRoundTrack()) {
-                System.out.println(i + ")  ");
+                System.out.print(roundTrack + ")  ");
                 for (Die die : roundCell.getDiceList()) {
                     printDie(die);
                     System.out.print("\t");
-                    i++;
                 }
+                roundTrack++;
+                System.out.println("");
             }
-        }*/
+        }
      }
 
 
     @Override
     public void handleMVEvent(IsTurnEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
         if(user.equals(event.getUser()))
-            menuGame(event.isConnected());
+            menuGame();
         else
             event.printPlayerInTurn();
 
@@ -348,6 +349,12 @@ public class CLIView implements ViewInterface {
         notifyObservers();
 
 
+    }
+
+    @Override
+    public void handleMVEvent(WrongPlaceEvent event) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        System.out.println("IMPOSSIBLE PLACEMENT. RETRY!");
+        menuGame();
     }
 
 
@@ -529,7 +536,7 @@ public class CLIView implements ViewInterface {
         return future.get();
     }
 
-    private void menuGame(boolean connected) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
+    private void menuGame() throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
          boolean turn = true;
          String choose;
          System.out.println("");

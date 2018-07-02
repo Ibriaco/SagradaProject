@@ -2,6 +2,8 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.IsTurnEvent;
+import it.polimi.se2018.model.event.MVEvent;
+import it.polimi.se2018.model.event.UpdateGameEvent;
 
 import java.io.IOException;
 
@@ -9,6 +11,7 @@ public class TurnController {
     private EventsController eventsController;
     private Game game;
     private boolean reverse = false;
+    private MVEvent tempMVEvent;
 
 
     public TurnController(EventsController eventsController){
@@ -31,10 +34,9 @@ public class TurnController {
             for (Die die: game.getRolledDice()) {
                 game.getRoundCells().get(game.getRound()-1).addDie(die);
             }
-            System.out.println("dimensione prima removeall: " + game.getRolledDice().size());
-
+            //System.out.println("dimensione prima removeall: " + game.getRolledDice().size());
             game.getRolledDice().removeAll(game.getRolledDice());
-            System.out.println("dimensione dopo removeall: " + game.getRolledDice().size());
+            //System.out.println("dimensione dopo removeall: " + game.getRolledDice().size());
             game.setRolledDice();
             checkRound(playerIndex);
         }
@@ -63,6 +65,12 @@ public class TurnController {
         eventsController.setPlayerIndex(game.getPlayers().indexOf(game.findPlayer(eventsController.getMvEvent().getUsername())));
         eventsController.setTimer(new TimerThread(eventsController,eventsController.getPlayerIndex()));
         eventsController.getTimer().start();
+        tempMVEvent = eventsController.getMvEvent();
+        //MANDO UPDATE EVENT
+        eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), eventsController.getLobbyController().getUsername(), game.getRolledDice(), game.getRoundCells()));
+        eventsController.notifyObservers();
+        //MANDO SKIP TURN EVENT
+        eventsController.setMvEvent(tempMVEvent);
         eventsController.notifyObservers();
     }
 

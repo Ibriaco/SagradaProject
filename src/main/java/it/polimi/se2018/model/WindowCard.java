@@ -41,7 +41,7 @@ public class WindowCard implements Serializable{
         if(!checkCoords(row, col))
             return false;
 
-        if(!checkPlacement(getGridCell(row, col), d))
+        if(!checkPlacement(getGridCell(row, col), d, color, shade))
             return false;
 
         if (isEmpty())
@@ -131,12 +131,18 @@ public class WindowCard implements Serializable{
      * @param d Refers to the die to be placed.
      * @return true if the placement can be done, false otherwise.
      */
-    private boolean checkPlacement(Cell c, Die d){
+    private boolean checkPlacement(Cell c, Die d, boolean color, boolean shade){
 
         if(c.getColor() == Color.WHITE && c.getShade() == 0)
             return true;
-        if(d != null)
-            return (c.getColor() == d.getColor() || c.getShade() == d.getValue());
+        if(d != null) {
+            if (color && shade)
+                return c.getColor() == d.getColor() || c.getShade() == d.getValue();
+            else if (color)
+                return c.getColor() == d.getColor();
+            else if (shade)
+                return c.getShade() == d.getValue();
+        }
         return false;
     }
 

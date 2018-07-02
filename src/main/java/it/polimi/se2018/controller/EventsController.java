@@ -25,7 +25,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     private boolean reconnection = false;
 
     private LobbyController lobbyController;
-    private  TurnController turnController;
+    private TurnController turnController;
     private ToolCardController toolCardController;
 
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
@@ -72,7 +72,9 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     public ToolCardController getToolCardController() {
         return toolCardController;
     }
-
+    public LobbyController getLobbyController() {
+        return lobbyController;
+    }
     public TimerThread getTimer() {
         return timer;
     }
@@ -159,13 +161,17 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
-            game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
-            game.updateWindowCardList();
-            if(game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getCoordY(), event.getCoordX()).isPlaced()) {
+            if(game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true)){
+                game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
+                game.updateWindowCardList();
                 game.getRolledDice().remove(event.getPos());
+                mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                notifyObservers();
             }
-            mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
-            notifyObservers();
+            else {
+                mvEvent = new WrongPlaceEvent(event.getUsername());
+            }
+
         }
         else {
             mvEvent = new IsNotYourTurn(event.getUsername());
