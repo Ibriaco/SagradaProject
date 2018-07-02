@@ -8,9 +8,11 @@ import java.util.List;
 public class ToolCard extends Card {
     private boolean used = false;
     private List<Effect> effectList;
+    private String type;
 
-    public ToolCard(String title, String description) {
+    public ToolCard(String title, String description, String type) {
         super(title, description);
+        this.type = type;
         this.used = used;
         effectList = new ArrayList<>();
 
@@ -29,6 +31,9 @@ public class ToolCard extends Card {
 
     }
 
+    public String getType() {
+        return type;
+    }
 
     public List<Effect> getEffectList() {
         return effectList;

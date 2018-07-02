@@ -8,11 +8,12 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
-public class IsNotYourTurn implements MVEvent {
+public class MoveDieEvent implements MVEvent {
+
     private String username;
 
-    public IsNotYourTurn(String username){
-        this.username = username;
+    public MoveDieEvent(String user){
+        this.username = user;
     }
 
     @Override
@@ -22,10 +23,7 @@ public class IsNotYourTurn implements MVEvent {
 
     @Override
     public String getUsername() {
-        return username;
-    }
 
-    public void printMessage(){
-        System.out.println("IS NOT YOUR TURN!");
+        return username;
     }
 }

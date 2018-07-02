@@ -19,4 +19,6 @@ public interface ControllerInterface {
     void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
 
     void handleVCEvent(PlaceModifiedDie placeModifiedDie);
+
+    void handleVCEvent(MovingDieEvent movingDieEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
 }

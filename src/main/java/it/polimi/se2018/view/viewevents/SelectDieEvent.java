@@ -22,21 +22,21 @@ public class SelectDieEvent implements VCEvent{
     private int coordY;
     private int position;
     private String username;
+    private int newX;
+    private int newY;
 
     /**
      *
      * @param coordX x coordinate on the Window Card.
      * @param coordY y coordinate on the Window Card.
-     * @param value value of the die
-     * @param color color of the die
      */
-    public SelectDieEvent(String username, int coordX, int coordY, int value, Color color){
+    public SelectDieEvent(String username, int coordX, int coordY, int newX, int newY){
 
         this.username = username;
         this.coordX = coordX;
         this.coordY = coordY;
-        this.value = value;
-        this.color = color;
+        this.newX = newX;
+        this.newY = newY;
     }
 
 
@@ -93,6 +93,15 @@ public class SelectDieEvent implements VCEvent{
     public int getPosition(){
 
         return position;
+    }
+
+
+    public int getNewX() {
+        return newX;
+    }
+
+    public int getNewY() {
+        return newY;
     }
 
     @Override

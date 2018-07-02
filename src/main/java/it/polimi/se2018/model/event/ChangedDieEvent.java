@@ -1,5 +1,6 @@
 package it.polimi.se2018.model.event;
 
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -8,11 +9,14 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
-public class IsNotYourTurn implements MVEvent {
-    private String username;
+public class ChangedDieEvent implements MVEvent {
 
-    public IsNotYourTurn(String username){
-        this.username = username;
+    private String username;
+    private Die d;
+
+    public ChangedDieEvent(String user, Die die){
+        this.username = user;
+        this.d = die;
     }
 
     @Override
@@ -25,7 +29,7 @@ public class IsNotYourTurn implements MVEvent {
         return username;
     }
 
-    public void printMessage(){
-        System.out.println("IS NOT YOUR TURN!");
+    public Die getDie(){
+        return d;
     }
 }

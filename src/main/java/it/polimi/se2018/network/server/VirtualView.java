@@ -157,6 +157,21 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(ChangedDieEvent changedDieEvent) {
+
+    }
+
+    @Override
+    public void handleMVEvent(MoveDieEvent moveDieEvent) {
+
+    }
+
+    @Override
+    public void handleMVEvent(WrongPlaceEvent wrongPlaceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+
+    }
+
 
     /**
      * Shows the user interface

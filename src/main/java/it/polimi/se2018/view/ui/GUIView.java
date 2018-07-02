@@ -214,6 +214,16 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(ChangedDieEvent changedDieEvent) {
+
+    }
+
+    @Override
+    public void handleMVEvent(MoveDieEvent moveDieEffect) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+    }
+
 
     public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new ChooseCardEvent(user, windowCard);
