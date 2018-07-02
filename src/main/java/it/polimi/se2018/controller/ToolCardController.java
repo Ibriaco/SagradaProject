@@ -96,18 +96,21 @@ public class ToolCardController{
     public void handleVCEvent(MovingDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         int index;
         index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
-        d = game.getPlayers().get(index).getWindowCard().getGridCell(event.getOldX(), event.getOldY()).getPlacedDie();
+        d = game.getPlayers().get(index).getWindowCard().getGridCell(event.getOldY(), event.getOldX()).getPlacedDie();
+        System.out.println("valore dado rimosso: " + d.getValue() + "  " + d.getColor());
         game.getPlayers().get(index).getWindowCard().removeDie(event.getOldY(), event.getOldX());
+        game.updateWindowCardList();
         w = game.getPlayers().get(index).getWindowCard();
         newX = event.getNewX();
         newY = event.getNewY();
+        System.out.println("valore e colore cella su cui piazzo il dado: " + w.getGridCell(newY,newX).getShade() +  "  " + w.getGridCell(newY,newX).getColor());
         try {
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
+            game.updateWindowCardList();
         } catch (InvalidDieException e) {
             e.printStackTrace();
         }
-        MVEvent updateEvent = new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice());
-        eventsController.setMvEvent(updateEvent);
+        eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
         eventsController.notifyObservers();
     }
 

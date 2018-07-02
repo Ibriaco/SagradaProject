@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Marco Gasperini
@@ -288,16 +289,55 @@ public class TestWindowCard {
     }
 
     @Test
-    public void testPlace(){
-        w.placeDie(d1,0,0,true,true);
+    public void testPlaceColorRestriction(){
+        w.placeDie(d1,0,0,true,false);
         assertEquals(true, w.getGridCell(0,0).isPlaced());
         assertEquals(d1, w.getGridCell(0,0).getPlacedDie());
+    }
+    @Test
+    public void testWrongPlaceColorRestriction(){
+        w.placeDie(d2,0,0,true,false);
+        assertEquals(false, w.getGridCell(0,0).isPlaced());
+        assertNull(w.getGridCell(0,0).getPlacedDie());
+    }
+    @Test
+    public void testPlaceShadeRestriction(){
+        w.placeDie(d2,0,1,false,true);
+        assertEquals(true, w.getGridCell(0,1).isPlaced());
+        assertEquals(d2, w.getGridCell(0,1).getPlacedDie());
+    }
+    @Test
+    public void testWrongPlaceShadeRestriction(){
+        w.placeDie(d2,0,0,false,true);
+        assertEquals(false, w.getGridCell(0,0).isPlaced());
+        assertNull(w.getGridCell(0,0).getPlacedDie());
     }
 
     @Test
     public void testWrongPlace(){
         w.placeDie(d1,2,2,true,true);
         assertEquals(false, w.getGridCell(2,2).isPlaced());
+    }
+
+
+
+    @Test
+    public void testComleteCheckColor(){
+        try {
+            d8.setValue(3);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
+        try {
+            d10.setValue(4);
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
+        w.placeDie(d8,0,2,true,true);
+        w.placeDie(d10,1,2,true,true);
+        assertEquals(d8, w.getGridCell(0,2).getPlacedDie());
+        assertNull(w.getGridCell(1,2).getPlacedDie());
+
     }
 
     @Test

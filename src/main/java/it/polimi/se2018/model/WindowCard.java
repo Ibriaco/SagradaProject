@@ -38,14 +38,21 @@ public class WindowCard implements Serializable{
      */
     public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade){
 
-        if(!checkCoords(row, col))
+        if(!checkCoords(row, col)) {
+            System.out.println("checkCoords");
             return false;
 
-        if(!checkPlacement(getGridCell(row, col), d, color, shade))
-            return false;
+        }
 
-        if (isEmpty())
+        if(!checkPlacement(getGridCell(row, col), d, color, shade)) {
+            System.out.println("checkPlacement");
+            return false;
+        }
+
+        if (isEmpty()){
+            System.out.println("empty e boolean: " + ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3))) ;
             return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
+        }
 
         if(isFull())
             return false;
@@ -81,8 +88,9 @@ public class WindowCard implements Serializable{
         for(int i = previousR; i <= nextR; i++){
             for (int j = previousC; j <= nextC; j++){
                 try{
-                    if(getGridCell(i, j).isPlaced())
-                        return true;
+                    if(getGridCell(i, j).isPlaced()){
+                        System.out.println("chekarround return true");
+                        return true;}
                 }
                 catch (ArrayIndexOutOfBoundsException E){}
             }
@@ -116,13 +124,8 @@ public class WindowCard implements Serializable{
 
         okColor = toCheck.getColor() != d.getColor();
         okShade = toCheck.getValue() != d.getValue();
-
-        if (color && shade)
-            return (okColor && okShade);
-        if (color)
-            return okColor;
-
-        return shade && okShade;
+        System.out.println("valore di ritonro di check NSEW: " + (okColor && okShade));
+        return okColor && okShade;
     }
 
     /**
@@ -138,10 +141,18 @@ public class WindowCard implements Serializable{
         if(d != null) {
             if (color && shade)
                 return c.getColor() == d.getColor() || c.getShade() == d.getValue();
-            else if (color)
-                return c.getColor() == d.getColor();
-            else if (shade)
-                return c.getShade() == d.getValue();
+            else if (color) {
+                if(c.getColor() == Color.WHITE)
+                    return true;
+                else
+                    return c.getColor() == d.getColor();
+            }
+            else if (shade) {
+                if(c.getShade()==0)
+                    return true;
+                else
+                    return c.getShade() == d.getValue();
+            }
         }
         return false;
     }

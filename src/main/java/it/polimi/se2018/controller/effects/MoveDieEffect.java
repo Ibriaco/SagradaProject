@@ -22,7 +22,9 @@ public class MoveDieEffect implements Effect {
     }
 
     public void applyEffect(WindowCard w, Die die, int newX, int newY){
+        System.out.println("valore dado passato: " + die.getValue() + "  " + die.getColor());
         w.placeDie(die, newY, newX, color, value);
+        System.out.println(" piazzato? " + w.getGridCell(newY,newX).isPlaced());
     }
 
 

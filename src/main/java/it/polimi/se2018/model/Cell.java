@@ -86,6 +86,8 @@ public class Cell implements Serializable{
     private boolean checkPlacement(Die d){
         if(this.getColor().equals(Color.WHITE))
             return true;
+        else if (this.getShade() == 0)
+            return true;
         return (d.getColor() == this.getColor() || d.getValue() == this.getShade());
     }
 }

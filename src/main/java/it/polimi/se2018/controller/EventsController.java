@@ -170,6 +170,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             }
             else {
                 mvEvent = new WrongPlaceEvent(event.getUsername());
+                notifyObservers();
             }
 
         }

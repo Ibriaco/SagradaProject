@@ -271,19 +271,8 @@ public class CLIView implements ViewInterface {
             System.out.print("\t");
             i++;
         }
-        //System.out.println("size di roundTrack: " + event.getRoundTrack().size());
         if (!event.getRoundTrack().isEmpty()) {
-            int roundTrack = 1;
-            System.out.println("\n----------ROUND TRACK----------");
-            for (RoundCell roundCell : event.getRoundTrack()) {
-                System.out.print(roundTrack + ")  ");
-                for (Die die : roundCell.getDiceList()) {
-                    printDie(die);
-                    System.out.print("\t");
-                }
-                roundTrack++;
-                System.out.println("");
-            }
+            printRoundTrack(event.getRoundTrack());
         }
      }
 
@@ -465,36 +454,6 @@ public class CLIView implements ViewInterface {
         }
     }
 
-    private synchronized void launchThread() {
-         new Thread(new Runnable(){
-             public void run() {
-                 String fromThread;
-                 while (true) {
-                     consoleWriter.println("inserisci carta:");
-                     Scanner scanner = new Scanner(System.in);
-
-
-                     fromThread = scanner.nextLine();
-
-                     consoleWriter.println(fromThread);
-                     WindowCard selectedW = findInCards(fromThread);
-                     if (selectedW != null) {
-                         System.out.println("faccio il breack del tread");
-                         break;
-                     }
-
-                 }
-                 try {
-                     createChooseCardEvent(findInCards(fromThread));
-                 } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
-                     LOGGER.log(Level.SEVERE, e.toString(), e);
-                 } catch (InvalidDieException e) {
-                     e.printStackTrace();
-                 }
-             }
-
-         }).start();
-    }
 
     @Override
     public void handleMVEvent(PublicCardEvent event) {
@@ -534,6 +493,20 @@ public class CLIView implements ViewInterface {
         Future<String> future = executor.submit(callable);
         executor.shutdown();
         return future.get();
+    }
+
+    private void printRoundTrack(List<RoundCell> roundTrack) {
+        int counter = 1;
+        System.out.println("\n----------ROUND TRACK----------");
+        for (RoundCell roundCell : roundTrack) {
+            System.out.print(counter + ")  ");
+            for (Die die : roundCell.getDiceList()) {
+                printDie(die);
+                System.out.print("\t");
+            }
+            counter++;
+            System.out.println("");
+        }
     }
 
     private void menuGame() throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
