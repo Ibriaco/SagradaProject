@@ -224,6 +224,11 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(WrongPlaceEvent wrongPlaceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+
+    }
+
 
     public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new ChooseCardEvent(user, windowCard);
