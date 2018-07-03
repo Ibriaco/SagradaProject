@@ -234,7 +234,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IncDecEvent incDecEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        
+
     }
 
 
