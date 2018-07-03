@@ -77,7 +77,6 @@ public class LobbyController {
                 logEvent.setState("USERNAME ALREADY USED!");
             }
             virtualView.getClientTemp().sendMVEvent(logEvent);
-            virtualView.stampa();
         }
         if (checkStartGame()) {
             try {
@@ -129,7 +128,7 @@ public class LobbyController {
             }
 
             while (timer > 0) {
-            LOGGER.log(Level.INFO,"Timer: " + timer);
+            //LOGGER.log(Level.INFO,"Timer: " + timer);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

@@ -338,8 +338,20 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(WrongPlaceEvent event) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        LOGGER.log(Level.INFO, "Illegal placement! Retry!");
+        LOGGER.log(Level.INFO, "Illegal move! Retry!");
         menuGame();
+    }
+
+    @Override
+    public void handleMVEvent(IncDecEvent incDecEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        int choice=0;
+        Scanner scanner = new Scanner(System.in);
+        while (choice != 1 && choice != 2) {
+            printOnConsole("inserici 1 per incrementare oppure 2 per decrementare il valore del dado di 1");
+            choice = scanner.nextInt();
+        }
+        vcEvent = new IncrementDecrementDieEvent(incDecEvent.getUsername(),choice);
+        notifyObservers();
     }
 
 
@@ -521,7 +533,7 @@ public class CLIView implements ViewInterface {
                          turn = false;
                          break;
                      case "2":
-                         createUseToolEvent();//devo gestirlo lato server
+                         createUseToolEvent();
                          createSkipTurnEvent();
                          turn = false;
                          break;

@@ -21,4 +21,6 @@ public interface ControllerInterface {
     void handleVCEvent(PlaceModifiedDie placeModifiedDie);
 
     void handleVCEvent(MovingDieEvent movingDieEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
+
+    void handleVCEvent(IncrementDecrementDieEvent incrementDecrementDieEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 }

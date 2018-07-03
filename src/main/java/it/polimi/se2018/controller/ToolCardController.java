@@ -3,6 +3,7 @@ package it.polimi.se2018.controller;
 import it.polimi.se2018.controller.effects.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
+import it.polimi.se2018.view.viewevents.IncrementDecrementDieEvent;
 import it.polimi.se2018.view.viewevents.MovingDieEvent;
 import it.polimi.se2018.view.viewevents.SelectDieEvent;
 import it.polimi.se2018.view.viewevents.UseToolEvent;
@@ -17,6 +18,7 @@ public class ToolCardController{
     private Game game;
     private String user;
     private int pos;
+    private int diePositionDraftPool;
     private Die d;
     private MVEvent mvEvent;
     private int newX;
@@ -60,7 +62,10 @@ public class ToolCardController{
         }
     }
 
-    public void checkApplyEffect(IncDecEffect incDecEffect) {
+    public void checkApplyEffect(IncDecEffect incDecEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        System.out.println("invio evento incremento o decremento da checkApplyEffect");
+        eventsController.setMvEvent(new IncDecEvent(user));
+        eventsController.notifyObservers();
     }
 
     public void checkApplyEffect(MoveDieEffect moveDieEffect) {
@@ -71,19 +76,22 @@ public class ToolCardController{
     public void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
         d = game.getRolledDice().get(event.getPosition());
+        diePositionDraftPool = event.getPosition();
 
         try {
+            System.out.println("dioooooo");
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
         } catch (InvalidDieException e) {
             LOGGER.log(Level.SEVERE, "Invalid die exception!");
         }
-        mvEvent = new ChangedDieEvent(user, d);
-        eventsController.setMvEvent(mvEvent);
-        eventsController.notifyObservers();
+        if(!game.getToolCards().get(pos).getTitle().equals("Grozing Pliers")) {
+            eventsController.setMvEvent(new ChangedDieEvent(user, d));
+            System.out.println("mando evento sbagliato");
+            eventsController.notifyObservers();
 
-        mvEvent = new ModifiedPlaceEvent(user, event.getPosition());
-        eventsController.setMvEvent(mvEvent);
-        eventsController.notifyObservers();
+            eventsController.setMvEvent(new ModifiedPlaceEvent(user, event.getPosition()));
+            eventsController.notifyObservers();
+        }
     }
 
     public void handleVCEvent(MovingDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
@@ -113,4 +121,34 @@ public class ToolCardController{
     }
 
 
+    public void handleVCEvent(IncrementDecrementDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
+        int choose = event.getChoice();
+        System.out.println("handlo evento increment,decrement in toolcardcontroller");
+        if (choose == 1 && (d.getValue() != 6)){
+            System.out.println("valore dado prima incremento: " + d.getValue());
+            d.setValue(d.getValue()+1);
+            System.out.println("valore dado dopo incremento: " + d.getValue());
+            //invio all'utente dado modificato
+            eventsController.setMvEvent(new ChangedDieEvent(user, d));
+            eventsController.notifyObservers();
+            //invio evento per posizionare dado cambiato
+            eventsController.setMvEvent(new ModifiedPlaceEvent(user, diePositionDraftPool));
+            eventsController.notifyObservers();
+
+        }
+        else if ((choose == 1 && d.getValue() == 6) || (choose == 2 && d.getValue() == 1) ){
+            eventsController.setMvEvent(new WrongPlaceEvent(user));
+            eventsController.notifyObservers();
+        }
+        else if (choose == 2 && d.getValue() != 1){
+            d.setValue(d.getValue()-1);
+            //invio all'utente dado modificato
+            eventsController.setMvEvent(new ChangedDieEvent(user, d));
+            eventsController.notifyObservers();
+            //invio evento per posizionare dado cambiato
+            eventsController.setMvEvent(new ModifiedPlaceEvent(user, diePositionDraftPool));
+            eventsController.notifyObservers();
+        }
+
+    }
 }

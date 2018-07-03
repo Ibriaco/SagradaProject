@@ -198,7 +198,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
         System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
-            //if cont del timer è 60 allora genero eventi di skip turn e isotyouturn
             if (timer.getCont() == 119){
                 timerExpired();
             }
@@ -268,6 +267,13 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(MovingDieEvent movingDieEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         toolCardController.handleVCEvent(movingDieEvent);
+    }
+
+    @Override
+    public void handleVCEvent(IncrementDecrementDieEvent incrementDecrementDieEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        System.out.println("handlo incrementDecremtn in eventscontroller");
+        toolCardController.handleVCEvent(incrementDecrementDieEvent);
+
     }
 
 

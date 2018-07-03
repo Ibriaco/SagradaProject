@@ -39,18 +39,15 @@ public class WindowCard implements Serializable{
     public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade){
 
         if(!checkCoords(row, col)) {
-            System.out.println("checkCoords");
             return false;
 
         }
 
         if(!checkPlacement(getGridCell(row, col), d, color, shade)) {
-            System.out.println("checkPlacement");
             return false;
         }
 
         if (isEmpty()){
-            System.out.println("empty e boolean: " + ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3))) ;
             return ((row >= 0 && row <= 3) && (col == 0 || col == 4) || (col >= 0 && col <= 4) && (row == 0 || row == 3));
         }
 
@@ -89,7 +86,6 @@ public class WindowCard implements Serializable{
             for (int j = previousC; j <= nextC; j++){
                 try{
                     if(getGridCell(i, j).isPlaced()){
-                        System.out.println("chekarround return true");
                         return true;}
                 }
                 catch (ArrayIndexOutOfBoundsException E){}
@@ -124,7 +120,6 @@ public class WindowCard implements Serializable{
 
         okColor = toCheck.getColor() != d.getColor();
         okShade = toCheck.getValue() != d.getValue();
-        System.out.println("valore di ritonro di check NSEW: " + (okColor && okShade));
         return okColor && okShade;
     }
 

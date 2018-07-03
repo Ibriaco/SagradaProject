@@ -52,15 +52,10 @@ public class SocketConnection extends Thread implements ClientInterface {
         while(loop)
         try {
             receivedEvent = (VCEvent) fromClient.readObject();
-            System.out.println("Arrivato un evento da " + receivedEvent.getUsername() + ", lo giro alla virtual view.");
             virtualView.receiveEvent(receivedEvent);
 
 
-        } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException  e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        } catch (InvalidDieException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException | ClassNotFoundException | InvalidDieException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
@@ -75,9 +70,7 @@ public class SocketConnection extends Thread implements ClientInterface {
 
     @Override
     public void sendMVEvent(MVEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
-        System.out.println("mando");
         try {
-            System.out.println("MANDO");
             toClient.writeObject(event);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);

@@ -42,7 +42,6 @@ public class SocketServer implements ServerInterface {
     }
 
     public void addSocketConnection(Socket sc){
-        System.out.println("aggiungo : " + sc);
         SocketConnection conn = new SocketConnection(sc, this, virtualView);
         conn.start();
         socketConnections.add(conn);
