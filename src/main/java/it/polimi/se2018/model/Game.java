@@ -20,6 +20,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.*;
 import static it.polimi.se2018.model.Color.*;
 
 /**Game class. This is the main class, where players, cards and dice are saved.
@@ -28,14 +29,14 @@ import static it.polimi.se2018.model.Color.*;
  */
 public class Game implements MyObservable{
     private int playerNumber;
-    private int turn = 1;
-    private int round = 1;
-    private int redAmount = 18;
-    private int greenAmount = 18;
-    private int yellowAmount = 18;
-    private int purpleAmount = 18;
-    private int blueAmount = 18;
-    private boolean init = true;
+    private int turn = ONE_VALUE;
+    private int round = ONE_VALUE;
+    private int redAmount = RED_AMOUNT;
+    private int greenAmount = GREEN_AMOUNT;
+    private int yellowAmount = YELLOW_AMOUNT;
+    private int purpleAmount = PURPLE_AMOUNT;
+    private int blueAmount = BLUE_AMOUNT;
+    private boolean init = BOOL_TRUE;
     private Player firstPlayer; //attriubuto che indica il palyer che inizai il round. NON IL TURNO.
     private ArrayList<WindowCard> windowCardList= new ArrayList<>();
     private List<PublicObjective> publicCards;
@@ -121,7 +122,7 @@ public class Game implements MyObservable{
 
     public void setRolledDice() {
 
-        for(int i = 0; i < 2*playerNumber + 1; i++){
+        for(int i = 0; i < TWO_VALUE*playerNumber + 1; i++){
             rolledDice.add(i, new Die(colorList));
             reduceAmount(rolledDice.get(i).getColor());
             getAvailableColor();
@@ -161,8 +162,8 @@ public class Game implements MyObservable{
     }
 
     public void nextTurn(){
-        if (turn == 2*playerNumber){
-            turn = 1;
+        if (turn == TWO_VALUE*playerNumber){
+            turn = ONE_VALUE;
             nextRound();
         }
         else
@@ -200,7 +201,7 @@ public class Game implements MyObservable{
         List<String> publicCardDesc = new ArrayList<>();
         List<String> publicCardScore = new ArrayList<>();
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)));
-        for (int i=0; i<3; i++){
+        for (int i=0; i<THREE_VALUE; i++){
             publicCards.add(drawPublicCard(randomNumbers.get(i)));
             publicCardName.add(getPublicCards().get(i).getTitle());
             publicCardDesc.add(getPublicCards().get(i).getDescription());
@@ -227,7 +228,7 @@ public class Game implements MyObservable{
         List<String> toolCardName = new ArrayList<>();
         List<String> toolCardDesc = new ArrayList<>();
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
-        for (int i=0; i<3; i++){
+        for (int i=0; i<THREE_VALUE; i++){
             toolCards.add(drawToolCard(randomNumbers.get(i)));
             toolCardName.add(getToolCards().get(i).getTitle());
             toolCardDesc.add(getToolCards().get(i).getDescription());

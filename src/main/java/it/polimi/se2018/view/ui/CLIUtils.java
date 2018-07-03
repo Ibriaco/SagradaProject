@@ -28,7 +28,7 @@ public final class CLIUtils {
         consoleWriter.println(SPLASH_ART);
     }
     public static final void printOnConsole(String toPrint){
-        consoleWriter.println(toPrint);
+        System.out.println(toPrint);
     }
 
 

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.TWO_VALUE;
+
 /**
  * Lobby class of the game
  * @author Gregorio Galletti
@@ -42,7 +44,7 @@ public class Lobby implements MyObservable{
      */
     public void addOnlinePlayer(String p){
         synchronized (lock) {
-            if (getOnlinePlayersN() == 2)
+            if (getOnlinePlayersN() == TWO_VALUE)
                 lock.notifyAll();
         }
         onlinePlayers.add(p);

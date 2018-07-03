@@ -222,7 +222,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         try {
             virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
         } catch (InvalidDieException | InvalidViewException | InvalidConnectionException | IOException | ParseException e) {
-            LOGGER.log(Level.SEVERE, "Something went wrong!");
+            LOGGER.log(Level.SEVERE,e.toString(), e);
         }
     }
 

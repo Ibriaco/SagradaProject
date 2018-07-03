@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
+import static it.polimi.se2018.ServerConfig.ONE_VALUE;
+import static it.polimi.se2018.ServerConfig.SIX_VALUE;
+
 /**Die class of the game. Contains methods to handle colors and values of dice.
  * @author Ibrahim El Shemy
  */
@@ -18,7 +21,7 @@ public class Die implements Serializable{
         int index;
         index = random.nextInt(colorList.size());
         this.color = colorList.get(index);
-        this.value = random.nextInt(6) + 1;
+        this.value = random.nextInt(SIX_VALUE) + ONE_VALUE;
 
     }
 
@@ -45,7 +48,7 @@ public class Die implements Serializable{
      */
     public void setValue(int value) throws InvalidDieException{
 
-        if (value < 1 || value > 6)
+        if (value < ONE_VALUE || value > SIX_VALUE)
             throw new InvalidDieException();
         this.value = value;
     }

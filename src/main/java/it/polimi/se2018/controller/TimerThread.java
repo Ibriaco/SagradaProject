@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static it.polimi.se2018.ServerConfig.*;
 
 public class TimerThread extends Thread{
     private int cont = 0;
@@ -22,9 +23,9 @@ public class TimerThread extends Thread{
 
     @Override
     public void run (){
-        while (cont < 120) {
+        while (cont < TURN_TIMER) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(SLEEP_TIME);
                 //System.out.println("player index: " + playerIndex + " timer: " + cont);
                 cont++;
 
@@ -35,7 +36,7 @@ public class TimerThread extends Thread{
         try {
             eventsController.timerExpired();
         } catch (InvalidConnectionException | ParseException | InvalidViewException | IOException e) {
-            LOGGER.log(Level.SEVERE, "Something went wrong!");
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         this.interrupt();
     }

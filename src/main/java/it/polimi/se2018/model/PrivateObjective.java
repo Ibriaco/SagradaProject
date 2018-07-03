@@ -28,4 +28,16 @@ public class PrivateObjective extends Card {
 
         return "PRIVATE OBJECTIVE: " + "[Shades of " + color + "S]";
     }
+
+    public void calculateBonus(Player player){
+        WindowCard w = player.getWindowCard();
+        for(int i=0; i < w.getRows(); i++){
+            for (int j=0; j<w.getCols(); j++){
+                if(w.getGridCell(i,j).isPlaced()&&w.getGridCell(i,j).getPlacedDie().getColor()==this.getColor())
+                    player.setPlayerScore(w.getGridCell(i,j).getShade());
+                if(!w.getGridCell(i,j).isPlaced())
+                    player.setPlayerScore(-1);
+            }
+        }
+    }
 }

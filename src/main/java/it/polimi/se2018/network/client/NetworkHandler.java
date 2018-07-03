@@ -1,5 +1,7 @@
 package it.polimi.se2018.network.client;
 
+import it.polimi.se2018.ClientConfig;
+import it.polimi.se2018.ClientParser;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.InvalidConnectionException;
@@ -8,17 +10,13 @@ import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.rmi.RMIClient;
 import it.polimi.se2018.network.client.socket.SocketClient;
-import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static it.polimi.se2018.view.ui.CLIUtils.consoleScanner;
 
 /**
  * Class that works as a proxy on the client side
@@ -34,8 +32,10 @@ public class NetworkHandler implements MyObserver, MyObservable {
     private static final Logger LOGGER = Logger.getGlobal();
 
     public NetworkHandler(String value) throws RemoteException {
-        if(value.equals("1"))
+        if(value.equals("1")) {
             selectedClient = new RMIClient(this);
+
+        }
 
         else if(value.equals("2"))
             selectedClient = new SocketClient("localhost", 10000, this);

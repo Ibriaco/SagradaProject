@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.*;
+
 public class TurnController {
     private EventsController eventsController;
     private Game game;
@@ -31,11 +33,11 @@ public class TurnController {
     protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException {
         game = eventsController.getGame();
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
-        if (game.getTurn() == game.getPlayerNumber()*2){
+        if (game.getTurn() == game.getPlayerNumber()*TWO_VALUE){
             System.out.println("Sono nel caso di inizio nuovo round");
             game.getRoundCells().add(new RoundCell(game.getRound()));
             for (Die die: game.getRolledDice()) {
-                game.getRoundCells().get(game.getRound()-1).addDie(die);
+                game.getRoundCells().get(game.getRound()-ONE_VALUE).addDie(die);
             }
             game.getRolledDice().removeAll(game.getRolledDice());
             game.setRolledDice();
@@ -43,15 +45,15 @@ public class TurnController {
         }
 
         //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
-        else if ((game.getTurn() - game.getPlayerNumber())==0 && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+        else if ((game.getTurn() - game.getPlayerNumber())==ZERO_VALUE && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
             LOGGER.log(Level.INFO,"Sono nel caso di fine primo giro con client corrente online");
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true));
-            reverse = true;
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), BOOL_TRUE));
+            reverse = BOOL_TRUE;
             game.nextTurn();
         }
-        else if((game.getTurn() - game.getPlayerNumber())==0 && eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
+        else if((game.getTurn() - game.getPlayerNumber())==ZERO_VALUE && eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
             LOGGER.log(Level.INFO,"Sono nel caso di fine primo giro con client corrente offline");
-            reverse = true;
+            reverse = BOOL_TRUE;
             checkSkip(playerIndex);
         }
         //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
@@ -82,8 +84,8 @@ public class TurnController {
      */
     private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException, IOException {
         LOGGER.log(Level.INFO,"sono in checkRound");
-        if(playerIndex==game.getPlayerNumber()-1) {
-            game.setFirstPlayer(game.getPlayers().get(0));
+        if(playerIndex==game.getPlayerNumber()-ONE_VALUE) {
+            game.setFirstPlayer(game.getPlayers().get(ZERO_VALUE));
             LOGGER.log(Level.INFO,"checkRound su ultimo player");
         }
         else{
@@ -92,14 +94,14 @@ public class TurnController {
         }
 
         //roudtrack e gestione distribuzione dadi
-        reverse = false;
+        reverse = BOOL_FALSE;
         game.nextTurn();
         if(eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())){
             LOGGER.log(Level.INFO,"il primo giocatore del primo turno è offline");
             checkSkip(playerIndex);
         }
         else
-            eventsController.setMvEvent(new IsTurnEvent(game.getFirstPlayer().getUsername(), true));
+            eventsController.setMvEvent(new IsTurnEvent(game.getFirstPlayer().getUsername(), BOOL_TRUE));
     }
 
     /**
@@ -110,30 +112,30 @@ public class TurnController {
      * @throws IOException exception
      */
     private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException, IOException {
-        if (!reverse&&playerIndex!=game.getPlayerNumber()-1&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), true));
-        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())){
+        if (!reverse&&playerIndex!=game.getPlayerNumber()-ONE_VALUE && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+ONE_VALUE).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex + ONE_VALUE).getUsername(), BOOL_TRUE));
+        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+ONE_VALUE).getUsername())){
             game.nextTurn();
-            handleSkipTurn(playerIndex+1);
+            handleSkipTurn(playerIndex+ONE_VALUE);
         }
-        else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(0).getUsername(), true));
-        else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(0).getUsername())) {
+        else if (!reverse&&playerIndex==game.getPlayerNumber()-ONE_VALUE&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(ZERO_VALUE).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(ZERO_VALUE).getUsername(), BOOL_TRUE));
+        else if(!reverse&&playerIndex==game.getPlayerNumber()-ONE_VALUE&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(ZERO_VALUE).getUsername())) {
             game.nextTurn();
-            handleSkipTurn(0);
+            handleSkipTurn(ZERO_VALUE);
         }
 
-        else if(reverse&&playerIndex!=0&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), true));
-        else if(reverse&&playerIndex!=0&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername())) {
+        else if(reverse&&playerIndex!=ZERO_VALUE&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-ONE_VALUE).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex - ONE_VALUE).getUsername(), BOOL_TRUE));
+        else if(reverse&&playerIndex!=ZERO_VALUE&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-ONE_VALUE).getUsername())) {
             game.nextTurn();
-            handleSkipTurn(playerIndex - 1);
+            handleSkipTurn(playerIndex - ONE_VALUE);
         }
-        else if(reverse&&playerIndex==0&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), true));
-        else if (reverse&&playerIndex==0&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername())) {
+        else if(reverse&&playerIndex==ZERO_VALUE&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-ONE_VALUE).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), BOOL_TRUE));
+        else if (reverse&&playerIndex==ZERO_VALUE&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-ONE_VALUE).getUsername())) {
             game.nextTurn();
-            handleSkipTurn(game.getPlayerNumber() - 1);
+            handleSkipTurn(game.getPlayerNumber() - ONE_VALUE);
         }
         game.nextTurn();
     }

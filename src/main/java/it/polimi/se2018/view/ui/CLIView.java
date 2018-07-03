@@ -12,17 +12,21 @@ import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.PlaceDieEvent;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
 import org.json.simple.parser.ParseException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import static it.polimi.se2018.ClientConfig.*;
 import static it.polimi.se2018.view.ui.CLIUtils.*;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_BLUE;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_GREEN;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_PURPLE;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_RED;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_RESET;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_WHITE;
+import static it.polimi.se2018.view.ui.CLIUtils.ANSI_YELLOW;
 
 /**
  * Command line interface
@@ -58,12 +62,12 @@ public class CLIView implements ViewInterface {
         boolean validInput = false;
         while(!validInput) {
             choice = printConnectionChoice();
-            if (choice.equals("1") || choice.equals("2")) {
+            if (choice.equals(ONE_STRING) || choice.equals(TWO_STRING)) {
                 createNH(choice);
                 validInput = true;
                 loginScreen();
             } else
-                consoleErrorWriter.println("Invalid input, please try again!");
+                printOnConsole(INVALID_INPUT);
         }
     }
 
@@ -74,8 +78,8 @@ public class CLIView implements ViewInterface {
      * @throws InvalidViewException thrown exception
      */
      public void loginScreen() throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-        printOnConsole("~~~~~~~~~~ Login page ~~~~~~~~~~");
-        printOnConsole("Insert your username here: ");
+        printOnConsole(LOGIN_PAGE);
+        printOnConsole(INSERT_YOUR_USERNAME);
         setUsername(consoleScanner.next());
         createLoginEvent();
     }
@@ -88,11 +92,10 @@ public class CLIView implements ViewInterface {
 
     private String printConnectionChoice() throws IOException {
          Scanner scanner = new Scanner(System.in);
-        printOnConsole("Select the Connection type you want to use:");
-        printOnConsole("1) " + rmi);
-        printOnConsole("2) " + socket);
+        printOnConsole(SELECT_CONNECTION_TYPE);
+        printOnConsole(RMI_CONNECTION);
+        printOnConsole(SOCKET_CONNECTION);
         return scanner.nextLine();
-        //return consoleScanner.nextLine();
     }
 
     @Override
@@ -132,12 +135,12 @@ public class CLIView implements ViewInterface {
     }
 
     public void createPlaceDieEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
-        consoleWriter.println("Insert the number of Die: ");
+        printOnConsole(INSERT_DIE_NUMBER);
         int pos = getNumber()-1;
-        consoleWriter.println("In which column do you want to place the Die?");
-        int coordX = getNumber()-1;
-        consoleWriter.println("In which row do you want to place the Die?");
+        printOnConsole(INSERT_ROW);
         int coordY = getNumber()-1;
+        printOnConsole(INSERT_COLUMN);
+        int coordX = getNumber()-1;
         vcEvent = new PlaceDieEvent(user, pos, coordX, coordY);
         notifyObservers();
     }
@@ -148,7 +151,7 @@ public class CLIView implements ViewInterface {
     }
 
     public void createUseToolEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
-        consoleWriter.println("Insert the number of the Tool card you want to use");
+        consoleWriter.println(INSERT_TOOL_NUMBER);
         int pos = getNumber()-1;
         vcEvent = new UseToolEvent(user, pos);
         notifyObservers();
@@ -197,7 +200,7 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(WindowCardEvent event) throws RemoteException, InvalidConnectionException, InvalidViewException {
         Color color;
         int value;
-        System.out.println("[WINDOW CARD]\n");
+        System.out.println(WINDOW_CARD);
         myCardList = event.getWindowCards();
         boolean ok = true;
         for (WindowCard w: event.getWindowCards()) {
@@ -213,11 +216,10 @@ public class CLIView implements ViewInterface {
         }
         String fromThread;
         while (true) {
-            consoleWriter.println("inserisci carta:");
+            consoleWriter.println(CHOOSE_WINDOW_CARD);
             Scanner scanner = new Scanner(System.in);
 
             fromThread = scanner.nextLine();
-            consoleWriter.println(fromThread);
             WindowCard selectedW = findInCards(fromThread);
             if (selectedW != null) {
                 break;
@@ -291,7 +293,7 @@ public class CLIView implements ViewInterface {
     //metodo per gestire dado da modificare con tool card
     @Override
     public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        consoleWriter.println("Select the die you want to change: ");
+        consoleWriter.println(INSERT_DIE_NUMBER);
         int pos = getNumber()-1;
         vcEvent = new SelectDieEvent(changeDieEvent.getUsername(), pos);
         notifyObservers();
@@ -299,10 +301,10 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        consoleWriter.println("In which column do you want to place the die?");
-        int x = getNumber()-1;
-        consoleWriter.println("In which row do you want to place the die?");
+        consoleWriter.println(INSERT_ROW);
         int y = getNumber()-1;
+        consoleWriter.println(INSERT_COLUMN);
+        int x = getNumber()-1;
         vcEvent = new PlaceDieEvent(modifiedPlaceEvent.getUsername(), modifiedPlaceEvent.getPos(), x, y);
         notifyObservers();
     }
@@ -314,7 +316,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(ChangedDieEvent changedDieEvent) {
-        System.out.println("New value of the die is: ");
+        System.out.println(NEW_DIE_VALUE);
         printDie(changedDieEvent.getDie());
         System.out.println("");
     }
@@ -322,14 +324,14 @@ public class CLIView implements ViewInterface {
     @Override
     public void handleMVEvent(MoveDieEvent moveDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
-        consoleWriter.println("Insert the column of the die you want to move: ");
-        int oldX = getNumber()-1;
-        consoleWriter.println("Insert the row of the die you want to move: ");
+        consoleWriter.println(ROW_DIE_TO_MOVE);
         int oldY = getNumber()-1;
-        consoleWriter.println("Insert the column where you want to move the die: ");
-        int newX = getNumber()-1;
-        consoleWriter.println("Insert the row where you want to move the die: ");
+        consoleWriter.println(COLUMN_DIE_TO_MOVE);
+        int oldX = getNumber()-1;
+        consoleWriter.println(INSERT_ROW);
         int newY = getNumber()-1;
+        consoleWriter.println(INSERT_COLUMN);
+        int newX = getNumber()-1;
         vcEvent = new MovingDieEvent(moveDieEvent.getUsername(), oldX, oldY, newX, newY);
         notifyObservers();
 
@@ -338,7 +340,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(WrongPlaceEvent event) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        LOGGER.log(Level.INFO, "Illegal move! Retry!");
+        printOnConsole(INVALID_MOVE_RETRY);
         menuGame();
     }
 
@@ -347,7 +349,7 @@ public class CLIView implements ViewInterface {
         int choice=0;
         Scanner scanner = new Scanner(System.in);
         while (choice != 1 && choice != 2) {
-            printOnConsole("1) To increase value by 1\n2) To decrease value by 1");
+            printOnConsole(ONE_INCREASE_TWO_DECREASE);
             choice = scanner.nextInt();
         }
         vcEvent = new IncrementDecrementDieEvent(incDecEvent.getUsername(),choice);
@@ -356,19 +358,11 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(InvalidToolEvent invalidToolEvent) {
-        printOnConsole("You can't use this toolcard! You don't have enough tokens!");
+        printOnConsole(NOT_ENOUGH_TOKENS);
         try {
             menuGame();
-        } catch (InvalidConnectionException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (InvalidViewException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
+        } catch (InvalidConnectionException | ParseException | InvalidViewException | IOException | InvalidDieException e) {
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -510,7 +504,7 @@ public class CLIView implements ViewInterface {
 
     private void printRoundTrack(List<RoundCell> roundTrack) {
         int counter = 1;
-        System.out.println("\n----------ROUND TRACK----------");
+        System.out.println(ROUND_TRACK);
         for (RoundCell roundCell : roundTrack) {
             System.out.print(counter + ")  ");
             for (Die die : roundCell.getDiceList()) {
@@ -528,9 +522,9 @@ public class CLIView implements ViewInterface {
          String choose;
          System.out.println("");
          while (turn) {
-             System.out.println("CHOOSE YOUR MOVE\n1- Place Die\n2- Use Toolcard\n3- Skip turn");
+             System.out.println(CHOOSE_YOUR_MOVE);
              choose = scanner.nextLine();
-             if (choose.equals("1") || choose.equals("2") || choose.equals("3"))
+             if (choose.equals(ONE_STRING) || choose.equals(TWO_STRING) || choose.equals(THREE_STRING))
                  switch (choose) {
                      case "1":
                          createPlaceDieEvent();
@@ -550,7 +544,7 @@ public class CLIView implements ViewInterface {
                          break;
                  }
              else
-                 LOGGER.log(Level.INFO, "Invalid choice, try again!");
+                 printOnConsole(INVALID_CHOICE);
          }
      }
 

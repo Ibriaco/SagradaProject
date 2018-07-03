@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.*;
+
 public class ToolCardController{
 
     private Game game;
@@ -38,23 +40,23 @@ public class ToolCardController{
         pos = event.getToolCardNumber();
         int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
         boolean used = game.getToolCards().get(pos).isUsed();
-        boolean ok = false;
-        if(game.getPlayers().get(index).getTokens()>0&&!used){
-            game.getToolCards().get(pos).setUsed(true);
-            game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-1);
-            ok = true;
+        boolean ok = BOOL_FALSE;
+        if(game.getPlayers().get(index).getTokens()>ZERO_VALUE && !used){
+            game.getToolCards().get(pos).setUsed(BOOL_TRUE);
+            game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-ONE_VALUE);
+            ok = BOOL_TRUE;
         }
-        else if (game.getPlayers().get(index).getTokens()>1&&used){
-            game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-2);
-            ok = true;
+        else if (game.getPlayers().get(index).getTokens()>ONE_VALUE && used){
+            game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-TWO_VALUE);
+            ok = BOOL_TRUE;
         }
-        else if(game.getPlayers().get(index).getTokens()<2&&used||!used&&game.getPlayers().get(index).getTokens()<1)
+        else if(game.getPlayers().get(index).getTokens()<TWO_VALUE && used || !used&&game.getPlayers().get(index).getTokens()<1)
             mvEvent = new InvalidToolEvent(event.getUsername());
 
         if(ok) {
-            if (game.getToolCards().get(pos).getType().equals("AD"))
+            if (game.getToolCards().get(pos).getType().equals(AFTER_DRAFTING))
                 mvEvent = new ChangeDieEvent(user);
-            else if (game.getToolCards().get(pos).getType().equals("OW"))
+            else if (game.getToolCards().get(pos).getType().equals(ON_WINDOW))
                 mvEvent = new MoveDieEvent(user);
         }
 
@@ -75,7 +77,7 @@ public class ToolCardController{
         try {
             rollDieEffect.applyEffect(d);
         } catch (InvalidDieException e) {
-            LOGGER.log(Level.SEVERE, "Invalid die exception!");
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -97,9 +99,9 @@ public class ToolCardController{
 
         try {
             System.out.println("dioooooo");
-            game.getToolCards().get(pos).getEffectList().get(0).accept(this);
+            game.getToolCards().get(pos).getEffectList().get(ZERO_VALUE).accept(this);
         } catch (InvalidDieException e) {
-            LOGGER.log(Level.SEVERE, "Invalid die exception!");
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         if(!game.getToolCards().get(pos).getTitle().equals("Grozing Pliers")) {
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
@@ -125,7 +127,7 @@ public class ToolCardController{
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
             game.updateWindowCardList();
         } catch (InvalidDieException e) {
-            LOGGER.log(Level.SEVERE, "Invalid die exception!");
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
         eventsController.notifyObservers();
@@ -141,9 +143,9 @@ public class ToolCardController{
     public void handleVCEvent(IncrementDecrementDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         int choose = event.getChoice();
         System.out.println("handlo evento increment,decrement in toolcardcontroller");
-        if (choose == 1 && (d.getValue() != 6)){
+        if (choose == ONE_VALUE && (d.getValue() != SIX_VALUE)){
             System.out.println("valore dado prima incremento: " + d.getValue());
-            d.setValue(d.getValue()+1);
+            d.setValue(d.getValue()+ONE_VALUE);
             System.out.println("valore dado dopo incremento: " + d.getValue());
             //invio all'utente dado modificato
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
@@ -153,12 +155,12 @@ public class ToolCardController{
             eventsController.notifyObservers();
 
         }
-        else if ((choose == 1 && d.getValue() == 6) || (choose == 2 && d.getValue() == 1) ){
+        else if ((choose == ONE_VALUE && d.getValue() == SIX_VALUE) || (choose == TWO_VALUE && d.getValue() == ONE_VALUE) ){
             eventsController.setMvEvent(new WrongPlaceEvent(user));
             eventsController.notifyObservers();
         }
-        else if (choose == 2 && d.getValue() != 1){
-            d.setValue(d.getValue()-1);
+        else if (choose == TWO_VALUE && d.getValue() != ONE_VALUE){
+            d.setValue(d.getValue()-ONE_VALUE);
             //invio all'utente dado modificato
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();

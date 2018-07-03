@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.*;
 import static it.polimi.se2018.view.ui.CLIUtils.printOnConsole;
 
 /**
@@ -27,7 +28,7 @@ public class LobbyController {
 
     private Lobby waitingLobby;
     private Game game;
-    private int timer = 60;
+    private int timer = LOBBY_TIMER;
     private EventsController eventsController;
     private VirtualView virtualView;
     private ArrayList<String> username = new ArrayList<>();
@@ -59,28 +60,28 @@ public class LobbyController {
         if(checkUser(username) && checkOnlinePlayers() && checkTime()) {
             virtualView.addClientToMap(username, virtualView.getClientTemp());
             addInLobby(username);
-            logEvent = new LoggedUserEvent(username,true);
-            logEvent.setState("Logged in successfully!");
+            logEvent = new LoggedUserEvent(username,BOOL_TRUE);
+            logEvent.setState(LOGIN_SUCCESSFULLY);
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
-            printOnConsole("User " + username + " logged in successfully!");
-            printOnConsole("Online players " + playersNumber);
+            printOnConsole(USER + username +" "+LOGIN_SUCCESSFULLY);
+            printOnConsole(ONLINE_PLAYERS + playersNumber);
             eventsController.setMvEvent(logEvent);
             eventsController.notifyObservers();
         }
         else {
-            logEvent = new LoggedUserEvent(username, false);
+            logEvent = new LoggedUserEvent(username, BOOL_FALSE);
             if (!checkTime()) {
-                logEvent.setState("TIMER EXEPIRED!");
+                logEvent.setState(TIMER_EXPIRED);
             } else if (!checkOnlinePlayers()) {
-                logEvent.setState("LOBBY IS FULL!");
+                logEvent.setState(FULL_LOBBY);
             } else if (!checkUser(username)) {
-                logEvent.setState("USERNAME ALREADY USED!");
+                logEvent.setState(USERNAME_ALREADY_USED);
             }
             virtualView.getClientTemp().sendMVEvent(logEvent);
         }
         if (checkStartGame()) {
             try {
-                eventsController.setReconnection(true);
+                eventsController.setReconnection(BOOL_TRUE);
                 setupGame();
             } catch (IOException | ParseException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
@@ -108,8 +109,8 @@ public class LobbyController {
             eventsController.notifyObservers();
         }
         else {
-            LoggedUserEvent logEvent = new LoggedUserEvent(user, false);
-            logEvent.setState("INVALID USERNAME!");
+            LoggedUserEvent logEvent = new LoggedUserEvent(user, BOOL_FALSE);
+            logEvent.setState("Invalid username!");
             virtualView.getClientTemp().sendMVEvent(logEvent);
         }
     }
@@ -117,7 +118,7 @@ public class LobbyController {
     private void launchTimer(){
         new Thread(()->{
             synchronized (waitingLobby.getLock()) {
-                while (waitingLobby.getOnlinePlayersN() < 2) {
+                while (waitingLobby.getOnlinePlayersN() < TWO_VALUE) {
 
                     try {
                         waitingLobby.getLock().wait();
@@ -127,10 +128,10 @@ public class LobbyController {
                 }
             }
 
-            while (timer > 0) {
+            while (timer > ZERO_VALUE) {
             //LOGGER.log(Level.INFO,"Timer: " + timer);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -149,9 +150,9 @@ public class LobbyController {
     private boolean checkUser(String user) {
         for (String u : waitingLobby.getOnlinePlayers()) {
             if (user.equals(u))
-                return false;
+                return BOOL_FALSE;
         }
-        return true;
+        return BOOL_TRUE;
     }
 
     /**
@@ -159,7 +160,8 @@ public class LobbyController {
      * @return true if the players are less than 4, else, false is returned
      */
     private boolean checkOnlinePlayers() {
-        return waitingLobby.getOnlinePlayersN() != 2;
+
+        return waitingLobby.getOnlinePlayersN() != TWO_VALUE;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
@@ -168,7 +170,8 @@ public class LobbyController {
      * @return true if the timer's expired, else, false is returned
      */
     private boolean checkTime() {
-        return waitingLobby.getOnlinePlayersN() < 2 || getTimer() != 0;
+
+        return waitingLobby.getOnlinePlayersN() < TWO_VALUE || getTimer() != ZERO_VALUE;
     }
 
     /**
@@ -201,7 +204,7 @@ public class LobbyController {
         game = new Game(virtualView.getClients().size());
         game.registerObserver(virtualView);
         for (String s: virtualView.getClients().keySet()) {
-            game.getPlayers().add(new Player(s, "CLI"));
+            game.getPlayers().add(new Player(s, CLI_UI));
         }
         game.setPlayerNumber(game.getPlayers().size());
         game.dealPrivateCards();
@@ -237,14 +240,14 @@ public class LobbyController {
     }
 
     public void newGame() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
-        for (int i=0; i<username.size()*2+1; i++) {
+        for (int i=0; i<username.size()*TWO_VALUE+ONE_VALUE; i++) {
             game.getRolledDice().add(new Die(game.getColorList()));
         }
         UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(),username,game.getRolledDice(), game.getRoundCells());
         eventsController.setMvEvent(updateGameEvent);
         eventsController.notifyObservers();
         game.setFirstPlayer(game.getPlayers().get(0));
-        IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), true);
+        IsTurnEvent isTurnEvent = new IsTurnEvent(game.getPlayers().get(0).getUsername(), BOOL_TRUE);
         eventsController.setMvEvent(isTurnEvent);
         eventsController.getTimer().start();
         eventsController.notifyObservers();

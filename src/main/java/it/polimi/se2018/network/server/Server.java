@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.server;
 
+import it.polimi.se2018.ServerParser;
 import it.polimi.se2018.controller.EventsController;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -11,6 +12,8 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+
+import static it.polimi.se2018.ServerConfig.*;
 
 /**
  * Mai server class that creates a rmi/socket server
@@ -30,7 +33,8 @@ public class Server {
     private static EventsController eventsController;
 
     public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException {
-
+        ServerParser sp = new ServerParser();
+        sp.reader();
         virtualView = new VirtualView();
         eventsController = new EventsController(virtualView);
 
@@ -40,7 +44,7 @@ public class Server {
 
         //rmi SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         try {
-            LocateRegistry.createRegistry(rmiPort);
+            LocateRegistry.createRegistry(RMI_PORT);
         } catch (RemoteException e) {
 
             System.out.println("Registry già presente!");
@@ -48,7 +52,7 @@ public class Server {
 
         try {
             rmiServer = new RMIServer(virtualView);
-            Naming.rebind("//localhost/MyServer", rmiServer);
+            Naming.rebind(LOCAL_HOST, rmiServer);
 
 
         } catch (MalformedURLException e) {
@@ -58,7 +62,7 @@ public class Server {
         }
 
         //SOCKET SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-        socketServer = new SocketServer(socketPort, virtualView);
+        socketServer = new SocketServer(SOCKET_PORT, virtualView);
 
         //lobbyController.addServers(rmiServer, socketServer);
 

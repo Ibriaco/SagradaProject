@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.client;
 
+import it.polimi.se2018.ClientParser;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
@@ -19,7 +20,8 @@ public class Client {
     private static ViewInterface vi;
 
     public static void main(String[] args) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-
+        ClientParser cp = new ClientParser();
+        cp.reader();
         printSplashArt();
         String choice = null;
 
@@ -45,9 +47,9 @@ public class Client {
 
     private static String printChoice() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Select the ui:");
-        System.out.println("1) CLI");
-        System.out.println("2) GUI");
+        printOnConsole("Select the ui:");
+        printOnConsole("1) CLI");
+        printOnConsole("2) GUI");
         return scanner.nextLine();
     }
 

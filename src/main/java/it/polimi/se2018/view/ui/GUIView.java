@@ -16,12 +16,10 @@ import it.polimi.se2018.view.viewevents.LoginEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
@@ -101,12 +99,13 @@ public class GUIView extends Application implements ViewInterface {
             try {
                 destroyNH();
             } catch (RemoteException e) {
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
             Platform.runLater(() -> {
                 try {
                     guiLoginController.reLogin(event.getState());
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, e.toString(), e);
                 }
             });
         }
@@ -239,7 +238,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(InvalidToolEvent invalidToolEvent) {
-        
+
     }
 
 

@@ -14,6 +14,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.se2018.ServerConfig.CLI_UI;
+import static it.polimi.se2018.ServerConfig.GUI_UI;
+
 /**Player class of the game.
  * @author Gregorio Galletti
  */
@@ -32,7 +35,7 @@ public class Player implements MyObservable{
 
     public Player(String username, String viewType) throws InvalidViewException {
 
-        if(viewType.equals("GUI") || viewType.equals("CLI"))
+        if(viewType.equals(GUI_UI) || viewType.equals(CLI_UI))
             this.viewType = viewType;
         else
             throw new InvalidViewException();
