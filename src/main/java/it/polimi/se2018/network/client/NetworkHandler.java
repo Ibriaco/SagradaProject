@@ -15,6 +15,8 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.se2018.view.ui.CLIUtils.consoleScanner;
 
@@ -29,6 +31,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
     private ClientInterface selectedClient;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
+    private static final Logger LOGGER = Logger.getGlobal();
 
     public NetworkHandler(String value) throws RemoteException {
         if(value.equals("1"))
@@ -60,7 +63,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
             try {
                 o.update(this, mvEvent);
             } catch (InvalidDieException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
     }

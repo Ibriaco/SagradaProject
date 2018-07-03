@@ -63,8 +63,9 @@ public class TestCell {
 
         c.placeDie(d);
         boolean placed = c.isPlaced();
-        assert(!placed);
-        assertNotEquals (d,(c.getPlacedDie()));
+        //assert(!placed);
+        assertEquals(true, placed);
+        assertEquals (d,(c.getPlacedDie()));
     }
 
     @Test

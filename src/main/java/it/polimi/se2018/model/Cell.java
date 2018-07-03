@@ -73,7 +73,7 @@ public class Cell implements Serializable{
     }
 
     public void placeDie(Die d){
-        if(checkPlacement(d))
+       // if(checkPlacement(d))
             placedDie = d;
 
     }
@@ -83,11 +83,11 @@ public class Cell implements Serializable{
         placedDie = d;
     }
 
-    private boolean checkPlacement(Die d){
+    /*private boolean checkPlacement(Die d){
         if(this.getColor().equals(Color.WHITE))
             return true;
         else if (this.getShade() == 0)
             return true;
         return (d.getColor() == this.getColor() || d.getValue() == this.getShade());
-    }
+    }*/
 }

@@ -1,6 +1,5 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.model.event.GameUpdateEvent;
 import it.polimi.se2018.model.event.IsTurnEvent;
 import it.polimi.se2018.model.event.LoggedUserEvent;
 import it.polimi.se2018.model.*;
@@ -28,7 +27,7 @@ public class LobbyController {
 
     private Lobby waitingLobby;
     private Game game;
-    private static int timer = 10;
+    private int timer = 60;
     private EventsController eventsController;
     private VirtualView virtualView;
     private ArrayList<String> username = new ArrayList<>();
@@ -59,11 +58,9 @@ public class LobbyController {
 
         if(checkUser(username) && checkOnlinePlayers() && checkTime()) {
             virtualView.addClientToMap(username, virtualView.getClientTemp());
-            //virtualView.serverBeat(username);
             addInLobby(username);
             logEvent = new LoggedUserEvent(username,true);
             logEvent.setState("Logged in successfully!");
-            // queste 3 stampe sono sul server. si potrebbero rimuovere??
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
             printOnConsole("User " + username + " logged in successfully!");
             printOnConsole("Online players " + playersNumber);
@@ -102,18 +99,17 @@ public class LobbyController {
      * @throws IOException exception
      */
     public void handleReconnection (VCEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        String username = event.getUsername();
-        if (virtualView.getRemovedClients().contains(username)){
-            virtualView.getClients().put(username, virtualView.getClientTemp());
-            virtualView.getRemovedClients().remove(username);
-            //virtualView.serverBeat(username);
+        String user = event.getUsername();
+        if (virtualView.getRemovedClients().contains(user)){
+            virtualView.getClients().put(user, virtualView.getClientTemp());
+            virtualView.getRemovedClients().remove(user);
             UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(), this.username, game.getRolledDice());
-            updateGameEvent.setUsername(username);
+            updateGameEvent.setUsername(user);
             eventsController.setMvEvent(updateGameEvent);
             eventsController.notifyObservers();
         }
         else {
-            LoggedUserEvent logEvent = new LoggedUserEvent(username, false);
+            LoggedUserEvent logEvent = new LoggedUserEvent(user, false);
             logEvent.setState("INVALID USERNAME!");
             virtualView.getClientTemp().sendMVEvent(logEvent);
         }
@@ -127,19 +123,17 @@ public class LobbyController {
                     try {
                         waitingLobby.getLock().wait();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
                     }
                 }
             }
 
-            System.out.println("almeno 2 giocatori connessi: parte timer");
-
             while (timer > 0) {
-            System.out.println("Timer: " + timer);
+            LOGGER.log(Level.INFO,"Timer: " + timer);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
             timer--;
             }
@@ -222,7 +216,7 @@ public class LobbyController {
     }
 
     public void setTimer(int timer) {
-        LobbyController.timer = timer;
+        this.timer = timer;
     }
 
     public Lobby getLobby() {
@@ -236,17 +230,10 @@ public class LobbyController {
      * @throws RemoteException exception
      * @throws InvalidViewException exception
      */
-    public void handleWindowCard (ChooseCardEvent event) throws InvalidConnectionException, RemoteException, InvalidViewException {
+    public void handleWindowCard (ChooseCardEvent event){
         game.findPlayer(event.getUsername()).setWindowCard(event.getWindowCard());
         game.getWindowCardList().add(event.getWindowCard());
         username.add(event.getUsername());
-        /*setReady();
-
-        if (ready == game.getPlayers().size()) {
-            UpdateGameEvent newGameEvent = new UpdateGameEvent(windowCardList, username);
-            eventsController.setMvEvent(newGameEvent);
-            eventsController.notifyObservers();
-        }*/
     }
 
     public void newGame() throws InvalidConnectionException, IOException, InvalidViewException, ParseException {

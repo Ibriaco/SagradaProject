@@ -111,7 +111,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             try {
                 o.update(this, mvEvent);
             } catch (InvalidDieException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Invalid Die Exception!");
             }
         }
     }
@@ -223,7 +223,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         try {
             virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
         } catch (InvalidDieException | InvalidViewException | InvalidConnectionException | IOException | ParseException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Something went wrong!");
         }
     }
 

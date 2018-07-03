@@ -132,11 +132,11 @@ public class CLIView implements ViewInterface {
     }
 
     public void createPlaceDieEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
-        consoleWriter.println("insert the number of Die");
+        consoleWriter.println("Insert the number of Die: ");
         int pos = getNumber()-1;
-        consoleWriter.println("insert the number of column in which you want place the Die");
+        consoleWriter.println("In which column do you want to place the Die?");
         int coordX = getNumber()-1;
-        consoleWriter.println("insert the number of row in which you want place the Die");
+        consoleWriter.println("In which row do you want to place the Die?");
         int coordY = getNumber()-1;
         vcEvent = new PlaceDieEvent(user, pos, coordX, coordY);
         notifyObservers();
@@ -220,7 +220,6 @@ public class CLIView implements ViewInterface {
             consoleWriter.println(fromThread);
             WindowCard selectedW = findInCards(fromThread);
             if (selectedW != null) {
-                System.out.println("faccio il break del tread");
                 break;
             }
 
@@ -228,10 +227,8 @@ public class CLIView implements ViewInterface {
 
         try {
             createChooseCardEvent(findInCards(fromThread));
-        } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException e) {
+        } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException | InvalidDieException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
         }
 
     }
@@ -248,7 +245,6 @@ public class CLIView implements ViewInterface {
             for(int i = 0; i < w.getRows(); i++){
                 for(int j = 0; j < w.getCols(); j++){
                     if (w.getGridCell(i,j).isPlaced()) {
-                        //System.out.println("sono in is placed");
                         printDie(w.getGridCell(i, j).getPlacedDie());
                     }
                     else {
@@ -303,9 +299,9 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        consoleWriter.println("In what row do you want to place the die?");
+        consoleWriter.println("In which row do you want to place the die?");
         int x = getNumber()-1;
-        consoleWriter.println("In what column do you want to place the die?");
+        consoleWriter.println("In which column do you want to place the die?");
         int y = getNumber()-1;
         vcEvent = new PlaceDieEvent(modifiedPlaceEvent.getUsername(), modifiedPlaceEvent.getPos(), x, y);
         notifyObservers();
@@ -342,7 +338,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(WrongPlaceEvent event) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        System.out.println("IMPOSSIBLE PLACEMENT. RETRY!");
+        LOGGER.log(Level.INFO, "Illegal placement! Retry!");
         menuGame();
     }
 
@@ -511,11 +507,12 @@ public class CLIView implements ViewInterface {
 
     private void menuGame() throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
          boolean turn = true;
+         Scanner scanner = new Scanner(System.in);
          String choose;
          System.out.println("");
          while (turn) {
              System.out.println("CHOOSE YOUR MOVE\n1- Place Die\n2- Use Toolcard\n3- Skip turn");
-             choose = consoleScanner.next();
+             choose = scanner.nextLine();
              if (choose.equals("1") || choose.equals("2") || choose.equals("3"))
                  switch (choose) {
                      case "1":
@@ -536,7 +533,7 @@ public class CLIView implements ViewInterface {
                          break;
                  }
              else
-                 System.out.println("Invalid choice, try again!");
+                 LOGGER.log(Level.INFO, "Invalid choice, try again!");
          }
      }
 

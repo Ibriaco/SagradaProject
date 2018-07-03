@@ -6,12 +6,15 @@ import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.event.UpdateGameEvent;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TurnController {
     private EventsController eventsController;
     private Game game;
     private boolean reverse = false;
     private MVEvent tempMVEvent;
+    private static final Logger LOGGER = Logger.getGlobal();
 
 
     public TurnController(EventsController eventsController){
@@ -34,34 +37,30 @@ public class TurnController {
             for (Die die: game.getRolledDice()) {
                 game.getRoundCells().get(game.getRound()-1).addDie(die);
             }
-            //System.out.println("dimensione prima removeall: " + game.getRolledDice().size());
             game.getRolledDice().removeAll(game.getRolledDice());
-            //System.out.println("dimensione dopo removeall: " + game.getRolledDice().size());
             game.setRolledDice();
             checkRound(playerIndex);
         }
 
         //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
         else if ((game.getTurn() - game.getPlayerNumber())==0 && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
-            System.out.println("Sono nel caso di fine primo giro con client corrente online");
+            LOGGER.log(Level.INFO,"Sono nel caso di fine primo giro con client corrente online");
             eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), true));
             reverse = true;
             game.nextTurn();
         }
         else if((game.getTurn() - game.getPlayerNumber())==0 && eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
-            System.out.println("Sono nel caso di fine primo giro con client corrente offline");
+            LOGGER.log(Level.INFO,"Sono nel caso di fine primo giro con client corrente offline");
             reverse = true;
-            //game.nextTurn();
             checkSkip(playerIndex);
         }
         //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
         else {
-            System.out.println("Sono nel caso di skip");
-            System.out.println("Valore di player index: " + playerIndex );
+            LOGGER.log(Level.INFO,"Sono nel caso di skip");
             checkSkip(playerIndex);
         }
 
-        System.out.println(" turno in uscita:" + game.getTurn());
+        LOGGER.log(Level.INFO," turno in uscita:" + game.getTurn());
         eventsController.setPlayerIndex(game.getPlayers().indexOf(game.findPlayer(eventsController.getMvEvent().getUsername())));
         eventsController.setTimer(new TimerThread(eventsController,eventsController.getPlayerIndex()));
         eventsController.getTimer().start();
@@ -82,10 +81,10 @@ public class TurnController {
      * @throws IOException exception
      */
     private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException, IOException {
-        System.out.println("sono in checkRound");
+        LOGGER.log(Level.INFO,"sono in checkRound");
         if(playerIndex==game.getPlayerNumber()-1) {
             game.setFirstPlayer(game.getPlayers().get(0));
-            System.out.println("checkRound su ultimo player");
+            LOGGER.log(Level.INFO,"checkRound su ultimo player");
         }
         else{
             playerIndex++;
@@ -96,7 +95,7 @@ public class TurnController {
         reverse = false;
         game.nextTurn();
         if(eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())){
-            System.out.println("il primo giocatore del primo turno è offline");
+            LOGGER.log(Level.INFO,"il primo giocatore del primo turno è offline");
             checkSkip(playerIndex);
         }
         else

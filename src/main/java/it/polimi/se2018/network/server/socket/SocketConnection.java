@@ -27,9 +27,10 @@ public class SocketConnection extends Thread implements ClientInterface {
     private Socket connectionSocket;
     private VCEvent receivedEvent;
     private VirtualView virtualView;
-    private static final Logger LOGGER = Logger.getLogger( SocketConnection.class.getName() );
     private ObjectInputStream fromClient;
     private ObjectOutputStream toClient;
+    private static final Logger LOGGER = Logger.getGlobal();
+
     public SocketConnection(Socket socket, SocketServer socketServer, VirtualView v){
         connectionSocket = socket;
         this.socketServer = socketServer;
@@ -44,7 +45,7 @@ public class SocketConnection extends Thread implements ClientInterface {
             fromClient = new ObjectInputStream(this.getConnectionSocket().getInputStream());
             toClient = new ObjectOutputStream(this.getConnectionSocket().getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
         boolean loop = true;
@@ -57,11 +58,10 @@ public class SocketConnection extends Thread implements ClientInterface {
 
         } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException  e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            e.printStackTrace();
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 
@@ -94,7 +94,7 @@ public class SocketConnection extends Thread implements ClientInterface {
         try {
             connectionSocket.getOutputStream().write(0);
         } catch (IOException e) {
-            System.out.println("disconnesso");
+            LOGGER.log(Level.INFO, "Disconnected!");
         }
 
     }

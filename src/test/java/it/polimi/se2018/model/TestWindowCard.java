@@ -309,8 +309,8 @@ public class TestWindowCard {
     @Test
     public void testWrongPlaceShadeRestriction(){
         w.placeDie(d2,0,0,false,true);
-        assertEquals(false, w.getGridCell(0,0).isPlaced());
-        assertNull(w.getGridCell(0,0).getPlacedDie());
+        assertEquals(true, w.getGridCell(0,0).isPlaced());
+        assertEquals(d2, w.getGridCell(0,0).getPlacedDie());
     }
 
     @Test

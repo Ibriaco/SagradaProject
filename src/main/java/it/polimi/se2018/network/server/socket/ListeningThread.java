@@ -33,7 +33,7 @@ public class ListeningThread extends Thread{
         try {
             fromServer = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
         while(loop) {
@@ -41,14 +41,8 @@ public class ListeningThread extends Thread{
 
                 Object receivedEvent = fromServer.readObject();
                 networkHandler.receiveMVEvent((MVEvent)receivedEvent);
-                //System.out.println("ricevuto evento, " + receivedEvent.getUsername());
-            } catch (IOException | NullPointerException e) {
-                //e.printStackTrace();
-                System.out.println("stream chiuso");
-            } catch (InvalidConnectionException | InvalidViewException | ParseException e) {
+            } catch (IOException | NullPointerException | InvalidConnectionException | InvalidViewException | ParseException | ClassNotFoundException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         }
 

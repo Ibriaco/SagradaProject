@@ -1,6 +1,5 @@
 package it.polimi.se2018;
 
-import it.polimi.se2018.controller.ToolCardController;
 import it.polimi.se2018.controller.effects.*;
 
 public class ToolCardFactory {
@@ -28,11 +27,11 @@ public class ToolCardFactory {
             return new RollDieEffect();
 
         else if(title.equalsIgnoreCase(ENGLOMISE_BRUSH)) {
-            return new MoveDieEffect(false, true, 1);
+            return new MoveDieEffect(true, false, 1);
         }
 
         else if(title.equalsIgnoreCase(COPPER_FOIL_BRUSHER))
-            return new MoveDieEffect(true, false, 1);
+            return new MoveDieEffect(false, true, 1);
 
         /*else if(title.equalsIgnoreCase(COLUMN_SHADE_VARIETY))
             return new MediumShade(title, description, score);

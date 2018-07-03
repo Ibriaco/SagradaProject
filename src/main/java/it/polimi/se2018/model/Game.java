@@ -46,7 +46,7 @@ public class Game implements MyObservable{
     private List<Color> colorList;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
-    private static final Logger LOGGER = Logger.getLogger( Game.class.getName() );
+    private static final Logger LOGGER = Logger.getGlobal();
 
     public Game(int playerNumber) {
 
@@ -156,11 +156,11 @@ public class Game implements MyObservable{
     }
 
     public void nextRound(){
+
         round++;
     }
 
     public void nextTurn(){
-        System.out.println(turn);
         if (turn == 2*playerNumber){
             turn = 1;
             nextRound();
@@ -221,13 +221,10 @@ public class Game implements MyObservable{
 
     public void dealToolCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException {
         ArrayList<String> toolCard = new ArrayList<>();
-        //ToolCardFactory toolCardFactory = new ToolCardFactory();
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
         for (int i=0; i<3; i++){
             toolCards.add(drawToolCard(randomNumbers.get(i)));
             toolCard.add("[TOOL CARD]:\tTITLE: " + getToolCards().get(i).getTitle() + "\tDESCRIPTION: " + getToolCards().get(i).getDescription());
-            //toolCards.get(i).getEffectList().add(toolCardFactory.createEffect(getToolCards().get(i).getTitle()));
-
         }
         ToolCardEvent toolCardEvent = new ToolCardEvent("ALL", toolCard);
         setMvEvent(toolCardEvent);
@@ -281,7 +278,7 @@ public class Game implements MyObservable{
             try {
                 notifyObservers();
             } catch (IOException | ParseException | InvalidViewException | InvalidConnectionException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }).start();
     }
@@ -369,7 +366,7 @@ public class Game implements MyObservable{
             try {
                 o.update(this, mvEvent);
             } catch (InvalidDieException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
     }

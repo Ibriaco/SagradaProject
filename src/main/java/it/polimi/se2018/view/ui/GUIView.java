@@ -30,6 +30,8 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Graphic user interface
@@ -47,6 +49,7 @@ public class GUIView extends Application implements ViewInterface {
     private GUIWaitingLobbyController guiWaitingLobbyController;
     private GUIChoiceController guiChoiceController;
     private GUIGameScreenController guiGameScreenController;
+    private static final Logger LOGGER = Logger.getGlobal();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -245,7 +248,7 @@ public class GUIView extends Application implements ViewInterface {
         try {
             arg.accept(this);
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
     }
 

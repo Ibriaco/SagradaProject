@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Lobby class of the game
@@ -20,13 +22,14 @@ public class Lobby implements MyObservable{
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private static final Object lock = new Object();
+    private static final Logger LOGGER = Logger.getGlobal();
 
     public Object getLock() {
         return lock;
     }
 
     public Lobby(){
-        System.out.println("Lobby creata");
+        LOGGER.log(Level.INFO,"Lobby creata");
         onlinePlayersN = 0;
         onlinePlayers = new ArrayList<>();
         //startTimer();
@@ -79,7 +82,7 @@ public class Lobby implements MyObservable{
             try {
                 o.update(this, mvEvent);
             } catch (InvalidDieException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
     }

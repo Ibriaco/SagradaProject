@@ -4,16 +4,16 @@ import it.polimi.se2018.controller.effects.*;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.view.viewevents.MovingDieEvent;
-import it.polimi.se2018.view.viewevents.PlaceModifiedDie;
 import it.polimi.se2018.view.viewevents.SelectDieEvent;
 import it.polimi.se2018.view.viewevents.UseToolEvent;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ToolCardController{
 
-    private ArrayList<ToolCard> toolCards;
     private Game game;
     private String user;
     private int pos;
@@ -24,20 +24,13 @@ public class ToolCardController{
     private WindowCard w;
     private EventsController eventsController;
     private LobbyController lc;
+    private static final Logger LOGGER = Logger.getGlobal();
+
 
     public ToolCardController(EventsController controller, LobbyController lobbyController) {
         this.eventsController = controller;
         this.lc = lobbyController;
     }
-
-    /*
-    ORDINE DI ESECUZIONE
-    1)
-    2)
-    3)
-    4)
-    5)
-     */
 
     public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         user = event.getUsername();
@@ -55,7 +48,6 @@ public class ToolCardController{
     public void checkApplyEffect(ReverseDieEffect reverseDieEffect) throws InvalidDieException {
         //controllo token disponibili
         reverseDieEffect.applyEffect(d);
-        System.out.println("Valore del dado ribaltato: " + d.getValue());
 
 
     }
@@ -64,7 +56,7 @@ public class ToolCardController{
         try {
             rollDieEffect.applyEffect(d);
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Invalid die exception!");
         }
     }
 
@@ -72,6 +64,7 @@ public class ToolCardController{
     }
 
     public void checkApplyEffect(MoveDieEffect moveDieEffect) {
+
         moveDieEffect.applyEffect(w, d, newX, newY);
     }
 
@@ -82,7 +75,7 @@ public class ToolCardController{
         try {
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Invalid die exception!");
         }
         mvEvent = new ChangedDieEvent(user, d);
         eventsController.setMvEvent(mvEvent);
@@ -97,7 +90,6 @@ public class ToolCardController{
         int index;
         index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
         d = game.getPlayers().get(index).getWindowCard().getGridCell(event.getOldY(), event.getOldX()).getPlacedDie();
-        System.out.println("valore dado rimosso: " + d.getValue() + "  " + d.getColor());
         game.getPlayers().get(index).getWindowCard().removeDie(event.getOldY(), event.getOldX());
         game.updateWindowCardList();
         w = game.getPlayers().get(index).getWindowCard();
@@ -108,7 +100,7 @@ public class ToolCardController{
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
             game.updateWindowCardList();
         } catch (InvalidDieException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Invalid die exception!");
         }
         eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
         eventsController.notifyObservers();
