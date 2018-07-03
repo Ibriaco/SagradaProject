@@ -32,4 +32,8 @@ public class PublicCardEvent implements MVEvent {
             System.out.println(s);
         }
     }
+
+    public List<String> getPublicName() {
+        return publicName;
+    }
 }

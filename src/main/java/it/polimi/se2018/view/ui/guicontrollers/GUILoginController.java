@@ -173,8 +173,4 @@ public class GUILoginController implements GUIControllerIF{
         guiView.getGuiGameScreenController().updateScreen(updateGameEvent);
     }
 
-    public void showExitDialog() {
-        makeChoiceDialog(EXIT_MESSAGE, stack);
-    }
-
 }

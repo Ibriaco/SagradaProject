@@ -205,10 +205,10 @@ public class GUIChoiceController implements GUIControllerIF {
         //stage.setHeight(screenBounds.getHeight()*0.7);
         //stage.setWidth(screenBounds.getWidth()*0.7);
 
-        stage.setWidth(900);
+        stage.setWidth(950);
         stage.setHeight(650);
         stage.setMinHeight(650);
-        stage.setMinWidth(900);
+        stage.setMinWidth(950);
         stage.setOnCloseRequest(event -> System.exit(0));
         stage.setResizable(true);
 

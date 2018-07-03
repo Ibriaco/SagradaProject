@@ -31,4 +31,8 @@ public class ToolCardEvent implements MVEvent {
             System.out.println(s);
         }
     }
+
+    public List<String> getToolCards() {
+        return toolCards;
+    }
 }

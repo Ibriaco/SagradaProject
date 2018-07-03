@@ -176,7 +176,6 @@ public class GUIView extends Application implements ViewInterface {
     @Override
     public void setUsername(String u) {
         user = u;
-        System.out.println("inserisco " + u);
     }
 
     public String getUser() {
@@ -211,7 +210,8 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsNotYourTurn isNotYourTurn) {
-
+        System.out.println("ricevuto is not");
+        Platform.runLater(()->guiGameScreenController.showTurnDialog(isNotYourTurn.getUsername()));
     }
 
     @Override
