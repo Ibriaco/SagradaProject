@@ -232,6 +232,7 @@ public class LobbyController {
     public void handleWindowCard (ChooseCardEvent event){
         game.findPlayer(event.getUsername()).setWindowCard(event.getWindowCard());
         game.getWindowCardList().add(event.getWindowCard());
+        game.getPlayers().get(game.getPlayers().indexOf(game.findPlayer(event.getUsername()))).setTokens(event.getWindowCard().getDifficulty());
         username.add(event.getUsername());
     }
 

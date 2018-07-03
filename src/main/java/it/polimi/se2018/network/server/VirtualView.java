@@ -43,7 +43,7 @@ public class VirtualView implements ViewInterface {
      */
     @Override
     public void updateWindowCard() {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     public synchronized void addClientToMap(String u, ClientInterface c){
@@ -82,37 +82,37 @@ public class VirtualView implements ViewInterface {
 
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(DisconnectedEvent event) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(PrivateCardEvent privateCardEvent) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(WindowCardEvent event) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(UpdateGameEvent updateGameEvent) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(PublicCardEvent publicCardEvent) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(ToolCardEvent toolCardEvent) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
@@ -132,47 +132,52 @@ public class VirtualView implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(StopTurnEvent stopTurnEvent) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(IsNotYourTurn isNotYourTurn) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(ChangedDieEvent changedDieEvent) {
-
+        /*intentionally left empty*/
     }
 
     @Override
     public void handleMVEvent(MoveDieEvent moveDieEvent) {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(WrongPlaceEvent wrongPlaceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-
+        /*Intentionally left void, not used in this class*/
     }
 
     @Override
     public void handleMVEvent(IncDecEvent incDecEvent) {
+        /*Intentionally left void, not used in this class*/
+    }
 
+    @Override
+    public void handleMVEvent(InvalidToolEvent invalidToolEvent) {
+        /*Intentionally left void, not used in this class*/
     }
 
 

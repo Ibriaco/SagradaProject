@@ -68,5 +68,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(WrongPlaceEvent wrongPlaceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 
     void handleMVEvent(IncDecEvent incDecEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
+
+    void handleMVEvent(InvalidToolEvent invalidToolEvent);
 }
 

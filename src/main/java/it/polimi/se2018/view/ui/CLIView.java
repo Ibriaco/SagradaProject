@@ -299,9 +299,9 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        consoleWriter.println("In which row do you want to place the die?");
-        int x = getNumber()-1;
         consoleWriter.println("In which column do you want to place the die?");
+        int x = getNumber()-1;
+        consoleWriter.println("In which row do you want to place the die?");
         int y = getNumber()-1;
         vcEvent = new PlaceDieEvent(modifiedPlaceEvent.getUsername(), modifiedPlaceEvent.getPos(), x, y);
         notifyObservers();
@@ -347,11 +347,29 @@ public class CLIView implements ViewInterface {
         int choice=0;
         Scanner scanner = new Scanner(System.in);
         while (choice != 1 && choice != 2) {
-            printOnConsole("inserici 1 per incrementare oppure 2 per decrementare il valore del dado di 1");
+            printOnConsole("1) To increase value by 1\n2) To decrease value by 1");
             choice = scanner.nextInt();
         }
         vcEvent = new IncrementDecrementDieEvent(incDecEvent.getUsername(),choice);
         notifyObservers();
+    }
+
+    @Override
+    public void handleMVEvent(InvalidToolEvent invalidToolEvent) {
+        printOnConsole("You can't use this toolcard! You don't have enough tokens!");
+        try {
+            menuGame();
+        } catch (InvalidConnectionException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (InvalidViewException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidDieException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -489,19 +507,6 @@ public class CLIView implements ViewInterface {
         return myCardList.stream().filter(w -> w.getWindowName().equalsIgnoreCase(n)).findFirst().orElse(null);
     }
 
-    private String testL() throws InterruptedException, ExecutionException
-    {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        Callable<String> callable = () -> {
-            consoleWriter.println("inserisci");
-            try (Scanner scanner = new Scanner(System.in)) {
-                return scanner.nextLine();
-            }
-        };
-        Future<String> future = executor.submit(callable);
-        executor.shutdown();
-        return future.get();
-    }
 
     private void printRoundTrack(List<RoundCell> roundTrack) {
         int counter = 1;

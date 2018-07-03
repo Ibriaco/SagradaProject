@@ -9,7 +9,6 @@ import it.polimi.se2018.view.viewevents.SelectDieEvent;
 import it.polimi.se2018.view.viewevents.UseToolEvent;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,10 +36,28 @@ public class ToolCardController{
     public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         user = event.getUsername();
         pos = event.getToolCardNumber();
-        if(game.getToolCards().get(pos).getType().equals("AD"))
-            mvEvent = new ChangeDieEvent(user);
-        else if(game.getToolCards().get(pos).getType().equals("OW"))
-            mvEvent = new MoveDieEvent(user);
+        int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+        boolean used = game.getToolCards().get(pos).isUsed();
+        boolean ok = false;
+        if(game.getPlayers().get(index).getTokens()>0&&!used){
+            game.getToolCards().get(pos).setUsed(true);
+            game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-1);
+            ok = true;
+        }
+        else if (game.getPlayers().get(index).getTokens()>1&&used){
+            game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-2);
+            ok = true;
+        }
+        else if(game.getPlayers().get(index).getTokens()<2&&used||!used&&game.getPlayers().get(index).getTokens()<1)
+            mvEvent = new InvalidToolEvent(event.getUsername());
+
+        if(ok) {
+            if (game.getToolCards().get(pos).getType().equals("AD"))
+                mvEvent = new ChangeDieEvent(user);
+            else if (game.getToolCards().get(pos).getType().equals("OW"))
+                mvEvent = new MoveDieEvent(user);
+        }
+
 
         eventsController.setMvEvent(mvEvent);
         eventsController.notifyObservers();
