@@ -196,13 +196,17 @@ public class Game implements MyObservable{
     }
 
     public void dealPublicCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException {
-        ArrayList<String> publicCard = new ArrayList<>();
+        List<String> publicCardName = new ArrayList<>();
+        List<String> publicCardDesc = new ArrayList<>();
+        List<String> publicCardScore = new ArrayList<>();
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)));
         for (int i=0; i<3; i++){
             publicCards.add(drawPublicCard(randomNumbers.get(i)));
-            publicCard.add("[PUBLIC OBJECTIVE]:\tTITLE: " + getPublicCards().get(i).getTitle() + "\tDESCRIPTION: " + getPublicCards().get(i).getDescription() + "\tSCORE: " + getPublicCards().get(i).getScore());
+            publicCardName.add(getPublicCards().get(i).getTitle());
+            publicCardDesc.add(getPublicCards().get(i).getDescription());
+            publicCardScore.add(String.valueOf(getPublicCards().get(i).getScore()));
         }
-        PublicCardEvent publicCardEvent = new PublicCardEvent("ALL", publicCard);
+        PublicCardEvent publicCardEvent = new PublicCardEvent("ALL", publicCardName, publicCardDesc, publicCardScore);
         setMvEvent(publicCardEvent);
         notifyObservers();
     }
@@ -220,13 +224,15 @@ public class Game implements MyObservable{
     }
 
     public void dealToolCards() throws IOException, ParseException, InvalidConnectionException, InvalidViewException {
-        ArrayList<String> toolCard = new ArrayList<>();
+        List<String> toolCardName = new ArrayList<>();
+        List<String> toolCardDesc = new ArrayList<>();
         List<Integer> randomNumbers = randomizeList(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)));
         for (int i=0; i<3; i++){
             toolCards.add(drawToolCard(randomNumbers.get(i)));
-            toolCard.add("[TOOL CARD]:\tTITLE: " + getToolCards().get(i).getTitle() + "\tDESCRIPTION: " + getToolCards().get(i).getDescription());
+            toolCardName.add(getToolCards().get(i).getTitle());
+            toolCardDesc.add(getToolCards().get(i).getDescription());
         }
-        ToolCardEvent toolCardEvent = new ToolCardEvent("ALL", toolCard);
+        ToolCardEvent toolCardEvent = new ToolCardEvent("ALL", toolCardName, toolCardDesc);
         setMvEvent(toolCardEvent);
         notifyObservers();
     }

@@ -10,10 +10,12 @@ import java.util.List;
 public class ToolCardEvent implements MVEvent {
     private String username;
     private List<String> toolCards;
+    private List<String> toolCardsDesc;
 
-    public ToolCardEvent(String username, List<String> toolCards) {
+    public ToolCardEvent(String username, List<String> toolCardName, List<String> toolCardDesc) {
         this.username = username;
-        this.toolCards = toolCards;
+        this.toolCards = toolCardName;
+        this.toolCardsDesc = toolCardDesc;
     }
 
     @Override
@@ -34,5 +36,9 @@ public class ToolCardEvent implements MVEvent {
 
     public List<String> getToolCards() {
         return toolCards;
+    }
+
+    public List<String> getToolCardsDesc() {
+        return toolCardsDesc;
     }
 }

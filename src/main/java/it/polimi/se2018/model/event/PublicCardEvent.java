@@ -10,11 +10,16 @@ import java.util.List;
 public class PublicCardEvent implements MVEvent {
 
     private List<String> publicName;
+    private List<String> publicDesc;
+    private List<String> publicScore;
+
     private String username;
 
-    public PublicCardEvent(String username, List<String> publicName){
+    public PublicCardEvent(String username, List<String> publicCardName, List<String> publicCardDesc, List<String> publicCardScore){
         this.username = username;
-        this.publicName = publicName;
+        this.publicName = publicCardName;
+        this.publicDesc = publicCardDesc;
+        this.publicScore = publicCardScore;
     }
 
     @Override
@@ -35,5 +40,13 @@ public class PublicCardEvent implements MVEvent {
 
     public List<String> getPublicName() {
         return publicName;
+    }
+
+    public List<String> getPublicDesc() {
+        return publicDesc;
+    }
+
+    public List<String> getPublicScore() {
+        return publicScore;
     }
 }
