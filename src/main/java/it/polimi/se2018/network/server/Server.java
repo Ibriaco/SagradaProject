@@ -2,9 +2,9 @@ package it.polimi.se2018.network.server;
 
 import it.polimi.se2018.ServerParser;
 import it.polimi.se2018.controller.EventsController;
+import it.polimi.se2018.controller.LobbyController;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
-import it.polimi.se2018.controller.LobbyController;
 import it.polimi.se2018.network.server.rmi.RMIServer;
 import it.polimi.se2018.network.server.socket.SocketServer;
 

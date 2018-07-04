@@ -10,9 +10,11 @@ import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.guicontrollers.*;
 import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.LoginEvent;
+import it.polimi.se2018.view.viewevents.SkipTurnEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,7 +22,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
@@ -193,6 +194,7 @@ public class GUIView extends Application implements ViewInterface {
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         Platform.runLater(()->guiGameScreenController.showTurnDialog(isTurnEvent.getUser()));
+        Platform.runLater(()->guiGameScreenController.enableButtons());
     }
 
     @Override
@@ -212,7 +214,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsNotYourTurn isNotYourTurn) {
-        System.out.println("ricevuto is not");
+        System.out.println("ricevuto is not: " + isNotYourTurn.getUsername());
         Platform.runLater(()->guiGameScreenController.showTurnDialog(isNotYourTurn.getUsername()));
     }
 
@@ -301,26 +303,8 @@ public class GUIView extends Application implements ViewInterface {
         return guiGameScreenController;
     }
 
-    /*
-    public void showTimer(int timer){
-
+    public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
+        vcEvent = new SkipTurnEvent(user);
+        notifyObservers();
     }
-    public PlacingDieEvent createPlaceDieEvent(Player p, Game g){
-
-    }
-    public SkipTurnEvent createSkipTurnEvent (Player p, Game g) {
-
-    }
-    public UseToolCardEvent createUseToolCardEvent (Player p, Game g){
-
-    }
-    public RollDiceEvent createRollDieEvent (Player p,Game g){
-
-    }
-    public SeePlayerWindowEvent createSeePlayerWindowEvent (Player p, Game g){
-
-    }
-    public RoundTrackEvent createCheckRoundTrackEvent(Player p, Game g){
-
-    }*/
 }

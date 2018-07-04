@@ -4,6 +4,7 @@ import it.polimi.se2018.controller.ControllerInterface;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.network.client.ClientInterface;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -34,7 +35,7 @@ public class LoginEvent implements VCEvent {
     }
 
     @Override
-    public void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException {
+    public void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         controller.handleVCEvent(this);
     }
 

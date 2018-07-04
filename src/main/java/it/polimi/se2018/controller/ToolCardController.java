@@ -1,13 +1,17 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.controller.effects.*;
+import it.polimi.se2018.controller.effects.IncDecEffect;
+import it.polimi.se2018.controller.effects.MoveDieEffect;
+import it.polimi.se2018.controller.effects.ReverseDieEffect;
+import it.polimi.se2018.controller.effects.RollDieEffect;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.viewevents.IncrementDecrementDieEvent;
 import it.polimi.se2018.view.viewevents.MovingDieEvent;
 import it.polimi.se2018.view.viewevents.SelectDieEvent;
 import it.polimi.se2018.view.viewevents.UseToolEvent;
-import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

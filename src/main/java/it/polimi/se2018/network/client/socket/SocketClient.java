@@ -1,10 +1,10 @@
 package it.polimi.se2018.network.client.socket;
 
-import it.polimi.se2018.model.event.MVEvent;
-import it.polimi.se2018.model.InvalidConnectionException;
-import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.network.client.ClientInterface;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.network.server.socket.ListeningThread;

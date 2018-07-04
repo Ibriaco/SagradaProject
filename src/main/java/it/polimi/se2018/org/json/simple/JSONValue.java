@@ -2,7 +2,10 @@
  * $Id: JSONValue.java,v 1.1 2006/04/15 14:37:04 platform Exp $
  * Created on 2006-4-15
  */
-package org.json.simple;
+package it.polimi.se2018.org.json.simple;
+
+import it.polimi.se2018.org.json.simple.parser.JSONParser;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,8 +16,6 @@ import java.util.Collection;
 // import java.util.List;
 import java.util.Map;
 
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 
 /**
@@ -93,7 +94,7 @@ public class JSONValue {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public static Object parseWithException(Reader in) throws IOException, ParseException{
+	public static Object parseWithException(Reader in) throws IOException, ParseException {
 		JSONParser parser=new JSONParser();
 		return parser.parse(in);
 	}

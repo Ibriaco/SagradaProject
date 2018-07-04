@@ -1,4 +1,4 @@
-package org.json.simple.parser;
+package it.polimi.se2018.org.json.simple.parser;
 
 import java.util.List;
 import java.util.Map;

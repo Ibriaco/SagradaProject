@@ -1,7 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.MyObserver;
-import org.json.simple.parser.ParseException;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 

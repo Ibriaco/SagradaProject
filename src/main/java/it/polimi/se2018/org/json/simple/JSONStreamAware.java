@@ -1,4 +1,4 @@
-package org.json.simple;
+package it.polimi.se2018.org.json.simple;
 
 import java.io.IOException;
 import java.io.Writer;

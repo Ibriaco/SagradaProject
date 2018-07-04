@@ -7,8 +7,8 @@ import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.viewevents.VCEvent;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

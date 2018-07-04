@@ -4,6 +4,7 @@ import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.IsTurnEvent;
 import it.polimi.se2018.model.event.MVEvent;
 import it.polimi.se2018.model.event.UpdateGameEvent;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class TurnController {
      * @throws InvalidViewException exception
      * @throws IOException exception
      */
-    protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException {
+    protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         game = eventsController.getGame();
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         if (game.getTurn() == game.getPlayerNumber()*TWO_VALUE){
@@ -82,7 +83,7 @@ public class TurnController {
      * @throws InvalidViewException exception
      * @throws IOException exception
      */
-    private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException, IOException {
+    private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         LOGGER.log(Level.INFO,"sono in checkRound");
         if(playerIndex==game.getPlayerNumber()-ONE_VALUE) {
             game.setFirstPlayer(game.getPlayers().get(ZERO_VALUE));
@@ -111,31 +112,31 @@ public class TurnController {
      * @throws InvalidViewException exception
      * @throws IOException exception
      */
-    private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException, IOException {
-        if (!reverse&&playerIndex!=game.getPlayerNumber()-ONE_VALUE && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+ONE_VALUE).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex + ONE_VALUE).getUsername(), BOOL_TRUE));
-        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+ONE_VALUE).getUsername())){
+    private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        if (!reverse&&playerIndex!=game.getPlayerNumber()-1 && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), BOOL_TRUE));
+        else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())){
             game.nextTurn();
-            handleSkipTurn(playerIndex+ONE_VALUE);
+            handleSkipTurn(playerIndex+1);
         }
-        else if (!reverse&&playerIndex==game.getPlayerNumber()-ONE_VALUE&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(ZERO_VALUE).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(ZERO_VALUE).getUsername(), BOOL_TRUE));
-        else if(!reverse&&playerIndex==game.getPlayerNumber()-ONE_VALUE&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(ZERO_VALUE).getUsername())) {
+        else if (!reverse&&playerIndex==game.getPlayerNumber()-1&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(0).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(0).getUsername(), BOOL_TRUE));
+        else if(!reverse&&playerIndex==game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(0).getUsername())) {
             game.nextTurn();
-            handleSkipTurn(ZERO_VALUE);
+            handleSkipTurn(0);
         }
 
-        else if(reverse&&playerIndex!=ZERO_VALUE&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-ONE_VALUE).getUsername()))
-            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex - ONE_VALUE).getUsername(), BOOL_TRUE));
-        else if(reverse&&playerIndex!=ZERO_VALUE&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-ONE_VALUE).getUsername())) {
+        else if(reverse&&playerIndex!=0&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername()))
+            eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex - 1).getUsername(), BOOL_TRUE));
+        else if(reverse&&playerIndex!=0&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex-1).getUsername())) {
             game.nextTurn();
-            handleSkipTurn(playerIndex - ONE_VALUE);
+            handleSkipTurn(playerIndex - 1);
         }
-        else if(reverse&&playerIndex==ZERO_VALUE&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-ONE_VALUE).getUsername()))
+        else if(reverse&&playerIndex==0&&!eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername()))
             eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(game.getPlayerNumber()-1).getUsername(), BOOL_TRUE));
-        else if (reverse&&playerIndex==ZERO_VALUE&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-ONE_VALUE).getUsername())) {
+        else if (reverse&&playerIndex==0&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(game.getPlayerNumber()-1).getUsername())) {
             game.nextTurn();
-            handleSkipTurn(game.getPlayerNumber() - ONE_VALUE);
+            handleSkipTurn(game.getPlayerNumber() - 1);
         }
         game.nextTurn();
     }

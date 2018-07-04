@@ -1,13 +1,14 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.IsTurnEvent;
 import it.polimi.se2018.model.event.LoggedUserEvent;
-import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.network.server.VirtualView;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.viewevents.ChooseCardEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
-import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;

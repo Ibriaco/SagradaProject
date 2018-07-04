@@ -1,14 +1,15 @@
 package it.polimi.se2018;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import it.polimi.se2018.org.json.simple.JSONObject;
+import it.polimi.se2018.org.json.simple.parser.JSONParser;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import static it.polimi.se2018.ClientConfig.*;
 
 public class ClientParser {
 
-    public void reader(){
+    public void reader() throws ParseException {
         JSONParser jsonParser = new JSONParser();
 
         try{
@@ -18,6 +19,7 @@ public class ClientParser {
             SOCKET_CONNECTION = (String)jsonObject.get("SOCKET_CONNECTION");
             ONE_STRING = (String)jsonObject.get("ONE_STRING");
             TWO_STRING = (String)jsonObject.get("TWO_STRING");
+            THREE_STRING = (String)jsonObject.get("THREE_STRING");
             LOGIN_PAGE = (String)jsonObject.get("LOGIN_PAGE");
             INSERT_YOUR_USERNAME = (String)jsonObject.get("INSERT_YOUR_USERNAME");
             SELECT_CONNECTION_TYPE = (String)jsonObject.get("SELECT_CONNECTION_TYPE");
@@ -53,7 +55,7 @@ public class ClientParser {
             DICE_PATHD = (String)jsonObject.get("DICE_PATHD");
             ERROR_TYPE = (String)jsonObject.get("ERROR_TYPE");
             INFO_TYPE = (String)jsonObject.get("INFO_TYPE");
-        } catch (ParseException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

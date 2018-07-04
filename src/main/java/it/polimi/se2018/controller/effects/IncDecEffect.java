@@ -5,14 +5,14 @@ import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
-import it.polimi.se2018.view.viewevents.VCEvent;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
 public class IncDecEffect implements Effect {
 
     @Override
-    public void accept(ToolCardController toolCardController) throws InvalidConnectionException, InvalidViewException, org.json.simple.parser.ParseException, IOException {
+    public void accept(ToolCardController toolCardController) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         System.out.println("eseguo accept");
         toolCardController.checkApplyEffect(this);
     }

@@ -1,4 +1,4 @@
-package org.json.simple;
+package it.polimi.se2018.org.json.simple;
 
 /**
  * Beans that support customized output of JSON text shall implement this interface.  

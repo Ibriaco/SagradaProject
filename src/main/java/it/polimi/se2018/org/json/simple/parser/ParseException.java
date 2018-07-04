@@ -1,4 +1,4 @@
-package org.json.simple.parser;
+package it.polimi.se2018.org.json.simple.parser;
 
 /**
  * ParseException explains why and where the error occurs in source JSON text.

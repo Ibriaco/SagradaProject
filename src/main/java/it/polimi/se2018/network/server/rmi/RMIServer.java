@@ -3,17 +3,14 @@ package it.polimi.se2018.network.server.rmi;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
-import it.polimi.se2018.model.event.DisconnectedEvent;
 import it.polimi.se2018.network.client.ClientInterface;
-import it.polimi.se2018.network.client.rmi.RMIClient;
-import it.polimi.se2018.network.client.rmi.RMIClientInterface;
 import it.polimi.se2018.network.server.VirtualView;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.viewevents.VCEvent;
-import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Iterator;
 
 /**
  * Class that implements rmi server Interface

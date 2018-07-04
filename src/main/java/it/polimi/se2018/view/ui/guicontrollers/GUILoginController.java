@@ -8,6 +8,7 @@ import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.event.UpdateGameEvent;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.GUIView;
 import it.polimi.se2018.view.viewevents.VCEvent;
 import javafx.fxml.FXML;
@@ -18,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;

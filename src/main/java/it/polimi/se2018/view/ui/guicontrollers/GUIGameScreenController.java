@@ -1,18 +1,19 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.RoundCell;
-import it.polimi.se2018.model.WindowCard;
+import com.jfoenix.controls.JFXButton;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.PrivateCardEvent;
 import it.polimi.se2018.model.event.PublicCardEvent;
 import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.UpdateGameEvent;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -21,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,9 @@ public class GUIGameScreenController {
     private static final double T_HEIGHT = 45;
     private static final double T_WIDTH = 45;
 
+    private double oldH;
+    private double oldW;
+    private ImageView toZoom;
     private GUIView guiView;
     private StackPane stack = new StackPane();
     private boolean whichSize;
@@ -98,6 +103,12 @@ public class GUIGameScreenController {
     private Label token3;
     @FXML
     private GridPane roundTrack;
+    @FXML
+    private JFXButton skipButton;
+    @FXML
+    private JFXButton toolButton;
+    @FXML
+    private JFXButton placeButton;
 
 
     @FXML
@@ -290,7 +301,63 @@ public class GUIGameScreenController {
         this.guiView = guiView;
     }
 
-    private void drawWindow(){
+    @FXML
+    private void zoomCard(MouseEvent mouseEvent){
+
+        toZoom = (ImageView) mouseEvent.getSource();
+        if (toZoom.equals(pub0) || toZoom.equals(pub1) || toZoom.equals(pub2))
+            publics.toFront();
+        toZoom.toFront();
+
+        oldH = toZoom.getFitHeight();
+        oldW = toZoom.getFitWidth();
+
+        toZoom.setFitWidth(oldW * 2);
+        toZoom.setFitHeight(oldH * 2);
 
     }
+
+    @FXML
+    private void zoomOut(){
+
+        if (toZoom.equals(pub0) || toZoom.equals(pub1) || toZoom.equals(pub2))
+            publics.toBack();
+
+        toZoom.setFitHeight(oldH);
+        toZoom.setFitWidth(oldW);
+        toZoom.toBack();
+    }
+
+    @FXML
+    private void placeAction(){
+
+    }
+
+    @FXML
+    private void toolAction(){
+
+    }
+
+    @FXML
+    private void skipAction() throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+        guiView.createSkipTurnEvent();
+        disableButtons();
+    }
+
+    @FXML
+    public void enableButtons(){
+        skipButton.setDisable(false);
+        toolButton.setDisable(false);
+        placeButton.setDisable(false);
+    }
+
+    @FXML
+    private void disableButtons(){
+        skipButton.setDisable(true);
+        toolButton.setDisable(true);
+        placeButton.setDisable(true);
+    }
+
+
 }

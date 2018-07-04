@@ -1,15 +1,13 @@
 package it.polimi.se2018.model;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import it.polimi.se2018.org.json.simple.JSONArray;
+import it.polimi.se2018.org.json.simple.parser.JSONParser;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

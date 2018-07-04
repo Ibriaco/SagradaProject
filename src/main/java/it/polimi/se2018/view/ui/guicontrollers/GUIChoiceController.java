@@ -8,6 +8,7 @@ import it.polimi.se2018.model.event.PrivateCardEvent;
 import it.polimi.se2018.model.event.PublicCardEvent;
 import it.polimi.se2018.model.event.ToolCardEvent;
 import it.polimi.se2018.model.event.WindowCardEvent;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -217,7 +218,7 @@ public class GUIChoiceController implements GUIControllerIF {
     }
 
     @FXML
-    public void handleSelection(MouseEvent mouseEvent) throws InvalidConnectionException, org.json.simple.parser.ParseException, InvalidViewException, IOException, InvalidDieException {
+    public void handleSelection(MouseEvent mouseEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         GridPane selectedGrid = (GridPane) mouseEvent.getSource();
         String windowName = "";
         if(selectedGrid.equals(gridNW))

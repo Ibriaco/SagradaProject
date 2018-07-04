@@ -1,12 +1,12 @@
 package it.polimi.se2018.network.server.socket;
 
+import it.polimi.se2018.controller.LobbyController;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.network.client.ClientInterface;
 import it.polimi.se2018.network.server.ServerInterface;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.view.viewevents.VCEvent;
-import it.polimi.se2018.controller.LobbyController;
 
 import java.io.IOException;
 import java.net.ServerSocket;

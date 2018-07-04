@@ -8,10 +8,10 @@ import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.viewevents.*;
 import it.polimi.se2018.view.viewevents.PlaceDieEvent;
 import it.polimi.se2018.view.viewevents.RollDiceEvent;
-import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -524,28 +524,25 @@ public class CLIView implements ViewInterface {
          while (turn) {
              System.out.println(CHOOSE_YOUR_MOVE);
              choose = scanner.nextLine();
-             if (choose.equals(ONE_STRING) || choose.equals(TWO_STRING) || choose.equals(THREE_STRING))
-                 switch (choose) {
-                     case "1":
-                         createPlaceDieEvent();
-                         createSkipTurnEvent();
-                         turn = false;
-                         break;
-                     case "2":
-                         createUseToolEvent();
-                         createSkipTurnEvent();
-                         turn = false;
-                         break;
-                     case "3":
-                         createSkipTurnEvent();
-                         turn = false;
-                         break;
-                     default:
-                         break;
-                 }
+
+             if (choose.equals(ONE_STRING)) {
+                 createPlaceDieEvent();
+                 createSkipTurnEvent();
+                 turn = false;
+             }
+             else if (choose.equals(TWO_STRING)) {
+                 createUseToolEvent();
+                 createSkipTurnEvent();
+                 turn = false;
+             }
+             else if (choose.equals(THREE_STRING)) {
+                 createSkipTurnEvent();
+                 turn = false;
+             }
              else
                  printOnConsole(INVALID_CHOICE);
          }
+
      }
 
 }

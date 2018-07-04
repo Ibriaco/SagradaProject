@@ -1,22 +1,25 @@
 package it.polimi.se2018.network.server;
 
 
-import it.polimi.se2018.controller.ChangeDieEvent;
-import it.polimi.se2018.model.InvalidDieException;
-import it.polimi.se2018.model.event.*;
-import it.polimi.se2018.model.InvalidConnectionException;
-import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.controller.ChangeDieEvent;
+import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
+import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.network.client.ClientInterface;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.ViewInterface;
 import it.polimi.se2018.view.viewevents.SkipTurnEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that works as a Proxy on the server side
