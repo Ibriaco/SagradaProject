@@ -10,20 +10,17 @@ import java.util.List;
  * @author Ibrahim El Shemy
  * @author Marco Gasperini
  */
-public class RollDiceEvent implements MVEvent{
+public class RollingDiceEvent implements MVEvent{
 
-    private List<Die> dice;
-    private String username;
+    String username;
 
-
-    public List<Die> getDice(){
-
-        return dice;
+    public RollingDiceEvent(String user){
+        this.username = user;
     }
 
     @Override
     public void accept(ViewInterface vi) {
-
+        vi.handleMVEvent(this);
     }
 
     @Override

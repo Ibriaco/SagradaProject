@@ -185,8 +185,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void handleVCEvent(RollDiceEvent event) {
-        //still needs to be implemented
+    public void handleVCEvent(RollDiceEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        toolCardController.handleVCEvent(event);
     }
 
     /**
@@ -207,6 +207,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             }
             else{
                 timer.interrupt();
+                int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+                p = game.getPlayers().get(index);
                 p.setAd(false);
                 turnController.handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
 

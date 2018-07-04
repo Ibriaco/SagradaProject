@@ -378,7 +378,14 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(RetryToolEvent retryToolEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        printOnConsole("This ia an \"After Drafting\" tool card ! Please try with a different one!");
         miniChoice();
+    }
+
+    @Override
+    public void handleMVEvent(RollingDiceEvent rollDiceEvent) {
+        vcEvent = new RollDiceEvent(rollDiceEvent.getUsername());
+
     }
 
 
