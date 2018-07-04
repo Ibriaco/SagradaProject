@@ -26,6 +26,9 @@ public class ClientParser {
             INSERT_DIE_NUMBER = (String)jsonObject.get("INSERT_DIE_NUMBER");
             INSERT_COLUMN = (String)jsonObject.get("INSERT_COLUMN");
             INSERT_ROW = (String)jsonObject.get("INSERT_ROW");
+            DRAFT_POOL = (String)jsonObject.get("DRAFT_POOL");
+            CHOOSE_MINI_MOVE = (String)jsonObject.get("CHOOSE_MINI_MOVE");
+            CHOOSE_MINI_CHOICE = (String)jsonObject.get("CHOOSE_MINI_CHOICE");
             INSERT_TOOL_NUMBER = (String)jsonObject.get("INSERT_TOOL_NUMBER");
             WINDOW_CARD = (String)jsonObject.get("WINDOW_CARD");
             CHOOSE_WINDOW_CARD = (String)jsonObject.get("CHOOSE_WINDOW_CARD");

@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 
+import it.polimi.se2018.ServerParser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,10 +17,11 @@ public class TestBonus {
     private WindowCard w;
     private Player p;
     private Game g;
+    ServerParser sp = new ServerParser();
 
     @Before
     public void init() {
-
+        sp.reader();
         g = new Game(2);
 
         //creo una windowcard con questi specifici valori

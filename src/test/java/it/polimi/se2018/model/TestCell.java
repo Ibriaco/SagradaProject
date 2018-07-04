@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.ServerParser;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -11,9 +12,10 @@ import static org.junit.Assert.assertNotEquals;
 public class TestCell {
 
     private Game g;
+    ServerParser sp = new ServerParser();
     @Before
     public void init(){
-
+        sp.reader();
         g = new Game(2);
     }
 

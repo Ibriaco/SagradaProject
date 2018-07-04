@@ -2,10 +2,7 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
-import it.polimi.se2018.model.Game;
-import it.polimi.se2018.model.InvalidConnectionException;
-import it.polimi.se2018.model.InvalidDieException;
-import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
@@ -31,7 +28,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     private LobbyController lobbyController;
     private TurnController turnController;
     private ToolCardController toolCardController;
-
+    private Player p;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private VirtualView virtualView;
@@ -169,6 +166,9 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                 game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
                 game.updateWindowCardList();
                 game.getRolledDice().remove(event.getPos());
+                int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+                p = game.getPlayers().get(index);
+                p.setAd(true);
                 mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
                 notifyObservers();
             }
@@ -207,6 +207,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             }
             else{
                 timer.interrupt();
+                p.setAd(false);
                 turnController.handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
 
             }

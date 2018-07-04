@@ -1,11 +1,5 @@
 package it.polimi.se2018;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.FileReader;
-import java.io.IOException;
 
 public class ClientConfig {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -29,6 +23,9 @@ public class ClientConfig {
     public static String INVALID_INPUT;
     public static String ONE_STRING;
     public static String TWO_STRING;
+    public static String DRAFT_POOL;
+    public static String CHOOSE_MINI_MOVE;
+    public static String CHOOSE_MINI_CHOICE;
     public static String THREE_STRING;
     public static String LOGIN_PAGE;
     public static String INSERT_YOUR_USERNAME;

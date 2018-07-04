@@ -25,6 +25,7 @@ public class Player implements MyObservable{
     private String username;
     private String viewType;
     private int tokens;
+    private boolean ad = false;
     private int playerScore;
     private PrivateObjective privateObjective;
     private WindowCard windowCard;
@@ -93,6 +94,14 @@ public class Player implements MyObservable{
 
     public List<WindowCard> getWindowCardList() {
         return windowCardList;
+    }
+
+    public boolean isAd(){
+        return ad;
+    }
+
+    public void setAd(boolean myVar){
+        ad = myVar;
     }
 
 
