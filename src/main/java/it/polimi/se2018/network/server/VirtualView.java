@@ -218,6 +218,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(DoublePlaceEvent doublePlaceEvent) {
+
+    }
+
 
     /**
      * Shows the user interface

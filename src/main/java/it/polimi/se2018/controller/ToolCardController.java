@@ -17,6 +17,11 @@ public class ToolCardController{
 
     private Game game;
     private String user;
+
+    public int getPos() {
+        return pos;
+    }
+
     private int pos;
     private int index;
     private int diePositionDraftPool;
@@ -64,8 +69,9 @@ public class ToolCardController{
         else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber()){
            mvEvent = new RollingDiceEvent(user);
         }
-        else if (ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&!p.isAd())
-            mvEvent = new ChangeDieEvent(user);
+        else if (ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&!p.isAd()&&game.getTurn()<=game.getPlayerNumber())
+            mvEvent = new DoublePlaceEvent(user);
+
         else if(ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&p.isAd()){
             mvEvent = new RetryToolEvent(user);
         }

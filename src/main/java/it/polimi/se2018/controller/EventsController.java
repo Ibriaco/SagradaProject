@@ -166,19 +166,41 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      * @throws IOException exception
      */
     @Override
-    public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
             if(game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true)){
+                String user = event.getUsername();
                 game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
                 game.updateWindowCardList();
                 game.getRolledDice().remove(event.getPos());
                 int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
                 p = game.getPlayers().get(index);
                 p.setAd(true);
-                mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
-                notifyObservers();
-                mvEvent = new MiniMenuEvent(event.getUsername());
-                notifyObservers();
+                if(game.getPlayers().get(playerIndex).isRunningPliers()){
+                    System.out.println("entro nell'if del isrunningl'liers solo una volta come deve essere");
+                    mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                    notifyObservers();
+                    System.out.println("genero skip turn event in eventscontroller 1 sola volta");
+                    virtualView.createSkipTurnEvent(event.getUsername());
+                }
+                else if(!game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")) {
+                    mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                    notifyObservers();
+                    mvEvent = new MiniMenuEvent(event.getUsername());
+                    notifyObservers();
+                }
+                else{
+                    System.out.println("sto settando running pliers a true");
+                    game.getPlayers().get(playerIndex).setRunningPliers(true);
+                    System.out.println("Ho settato running pliers");
+                    mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                    notifyObservers();
+                    System.out.println("Ho fatto update");
+                    mvEvent = new DoublePlaceEvent(user);
+                    System.out.println("Ho creato evento double place");
+                    notifyObservers();
+                    System.out.println("Ho notificato double place");
+                }
             }
             else {
                 mvEvent = new WrongPlaceEvent(event.getUsername());
@@ -189,6 +211,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         else {
             mvEvent = new IsNotYourTurn(event.getUsername());
             notifyObservers();
+        }
+
+        if(game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")){
+
         }
     }
 
@@ -206,7 +232,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      * @throws IOException exception
      */
     @Override
-    public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
         System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
@@ -219,7 +245,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                 p = game.getPlayers().get(index);
                 p.setAd(false);
                 turnController.handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
-
             }
         }
         else {

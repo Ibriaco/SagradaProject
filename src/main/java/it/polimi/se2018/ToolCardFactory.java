@@ -44,9 +44,6 @@ public class ToolCardFactory {
         else if(title.equalsIgnoreCase(LENS_CUTTER))
             return new SwapDieEffect();
 
-        /*else if(title.equalsIgnoreCase(COLOR_DIAGONALS))
-            return new MediumShade(title, description, score);*/
-
         return null;
     }
 }

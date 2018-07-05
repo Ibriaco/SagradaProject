@@ -176,8 +176,8 @@ public class CLIView implements ViewInterface {
     }
 
     public int getNumber() {
-
-        return consoleScanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        return Integer.parseInt(scanner.nextLine());
     }
 
     //METODI PER GESTIRE MVEVENT
@@ -414,6 +414,21 @@ public class CLIView implements ViewInterface {
     @Override
     public void handleMVEvent(MiniMenuEvent miniMenuEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         miniChoice();
+    }
+
+    @Override
+    public void handleMVEvent(DoublePlaceEvent doublePlaceEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        System.out.println("ho ricevuto double place event");
+        //createPlaceDieEvent();
+        printOnConsole(INSERT_DIE_NUMBER);
+        int pos = getNumber() - 1;
+        printOnConsole(INSERT_ROW);
+        int coordY = getNumber() - 1;
+        printOnConsole(INSERT_COLUMN);
+        int coordX = getNumber() - 1;
+        vcEvent = new PlaceDieEvent(doublePlaceEvent.getUsername(), pos, coordX, coordY);
+        notifyObservers();
+        //createPlaceDieEvent();
     }
 
 

@@ -31,10 +31,14 @@ public class TurnController {
      * @throws InvalidViewException exception
      * @throws IOException exception
      */
-    protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         game = eventsController.getGame();
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
-        if (game.getTurn() == game.getPlayerNumber()*TWO_VALUE){
+        /*if(game.getPlayers().get(playerIndex).isRunningPliers()&&reverse){
+            game.getPlayers().get(playerIndex).setRunningPliers(false);
+            eventsController.getVirtualView().createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
+        }*/
+         if (game.getTurn() == game.getPlayerNumber()*TWO_VALUE){
             System.out.println("Sono nel caso di inizio nuovo round");
             game.getRoundCells().add(new RoundCell(game.getRound()));
             for (Die die: game.getRolledDice()) {
@@ -68,12 +72,18 @@ public class TurnController {
         eventsController.setTimer(new TimerThread(eventsController,eventsController.getPlayerIndex()));
         eventsController.getTimer().start();
         tempMVEvent = eventsController.getMvEvent();
-        //MANDO UPDATE EVENT
-        eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), eventsController.getLobbyController().getUsername(), game.getRolledDice(), game.getRoundCells()));
-        eventsController.notifyObservers();
-        //MANDO SKIP TURN EVENT
-        eventsController.setMvEvent(tempMVEvent);
-        eventsController.notifyObservers();
+        if(game.findPlayer(tempMVEvent.getUsername()).isRunningPliers()) {
+            game.findPlayer(tempMVEvent.getUsername()).setRunningPliers(false);
+            eventsController.getVirtualView().createSkipTurnEvent(tempMVEvent.getUsername());
+        }
+        else {
+            //MANDO UPDATE EVENT
+            eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), eventsController.getLobbyController().getUsername(), game.getRolledDice(), game.getRoundCells()));
+            eventsController.notifyObservers();
+            //MANDO SKIP TURN EVENT
+            eventsController.setMvEvent(tempMVEvent);
+            eventsController.notifyObservers();
+        }
     }
 
     /**
@@ -83,7 +93,7 @@ public class TurnController {
      * @throws InvalidViewException exception
      * @throws IOException exception
      */
-    private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
         LOGGER.log(Level.INFO,"sono in checkRound");
         if(playerIndex==game.getPlayerNumber()-ONE_VALUE) {
             game.setFirstPlayer(game.getPlayers().get(ZERO_VALUE));
@@ -148,7 +158,7 @@ public class TurnController {
      * @throws InvalidViewException exception
      * @throws IOException exception
      */
-    private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    private void checkSkip(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
         if (!reverse&&playerIndex!=game.getPlayerNumber()-1 && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername()))
             eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex + 1).getUsername(), BOOL_TRUE));
         else if(!reverse&&playerIndex!=game.getPlayerNumber()-1&&eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex+1).getUsername())){
