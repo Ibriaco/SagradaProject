@@ -51,6 +51,7 @@ public class ServerParser {
             SLEEP_TIME = Integer.parseInt((String)jsonObject.get("SLEEP_TIME"));
             AFTER_DRAFTING = (String)jsonObject.get("AFTER_DRAFTING");
             ON_WINDOW = (String)jsonObject.get("ON_WINDOW");
+            ON_DRAFT = (String)jsonObject.get("ON_DRAFT");
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

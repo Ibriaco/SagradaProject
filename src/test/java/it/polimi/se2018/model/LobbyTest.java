@@ -1,22 +1,22 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.ServerParser;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 public class LobbyTest {
     Lobby b;
     Player p;
+    ServerParser sp = new ServerParser();
     ArrayList<MyObserver> observerCollection;
     MyObserver observer;
 
     @Before
     public void init() throws InvalidViewException {
+        sp.reader();
         b = new Lobby();
         p = new Player ("Geronimo", "GUI");
         observerCollection = new ArrayList<>();

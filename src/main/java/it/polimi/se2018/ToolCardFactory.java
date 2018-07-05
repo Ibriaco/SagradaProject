@@ -27,19 +27,19 @@ public class ToolCardFactory {
             return new RollDieEffect();
 
         else if(title.equalsIgnoreCase(ENGLOMISE_BRUSH)) {
-            return new MoveDieEffect(true, false, 1);
+            return new MoveDieEffect(false, true, 1);
         }
 
         else if(title.equalsIgnoreCase(COPPER_FOIL_BRUSHER))
-            return new MoveDieEffect(false, true, 1);
+            return new MoveDieEffect(true, false, 1);
 
-        /*else if(title.equalsIgnoreCase(COLUMN_SHADE_VARIETY))
-            return new MediumShade(title, description, score);
+        else if(title.equalsIgnoreCase(LATHEKIN))
+            return new MoveDieEffect(true, true, 2);
 
-        else if(title.equalsIgnoreCase(ROW_SHADE_VARIETY))
-            return new MediumShade(title, description, score);
+        else if(title.equalsIgnoreCase(GLAZING_HAMMER))
+            return new RollDiceEffect();
 
-        else if(title.equalsIgnoreCase(COLUMN_COLOR_VARIETY))
+        /*else if(title.equalsIgnoreCase(COLUMN_COLOR_VARIETY))
             return new MediumShade(title, description, score);
 
         else if(title.equalsIgnoreCase(ROW_COLOR_VARIETY))

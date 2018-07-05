@@ -36,6 +36,7 @@ public class ServerConfig {
     public static int SLEEP_TIME;
     public static String AFTER_DRAFTING;
     public static String ON_WINDOW;
+    public static String ON_DRAFT;
     public static boolean REVERSE;
 
 

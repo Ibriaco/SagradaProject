@@ -1,6 +1,11 @@
 package it.polimi.se2018.view.viewevents;
 
 import it.polimi.se2018.controller.ControllerInterface;
+import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidViewException;
+import it.polimi.se2018.org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 
 /**
  * event that rolls dice
@@ -19,7 +24,7 @@ public class RollDiceEvent implements VCEvent {
         return username;
     }
     @Override
-    public void accept(ControllerInterface controller) {
+    public void accept(ControllerInterface controller) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         controller.handleVCEvent(this);
     }
 }

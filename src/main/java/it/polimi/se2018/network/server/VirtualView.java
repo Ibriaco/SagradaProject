@@ -188,6 +188,21 @@ public class VirtualView implements ViewInterface {
         /*Intentionally left void, not used in this class*/
     }
 
+    @Override
+    public void handleMVEvent(PerformActionEvent performActionEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        /*Intentionally left void, not used in this class*/
+    }
+
+    @Override
+    public void handleMVEvent(RetryToolEvent retryToolEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        /*Intentionally left void, not used in this class*/
+    }
+
+    @Override
+    public void handleMVEvent(RollingDiceEvent rollDiceEvent) {
+        /*Intentionally left void, not used in this class*/
+    }
+
 
     /**
      * Shows the user interface
