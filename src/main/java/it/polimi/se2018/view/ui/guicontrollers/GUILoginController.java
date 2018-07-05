@@ -28,6 +28,10 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**Controller class of the GUI scene where the client can login to the server, selecting the connection type and the username.
+ * @author Gregorio Galletti
+ */
+
 public class GUILoginController implements GUIControllerIF{
 
     private VCEvent myEvent;

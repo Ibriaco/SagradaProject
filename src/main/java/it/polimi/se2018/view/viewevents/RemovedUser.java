@@ -11,18 +11,24 @@ import java.io.IOException;
 public class RemovedUser implements VCEvent {
 
     private String username;
+    private int remaining;
 
-    public RemovedUser(String username) {
+    public RemovedUser(String username, int remaining) {
         this.username = username;
+        this.remaining = remaining;
     }
 
     @Override
     public void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-
+        controller.handleVCEvent(this);
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
+    }
+
+    public int getRemaining() {
+        return remaining;
     }
 }

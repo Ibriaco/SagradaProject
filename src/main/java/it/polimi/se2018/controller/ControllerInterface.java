@@ -26,4 +26,6 @@ public interface ControllerInterface {
     void handleVCEvent(UpdateDieEvent updateDieEvent) throws InvalidDieException;
 
     void handleVCEvent(SwappingDieEvent swappingDieEvent);
+
+    void handleVCEvent(RemovedUser removedUserEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
 }
