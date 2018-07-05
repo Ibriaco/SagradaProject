@@ -37,6 +37,16 @@ public class ToolCardController{
         this.lc = lobbyController;
     }
 
+    public Die getD(){
+
+        return d;
+    }
+
+    public void setD(Die d){
+
+        this.d = d;
+    }
+
     public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         user = event.getUsername();
         pos = event.getToolCardNumber();
@@ -51,9 +61,13 @@ public class ToolCardController{
         else if (ok&&game.getToolCards().get(pos).getType().equals(ON_WINDOW)){
             mvEvent = new MoveDieEvent(user);
         }
-
         else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber()){
            mvEvent = new RollingDiceEvent(user);
+        }
+        else if (ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&!p.isAd())
+            mvEvent = new ChangeDieEvent(user);
+        else if(ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&p.isAd()){
+            mvEvent = new RetryToolEvent(user);
         }
         else
             mvEvent = new InvalidToolEvent(user);
@@ -96,9 +110,28 @@ public class ToolCardController{
         eventsController.notifyObservers();
     }
 
-    public void checkApplyEffect(MoveDieEffect moveDieEffect) {
+    public void checkApplyEffect(MoveDieEffect moveDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        if(moveDieEffect.getAmount()==1) {
+            moveDieEffect.applyEffect(w, d, newX, newY);
+            System.out.println("pre update sbagliato");
+            eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
+            eventsController.notifyObservers();
+            System.out.println("preperform sbagliato");
+        }
+        else if(moveDieEffect.getAmount()==2){
+            moveDieEffect.applyEffect(w, d, newX, newY);
+            System.out.println("pre update sbagliato");
+            eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
+            eventsController.notifyObservers();
+            System.out.println("preperform sbagliato");
+            mvEvent = new MoveDieEvent(user);
+            eventsController.setMvEvent(mvEvent);
+            eventsController.notifyObservers();
+            System.out.println("qua non arriverò mai bitch");
+        }
+        eventsController.setMvEvent(new PerformActionEvent(user));
+        eventsController.notifyObservers();
 
-        moveDieEffect.applyEffect(w, d, newX, newY);
     }
 
     public void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
@@ -134,12 +167,6 @@ public class ToolCardController{
         } catch (InvalidDieException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-        System.out.println("pre update sbagliato");
-        eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
-        eventsController.notifyObservers();
-        System.out.println("preperform sbagliato");
-        eventsController.setMvEvent(new PerformActionEvent(event.getUsername()));
-        eventsController.notifyObservers();
     }
 
 
@@ -201,13 +228,6 @@ public class ToolCardController{
         eventsController.notifyObservers();
     }
 
-    public Die getD(){
-        return d;
-    }
-
-    public void setD(Die d){
-        this.d = d;
-    }
 
     public void checkApplyEffect(SwapDieEffect swapDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         eventsController.setMvEvent(new SwapDieEvent(user));

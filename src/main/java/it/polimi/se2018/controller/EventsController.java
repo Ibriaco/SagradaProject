@@ -177,6 +177,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                 p.setAd(true);
                 mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
                 notifyObservers();
+                mvEvent = new MiniMenuEvent(event.getUsername());
+                notifyObservers();
             }
             else {
                 mvEvent = new WrongPlaceEvent(event.getUsername());

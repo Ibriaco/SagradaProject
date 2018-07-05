@@ -58,6 +58,8 @@ public class Game implements MyObservable{
         publicCards = new ArrayList<>();
         toolCards = new ArrayList<>();
         roundCells = new ArrayList<>();
+        onlinePlayers = new ArrayList<>();
+        notOnlinePlayers = new ArrayList<>();
         getAvailableColor();
     }
 
@@ -438,6 +440,7 @@ public class Game implements MyObservable{
 
 
     public boolean isFinished() {
+
         return finished;
     }
 

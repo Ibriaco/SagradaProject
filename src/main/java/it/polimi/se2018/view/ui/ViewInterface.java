@@ -80,5 +80,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(SetDieEvent setDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
 
     void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
+
+    void handleMVEvent(MiniMenuEvent miniMenuEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 }
 

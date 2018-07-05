@@ -33,6 +33,7 @@
     "AFTER_DRAFTING":"AD",
     "ON_WINDOW":"OW",
     "ON_DRAFT":"R",
+    "SPECIAL":"SPECIAL",
     "BOOL_TRUE":"true",
     "BOOL_FALSE":"false"
   }

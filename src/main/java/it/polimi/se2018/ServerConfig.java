@@ -37,6 +37,7 @@ public class ServerConfig {
     public static String AFTER_DRAFTING;
     public static String ON_WINDOW;
     public static String ON_DRAFT;
+    public static String SPECIAL;
     public static boolean REVERSE;
 
 

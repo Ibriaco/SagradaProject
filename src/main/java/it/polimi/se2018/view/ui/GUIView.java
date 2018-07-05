@@ -269,6 +269,11 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(MiniMenuEvent miniMenuEvent) {
+
+    }
+
 
     public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new ChooseCardEvent(user, windowCard);

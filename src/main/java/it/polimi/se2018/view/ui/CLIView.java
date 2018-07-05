@@ -227,9 +227,7 @@ public class CLIView implements ViewInterface {
             if (selectedW != null) {
                 break;
             }
-
         }
-
         try {
             createChooseCardEvent(findInCards(fromThread));
         } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException | InvalidDieException e) {
@@ -258,11 +256,9 @@ public class CLIView implements ViewInterface {
                     }
                 }
                 printOnConsole("");
-
             }
             userN++;
             printOnConsole("\n");
-
         }
         int i = 1;
         printOnConsole(DRAFT_POOL);
@@ -403,19 +399,6 @@ public class CLIView implements ViewInterface {
             else
                 printOnConsole(INVALID_CHOICE);
         }
-        /*
-        consoleWriter.print("New die is: \t");
-        printDie(setDieEvent.getDie());// ti stampa il dado giusto ma lo sto modificando su evento. non va bene
-        System.out.println("dado in posizione: "+ setDieEvent.getPos());
-        printOnConsole("");
-        printOnConsole(INSERT_ROW);
-        int y = getNumber() - 1;
-        printOnConsole(INSERT_COLUMN);
-        int x = getNumber() - 1;
-        vcEvent = new PlaceDieEvent(setDieEvent.getUsername(), setDieEvent.getPos(), x, y);
-        notifyObservers();
-        vcEvent = new SkipTurnEvent(setDieEvent.getUsername());
-        notifyObservers();*/
     }
 
     @Override
@@ -426,6 +409,11 @@ public class CLIView implements ViewInterface {
         int cellPos = getNumber()-1;
         vcEvent = new SwappingDieEvent(user, roundPos, cellPos);
         notifyObservers();
+    }
+
+    @Override
+    public void handleMVEvent(MiniMenuEvent miniMenuEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        miniChoice();
     }
 
 
@@ -588,12 +576,9 @@ public class CLIView implements ViewInterface {
 
             if (choose.equals(ONE_STRING)) {
                 createPlaceDieEvent();
-                miniChoice();
-                //createSkipTurnEvent();
                 turn = false;
             } else if (choose.equals(TWO_STRING)) {
                 createUseToolEvent();
-                //createSkipTurnEvent();
                 turn = false;
             } else if (choose.equals(THREE_STRING)) {
                 createSkipTurnEvent();
@@ -614,7 +599,6 @@ public class CLIView implements ViewInterface {
             choose = scanner.nextLine();
             if (choose.equals(ONE_STRING)) {
                 createPlaceDieEvent();
-                //createSkipTurnEvent();
                 turn = false;
             }
             if (choose.equals(TWO_STRING)) {

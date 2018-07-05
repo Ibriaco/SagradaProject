@@ -213,6 +213,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(MiniMenuEvent miniMenuEvent) {
+
+    }
+
 
     /**
      * Shows the user interface

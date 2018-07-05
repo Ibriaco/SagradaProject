@@ -1,62 +1,62 @@
 [
   {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
   },
   {
-    "Title":"Flux Remover",
-    "Description":"After drafting, return the die to the Dice Bag and pull 1 die from the bag. (Choose a value and place the new die obeying all placement restrictions, or return it to the Draft Pool)",
-    "Type":"AD"
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
   },
   {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
   },
   {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
   },
   {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
   },
   {
-    "Title":"Flux Remover",
-    "Description":"After drafting, return the die to the Dice Bag and pull 1 die from the bag. (Choose a value and place the new die obeying all placement restrictions, or return it to the Draft Pool)",
-    "Type":"AD"
-  },
-  {
-    "Title":"Flux Remover",
-    "Description":"After drafting, return the die to the Dice Bag and pull 1 die from the bag. (Choose a value and place the new die obeying all placement restrictions, or return it to the Draft Pool)",
-    "Type":"AD"
-  },
-  {
-    "Title":"Flux Remover",
-    "Description":"After drafting, return the die to the Dice Bag and pull 1 die from the bag. (Choose a value and place the new die obeying all placement restrictions, or return it to the Draft Pool)",
-    "Type":"AD"
-  },
-  {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
-  },
-  {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
-  },
-  {
-    "Title":"Lens Cutter",
-    "Description":"After drafting, swap the drafted die with a die from the Round Track",
-    "Type":"AD"
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
   },
   {
     "Title":"Lathekin",
     "Description":"Move exactly two dice, obeying all placement restrictions",
     "Type":"OW"
-  }
+  },
+  {
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
+  },
+  {
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
+  },
+  {
+    "Title":"Lathekin",
+    "Description":"Move exactly two dice, obeying all placement restrictions",
+    "Type":"OW"
+  },
+  {
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
+  },
+  {
+    "Title":"Running Pliers",
+    "Description":"After your first turn, immediately draft a die. (Skip your next turn this round)",
+    "Type":"SPECIAL"
+  },
 ]

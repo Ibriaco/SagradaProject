@@ -26,6 +26,7 @@ public class Player implements MyObservable{
     private String viewType;
     private int tokens;
     private boolean ad = false;
+    private boolean runningPliers = false;
     private int playerScore;
     private PrivateObjective privateObjective;
     private WindowCard windowCard;
@@ -62,6 +63,16 @@ public class Player implements MyObservable{
 
         return tokens;
     }
+
+    public boolean isRunningPliers() {
+        return runningPliers;
+    }
+
+    public void setRunningPliers(boolean runningPliers) {
+        this.runningPliers = runningPliers;
+    }
+
+
 
     public void setTokens(int tokens) {
 
