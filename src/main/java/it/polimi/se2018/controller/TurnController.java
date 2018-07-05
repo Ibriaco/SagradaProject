@@ -14,6 +14,11 @@ import static it.polimi.se2018.ServerConfig.*;
 
 public class TurnController {
     private EventsController eventsController;
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     private Game game;
     private boolean reverse = false;
     private MVEvent tempMVEvent;
@@ -32,7 +37,7 @@ public class TurnController {
      * @throws IOException exception
      */
     protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        game = eventsController.getGame();
+        //game = eventsController.getGame();
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         /*if(game.getPlayers().get(playerIndex).isRunningPliers()&&reverse){
             game.getPlayers().get(playerIndex).setRunningPliers(false);
@@ -120,7 +125,7 @@ public class TurnController {
 
     }
 
-    private void endGame() throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    public void endGame() throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         game.getLastOnlinePlayers();
 
         if (game.getOnlinePlayers().size() == 1) {

@@ -212,10 +212,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             mvEvent = new IsNotYourTurn(event.getUsername());
             notifyObservers();
         }
-
-        if(game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")){
-
-        }
     }
 
     @Override
