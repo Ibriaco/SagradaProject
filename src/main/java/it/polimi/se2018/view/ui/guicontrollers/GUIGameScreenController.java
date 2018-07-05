@@ -340,7 +340,6 @@ public class GUIGameScreenController {
 
     @FXML
     private void skipAction() throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
         guiView.createSkipTurnEvent();
         disableButtons();
     }
@@ -358,6 +357,4 @@ public class GUIGameScreenController {
         toolButton.setDisable(true);
         placeButton.setDisable(true);
     }
-
-
 }

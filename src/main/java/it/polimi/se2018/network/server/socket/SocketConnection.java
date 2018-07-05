@@ -6,6 +6,7 @@ import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.event.MVEvent;
+import it.polimi.se2018.model.event.PingEvent;
 import it.polimi.se2018.network.client.ClientInterface;
 import it.polimi.se2018.network.server.VirtualView;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
@@ -56,7 +57,8 @@ public class SocketConnection extends Thread implements ClientInterface {
 
 
         } catch (IOException | InvalidConnectionException | InvalidViewException | NullPointerException | ParseException | ClassNotFoundException | InvalidDieException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
+            //LOGGER.log(Level.SEVERE, e.toString(), e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -83,13 +85,9 @@ public class SocketConnection extends Thread implements ClientInterface {
     }
 
     @Override
-    public void ping() throws RemoteException {
-        try {
-            connectionSocket.getOutputStream().write(0);
-        } catch (IOException e) {
-            LOGGER.log(Level.INFO, "Disconnected!");
-        }
-
+    public void ping() throws IOException {
+            PingEvent ping = new PingEvent();
+            toClient.writeObject(ping);
     }
 
     @Override

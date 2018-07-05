@@ -97,12 +97,48 @@ public class TurnController {
         //roudtrack e gestione distribuzione dadi
         reverse = BOOL_FALSE;
         game.nextTurn();
-        if(eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())){
-            LOGGER.log(Level.INFO,"il primo giocatore del primo turno è offline");
-            checkSkip(playerIndex);
+        if(game.getRound() != 2) {
+            if (eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())) {
+                LOGGER.log(Level.INFO, "il primo giocatore del primo turno è offline");
+                checkSkip(playerIndex);
+            } else
+                eventsController.setMvEvent(new IsTurnEvent(game.getFirstPlayer().getUsername(), BOOL_TRUE));
         }
-        else
-            eventsController.setMvEvent(new IsTurnEvent(game.getFirstPlayer().getUsername(), BOOL_TRUE));
+        else{
+            endGame();
+        }
+
+    }
+
+    private void endGame() throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        game.getLastOnlinePlayers();
+
+        if (game.getOnlinePlayers().size() == 1) {
+            game.getOnlinePlayers().get(0).setPlayerScore(100);
+        }
+        else {
+            for (Player p : game.getOnlinePlayers()) {
+                p.getPrivateObjective().calculateBonus(p);
+
+                for (PublicObjective po : game.getPublicCards()) {
+                    po.calculateBonus(p);
+                }
+                System.out.println("player: " + p.getUsername() + " score: " + p.getPlayerScore());
+            }
+        }
+
+        for (Player p : game.getNotOnlinePlayers()) {
+            p.setPlayerScore(-20);
+        }
+
+        game.setFinished(true);
+
+        calculateWinnerAndLoser();
+        System.out.println("finito il game dio voia");
+    }
+
+    private void calculateWinnerAndLoser() {
+
     }
 
     /**

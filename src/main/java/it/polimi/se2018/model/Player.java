@@ -31,6 +31,7 @@ public class Player implements MyObservable{
     private List<WindowCard> windowCardList;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
+    private boolean disconnected = false;
 
 
     public Player(String username, String viewType) throws InvalidViewException {
@@ -204,5 +205,13 @@ public class Player implements MyObservable{
         for (MyObserver o: observerCollection) {
             o.update(this, mvEvent);
         }
+    }
+
+    public void setDisconnected(boolean disconnected) {
+        this.disconnected = disconnected;
+    }
+
+    public boolean isDisconnected() {
+        return disconnected;
     }
 }

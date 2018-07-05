@@ -11,6 +11,7 @@ import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.network.client.ClientInterface;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.ViewInterface;
+import it.polimi.se2018.view.viewevents.RemovedUser;
 import it.polimi.se2018.view.viewevents.SkipTurnEvent;
 import it.polimi.se2018.view.viewevents.VCEvent;
 
@@ -52,19 +53,23 @@ public class VirtualView implements ViewInterface {
     public synchronized void addClientToMap(String u, ClientInterface c){
         clients.put(u,c);
     }
-    public void removeClientFromMap(String u) {clients.remove(u); }
+
+    public void removeClientFromMap(String u) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+        clients.remove(u);
+        event = new RemovedUser(u);
+        notifyObservers();
+    }
 
     public Map<String, ClientInterface> getClients() {
 
         return clients;
     }
 
-
     public List<String> getRemovedClients() {
 
         return removedClients;
     }
-
 
     /**
      * Receives an event from the server
@@ -206,7 +211,6 @@ public class VirtualView implements ViewInterface {
         observerCollection.add(observer);
     }
 
-
     @Override
     public void unregisterObserver(MyObserver observer) {
 
@@ -251,7 +255,7 @@ public class VirtualView implements ViewInterface {
      * Method that pings current player
      * //@param user user of the current player
      */
-    /*public synchronized void serverBeat(String user){
+    public synchronized void serverBeat(String user){
         new Thread(new Runnable(){
             public void run() {
                 boolean ok = true;
@@ -264,9 +268,14 @@ public class VirtualView implements ViewInterface {
                             Thread.currentThread().interrupt();
                             e.printStackTrace();
                         }
-                    } catch (RemoteException e) {
+                    } catch (IOException e) {
                         removedClients.add(user);
-                        clients.remove(user);
+                        try {
+                            removeClientFromMap(user);
+                        } catch (InvalidDieException |InvalidConnectionException |ParseException |InvalidViewException | IOException e1) {
+                            e1.printStackTrace();
+                        }
+
 
                         ok = false;
                         DisconnectedEvent disconnectedEvent = new DisconnectedEvent(user);
@@ -281,7 +290,7 @@ public class VirtualView implements ViewInterface {
                 }
             }
         }).start();
-    }*/
+    }
 
     public void createSkipTurnEvent(String username) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         event = new SkipTurnEvent(username);

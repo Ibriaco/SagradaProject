@@ -122,8 +122,14 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void update(MyObservable o, VCEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-
-        arg.accept(this);
+        if(game != null) {
+            if (!gameIsOver())
+                arg.accept(this);
+            else
+                System.out.println("ei tu cazzo fai il gioco è finito");
+        }
+        else
+            arg.accept(this);
     }
 
     @Override
@@ -281,6 +287,12 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
 
+    public void handleVCEvent(RemovedUser removedUserEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        String removed = removedUserEvent.getUsername();
+        game.findPlayer(removed).setDisconnected(true);
+    }
+
+
     public void setGame(Game game) {
 
         this.game = game;
@@ -289,4 +301,10 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     public int getPlayerIndex() {
         return playerIndex;
     }
+
+    private boolean gameIsOver(){
+        return game.isFinished();
+    }
+
+
 }

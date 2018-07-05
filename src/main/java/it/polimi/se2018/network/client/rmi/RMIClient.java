@@ -18,6 +18,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the interface RMIClientInterface
@@ -30,6 +32,8 @@ public class RMIClient implements RMIClientInterface {
     private RMIServerInterface server;
     private NetworkHandler networkHandler;
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
+    private static final Logger LOGGER = Logger.getGlobal();
+
 
     public void notify(String message) {
         System.out.println(message);
@@ -84,14 +88,26 @@ public class RMIClient implements RMIClientInterface {
 
     //metodo per inviare VCEvent da client a server
     @Override
-    public void sendEvent(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-        if (event.toString().equals("Login event")) {
-            String username = event.getUsername();
-            System.out.println("Trying to authenticate " + username + " ...");
-            server.sendUser(remoteRef);
-        }
+    public void sendEvent(VCEvent event) {
 
-        server.vceTransport(event);
+        new Thread(()->{
+            if (event.toString().equals("Login event")) {
+                String username = event.getUsername();
+                System.out.println("Trying to authenticate " + username + " ...");
+                try {
+                    server.sendUser(remoteRef);
+                } catch (RemoteException | InvalidViewException e) {
+                    LOGGER.log(Level.SEVERE, e.toString(), e);
+                }
+            }
+
+            try {
+                server.vceTransport(event);
+            } catch (IOException | InvalidViewException | ParseException | InvalidConnectionException | InvalidDieException e) {
+                LOGGER.log(Level.SEVERE, e.toString(), e);
+            }
+            Thread.currentThread().interrupt();
+        }).start();
     }
 
 

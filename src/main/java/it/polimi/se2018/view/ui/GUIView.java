@@ -161,6 +161,7 @@ public class GUIView extends Application implements ViewInterface {
     public void notifyObservers() throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         for (MyObserver o : observersCollection) {
             o.update(this, vcEvent);
+            System.out.println("mando a " + o.toString());
         }
     }
 

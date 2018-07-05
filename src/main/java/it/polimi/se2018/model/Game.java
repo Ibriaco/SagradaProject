@@ -13,10 +13,7 @@ import it.polimi.se2018.org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +45,9 @@ public class Game implements MyObservable{
     private ArrayList<MyObserver> observerCollection = new ArrayList<>();
     private MVEvent mvEvent;
     private static final Logger LOGGER = Logger.getGlobal();
+    private boolean finished = false;
+    private List<Player> onlinePlayers;
+    private List<Player> notOnlinePlayers;
 
     public Game(int playerNumber) {
 
@@ -376,5 +376,45 @@ public class Game implements MyObservable{
                 LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
+    }
+
+    public void setFinished(boolean finished) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        this.finished = finished;
+        setMvEvent(new EndGameEvent("Game Over!", "ALL", createResultMap()));
+        notifyObservers();
+    }
+
+    private Map<String,String> createResultMap() {
+        Map<String,String> r = new HashMap<>();
+
+        for (Player p : onlinePlayers)
+            r.put(p.getUsername(),String.valueOf(p.getPlayerScore()));
+
+        for (Player p : notOnlinePlayers)
+            r.put(p.getUsername() + " (disconnected)",String.valueOf(p.getPlayerScore()));
+
+        return r;
+    }
+
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void getLastOnlinePlayers() {
+        for (Player p : getPlayers()) {
+            if (p.isDisconnected())
+                notOnlinePlayers.add(p);
+            else
+                onlinePlayers.add(p);
+        }
+    }
+
+    public List<Player> getOnlinePlayers() {
+        return onlinePlayers;
+    }
+
+    public List<Player> getNotOnlinePlayers() {
+        return notOnlinePlayers;
     }
 }

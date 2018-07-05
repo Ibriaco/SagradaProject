@@ -68,6 +68,7 @@ public class LobbyController {
             printOnConsole(ONLINE_PLAYERS + playersNumber);
             eventsController.setMvEvent(logEvent);
             eventsController.notifyObservers();
+            virtualView.serverBeat(username);
         }
         else {
             logEvent = new LoggedUserEvent(username, BOOL_FALSE);
@@ -108,6 +109,8 @@ public class LobbyController {
             updateGameEvent.setUsername(user);
             eventsController.setMvEvent(updateGameEvent);
             eventsController.notifyObservers();
+            if(game != null)
+                game.findPlayer(user).setDisconnected(false);
         }
         else {
             LoggedUserEvent logEvent = new LoggedUserEvent(user, BOOL_FALSE);
