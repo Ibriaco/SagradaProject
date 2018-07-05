@@ -32,7 +32,7 @@ public class TurnController {
      * @throws IOException exception
      */
     protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        game = eventsController.getGame();
+        //game = eventsController.getGame();
         // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
         if (game.getTurn() == game.getPlayerNumber()*TWO_VALUE){
             System.out.println("Sono nel caso di inizio nuovo round");
@@ -110,7 +110,7 @@ public class TurnController {
 
     }
 
-    private void endGame() throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    public void endGame() throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         game.getLastOnlinePlayers();
 
         if (game.getOnlinePlayers().size() == 1) {
@@ -178,5 +178,7 @@ public class TurnController {
     }
 
 
-
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

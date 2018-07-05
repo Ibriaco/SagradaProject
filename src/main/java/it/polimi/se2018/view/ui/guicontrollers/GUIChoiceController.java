@@ -37,6 +37,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 
+/**Controller class of the GUI scene where the window cards and the private objective are shown.
+ * @author Gregorio Galletti
+ */
 public class GUIChoiceController implements GUIControllerIF {
 
     private static final double R_HEIGHT = 37.5;
@@ -201,10 +204,6 @@ public class GUIChoiceController implements GUIControllerIF {
         gameCtrl.showCards(privateCardEvent, publicCardEvent, toolCardEvent);
         gameCtrl.setView(guiView);
         guiView.setGuiGameScreenController(gameCtrl);
-
-        //Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        //stage.setHeight(screenBounds.getHeight()*0.7);
-        //stage.setWidth(screenBounds.getWidth()*0.7);
 
         stage.setWidth(950);
         stage.setHeight(650);

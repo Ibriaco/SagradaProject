@@ -29,7 +29,7 @@ public class LobbyController {
 
     private Lobby waitingLobby;
     private Game game;
-    private int timer = LOBBY_TIMER;
+    private int timer;
     private EventsController eventsController;
     private VirtualView virtualView;
     private ArrayList<String> username = new ArrayList<>();
@@ -40,6 +40,7 @@ public class LobbyController {
         this.virtualView = virtualView;
         printOnConsole("Lobby controller creato");
         eventsController = ec;
+        setTimer();
     }
 
 
@@ -132,16 +133,21 @@ public class LobbyController {
                 }
             }
 
-            while (timer > ZERO_VALUE) {
-            //LOGGER.log(Level.INFO,"Timer: " + timer);
-            try {
-                Thread.sleep(SLEEP_TIME);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            while (timer >= ZERO_VALUE) {
+                LOGGER.log(Level.INFO, "Timer: " + timer);
+                if (waitingLobby.getOnlinePlayersN() < 2)
+                    break;
+                else {
+                    try {
+                        Thread.sleep(SLEEP_TIME);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    timer--;
+                }
             }
-            timer--;
-            }
-
+            setTimer();
+            Thread.currentThread().interrupt();
 
         }).start();
     }
@@ -165,7 +171,7 @@ public class LobbyController {
      */
     private boolean checkOnlinePlayers() {
 
-        return waitingLobby.getOnlinePlayersN() != TWO_VALUE;
+        return waitingLobby.getOnlinePlayersN() != FOUR_VALUE;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
@@ -215,14 +221,15 @@ public class LobbyController {
         game.dealWindowCards();
         eventsController.setGame(game);
         eventsController.getToolCardController().setGame(game);
+        eventsController.getTurnController().setGame(game);
     }
 
     public int getTimer() {
         return timer;
     }
 
-    public void setTimer(int timer) {
-        this.timer = timer;
+    public void setTimer() {
+        this.timer = LOBBY_TIMER;
     }
 
     public Lobby getLobby() {

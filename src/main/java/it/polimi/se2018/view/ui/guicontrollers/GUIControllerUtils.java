@@ -12,6 +12,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
+/**Final class that contains some helpful methods used in the GUI controllers.
+ * @author Gregorio Galletti
+ */
+
 public final class GUIControllerUtils {
 
     private GUIControllerUtils(){}

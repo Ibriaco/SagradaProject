@@ -199,21 +199,21 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     /**
      * Method that handles a skip turn event
+     *
      * @param event skip turn event
      * @throws InvalidConnectionException exception
-     * @throws ParseException exception
-     * @throws InvalidViewException exception
-     * @throws IOException exception
+     * @throws ParseException             exception
+     * @throws InvalidViewException       exception
+     * @throws IOException                exception
      */
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
         System.out.println("turno in arrivo: " + game.getTurn());
-        if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())){
-            if (timer.getCont() == 119){
+        if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
+            if (timer.getCont() == 119) {
                 timerExpired();
-            }
-            else{
+            } else {
                 timer.interrupt();
                 int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
                 p = game.getPlayers().get(index);
@@ -221,8 +221,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                 turnController.handleSkipTurn(game.getPlayers().indexOf(game.findPlayer(event.getUsername())));
 
             }
-        }
-        else {
+        } else {
             mvEvent = new IsNotYourTurn(event.getUsername());
             notifyObservers();
         }
@@ -303,10 +302,17 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     }
 
-
-    public void handleVCEvent(RemovedUser removedUserEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    @Override
+    public void handleVCEvent(RemovedUser removedUserEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
         String removed = removedUserEvent.getUsername();
-        game.findPlayer(removed).setDisconnected(true);
+
+        lobbyController.getLobby().removeOnlinePlayer(removed);
+
+        if (game != null) {
+            game.findPlayer(removed).setDisconnected(true);
+            if (removedUserEvent.getRemaining() == 1)
+                turnController.endGame();
+        }
     }
 
 
@@ -324,4 +330,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
 
+    public TurnController getTurnController() {
+        return turnController;
+    }
 }

@@ -17,6 +17,10 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**Controller class of the GUI scene where the client waits for the game to begin. Only contains an animation.
+ * @author Gregorio Galletti
+ */
+
 public class GUIWaitingLobbyController implements GUIControllerIF{
 
     private GUIView guiView;

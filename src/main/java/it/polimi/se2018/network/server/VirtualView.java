@@ -57,7 +57,7 @@ public class VirtualView implements ViewInterface {
     public void removeClientFromMap(String u) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
         clients.remove(u);
-        event = new RemovedUser(u);
+        event = new RemovedUser(u, clients.size());
         notifyObservers();
     }
 

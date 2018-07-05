@@ -28,6 +28,10 @@ import java.util.List;
 
 import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 
+/**Controller class of the GUI scene where the game is shown.
+ * @author Gregorio Galletti
+ */
+
 public class GUIGameScreenController {
 
     private static final String MY_TURN = "It's up to you. You have 60 seconds to do your move.";
