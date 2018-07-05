@@ -26,9 +26,8 @@ public class ToolCardFactory {
         else if(title.equalsIgnoreCase(FLUX_BRUSH))
             return new RollDieEffect();
 
-        else if(title.equalsIgnoreCase(ENGLOMISE_BRUSH)) {
+        else if(title.equalsIgnoreCase(ENGLOMISE_BRUSH))
             return new MoveDieEffect(false, true, 1);
-        }
 
         else if(title.equalsIgnoreCase(COPPER_FOIL_BRUSHER))
             return new MoveDieEffect(true, false, 1);
@@ -39,13 +38,13 @@ public class ToolCardFactory {
         else if(title.equalsIgnoreCase(GLAZING_HAMMER))
             return new RollDiceEffect();
 
-        /*else if(title.equalsIgnoreCase(COLUMN_COLOR_VARIETY))
-            return new MediumShade(title, description, score);
+        else if(title.equalsIgnoreCase(FLUX_REMOVER))
+            return new ReplaceDieEffect();
 
-        else if(title.equalsIgnoreCase(ROW_COLOR_VARIETY))
-            return new MediumShade(title, description, score);
+        else if(title.equalsIgnoreCase(LENS_CUTTER))
+            return new SwapDieEffect();
 
-        else if(title.equalsIgnoreCase(COLOR_DIAGONALS))
+        /*else if(title.equalsIgnoreCase(COLOR_DIAGONALS))
             return new MediumShade(title, description, score);*/
 
         return null;

@@ -61,7 +61,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void handleMVEvent(IsNotYourTurn isNotYourTurn);
 
-    void handleMVEvent(ChangedDieEvent changedDieEvent);
+    void handleMVEvent(ChangedDieEvent changedDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
 
     void handleMVEvent(MoveDieEvent moveDieEffect) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
 
@@ -75,6 +75,10 @@ public interface ViewInterface extends MyObserver, MyObservable {
 
     void handleMVEvent(RetryToolEvent retryToolEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 
-    void handleMVEvent(RollingDiceEvent rollDiceEvent);
+    void handleMVEvent(RollingDiceEvent rollDiceEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
+
+    void handleMVEvent(SetDieEvent setDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
+
+    void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
 }
 

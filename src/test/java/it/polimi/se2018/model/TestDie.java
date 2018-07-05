@@ -19,49 +19,35 @@ public class TestDie {
     }
 
     @Test
-    public void testDieCreation(){
+    public void testDieCreation() throws InvalidDieException {
         Die d = null;
-        try {
-            d = new Die(g.getColorList());
-            d.setColor(Color.BLUE);
-            d.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+        d = new Die(g.getColorList());
+        d.setColor(Color.BLUE);
+        d.setValue(3);
+
 
         assertEquals (Color.BLUE,d.getColor());
         assertEquals(3, d.getValue());
     }
 
     @Test
-    public void testDieFailCreation(){
+    public void testDieFailCreation() throws InvalidDieException {
         Die d = null;
-        try {
-            d = new Die(g.getColorList());
-            d.setColor(Color.BLUE);
-            d.setValue(9);
-            fail();
-        } catch (InvalidDieException e) {
-
-        }
+        d = new Die(g.getColorList());
+        d.setColor(Color.BLUE);
+        d.setValue(9);
+        fail();
     }
 
     @Test
-    public void testDieReverse(){
+    public void testDieReverse() throws InvalidDieException {
         Die d = null;
-        try {
-            d = new Die(g.getColorList());
-            d.setColor(Color.BLUE);
-            d.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+        d = new Die(g.getColorList());
+        d.setColor(Color.BLUE);
+        d.setValue(3);
 
-        try {
-            d.reverse(d);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+        d.reverse(d);
+
         assertEquals (Color.BLUE, d.getColor());
         assertEquals(4, d.getValue());
     }

@@ -20,7 +20,7 @@ public class TestBonus {
     ServerParser sp = new ServerParser();
 
     @Before
-    public void init() {
+    public void init() throws InvalidDieException {
         sp.reader();
         g = new Game(2);
 
@@ -47,7 +47,7 @@ public class TestBonus {
         w.setCell(new Cell(Color.GREEN,3),3,3);
         w.setCell(new Cell(Color.GREEN,3),3,4);
 
-        try {
+
             //piazzo alcuni dadi per poter calcolare i vari bonus
             Die d1 = new Die(g.getColorList());
             Die d2 = new Die(g.getColorList());
@@ -115,9 +115,7 @@ public class TestBonus {
             d13.setColor(Color.GREEN);
             w.getGridCell(1,4).setPlacedDie(d13);
 
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+
         //creo un player e gli assegno la windowcard creata
         try {
             p = new Player("test", "CLI");

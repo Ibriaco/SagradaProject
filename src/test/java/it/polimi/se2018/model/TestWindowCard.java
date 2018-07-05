@@ -19,7 +19,7 @@ public class TestWindowCard {
 
 
     @Before
-    public void init(){
+    public void init() throws InvalidDieException {
 
         g = new Game(2);
 
@@ -67,106 +67,62 @@ public class TestWindowCard {
         d19 = new Die(g.getColorList());
         d20 = new Die(g.getColorList());
 
-        try {
+
             d1.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d2.setValue(2);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d3.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d4.setValue(4);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
             d5.setValue(5);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d6.setValue(2);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d7.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d8.setValue(4);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
             d9.setValue(5);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d10.setValue(1);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d11.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d12.setValue(4);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d13.setValue(5);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d14.setValue(6);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
             d15.setValue(2);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d16.setValue(4);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d17.setValue(5);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
             d18.setValue(6);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d19.setValue(2);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
+
+
             d20.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+
 
         d1.setColor(Color.BLUE);
         d2.setColor(Color.RED);
@@ -198,13 +154,12 @@ public class TestWindowCard {
     }
 
     @Test
-    public void testWrongCoordPlacement(){
+    public void testWrongCoordPlacement() throws InvalidDieException {
 
         Die d1 = new Die(g.getColorList());
-        try {
+
             d1.setValue(1);
-        } catch (InvalidDieException e) {
-        }
+
         d1.setColor(Color.BLUE);
 
         //se il dado lo voglio mettere in coordinate sbagliate allora non va bene
@@ -217,15 +172,13 @@ public class TestWindowCard {
     }
 
     @Test
-    public void testFullCardPlacement(){
+    public void testFullCardPlacement() throws InvalidDieException {
 
         w.setCell(new Cell(Color.YELLOW,3),0,2);
         Die d21 = new Die(g.getColorList());
-        try {
-            d21.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+
+        d21.setValue(3);
+
         d21.setColor(Color.BLUE);
 
         w.getGridCell(0, 0).setPlacedDie(d1);
@@ -322,17 +275,10 @@ public class TestWindowCard {
 
 
     @Test
-    public void testComleteCheckColor(){
-        try {
+    public void testComleteCheckColor() throws InvalidDieException {
             d8.setValue(3);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
-        try {
             d10.setValue(4);
-        } catch (InvalidDieException e) {
-            e.printStackTrace();
-        }
+
         w.placeDie(d8,0,2,true,true);
         w.placeDie(d10,1,2,true,true);
         assertEquals(d8, w.getGridCell(0,2).getPlacedDie());

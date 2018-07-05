@@ -39,7 +39,7 @@ public class RoundCell implements Serializable{
      * @param d1 Refers to the die that will replace the die on the round track.
      * @param d2 Refers to the die that will be replaced by d1.
      */
-    public void replaceDie(Die d1, Die d2){
+    public void replaceDie(Die d1, Die d2) throws InvalidDieException {
         int val;
         Color col;
 
@@ -48,12 +48,9 @@ public class RoundCell implements Serializable{
 
         diceList.set(diceList.indexOf(d2), d1);
 
-        try {
+
             d1.setValue(val);
             d1.setColor(col);
-        } catch (InvalidDieException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        }
 
 
     }

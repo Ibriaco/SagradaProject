@@ -8,28 +8,34 @@ import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.ViewInterface;
 
 import java.io.IOException;
-import java.util.List;
 
-/**
- * event that notifies that some dice have been rolled
- * @author Ibrahim El Shemy
- * @author Marco Gasperini
- */
-public class RollingDiceEvent implements MVEvent{
+public class SetDieEvent implements MVEvent {
 
-    String username;
+    private String username;
+    private Die die;
+    private int pos;
 
-    public RollingDiceEvent(String user){
+    public SetDieEvent(String user, Die d, int pos) {
         this.username = user;
+        this.die = d;
+        this.pos = pos;
     }
 
     @Override
-    public void accept(ViewInterface vi) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    public void accept(ViewInterface vi) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         vi.handleMVEvent(this);
     }
 
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public Die getDie(){
+        return die;
+    }
+
+    public int getPos(){
+        return pos;
     }
 }

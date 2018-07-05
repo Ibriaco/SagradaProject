@@ -14,7 +14,6 @@ public class Die implements Serializable{
     private Color color;
     private int value;
 
-
     public Die(List<Color> colorList){
 
         Random random = new Random();
@@ -48,9 +47,10 @@ public class Die implements Serializable{
      */
     public void setValue(int value) throws InvalidDieException{
 
-        if (value < ONE_VALUE || value > SIX_VALUE)
+        if (value < 1 || value > 6)
             throw new InvalidDieException();
-        this.value = value;
+        else
+            this.value = value;
     }
 
 

@@ -129,7 +129,47 @@ public class Game implements MyObservable{
         }
     }
 
-    private void reduceAmount(Color color) {
+    public int getRedAmount() {
+        return redAmount;
+    }
+
+    public int getGreenAmount() {
+        return greenAmount;
+    }
+
+    public int getYellowAmount() {
+        return yellowAmount;
+    }
+
+    public int getPurpleAmount() {
+        return purpleAmount;
+    }
+
+    public int getBlueAmount() {
+        return blueAmount;
+    }
+
+    public void setRedAmount(int redAmount) {
+        this.redAmount = redAmount;
+    }
+
+    public void setGreenAmount(int greenAmount) {
+        this.greenAmount = greenAmount;
+    }
+
+    public void setYellowAmount(int yellowAmount) {
+        this.yellowAmount = yellowAmount;
+    }
+
+    public void setPurpleAmount(int purpleAmount) {
+        this.purpleAmount = purpleAmount;
+    }
+
+    public void setBlueAmount(int blueAmount) {
+        this.blueAmount = blueAmount;
+    }
+
+    public void reduceAmount(Color color) {
 
         switch(color){
             case BLUE:

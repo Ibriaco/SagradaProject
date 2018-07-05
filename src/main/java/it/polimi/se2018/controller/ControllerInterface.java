@@ -14,7 +14,7 @@ public interface ControllerInterface {
     void handleVCEvent(RollDiceEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
     void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException;
     void handleVCEvent(SelectDieEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException;
-    void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
+    void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException;
     void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException;
 
     void handleVCEvent(PlaceModifiedDie placeModifiedDie);
@@ -23,4 +23,7 @@ public interface ControllerInterface {
 
     void handleVCEvent(IncrementDecrementDieEvent incrementDecrementDieEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 
+    void handleVCEvent(UpdateDieEvent updateDieEvent) throws InvalidDieException;
+
+    void handleVCEvent(SwappingDieEvent swappingDieEvent);
 }

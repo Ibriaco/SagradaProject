@@ -22,6 +22,7 @@ public class ToolCardController{
     private int diePositionDraftPool;
     private Die d;
     private MVEvent mvEvent;
+    private MVEvent mvEvent2;
     private int newX;
     private int newY;
     boolean ok = BOOL_FALSE;
@@ -36,7 +37,7 @@ public class ToolCardController{
         this.lc = lobbyController;
     }
 
-    public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         user = event.getUsername();
         pos = event.getToolCardNumber();
         index = game.getPlayers().indexOf(game.findPlayer(user));
@@ -47,8 +48,10 @@ public class ToolCardController{
         else if(ok&&game.getToolCards().get(pos).getType().equals(AFTER_DRAFTING)&&p.isAd()){
             mvEvent = new RetryToolEvent(user);
         }
-        else if (ok&&game.getToolCards().get(pos).getType().equals(ON_WINDOW))
+        else if (ok&&game.getToolCards().get(pos).getType().equals(ON_WINDOW)){
             mvEvent = new MoveDieEvent(user);
+        }
+
         else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber()){
            mvEvent = new RollingDiceEvent(user);
         }
@@ -104,41 +107,37 @@ public class ToolCardController{
         diePositionDraftPool = event.getPosition();
 
         try {
-            System.out.println("dioooooo");
             game.getToolCards().get(pos).getEffectList().get(ZERO_VALUE).accept(this);
         } catch (InvalidDieException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         if(!game.getToolCards().get(pos).getTitle().equals("Grozing Pliers")) {
+            System.out.println("eseguo codice sbagliato sotto grozing pliers");
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
-            System.out.println("mando evento sbagliato");
             eventsController.notifyObservers();
-
             eventsController.setMvEvent(new ModifiedPlaceEvent(user, event.getPosition()));
             eventsController.notifyObservers();
         }
     }
 
     public void handleVCEvent(MovingDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        int index;
-        index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
-        d = game.getPlayers().get(index).getWindowCard().getGridCell(event.getOldY(), event.getOldX()).getPlacedDie();
-        game.getPlayers().get(index).getWindowCard().removeDie(event.getOldY(), event.getOldX());
+        int playerIndex;
+        playerIndex = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+        d = game.getPlayers().get(playerIndex).getWindowCard().getGridCell(event.getOldY(), event.getOldX()).getPlacedDie();
+        game.getPlayers().get(playerIndex).getWindowCard().removeDie(event.getOldY(), event.getOldX());
         game.updateWindowCardList();
-        w = game.getPlayers().get(index).getWindowCard();
+        w = game.getPlayers().get(playerIndex).getWindowCard();
         newX = event.getNewX();
         newY = event.getNewY();
-        System.out.println("valore e colore cella su cui piazzo il dado: " + w.getGridCell(newY,newX).getShade() +  "  " + w.getGridCell(newY,newX).getColor());
         try {
-            game.getToolCards().get(pos).getEffectList().get(0).accept(this);
-            game.updateWindowCardList();
+            game.getToolCards().get(pos).getEffectList().get(ZERO_VALUE).accept(this);
         } catch (InvalidDieException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-        System.out.println("MADNO EVENTO DI UPDATE");
+        System.out.println("pre update sbagliato");
         eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
         eventsController.notifyObservers();
-        System.out.println("MANDO EVENTO PERFORMOACTIONEVENT");
+        System.out.println("preperform sbagliato");
         eventsController.setMvEvent(new PerformActionEvent(event.getUsername()));
         eventsController.notifyObservers();
     }
@@ -157,10 +156,8 @@ public class ToolCardController{
             System.out.println("valore dado prima incremento: " + d.getValue());
             d.setValue(d.getValue()+ONE_VALUE);
             System.out.println("valore dado dopo incremento: " + d.getValue());
-            //invio all'utente dado modificato
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();
-            //invio evento per posizionare dado cambiato
             eventsController.setMvEvent(new ModifiedPlaceEvent(user, diePositionDraftPool));
             eventsController.notifyObservers();
 
@@ -171,10 +168,8 @@ public class ToolCardController{
         }
         else if (choose == TWO_VALUE && d.getValue() != ONE_VALUE){
             d.setValue(d.getValue()-ONE_VALUE);
-            //invio all'utente dado modificato
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();
-            //invio evento per posizionare dado cambiato
             eventsController.setMvEvent(new ModifiedPlaceEvent(user, diePositionDraftPool));
             eventsController.notifyObservers();
         }
@@ -189,12 +184,40 @@ public class ToolCardController{
         try {
             game.getToolCards().get(pos).getEffectList().get(0).accept(this);
         } catch (IOException | InvalidConnectionException | ParseException | InvalidDieException | InvalidViewException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,e.toString(), e);
         }
 
         eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
         eventsController.notifyObservers();
         eventsController.setMvEvent(new PerformActionEvent(event.getUsername()));
         eventsController.notifyObservers();
+    }
+
+    public void checkApplyEffect(ReplaceDieEffect replaceDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+        replaceDieEffect.applyEffect(d, eventsController.getGame(), this, diePositionDraftPool);
+        System.out.println("dopo replace die apply effect");
+        eventsController.setMvEvent(new SetDieEvent(user,d,diePositionDraftPool));
+        eventsController.notifyObservers();
+    }
+
+    public Die getD(){
+        return d;
+    }
+
+    public void setD(Die d){
+        this.d = d;
+    }
+
+    public void checkApplyEffect(SwapDieEffect swapDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        eventsController.setMvEvent(new SwapDieEvent(user));
+        eventsController.notifyObservers();
+    }
+
+    public void handleVCEvent(SwappingDieEvent swappingDieEvent) {
+        int cellPos = swappingDieEvent.getCellPos();
+        int roundPos = swappingDieEvent.getRoundPos();
+        SwapDieEffect effect = new SwapDieEffect();
+        effect.applyEffect(d, game, diePositionDraftPool, roundPos, cellPos);
     }
 }

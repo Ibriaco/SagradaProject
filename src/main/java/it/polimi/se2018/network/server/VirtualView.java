@@ -203,6 +203,16 @@ public class VirtualView implements ViewInterface {
         /*Intentionally left void, not used in this class*/
     }
 
+    @Override
+    public void handleMVEvent(SetDieEvent setDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+    }
+
+    @Override
+    public void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
+    }
+
 
     /**
      * Shows the user interface

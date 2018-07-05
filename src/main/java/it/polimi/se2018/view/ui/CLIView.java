@@ -320,7 +320,7 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void handleMVEvent(ChangedDieEvent changedDieEvent) {
+    public void handleMVEvent(ChangedDieEvent changedDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
         printOnConsole(NEW_DIE_VALUE);
         printDie(changedDieEvent.getDie());
         printOnConsole("");
@@ -328,7 +328,6 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(MoveDieEvent moveDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
         printOnConsole(ROW_DIE_TO_MOVE);
         int oldY = getNumber() - 1;
         printOnConsole(COLUMN_DIE_TO_MOVE);
@@ -383,9 +382,50 @@ public class CLIView implements ViewInterface {
     }
 
     @Override
-    public void handleMVEvent(RollingDiceEvent rollDiceEvent) {
+    public void handleMVEvent(RollingDiceEvent rollDiceEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
         vcEvent = new RollDiceEvent(rollDiceEvent.getUsername());
+        notifyObservers();
+    }
 
+    @Override
+    public void handleMVEvent(SetDieEvent setDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        printOnConsole("Choose the value you want to give to the die!");
+        Scanner sc = new Scanner(System.in);
+        boolean ok = true;
+        while(ok){
+            String value = sc.nextLine();
+            if(value.equals("1")||value.equals("2")||value.equals("3")||value.equals("4")||value.equals("5")||value.equals("6")) {
+                int val = Integer.parseInt(value);
+                vcEvent = new UpdateDieEvent(user, val, setDieEvent.getPos());
+                notifyObservers();
+                ok = false;
+            }
+            else
+                printOnConsole(INVALID_CHOICE);
+        }
+        /*
+        consoleWriter.print("New die is: \t");
+        printDie(setDieEvent.getDie());// ti stampa il dado giusto ma lo sto modificando su evento. non va bene
+        System.out.println("dado in posizione: "+ setDieEvent.getPos());
+        printOnConsole("");
+        printOnConsole(INSERT_ROW);
+        int y = getNumber() - 1;
+        printOnConsole(INSERT_COLUMN);
+        int x = getNumber() - 1;
+        vcEvent = new PlaceDieEvent(setDieEvent.getUsername(), setDieEvent.getPos(), x, y);
+        notifyObservers();
+        vcEvent = new SkipTurnEvent(setDieEvent.getUsername());
+        notifyObservers();*/
+    }
+
+    @Override
+    public void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        printOnConsole("Inserisci posizione nel round track");
+        int roundPos = getNumber()-1;
+        printOnConsole("Inserisci posizione nella cella");
+        int cellPos = getNumber()-1;
+        vcEvent = new SwappingDieEvent(user, roundPos, cellPos);
+        notifyObservers();
     }
 
 

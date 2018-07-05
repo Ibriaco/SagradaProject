@@ -20,16 +20,12 @@ public class TestCell {
     }
 
     @Test
-    public void testPlacedCell(){
+    public void testPlacedCell() throws InvalidDieException {
         Cell c = new Cell(Color.WHITE,3);
         Die d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
-        try {
-            d.setValue(3);
-        }
-        catch(InvalidDieException e){
-            e.printStackTrace();
-        }
+        d.setValue(3);
+
         c.placeDie(d);
         boolean placed = c.isPlaced();
 

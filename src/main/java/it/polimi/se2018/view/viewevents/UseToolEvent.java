@@ -2,6 +2,7 @@ package it.polimi.se2018.view.viewevents;
 
 import it.polimi.se2018.controller.ControllerInterface;
 import it.polimi.se2018.model.InvalidConnectionException;
+import it.polimi.se2018.model.InvalidDieException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 
@@ -37,7 +38,7 @@ public class UseToolEvent implements VCEvent{
     }
 
     @Override
-    public void accept(ControllerInterface controller) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+    public void accept(ControllerInterface controller) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         controller.handleVCEvent(this);
     }
 }

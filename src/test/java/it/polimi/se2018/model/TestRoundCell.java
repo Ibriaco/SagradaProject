@@ -32,7 +32,7 @@ public class TestRoundCell {
 
 
     @Test
-    public void testReplaceDie() {
+    public void testReplaceDie() throws InvalidDieException {
 
         Die d1 = new Die(g.getColorList());
         Die d2 = new Die(g.getColorList());

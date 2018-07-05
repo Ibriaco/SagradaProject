@@ -246,7 +246,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     @Override
-    public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+    public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
 
         toolCardController.handleVCEvent(event);
     }
@@ -259,6 +259,18 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      * @throws InvalidViewException exception
      * @throws ParseException exception
      */
+
+    @Override
+    public void handleVCEvent(UpdateDieEvent event) throws InvalidDieException {
+        game.getRolledDice().get(event.getPos()).setValue(event.getVal());
+        mvEvent = new ModifiedPlaceEvent(event.getUsername(), event.getPos());
+    }
+
+    @Override
+    public void handleVCEvent(SwappingDieEvent swappingDieEvent) {
+        toolCardController.handleVCEvent(swappingDieEvent);
+    }
+
     @Override
     public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         counter++;
