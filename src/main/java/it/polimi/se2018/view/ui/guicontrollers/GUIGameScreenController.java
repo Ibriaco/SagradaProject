@@ -1,6 +1,8 @@
 package it.polimi.se2018.view.ui.guicontrollers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
@@ -16,12 +18,11 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -30,7 +31,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 
@@ -50,6 +50,10 @@ public class GUIGameScreenController {
     private static final double T_HEIGHT = 45;
     private static final double T_WIDTH = 45;
 
+    private boolean canUseTool;
+    private boolean canPlaceDie;
+    private boolean canUseRoundDice;
+
     private ColorAdjust colorAdjust;
     private ColorAdjust normalColor;
     private DropShadow shadowEffect;
@@ -60,6 +64,10 @@ public class GUIGameScreenController {
     private GUIView guiView;
     private StackPane stack = new StackPane();
     private boolean whichSize;
+    private List<ImageView> diceListToDelete = new ArrayList<>();
+    private List<RoundCell> roundTrackCells;
+    private StackPane rStack = new StackPane();
+    private GridPane diceOnTrack = new GridPane();
 
     @FXML
     private AnchorPane anchor;
@@ -125,6 +133,7 @@ public class GUIGameScreenController {
     private JFXButton placeButton;
 
 
+
     @FXML
     public void initialize(){
         stack.setLayoutX(100);
@@ -134,6 +143,12 @@ public class GUIGameScreenController {
         colorAdjust = new ColorAdjust();
         colorAdjust.setBrightness(-0.5);
         normalColor = new ColorAdjust();
+
+        rStack.setLayoutX(100);
+        rStack.setLayoutY(100);
+        diceOnTrack.setPrefWidth(500);
+        diceOnTrack.setPrefHeight(50);
+        anchor.getChildren().add(rStack);
 
         privateCard.setEffect(shadowEffect);
         tool0.setEffect(shadowEffect);
@@ -169,6 +184,10 @@ public class GUIGameScreenController {
         tool0.setImage(new Image(new File("./src/main/resources/GUIUtils/tools/" + toolNames.get(0) + ".png").toURI().toString()));
         tool1.setImage(new Image(new File("./src/main/resources/GUIUtils/tools/" + toolNames.get(1) + ".png").toURI().toString()));
         tool2.setImage(new Image(new File("./src/main/resources/GUIUtils/tools/" + toolNames.get(2) + ".png").toURI().toString()));
+        tool0.setOnMouseClicked(this::handleToolClick);
+        tool0.setOnMouseClicked(this::handleToolClick);
+        tool0.setOnMouseClicked(this::handleToolClick);
+
     }
 
     private void showPrivate(String privateName) {
@@ -176,6 +195,9 @@ public class GUIGameScreenController {
     }
 
     public void updateScreen(UpdateGameEvent updateGameEvent){
+
+        flushAll();
+
         int userN = 0;
         int counter = 0;
         String currentUser;
@@ -206,10 +228,18 @@ public class GUIGameScreenController {
 
     }
 
+    private void flushAll() {
+
+        for(ImageView i : diceListToDelete) {
+                draftPool.getChildren().remove(i);
+        }
+    }
+
     private void showDice(List<Die> dice) {
         int i = 0;
+
         for (Die d : dice) {
-            createAndPutDie(draftPool, d, i, 0);
+            createAndPutDie(draftPool, d, i, 0, true);
             i++;
         }
     }
@@ -221,7 +251,20 @@ public class GUIGameScreenController {
             imageView.setFitWidth(T_WIDTH);
             imageView.setOnMouseEntered(this::lightUp);
             imageView.setOnMouseExited(this::lightDown);
+            imageView.setOnMouseClicked(this::showRoundDice);
             roundTrack.add(imageView, i, 0);
+            roundTrackCells = track;
+        }
+    }
+
+    private void showRoundDice(MouseEvent mouseEvent) {
+        ImageView source = (ImageView) mouseEvent.getSource();
+        int column = GridPane.getColumnIndex(source);
+        try{
+            makeRoundDialog("Round " + (column + 1), roundTrackCells.get(column));
+        }
+        catch (IndexOutOfBoundsException e){
+            /*If this exception is caught means that no dice has to be shown*/
         }
     }
 
@@ -317,16 +360,25 @@ public class GUIGameScreenController {
         for (int i = 0; i < w.getRows(); i++) {
             for (int j = 0; j < w.getCols(); j++)
                 if (w.getGridCell(i,j).isPlaced())
-                    createAndPutDie(location, w.getGridCell(i,j).getPlacedDie(), i, j);
+                    createAndPutDie(location, w.getGridCell(i,j).getPlacedDie(), i, j, true);
+                else
+                    createAndPutDie(location, w.getGridCell(i,j).getPlacedDie(), i, j, false);
         }
 
     }
 
-    private void createAndPutDie(GridPane grid, Die placedDie, int i, int j) {
+    private void createAndPutDie(GridPane grid, Die placedDie, int i, int j, boolean present) {
 
-        char pathColor = placedDie.getColor().toString().charAt(0);
-        char pathValue = String.valueOf(placedDie.getValue()).charAt(0);
-        ImageView imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/d" + pathColor + pathValue + ".png").toURI().toString()));
+        ImageView imageView;
+
+        if (present) {
+            char pathColor = placedDie.getColor().toString().charAt(0);
+            char pathValue = String.valueOf(placedDie.getValue()).charAt(0);
+            imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/d" + pathColor + pathValue + ".png").toURI().toString()));
+        }
+        else
+            imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/intentionallyWrong.png").toURI().toString()));
+
         if (whichSize) {
             imageView.setFitHeight(R_HEIGHT);
             imageView.setFitWidth(R_WIDTH);
@@ -340,7 +392,13 @@ public class GUIGameScreenController {
             imageView.setEffect(shadowEffect);
             imageView.setOnMouseEntered(this::lightUp);
             imageView.setOnMouseExited(this::lightDown);
+            diceListToDelete.add(imageView);
         }
+
+        if (grid.equals(draftPool))
+            imageView.setOnMouseClicked(this::handleDraftPoolClick);
+        else if (grid.equals(myWindow))
+            imageView.setOnMouseClicked(this::handleMyWindowClick);
 
         grid.add(imageView, j, i);
     }
@@ -382,12 +440,14 @@ public class GUIGameScreenController {
 
     @FXML
     private void placeAction(){
-
+        makeDialog("Select a die from the Draft Pool and place it on your window pattern.", stack, INFO_TYPE, "");
+        canPlaceDie = true;
     }
 
     @FXML
     private void toolAction(){
-
+        makeDialog("Select a Tool Card to use it.", stack, INFO_TYPE, "");
+        canUseTool = true;
     }
 
     @FXML
@@ -404,7 +464,7 @@ public class GUIGameScreenController {
     }
 
     @FXML
-    private void disableButtons(){
+    public void disableButtons(){
         skipButton.setDisable(true);
         toolButton.setDisable(true);
         placeButton.setDisable(true);
@@ -439,5 +499,78 @@ public class GUIGameScreenController {
         stage.setWidth(800);
         stage.centerOnScreen();
         scene.setRoot(root);
+    }
+
+    public void showAlert(String message) {
+        makeDialog(message, stack, INFO_TYPE, "");
+    }
+
+
+    private void makeRoundDialog(String content, RoundCell cell){
+
+        JFXDialogLayout layout = new JFXDialogLayout();
+        int i = 0;
+        for (Die d: cell.getDiceList()) {
+            char pathColor = d.getColor().toString().charAt(0);
+            char pathValue = String.valueOf(d.getValue()).charAt(0);
+            ImageView imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/d" + pathColor + pathValue + ".png").toURI().toString()));
+            imageView.setFitHeight(50);
+            imageView.setFitWidth(50);
+            imageView.setOnMouseClicked(this::handleRoundDiceClicked);
+            diceOnTrack.add(imageView, i, 0);
+            i++;
+        }
+
+        JFXDialog dialog = new JFXDialog(rStack, layout, JFXDialog.DialogTransition.CENTER);
+        JFXButton button = new JFXButton("CLOSE");
+        button.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));
+        button.setTextFill(javafx.scene.paint.Color.WHITE);
+        button.setOnAction(event -> dialog.close());
+        layout.setActions(button);
+        layout.setBody(diceOnTrack);
+        layout.setHeading(new Text(content));
+
+        dialog.show();
+    }
+
+    private void handleRoundDiceClicked(MouseEvent mouseEvent) {
+        if (canUseRoundDice)
+            System.out.println("ok");
+        else
+            makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
+
+    }
+
+    private void handleDraftPoolClick(MouseEvent mouseEvent) {
+        if (canPlaceDie)
+            System.out.println("ok");
+        else
+            makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
+    }
+
+    private void handleMyWindowClick(MouseEvent mouseEvent) {
+        if (canPlaceDie)
+            System.out.println("ok");
+        else
+            makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
+    }
+
+    private void handleToolClick(MouseEvent mouseEvent) {
+        if (canUseTool)
+            System.out.println("ok");
+        else
+            makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
+    }
+
+    public void setCanUseTool(boolean canUseTool) {
+        this.canUseTool = canUseTool;
+    }
+
+    public void setCanPlaceDie(boolean canPlaceDie) {
+        this.canPlaceDie = canPlaceDie;
+    }
+
+    public void setCanUseRoundDice(boolean canUseRoundDice) {
+        this.canUseRoundDice = canUseRoundDice;
     }
 }

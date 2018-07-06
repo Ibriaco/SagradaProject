@@ -9,9 +9,11 @@ import java.io.IOException;
 
 public class StopTurnEvent implements  MVEvent {
     private String username;
+    private String message;
 
-    public StopTurnEvent(String username){
+    public StopTurnEvent(String username, String message){
         this.username = username;
+        this.message = message;
     }
 
     @Override
@@ -24,7 +26,8 @@ public class StopTurnEvent implements  MVEvent {
         return username;
     }
 
-    public void printMessage(){
-        System.out.println("TIMER HAS EXPIRED. YOUR TURN IS FINISHED AND YOUR INPUT IS DISABILITATED!");
+
+    public String getMessage() {
+        return message;
     }
 }

@@ -39,6 +39,6 @@ public class ServerConfig {
     public static String ON_DRAFT;
     public static String SPECIAL;
     public static boolean REVERSE;
-
+    public static String STOP_MESSAGE;
 
 }

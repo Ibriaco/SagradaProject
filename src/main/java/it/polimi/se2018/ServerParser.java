@@ -53,7 +53,7 @@ public class ServerParser {
             ON_WINDOW = (String)jsonObject.get("ON_WINDOW");
             ON_DRAFT = (String)jsonObject.get("ON_DRAFT");
             SPECIAL = (String)jsonObject.get("SPECIAL");
-
+            STOP_MESSAGE = (String)jsonObject.get("STOP_MESSAGE");
         } catch (ParseException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

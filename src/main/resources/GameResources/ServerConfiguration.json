@@ -35,5 +35,6 @@
     "ON_DRAFT":"R",
     "SPECIAL":"SPECIAL",
     "BOOL_TRUE":"true",
-    "BOOL_FALSE":"false"
+    "BOOL_FALSE":"false",
+    "STOP_MESSAGE": "Timer has expired! Your turn is finished and your input is disabled."
   }

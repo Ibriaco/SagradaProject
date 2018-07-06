@@ -285,7 +285,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(StopTurnEvent event) {
-        event.printMessage();
+        printOnConsole(event.getMessage());
     }
 
 
@@ -435,6 +435,11 @@ public class CLIView implements ViewInterface {
     public void handleMVEvent(EndGameEvent endGameEvent) {
         printOnConsole(endGameEvent.getContent());
         endGameEvent.getResults().forEach((s, s2) -> printOnConsole(s + ": " + s2));
+    }
+
+    @Override
+    public void handleMVEvent(RequestCoordEvent requestCoordEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
     }
 
 

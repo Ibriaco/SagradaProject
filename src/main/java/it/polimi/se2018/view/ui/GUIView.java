@@ -162,7 +162,6 @@ public class GUIView extends Application implements ViewInterface {
     public void notifyObservers() throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         for (MyObserver o : observersCollection) {
             o.update(this, vcEvent);
-            System.out.println("mando a " + o.toString());
         }
     }
 
@@ -195,18 +194,19 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        Platform.runLater(()->guiGameScreenController.showTurnDialog(isTurnEvent.getUser()));
+        Platform.runLater(()->guiGameScreenController.showTurnDialog(isTurnEvent.getPlayerInTurn()));
         Platform.runLater(()->guiGameScreenController.enableButtons());
     }
 
     @Override
     public void handleMVEvent(StopTurnEvent stopTurnEvent) {
-
+        Platform.runLater(()->guiGameScreenController.disableButtons());
+        Platform.runLater(()->guiGameScreenController.showAlert(stopTurnEvent.getMessage()));
     }
 
     @Override
     public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
+        Platform.runLater(()->guiGameScreenController.showAlert("Select a die"));
     }
 
     @Override
@@ -216,7 +216,6 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsNotYourTurn isNotYourTurn) {
-        System.out.println("ricevuto is not: " + isNotYourTurn.getUsername());
         Platform.runLater(()->guiGameScreenController.showTurnDialog(isNotYourTurn.getUsername()));
     }
 
@@ -232,7 +231,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(WrongPlaceEvent wrongPlaceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-
+        Platform.runLater(()->guiGameScreenController.showAlert(INVALID_MOVE_RETRY));
     }
 
     @Override
@@ -282,8 +281,12 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(EndGameEvent endGameEvent) {
-        System.out.println("fine jioco");
         Platform.runLater(()->guiGameScreenController.changeScene(endGameEvent));
+    }
+
+    @Override
+    public void handleMVEvent(RequestCoordEvent requestCoordEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+
     }
 
 

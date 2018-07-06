@@ -4,13 +4,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import it.polimi.se2018.model.Color;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+
 
 /**Final class that contains some helpful methods used in the GUI controllers.
  * @author Gregorio Galletti
@@ -22,7 +21,6 @@ public final class GUIControllerUtils {
 
     public static final String ERROR_TYPE = "ERROR";
     public static final String INFO_TYPE = "INFO";
-    public static final String EXIT_MESSAGE = "Are you sure you want to close the game?";
 
     public static void makeDialog(String content, StackPane pane, String type, String data){
 
@@ -42,6 +40,7 @@ public final class GUIControllerUtils {
 
         dialog.show();
     }
+
 
     public static Paint getMatch(Color c){
 

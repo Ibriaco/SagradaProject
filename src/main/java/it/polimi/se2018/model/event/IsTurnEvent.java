@@ -41,6 +41,10 @@ public class IsTurnEvent implements MVEvent {
         return user;
     }
 
+    public String getPlayerInTurn() {
+        return playerInTurn;
+    }
+
     public void printPlayerInTurn(){
         System.out.println("\nE' IL TURNO DI: " + playerInTurn);
     }

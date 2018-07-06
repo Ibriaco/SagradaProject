@@ -47,5 +47,5 @@
     "DICE_PATHD":"./src/main/resources/GUIUtils/dice/d",
     "ERROR_TYPE":"ERROR",
     "INFO_TYPE":"INFO",
-    "WINDOW_CHOICE_PATH":"src/main/resources/GUIUtils/windowChoice2.fxml",
+    "WINDOW_CHOICE_PATH":"src/main/resources/GUIUtils/windowChoice2.fxml"
   }

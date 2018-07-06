@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.STOP_MESSAGE;
+
 /**
  * Controller class that handles events
  * @author Ibrahim El Shemy
@@ -251,7 +253,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     public void timerExpired() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         timer.interrupt();
         System.out.println("invio stopturnevent");
-        mvEvent = new StopTurnEvent(game.getPlayers().get(playerIndex).getUsername());
+        mvEvent = new StopTurnEvent(game.getPlayers().get(playerIndex).getUsername(), STOP_MESSAGE);
         notifyObservers();
         System.out.println("invio skipturn a virtualview");
         try {
