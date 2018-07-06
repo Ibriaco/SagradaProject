@@ -48,8 +48,8 @@
     "ERROR_TYPE":"ERROR",
     "INFO_TYPE":"INFO",
     "WINDOW_CHOICE_PATH":"src/main/resources/GUIUtils/windowChoice2.fxml",
-    "RMI_CLIENT_ADDRESS":"rmi://192.168.43.165/MyServer",
-    "SOCKET_CLIENT_ADDRESS":"192.168.43.165",
+    "RMI_CLIENT_ADDRESS":"rmi://localhost/MyServer",
+    "SOCKET_CLIENT_ADDRESS":"localhost",
     "POSITION_ROUND_TRACK":"insert the position of the round that contains the die that matches the color of the Die/Dice you want to move ",
     "POSITION_DIE_ROUND_TRACK":"insert the position of a Die in the round track that matches the color of the Die/Dice you want to move ",
     "NUMBER_DIE_MOVE":"how many die/dice you want to move?",
@@ -62,5 +62,5 @@
     "URL_NOT_FOUND":"URL not found!",
     "CONNECTION_ERROR":"Connection error: ",
     "NOT_BOUND_MESSAGE":"The reference is associated to nothing!",
-    "SELECT_UI":"Select the ui:",
+    "SELECT_UI":"Select the ui:"
   }

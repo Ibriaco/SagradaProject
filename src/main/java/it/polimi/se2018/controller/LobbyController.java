@@ -38,7 +38,6 @@ public class LobbyController {
     public LobbyController(EventsController ec, VirtualView virtualView) {
         waitingLobby = new Lobby();
         this.virtualView = virtualView;
-        printOnConsole("Lobby controller creato");
         eventsController = ec;
         setTimer();
     }
@@ -55,29 +54,29 @@ public class LobbyController {
      * @throws RemoteException thrown exception
      */
     public void handleLogin(VCEvent event) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
-        String username = event.getUsername();
+        String user = event.getUsername();
         LoggedUserEvent logEvent;
         launchTimer();
 
-        if(checkUser(username) && checkOnlinePlayers() && checkTime()) {
-            virtualView.addClientToMap(username, virtualView.getClientTemp());
-            addInLobby(username);
-            logEvent = new LoggedUserEvent(username,BOOL_TRUE);
+        if(checkUser(user) && checkOnlinePlayers() && checkTime()) {
+            virtualView.addClientToMap(user, virtualView.getClientTemp());
+            addInLobby(user);
+            logEvent = new LoggedUserEvent(user,BOOL_TRUE);
             logEvent.setState(LOGIN_SUCCESSFULLY);
             String playersNumber = String.valueOf(getLobby().getOnlinePlayers().size());
-            printOnConsole(USER + username +" "+LOGIN_SUCCESSFULLY);
+            printOnConsole(USER + username + " " +LOGIN_SUCCESSFULLY);
             printOnConsole(ONLINE_PLAYERS + playersNumber);
             eventsController.setMvEvent(logEvent);
             eventsController.notifyObservers();
-            virtualView.serverBeat(username);
+            virtualView.serverBeat(user);
         }
         else {
-            logEvent = new LoggedUserEvent(username, BOOL_FALSE);
+            logEvent = new LoggedUserEvent(user, BOOL_FALSE);
             if (!checkTime()) {
                 logEvent.setState(TIMER_EXPIRED);
             } else if (!checkOnlinePlayers()) {
                 logEvent.setState(FULL_LOBBY);
-            } else if (!checkUser(username)) {
+            } else if (!checkUser(user)) {
                 logEvent.setState(USERNAME_ALREADY_USED);
             }
             virtualView.getClientTemp().sendMVEvent(logEvent);
@@ -115,7 +114,7 @@ public class LobbyController {
         }
         else {
             LoggedUserEvent logEvent = new LoggedUserEvent(user, BOOL_FALSE);
-            logEvent.setState("Invalid username!");
+            logEvent.setState(INVALID_USER);
             virtualView.getClientTemp().sendMVEvent(logEvent);
         }
     }
@@ -134,7 +133,6 @@ public class LobbyController {
             }
 
             while (timer >= ZERO_VALUE) {
-                //LOGGER.log(Level.INFO, "Timer: " + timer);
                 if (waitingLobby.getOnlinePlayersN() < 2)
                     break;
                 else {
@@ -173,7 +171,6 @@ public class LobbyController {
 
         return waitingLobby.getOnlinePlayersN() != FOUR_VALUE;
     }
-    //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 
     /**
      * Checks if the timer's expired
@@ -239,9 +236,6 @@ public class LobbyController {
     /**
      * Method that adds a chosen card in the list of window cards
      * @param event choose card event
-     * @throws InvalidConnectionException exception
-     * @throws RemoteException exception
-     * @throws InvalidViewException exception
      */
     public void handleWindowCard (ChooseCardEvent event){
         game.findPlayer(event.getUsername()).setWindowCard(event.getWindowCard());

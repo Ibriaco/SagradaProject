@@ -32,9 +32,13 @@
     "SLEEP_TIME":"1000",
     "AFTER_DRAFTING":"AD",
     "ON_WINDOW":"OW",
-    "ON_DRAFT":"R",
+    "ON_DRAFT":"ON_DRAFT",
     "SPECIAL":"SPECIAL",
     "BOOL_TRUE":"true",
     "BOOL_FALSE":"false",
-    "STOP_MESSAGE": "Timer has expired! Your turn is finished and your input is disabled."
+    "STOP_MESSAGE": "Timer has expired! Your turn is finished and your input is disabled.",
+    "RUNNING_PLIERS":"Running Pliers",
+    "TAP_WHEEL":"Tap Wheel",
+    "GROZING_PLIERS":"Grozing Pliers",
+    "CORK_BACKED_STRAIGHTEDGE":"Cork-backed Straightedge"
   }

@@ -54,6 +54,11 @@ public class ServerParser {
             ON_DRAFT = (String)jsonObject.get("ON_DRAFT");
             SPECIAL = (String)jsonObject.get("SPECIAL");
             STOP_MESSAGE = (String)jsonObject.get("STOP_MESSAGE");
+            RUNNING_PLIERS = (String)jsonObject.get("RUNNING_PLIERS");
+            TAP_WHEEL = (String)jsonObject.get("TAP_WHEEL");
+            GROZING_PLIERS = (String)jsonObject.get("GROZING_PLIERS");
+            CORK_BACKED_STRAIGHTEDGE = (String)jsonObject.get("CORK_BACKED_STRAIGHTEDGE");
+
         } catch (ParseException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

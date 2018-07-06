@@ -36,9 +36,7 @@ public class TimerThread extends Thread{
         }
         try {
             eventsController.timerExpired();
-        } catch (InvalidConnectionException | InvalidViewException | IOException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        } catch (ParseException e) {
+        } catch (InvalidConnectionException | InvalidViewException | IOException | ParseException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         this.interrupt();

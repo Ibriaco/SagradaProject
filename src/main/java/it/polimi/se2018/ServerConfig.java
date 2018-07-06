@@ -40,5 +40,9 @@ public class ServerConfig {
     public static String SPECIAL;
     public static boolean REVERSE;
     public static String STOP_MESSAGE;
+    public static String RUNNING_PLIERS;
+    public static String TAP_WHEEL;
+    public static String GROZING_PLIERS;
+    public static String CORK_BACKED_STRAIGHTEDGE;
 
 }

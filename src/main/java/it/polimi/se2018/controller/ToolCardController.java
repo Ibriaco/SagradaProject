@@ -70,10 +70,10 @@ public class ToolCardController{
         else if (ok&&game.getToolCards().get(pos).getType().equals(ON_WINDOW)){
             mvEvent = new MoveDieEvent(user);
         }
-        else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber() && !game.getToolCards().get(pos).getTitle().equals("Tap Wheel")){
+        else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber() && !game.getToolCards().get(pos).getTitle().equals(TAP_WHEEL)){
            mvEvent = new RollingDiceEvent(user);
         }
-        else if (ok && game.getToolCards().get(pos).getTitle().equals("Tap Wheel")){
+        else if (ok && game.getToolCards().get(pos).getTitle().equals(TAP_WHEEL)){
             mvEvent = new RequestColorAndNumberEvent(user);
         }
         else if (ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&!p.isAd()&&game.getTurn()<=game.getPlayerNumber())
@@ -88,7 +88,6 @@ public class ToolCardController{
 
         eventsController.setMvEvent(mvEvent);
         eventsController.notifyObservers();
-        //game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&
     }
 
     private void tokenCheck(){
@@ -107,7 +106,6 @@ public class ToolCardController{
             mvEvent = new InvalidToolEvent(user);
     }
     public void checkApplyEffect(ReverseDieEffect reverseDieEffect) throws InvalidDieException {
-        //controllo token disponibili
         reverseDieEffect.applyEffect(d);
     }
 
@@ -156,7 +154,7 @@ public class ToolCardController{
         }
 
 
-        if(!(game.getToolCards().get(pos).getTitle().equals("Grozing Pliers") || game.getToolCards().get(pos).getTitle().equals("Cork-backed Straightedge"))) {
+        if(!(game.getToolCards().get(pos).getTitle().equals(GROZING_PLIERS) || game.getToolCards().get(pos).getTitle().equals(CORK_BACKED_STRAIGHTEDGE))) {
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();
             eventsController.setMvEvent(new ModifiedPlaceEvent(user, event.getPosition()));
@@ -231,7 +229,6 @@ public class ToolCardController{
     public void checkApplyEffect(ReplaceDieEffect replaceDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
 
         replaceDieEffect.applyEffect(d, eventsController.getGame(), this, diePositionDraftPool);
-        System.out.println("dopo replace die apply effect");
         eventsController.setMvEvent(new SetDieEvent(user,d,diePositionDraftPool));
         eventsController.notifyObservers();
     }

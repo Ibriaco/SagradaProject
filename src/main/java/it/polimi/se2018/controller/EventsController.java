@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ServerConfig.RUNNING_PLIERS;
 import static it.polimi.se2018.ServerConfig.STOP_MESSAGE;
+import static it.polimi.se2018.ServerConfig.TURN_TIMER;
 
 /**
  * Controller class that handles events
@@ -46,18 +48,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         timer = new TimerThread(this, 0);
         turnController = new TurnController(this);
     }
-
-    /**
-     *
-     * @param username user of the player
-     * @return return true if it's the player turn, false otherwise
-     */
-    private boolean checkPlayer(String username) {
-
-        return (game.getPlayers().indexOf(game.findPlayer(username)) == game.getTurn());
-
-    }
-
 
     public void setReconnection(boolean reconnection) {
 
@@ -96,8 +86,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
 
 
-    //METODI OBSERVER E OBSERVABLE
-
     @Override
     public void registerObserver(MyObserver observer) {
         observerCollection.add(observer);
@@ -131,10 +119,9 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void update(MyObservable o, MVEvent arg){
-
+        /*Intentionally left empty*/
     }
 
-    //METODI PER GENERARE EVENTI MV
     /**
      * Method that handles a login event
      * @param event login event
@@ -176,13 +163,13 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                     notifyObservers();
                     virtualView.createSkipTurnEvent(event.getUsername());
                 }
-                else if(!game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")) {
+                else if(!game.getToolCards().get(toolCardController.getPos()).getTitle().equals(RUNNING_PLIERS)) {
                     mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
                     notifyObservers();
                     mvEvent = new MiniMenuEvent(event.getUsername());
                     notifyObservers();
                 }
-                else if(game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")){
+                else if(game.getToolCards().get(toolCardController.getPos()).getTitle().equals(RUNNING_PLIERS)){
                     game.getPlayers().get(playerIndex).setRunningPliers(true);
                     mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
                     notifyObservers();
@@ -219,7 +206,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
-            if (timer.getCont() == 119) {
+            if (timer.getCont() == TURN_TIMER-1) {
                 timerExpired();
             } else {
                 timer.interrupt();

@@ -49,8 +49,8 @@ public class Client {
     private static String printChoice() {
         Scanner scanner = new Scanner(System.in);
         printOnConsole(SELECT_UI);
-        printOnConsole(CLI_UI);
-        printOnConsole(GUI_UI);
+        printOnConsole("1) CLI");
+        printOnConsole("2) GUI");
         return scanner.nextLine();
     }
 
