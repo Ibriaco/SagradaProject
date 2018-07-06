@@ -187,7 +187,6 @@ public class CLIView implements ViewInterface {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    //METODI PER GESTIRE MVEVENT
     @Override
     public void handleMVEvent(LoggedUserEvent event) {
 
@@ -214,7 +213,7 @@ public class CLIView implements ViewInterface {
         myCardList = event.getWindowCards();
         boolean ok = true;
         for (WindowCard w : event.getWindowCards()) {
-            printOnConsole(w.getWindowName() + " " + w.getDifficulty());
+            printOnConsole("WINDOWCARD NAME:" + w.getWindowName() + "\t\tSCORE: " + w.getDifficulty());
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {
                     color = w.getGridCell(i, j).getColor();
