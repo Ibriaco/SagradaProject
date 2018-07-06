@@ -88,5 +88,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(EndGameEvent endGameEvent);
 
     void handleMVEvent(RequestCoordEvent requestCoordEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
+
+    void handleMVEvent(RequestColorAndNumberEvent requestColorAndNumberEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
 }
 

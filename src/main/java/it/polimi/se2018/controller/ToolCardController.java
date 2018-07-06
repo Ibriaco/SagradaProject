@@ -26,11 +26,11 @@ public class ToolCardController{
     private int index;
     private int diePositionDraftPool;
     private Die d;
+    private Color color;
     private MVEvent mvEvent;
-    private MVEvent mvEvent2;
     private int newX;
     private int newY;
-    boolean ok = BOOL_FALSE;
+    private boolean ok = true;
     private WindowCard w;
     private EventsController eventsController;
     private LobbyController lc;
@@ -52,12 +52,20 @@ public class ToolCardController{
         this.d = d;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public void handleVCEvent(UseToolEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         user = event.getUsername();
         pos = event.getToolCardNumber();
         index = game.getPlayers().indexOf(game.findPlayer(user));
         Player p = game.getPlayers().get(index);
-        tokenCheck();
+       // tokenCheck();
+        System.out.println("prima degli if");
+        System.out.println("ok è : " + ok);
+        System.out.println("il tipo della carta: "+ game.getToolCards().get(pos).getType());
+        System.out.println("il titolo della carta è :"+game.getToolCards().get(pos).getTitle());
         if (ok&&game.getToolCards().get(pos).getType().equals(AFTER_DRAFTING)&&!p.isAd())
             mvEvent = new ChangeDieEvent(user);
         else if(ok&&game.getToolCards().get(pos).getType().equals(AFTER_DRAFTING)&&p.isAd()){
@@ -66,8 +74,11 @@ public class ToolCardController{
         else if (ok&&game.getToolCards().get(pos).getType().equals(ON_WINDOW)){
             mvEvent = new MoveDieEvent(user);
         }
-        else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber()){
+        else if(ok&&game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&game.getTurn()>game.getPlayerNumber() && !game.getToolCards().get(pos).getTitle().equals("Tap Wheel")){
            mvEvent = new RollingDiceEvent(user);
+        }
+        else if (ok && game.getToolCards().get(pos).getTitle().equals("Tap Wheel")){
+            mvEvent = new RequestColorAndNumberEvent(user);
         }
         else if (ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&!p.isAd()&&game.getTurn()<=game.getPlayerNumber())
             mvEvent = new DoublePlaceEvent(user);
@@ -75,24 +86,27 @@ public class ToolCardController{
         else if(ok&&game.getToolCards().get(pos).getType().equals(SPECIAL)&&p.isAd()){
             mvEvent = new RetryToolEvent(user);
         }
-        else
+        else {
+            System.out.println("sono nell'else!!");
             mvEvent = new InvalidToolEvent(user);
+        }
 
         eventsController.setMvEvent(mvEvent);
         eventsController.notifyObservers();
+        //game.getToolCards().get(pos).getType().equals(ON_DRAFT)&&
     }
 
     private void tokenCheck(){
         boolean used = game.getToolCards().get(pos).isUsed();
-        ok = BOOL_FALSE;
+        ok = false;
         if(game.getPlayers().get(index).getTokens()>ZERO_VALUE && !used){
-            game.getToolCards().get(pos).setUsed(BOOL_TRUE);
+            game.getToolCards().get(pos).setUsed(true);
             game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-ONE_VALUE);
-            ok = BOOL_TRUE;
+            ok = true;
         }
         else if (game.getPlayers().get(index).getTokens()>ONE_VALUE && used){
             game.getPlayers().get(index).setTokens(game.getPlayers().get(index).getTokens()-TWO_VALUE);
-            ok = BOOL_TRUE;
+            ok = true;
         }
         else if(game.getPlayers().get(index).getTokens()<TWO_VALUE && used || !used&&game.getPlayers().get(index).getTokens()<1)
             mvEvent = new InvalidToolEvent(user);
@@ -117,13 +131,15 @@ public class ToolCardController{
     }
 
     public void checkApplyEffect(MoveDieEffect moveDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        if(moveDieEffect.getAmount()==1) {
+        //if ((game.getToolCards().get(pos).getTitle().equals("Tap Wheel")) && d.getColor().equals(color)){
+
+
+        if (moveDieEffect.getAmount() == 1) {
             moveDieEffect.applyEffect(w, d, newX, newY);
             System.out.println("pre update in if (getAmoun==1)");
             eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
             eventsController.notifyObservers();
-        }
-        else if(moveDieEffect.getAmount()==2){
+        } else if (moveDieEffect.getAmount() == 2) {
             moveDieEffect.applyEffect(w, d, newX, newY);
             System.out.println("pre update sbagliato");
             eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
@@ -134,6 +150,7 @@ public class ToolCardController{
             eventsController.notifyObservers();
             System.out.println("qua non arriverò mai bitch");
         }
+
         eventsController.setMvEvent(new PerformActionEvent(user));
         eventsController.notifyObservers();
 
@@ -260,9 +277,25 @@ public class ToolCardController{
         game.findPlayer(placeDieWithRestriction.getUsername()).setAd(true);
         eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
         eventsController.notifyObservers();
-        //da cambiare con menu
         eventsController.getVirtualView().createSkipTurnEvent(placeDieWithRestriction.getUsername());
         eventsController.notifyObservers();
+
+    }
+
+    public void handleTapWheel(ColorAndNumberEvent event) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        w = game.findPlayer(event.getUsername()).getWindowCard();
+        d = game.findPlayer(event.getUsername()).getWindowCard().getGridCell(event.getOldRow(), event.getOldCol()).getPlacedDie();
+        newX = event.getNewCol();
+        newY = event.getNewRow();
+        MoveDieEffect moveDieEffect = new MoveDieEffect(true,true,true,event.getNumber());
+        if (d.getColor().equals(color)) {
+            game.findPlayer(event.getUsername()).getWindowCard().removeDie(event.getOldRow(),event.getOldCol());
+            checkApplyEffect(moveDieEffect);
+        }
+        else{
+            eventsController.setMvEvent(new RetryToolEvent(event.getUsername()));
+            eventsController.notifyObservers();
+        }
 
     }
 }

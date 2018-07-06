@@ -191,17 +191,12 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                     mvEvent = new MiniMenuEvent(event.getUsername());
                     notifyObservers();
                 }
-                else{
-                    System.out.println("sto settando running pliers a true");
+                else if(game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")){
                     game.getPlayers().get(playerIndex).setRunningPliers(true);
-                    System.out.println("Ho settato running pliers");
                     mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
                     notifyObservers();
-                    System.out.println("Ho fatto update");
                     mvEvent = new DoublePlaceEvent(user);
-                    System.out.println("Ho creato evento double place");
                     notifyObservers();
-                    System.out.println("Ho notificato double place");
                 }
             }
             else {
@@ -341,6 +336,21 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(PlaceDieWithRestriction placeDieWithRestriction) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         toolCardController.handleVCEvent(placeDieWithRestriction);
+    }
+
+    @Override
+    public void handleVCEvent(ColorAndNumberEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        if (game.getRoundCells().isEmpty()){
+            mvEvent = new RetryToolEvent(event.getUsername());
+            notifyObservers();
+        }
+        else  {
+            Die die = game.getRoundCells().get(event.getPositionRoundTrack()).getDiceList().get(event.getPosition());
+            Color color = die.getColor();
+            toolCardController.setColor(color);
+            toolCardController.handleTapWheel(event);
+        }
+
     }
 
 

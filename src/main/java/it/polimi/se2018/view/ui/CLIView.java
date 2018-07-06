@@ -446,6 +446,28 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
+    @Override
+    public void handleMVEvent(RequestColorAndNumberEvent requestColorAndNumberEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        printOnConsole("insert the position of the round that contains the die that matches the color of the Die/Dice you want to move ");
+        int positionRoundTrack = getNumber() - 1;
+        printOnConsole("insert the position of a Die in the round track that matches the color of the Die/Dice you want to move ");
+        int position = getNumber() - 1;
+        printOnConsole("how many die/dice you want to move?");
+        int number = getNumber();
+        printOnConsole(ROW_DIE_TO_MOVE);
+        int oldY = getNumber() - 1;
+        printOnConsole(COLUMN_DIE_TO_MOVE);
+        int oldX = getNumber() - 1;
+        printOnConsole(INSERT_ROW);
+        int newY = getNumber() - 1;
+        printOnConsole(INSERT_COLUMN);
+        int newX = getNumber() - 1;
+
+        vcEvent = new ColorAndNumberEvent(user, positionRoundTrack, position , number, oldX, oldY, newX, newY);
+        notifyObservers();
+
+    }
+
 
     private void printDie(Die d) {
         Color color = d.getColor();

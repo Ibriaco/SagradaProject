@@ -134,7 +134,7 @@ public class LobbyController {
             }
 
             while (timer >= ZERO_VALUE) {
-                LOGGER.log(Level.INFO, "Timer: " + timer);
+                //LOGGER.log(Level.INFO, "Timer: " + timer);
                 if (waitingLobby.getOnlinePlayersN() < 2)
                     break;
                 else {
