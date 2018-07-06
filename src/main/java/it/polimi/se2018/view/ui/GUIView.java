@@ -294,7 +294,7 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(RequestColorAndNumberEvent requestColorAndNumberEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        
+
     }
 
 
