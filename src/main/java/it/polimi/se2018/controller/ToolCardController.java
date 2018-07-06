@@ -119,10 +119,9 @@ public class ToolCardController{
     public void checkApplyEffect(MoveDieEffect moveDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         if(moveDieEffect.getAmount()==1) {
             moveDieEffect.applyEffect(w, d, newX, newY);
-            System.out.println("pre update sbagliato");
+            System.out.println("pre update in if (getAmoun==1)");
             eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
             eventsController.notifyObservers();
-            System.out.println("preperform sbagliato");
         }
         else if(moveDieEffect.getAmount()==2){
             moveDieEffect.applyEffect(w, d, newX, newY);
@@ -144,13 +143,16 @@ public class ToolCardController{
 
         d = game.getRolledDice().get(event.getPosition());
         diePositionDraftPool = event.getPosition();
+        w = game.findPlayer(event.getUsername()).getWindowCard();
 
         try {
             game.getToolCards().get(pos).getEffectList().get(ZERO_VALUE).accept(this);
         } catch (InvalidDieException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
-        if(!game.getToolCards().get(pos).getTitle().equals("Grozing Pliers")) {
+
+
+        if(!(game.getToolCards().get(pos).getTitle().equals("Grozing Pliers") || game.getToolCards().get(pos).getTitle().equals("Cork-backed Straightedge"))) {
             System.out.println("eseguo codice sbagliato sotto grozing pliers");
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();
@@ -245,5 +247,22 @@ public class ToolCardController{
         int roundPos = swappingDieEvent.getRoundPos();
         SwapDieEffect effect = new SwapDieEffect();
         effect.applyEffect(d, game, diePositionDraftPool, roundPos, cellPos);
+    }
+
+    public void checkApplyEffect(PlaceRestriction placeRestriction) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        eventsController.setMvEvent(new RequestCoordEvent(user));
+        eventsController.notifyObservers();
+    }
+
+    public void handleVCEvent(PlaceDieWithRestriction placeDieWithRestriction) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
+        w.placeDie(d,placeDieWithRestriction.getRow(),placeDieWithRestriction.getCol(),placeDieWithRestriction.isColor(),placeDieWithRestriction.isShade(),placeDieWithRestriction.isAround());
+        game.getRolledDice().remove(diePositionDraftPool);
+        game.findPlayer(placeDieWithRestriction.getUsername()).setAd(true);
+        eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
+        eventsController.notifyObservers();
+        //da cambiare con menu
+        eventsController.getVirtualView().createSkipTurnEvent(placeDieWithRestriction.getUsername());
+        eventsController.notifyObservers();
+
     }
 }

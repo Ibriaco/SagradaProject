@@ -11,12 +11,14 @@ public class MoveDieEffect implements Effect {
 
     private boolean color;
     private boolean value;
+    private boolean around;
     private int amount;
 
-    public MoveDieEffect(boolean color, boolean value, int amount){
+    public MoveDieEffect(boolean color, boolean value, boolean around, int amount){
         this.color = color;
         this.value = value;
         this.amount = amount;
+        this.around = around;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class MoveDieEffect implements Effect {
 
 
     public void applyEffect(WindowCard w, Die die, int newX, int newY){
-        w.placeDie(die, newY, newX, color, value);
+        w.placeDie(die, newY, newX, color, value, around);
     }
 
 

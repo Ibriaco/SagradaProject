@@ -168,9 +168,9 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
-            if(game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true)){
+            if(game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true)){
                 String user = event.getUsername();
-                game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true);
+                game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true);
                 game.updateWindowCardList();
                 game.getRolledDice().remove(event.getPos());
                 int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
@@ -334,6 +334,11 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             if (removedUserEvent.getRemaining() == 1)
                 turnController.endGame();
         }
+    }
+
+    @Override
+    public void handleVCEvent(PlaceDieWithRestriction placeDieWithRestriction) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        toolCardController.handleVCEvent(placeDieWithRestriction);
     }
 
 

@@ -149,8 +149,8 @@ public class TestWindowCard {
     @Test
     public void testFirstPlacement(){
 
-        assert w.checkLegalPlacement(d1,0,0,true,true);
-        assert !w.checkLegalPlacement(d1,1,1,true,true);
+        assert w.checkLegalPlacement(d1,0,0,true,true, true);
+        assert !w.checkLegalPlacement(d1,1,1,true,true, true);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class TestWindowCard {
 
         //se il dado lo voglio mettere in coordinate sbagliate allora non va bene
         try {
-            assert !w.checkLegalPlacement(d1, 7, 2, true, true);
+            assert !w.checkLegalPlacement(d1, 7, 2, true, true, true);
         }
         catch (ArrayIndexOutOfBoundsException e){
             e.printStackTrace();
@@ -202,7 +202,7 @@ public class TestWindowCard {
         w.getGridCell(3, 3).setPlacedDie(d19);
         w.getGridCell(3, 4).setPlacedDie(d20);
 
-        assert (!w.checkLegalPlacement(d21,0,0,true,true));
+        assert (!w.checkLegalPlacement(d21,0,0,true,true, true));
 
 
     }
@@ -210,65 +210,65 @@ public class TestWindowCard {
     @Test
     public void testAlreadyPlaced(){
         w.getGridCell(0,1).setPlacedDie(d1);
-        assert (!w.checkLegalPlacement(d2,0,1,true,true));
+        assert (!w.checkLegalPlacement(d2,0,1,true,true, true));
 
     }
 
     @Test
     public void testCheckOrtogonal(){
         w.getGridCell(0,0).setPlacedDie(d1);
-        assert(w.checkLegalPlacement(d2, 1, 0,true,true));
+        assert(w.checkLegalPlacement(d2, 1, 0,true,true, true));
     }
 
     @Test
     public void testWrongCheckOrtogonal(){
         d3.setColor(Color.GREEN);
         w.getGridCell(0,2).setPlacedDie(d3);
-        assert(!w.checkLegalPlacement(d8, 1, 2,true,true));
+        assert(!w.checkLegalPlacement(d8, 1, 2,true,true, true));
     }
 
     @Test
     public void testCheckAround(){
         w.getGridCell(0, 0).setPlacedDie(d1);
-        assert (w.checkLegalPlacement(d7,1,1,true,true));
+        assert (w.checkLegalPlacement(d7,1,1,true,true, true));
 
     }
 
     @Test
     public void testWrongCheckAround(){
         w.getGridCell(0, 0).setPlacedDie(d1);
-        assert (!w.checkLegalPlacement(d13,2,2,true,true));
+        assert (!w.checkLegalPlacement(d13,2,2,true,true, true));
 
     }
 
     @Test
     public void testPlaceColorRestriction(){
-        w.placeDie(d1,0,0,true,false);
+        w.placeDie(d1,0,0,true,false, true);
         assertEquals(true, w.getGridCell(0,0).isPlaced());
         assertEquals(d1, w.getGridCell(0,0).getPlacedDie());
     }
     @Test
     public void testWrongPlaceColorRestriction(){
-        w.placeDie(d2,0,0,true,false);
+        w.placeDie(d2,0,0,true,false, true);
         assertEquals(false, w.getGridCell(0,0).isPlaced());
         assertNull(w.getGridCell(0,0).getPlacedDie());
     }
     @Test
     public void testPlaceShadeRestriction(){
-        w.placeDie(d2,0,1,false,true);
+        w.placeDie(d2,0,1,false,true, true);
         assertEquals(true, w.getGridCell(0,1).isPlaced());
         assertEquals(d2, w.getGridCell(0,1).getPlacedDie());
     }
     @Test
     public void testWrongPlaceShadeRestriction(){
-        w.placeDie(d2,0,0,false,true);
+        w.placeDie(d2,0,0,false,true, true);
         assertEquals(true, w.getGridCell(0,0).isPlaced());
         assertEquals(d2, w.getGridCell(0,0).getPlacedDie());
     }
 
     @Test
     public void testWrongPlace(){
-        w.placeDie(d1,2,2,true,true);
+        w.placeDie(d1,2,2,true,true, true);
         assertEquals(false, w.getGridCell(2,2).isPlaced());
     }
 
@@ -279,8 +279,8 @@ public class TestWindowCard {
             d8.setValue(3);
             d10.setValue(4);
 
-        w.placeDie(d8,0,2,true,true);
-        w.placeDie(d10,1,2,true,true);
+        w.placeDie(d8,0,2,true,true, true);
+        w.placeDie(d10,1,2,true,true, true);
         assertEquals(d8, w.getGridCell(0,2).getPlacedDie());
         assertNull(w.getGridCell(1,2).getPlacedDie());
 

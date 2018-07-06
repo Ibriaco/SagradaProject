@@ -28,4 +28,6 @@ public interface ControllerInterface {
     void handleVCEvent(SwappingDieEvent swappingDieEvent);
 
     void handleVCEvent(RemovedUser removedUserEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException;
+
+    void handleVCEvent(PlaceDieWithRestriction placeDieWithRestriction) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 }

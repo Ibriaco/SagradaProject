@@ -36,7 +36,7 @@ public class WindowCard implements Serializable{
      * @param col Refers to the column where the Players wants to place the die.
      * @return true if the die can be placed, either way, false is returned.
      */
-    public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade){
+    public boolean checkLegalPlacement(Die d, int row, int col, Boolean color, Boolean shade, boolean around){
 
         if(!checkCoords(row, col)) {
             return false;
@@ -57,7 +57,14 @@ public class WindowCard implements Serializable{
         if(getGridCell(row, col).isPlaced())
             return false;
 
-        return checkOrthogonal(d, row, col, color, shade) && checkAround(row, col);
+        if (!checkOrthogonal(d, row, col, color, shade))
+            return false;
+
+        if (around)//se è true devo controllare anche checkAround
+            if(!checkAround(row, col))
+                return false;
+
+        return true;
     }
 
     private boolean checkOrthogonal(Die d, int row, int col, Boolean color, Boolean shade) {
@@ -74,7 +81,7 @@ public class WindowCard implements Serializable{
 
         return(ok1 && ok2 && ok3 && ok4);
     }
-
+//metodo per controllare che il dado da piazzare sia adiacente ad altri dadi
     private boolean checkAround(int row, int col) {
 
         int previousR = row - 1;
@@ -99,7 +106,7 @@ public class WindowCard implements Serializable{
         return (r <= ROWS && r >= 0) && (c <= COLS && c >= 0);
 
     }
-
+//metodo che controlla se i dadi adiacenti (a croce) sono uguali per colore o numero al dado che vuoi piazzare
     private boolean checkNSEW(Die d, int r, int c, Boolean color, Boolean shade) {
 
         Die toCheck;
@@ -164,9 +171,9 @@ public class WindowCard implements Serializable{
      * @param row Refers to the row where the Player wants to place the die.
      * @param col Refers to the column where the Player wants to place the die.
      */
-    public void placeDie(Die d, int row, int col, Boolean color, Boolean shade){
+    public void placeDie(Die d, int row, int col, boolean color, boolean shade, boolean around){
 
-        if(checkLegalPlacement(d,row,col,color,shade)) {
+        if(checkLegalPlacement(d,row,col,color,shade, around)) {
             getGridCell(row, col).placeDie(d);
         }
     }

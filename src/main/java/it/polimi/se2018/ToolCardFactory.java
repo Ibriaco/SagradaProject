@@ -27,13 +27,16 @@ public class ToolCardFactory {
             return new RollDieEffect();
 
         else if(title.equalsIgnoreCase(ENGLOMISE_BRUSH))
-            return new MoveDieEffect(false, true, 1);
+            return new MoveDieEffect(false, true, true,1);
 
         else if(title.equalsIgnoreCase(COPPER_FOIL_BRUSHER))
-            return new MoveDieEffect(true, false, 1);
+            return new MoveDieEffect(true, false, true,1);
 
         else if(title.equalsIgnoreCase(LATHEKIN))
-            return new MoveDieEffect(true, true, 2);
+            return new MoveDieEffect(true, true, true,2);
+
+        else if(title.equalsIgnoreCase(CORK_BACKED_STRAIGHTEDGE))
+            return new PlaceRestriction(true, true, false);
 
         else if(title.equalsIgnoreCase(GLAZING_HAMMER))
             return new RollDiceEffect();
