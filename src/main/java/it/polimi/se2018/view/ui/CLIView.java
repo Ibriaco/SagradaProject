@@ -436,10 +436,14 @@ public class CLIView implements ViewInterface {
         printOnConsole(endGameEvent.getContent());
         endGameEvent.getResults().forEach((s, s2) -> printOnConsole(s + ": " + s2));
     }
-
     @Override
     public void handleMVEvent(RequestCoordEvent requestCoordEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
+        printOnConsole(INSERT_ROW);
+        int y = getNumber() - 1;
+        printOnConsole(INSERT_COLUMN);
+        int x = getNumber() - 1;
+        vcEvent = new PlaceDieWithRestriction(user, x, y, true,true,false);
+        notifyObservers();
     }
 
 
