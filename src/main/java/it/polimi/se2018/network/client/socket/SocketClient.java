@@ -36,8 +36,6 @@ public class SocketClient implements ClientInterface{
 
         listeningThread = new ListeningThread(socket, networkHandler);
         listeningThread.start();
-
-
     }
 
     @Override
@@ -49,6 +47,7 @@ public class SocketClient implements ClientInterface{
     public void sendEvent(VCEvent event) throws RemoteException {
         try {
             toServer.writeObject(event);
+            toServer.reset();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }

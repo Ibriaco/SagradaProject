@@ -573,4 +573,16 @@ public class GUIGameScreenController {
     public void setCanUseRoundDice(boolean canUseRoundDice) {
         this.canUseRoundDice = canUseRoundDice;
     }
+
+    public void miniActions() {
+        toolButton.setDisable(true);
+        placeButton.setDisable(false);
+        skipButton.setDisable(false);
+    }
+
+    public void miniChoice() {
+        toolButton.setDisable(false);
+        placeButton.setDisable(true);
+        skipButton.setDisable(false);
+    }
 }

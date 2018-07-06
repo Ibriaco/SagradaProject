@@ -246,12 +246,15 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(PerformActionEvent performActionEvent) {
-
+        Platform.runLater(()->guiGameScreenController.miniActions());
     }
 
     @Override
     public void handleMVEvent(RetryToolEvent retryToolEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-
+        Platform.runLater(()->{
+            guiGameScreenController.showAlert("This ia an \"After Drafting\" tool card ! Please try with a different one!");
+            guiGameScreenController.miniChoice();
+        });
     }
 
     @Override
@@ -266,12 +269,12 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-
+        Platform.runLater(()->guiGameScreenController.showAlert("Select dice you want to swap: one from the RoundTrack and one from the DraftPool."));
     }
 
     @Override
     public void handleMVEvent(MiniMenuEvent miniMenuEvent) {
-
+        Platform.runLater(()->guiGameScreenController.miniChoice());
     }
 
     @Override

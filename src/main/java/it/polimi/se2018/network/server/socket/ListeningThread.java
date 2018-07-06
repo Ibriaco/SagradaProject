@@ -3,6 +3,7 @@ package it.polimi.se2018.network.server.socket;
 import it.polimi.se2018.model.InvalidConnectionException;
 import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.model.event.MVEvent;
+import it.polimi.se2018.model.event.UpdateGameEvent;
 import it.polimi.se2018.network.client.NetworkHandler;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
  */
 public class ListeningThread extends Thread{
 
+    private MVEvent receivedEvent;
     private Socket socket;
     private NetworkHandler networkHandler;
     private static final Logger LOGGER = Logger.getLogger( ListeningThread.class.getName() );
@@ -38,9 +40,8 @@ public class ListeningThread extends Thread{
 
         while(loop) {
             try {
-
-                Object receivedEvent = fromServer.readObject();
-                networkHandler.receiveMVEvent((MVEvent)receivedEvent);
+                receivedEvent = (MVEvent) fromServer.readObject();
+                networkHandler.receiveMVEvent(receivedEvent);
             } catch (IOException | NullPointerException | InvalidConnectionException | InvalidViewException | ParseException | ClassNotFoundException e) {
                 LOGGER.log(Level.SEVERE, e.toString(), e);
             }
