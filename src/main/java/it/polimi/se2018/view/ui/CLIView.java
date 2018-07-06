@@ -35,7 +35,6 @@ import static it.polimi.se2018.view.ui.CLIUtils.ANSI_YELLOW;
  */
 public class CLIView implements ViewInterface {
 
-    private NetworkHandler nh;
     private VCEvent vcEvent;
     private String user;
     private ArrayList<MyObserver> observersCollection = new ArrayList<>();
@@ -152,7 +151,7 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
-    public void createUseToolEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
+    public void createUseToolEvent() {
         printOnConsole(INSERT_TOOL_NUMBER);
         Scanner scanner = new Scanner(System.in);
         boolean ok = true;
@@ -593,7 +592,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void createNH(String choice) throws RemoteException {
-        nh = new NetworkHandler(choice);
+        NetworkHandler nh = new NetworkHandler(choice);
         registerObserver(nh);
         nh.registerObserver(this);
     }

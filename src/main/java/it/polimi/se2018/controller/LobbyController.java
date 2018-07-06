@@ -106,7 +106,7 @@ public class LobbyController {
         if (virtualView.getRemovedClients().contains(user)){
             virtualView.getClients().put(user, virtualView.getClientTemp());
             virtualView.getRemovedClients().remove(user);
-            UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(), this.username, game.getRolledDice());
+            UpdateGameEvent updateGameEvent = new UpdateGameEvent(game.getWindowCardList(), this.username, game.getRolledDice(), game.getRoundCells());
             updateGameEvent.setUsername(user);
             eventsController.setMvEvent(updateGameEvent);
             eventsController.notifyObservers();
@@ -171,7 +171,7 @@ public class LobbyController {
      */
     private boolean checkOnlinePlayers() {
 
-        return waitingLobby.getOnlinePlayersN() != TWO_VALUE;
+        return waitingLobby.getOnlinePlayersN() != FOUR_VALUE;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 

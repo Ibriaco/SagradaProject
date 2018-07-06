@@ -81,7 +81,6 @@ public class TurnController {
      * @throws IOException exception
      */
     private void checkRound(int playerIndex) throws InvalidConnectionException, InvalidViewException, ParseException, IOException, InvalidDieException {
-        LOGGER.log(Level.INFO,"sono in checkRound");
         if(playerIndex==game.getPlayerNumber()-ONE_VALUE) {
             game.setFirstPlayer(game.getPlayers().get(ZERO_VALUE));
         }
@@ -91,7 +90,7 @@ public class TurnController {
         }
         reverse = BOOL_FALSE;
         game.nextTurn();
-        if(game.getRound() != 2) {
+        if(game.getRound() != 11) {
             if (eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())) {
                 checkSkip(playerIndex);
             } else
