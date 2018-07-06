@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static it.polimi.se2018.ClientConfig.RMI_CLIENT_ADDRESS;
+import static it.polimi.se2018.ClientConfig.*;
 
 
 /**
@@ -38,10 +38,6 @@ public class RMIClient implements RMIClientInterface {
     private static final Logger LOGGER = Logger.getGlobal();
 
 
-    public void notify(String message) {
-        System.out.println(message);
-    }
-
     public RMIClient(NetworkHandler nh) {
         networkHandler = nh;
         try {
@@ -49,33 +45,17 @@ public class RMIClient implements RMIClientInterface {
             remoteRef = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
 
         } catch (MalformedURLException e) {
-            System.err.println("URL not found!");
+            System.err.println(URL_NOT_FOUND);
         } catch (RemoteException e) {
-            System.err.println("Errore di connessione: " + e.getMessage() + "!");
+            System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
         } catch (NotBoundException e) {
-            System.err.println("Il riferimento passato non è associato a nulla!");
+            System.err.println(NOT_BOUND_MESSAGE);
         }
 
-        /*new Thread(new Runnable(){
-            public void run(){
-                boolean ok = true;
-                while(ok){
-                    try {
-                        server.ping();
-                        Thread.sleep(10000);
-                    }
-                    catch(RemoteException e){
-                        ok = false;
-                        System.exit(-1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();*/
     }
 
     public void ping() throws RemoteException{
+        /*intentionally left empty*/
     }
 
     /**
@@ -89,14 +69,13 @@ public class RMIClient implements RMIClientInterface {
         networkHandler.receiveMVEvent(event);
     }
 
-    //metodo per inviare VCEvent da client a server
     @Override
     public void sendEvent(VCEvent event) {
 
         new Thread(()->{
-            if (event.toString().equals("Login event")) {
+            if (event.toString().equals(LOGIN_EVENT)) {
                 String username = event.getUsername();
-                System.out.println("Trying to authenticate " + username + " ...");
+                System.out.println(AUTENTICATE + username + " ...");
                 try {
                     server.sendUser(remoteRef);
                 } catch (RemoteException | InvalidViewException e) {

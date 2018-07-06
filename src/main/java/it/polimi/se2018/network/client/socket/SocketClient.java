@@ -19,8 +19,6 @@ import java.util.logging.Logger;
 
 public class SocketClient implements ClientInterface{
     private static Socket socket;
-    private final boolean loop = true;
-    private ListeningThread listeningThread;
     private ObjectOutputStream toServer;
     private NetworkHandler networkHandler;
     private static final Logger LOGGER = Logger.getLogger(SocketClient.class.getName());
@@ -34,7 +32,7 @@ public class SocketClient implements ClientInterface{
             LOGGER.log(Level.SEVERE, e.toString(), e);
         }
 
-        listeningThread = new ListeningThread(socket, networkHandler);
+        ListeningThread listeningThread = new ListeningThread(socket, networkHandler);
         listeningThread.start();
     }
 

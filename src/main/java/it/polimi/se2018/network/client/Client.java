@@ -13,6 +13,7 @@ import javafx.application.Application;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static it.polimi.se2018.ClientConfig.*;
 import static it.polimi.se2018.view.ui.CLIUtils.*;
 
 public class Client {
@@ -31,7 +32,7 @@ public class Client {
             if(choice.equals("1") || choice.equals("2"))
                 validInput = true;
             else
-                consoleErrorWriter.println("Invalid input, please try again!");
+                consoleErrorWriter.println(INVALID_INPUT);
         }
 
         if(choice.equals("1")){
@@ -47,19 +48,12 @@ public class Client {
 
     private static String printChoice() {
         Scanner scanner = new Scanner(System.in);
-        printOnConsole("Select the ui:");
-        printOnConsole("1) CLI");
-        printOnConsole("2) GUI");
+        printOnConsole(SELECT_UI);
+        printOnConsole(CLI_UI);
+        printOnConsole(GUI_UI);
         return scanner.nextLine();
     }
 
-
-    private static String loginScreen(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Inserire username:");
-        return scanner.nextLine();
-
-    }
 
 }
 

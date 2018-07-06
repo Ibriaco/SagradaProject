@@ -76,6 +76,6 @@ public class NetworkHandler implements MyObserver, MyObservable {
 
     @Override
     public void update(MyObservable o, MVEvent arg) throws RemoteException, InvalidConnectionException, InvalidViewException {
-        //da non scrivere perchè in update non riceverò mai gli MV. da implementare su virtualView
+        /*Intentionally left empty*/
     }
 }

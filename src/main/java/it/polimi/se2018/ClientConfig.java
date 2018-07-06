@@ -71,5 +71,11 @@ public class ClientConfig {
     public static String CHOOSE_DIE_VALUE;
     public static String ROUND_TRACK_POSITION;
     public static String CELL_POSITION;
+    public static String AUTENTICATE;
+    public static String LOGIN_EVENT;
+    public static String URL_NOT_FOUND;
+    public static String CONNECTION_ERROR;
+    public static String NOT_BOUND_MESSAGE;
+    public static String SELECT_UI;
 
 }

@@ -68,6 +68,12 @@ public class ClientParser {
             CHOOSE_DIE_VALUE =(String)jsonObject.get("CHOOSE_DIE_VALUE");
             ROUND_TRACK_POSITION =(String)jsonObject.get("ROUND_TRACK_POSITION");
             CELL_POSITION =(String)jsonObject.get("CELL_POSITION");
+            AUTENTICATE =(String)jsonObject.get("AUTENTICATE");
+            LOGIN_EVENT =(String)jsonObject.get("LOGIN_EVENT");
+            URL_NOT_FOUND =(String)jsonObject.get("URL_NOT_FOUND");
+            CONNECTION_ERROR =(String)jsonObject.get("CONNECTION_ERROR");
+            NOT_BOUND_MESSAGE =(String)jsonObject.get("NOT_BOUND_MESSAGE");
+            SELECT_UI =(String)jsonObject.get("SELECT_UI");
 
         } catch (IOException e) {
             e.printStackTrace();
