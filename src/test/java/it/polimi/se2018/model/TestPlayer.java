@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.ServerParser;
 import it.polimi.se2018.org.json.simple.JSONArray;
 import it.polimi.se2018.org.json.simple.parser.JSONParser;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
@@ -17,9 +18,13 @@ import static org.junit.Assert.*;
  * Unit Test Class for the Player class.
  */
 public class TestPlayer {
+
+    private ServerParser sp = new ServerParser();
+
     @Before
     public void init() throws IOException, ParseException {
 
+        sp.reader();
         JSONParser parser = new JSONParser();
         JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/windows.json"));
     }

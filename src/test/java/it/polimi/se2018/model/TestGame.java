@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.MyObserver;
+import it.polimi.se2018.ServerParser;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +21,11 @@ import static org.junit.Assert.assertNotEquals;
 public class TestGame {
     ArrayList<MyObserver> observerCollection;
     MyObserver observer;
+    private ServerParser sp = new ServerParser();
 
     @Before
     public void init(){
+        sp.reader();
         observerCollection = new ArrayList<>();
     }
 

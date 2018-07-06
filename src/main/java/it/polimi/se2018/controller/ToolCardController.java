@@ -61,11 +61,7 @@ public class ToolCardController{
         pos = event.getToolCardNumber();
         index = game.getPlayers().indexOf(game.findPlayer(user));
         Player p = game.getPlayers().get(index);
-       // tokenCheck();
-        System.out.println("prima degli if");
-        System.out.println("ok è : " + ok);
-        System.out.println("il tipo della carta: "+ game.getToolCards().get(pos).getType());
-        System.out.println("il titolo della carta è :"+game.getToolCards().get(pos).getTitle());
+        tokenCheck();
         if (ok&&game.getToolCards().get(pos).getType().equals(AFTER_DRAFTING)&&!p.isAd())
             mvEvent = new ChangeDieEvent(user);
         else if(ok&&game.getToolCards().get(pos).getType().equals(AFTER_DRAFTING)&&p.isAd()){
@@ -87,7 +83,6 @@ public class ToolCardController{
             mvEvent = new RetryToolEvent(user);
         }
         else {
-            System.out.println("sono nell'else!!");
             mvEvent = new InvalidToolEvent(user);
         }
 
@@ -125,30 +120,22 @@ public class ToolCardController{
     }
 
     public void checkApplyEffect(IncDecEffect incDecEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        System.out.println("invio evento incremento o decremento da checkApplyEffect");
         eventsController.setMvEvent(new IncDecEvent(user));
         eventsController.notifyObservers();
     }
 
     public void checkApplyEffect(MoveDieEffect moveDieEffect) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        //if ((game.getToolCards().get(pos).getTitle().equals("Tap Wheel")) && d.getColor().equals(color)){
-
-
         if (moveDieEffect.getAmount() == 1) {
             moveDieEffect.applyEffect(w, d, newX, newY);
-            System.out.println("pre update in if (getAmoun==1)");
             eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
             eventsController.notifyObservers();
         } else if (moveDieEffect.getAmount() == 2) {
             moveDieEffect.applyEffect(w, d, newX, newY);
-            System.out.println("pre update sbagliato");
             eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), lc.getUsername(), game.getRolledDice(), game.getRoundCells()));
             eventsController.notifyObservers();
-            System.out.println("preperform sbagliato");
             mvEvent = new MoveDieEvent(user);
             eventsController.setMvEvent(mvEvent);
             eventsController.notifyObservers();
-            System.out.println("qua non arriverò mai bitch");
         }
 
         eventsController.setMvEvent(new PerformActionEvent(user));
@@ -170,7 +157,6 @@ public class ToolCardController{
 
 
         if(!(game.getToolCards().get(pos).getTitle().equals("Grozing Pliers") || game.getToolCards().get(pos).getTitle().equals("Cork-backed Straightedge"))) {
-            System.out.println("eseguo codice sbagliato sotto grozing pliers");
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();
             eventsController.setMvEvent(new ModifiedPlaceEvent(user, event.getPosition()));
@@ -203,11 +189,8 @@ public class ToolCardController{
 
     public void handleVCEvent(IncrementDecrementDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         int choose = event.getChoice();
-        System.out.println("handlo evento increment,decrement in toolcardcontroller");
         if (choose == ONE_VALUE && (d.getValue() != SIX_VALUE)){
-            System.out.println("valore dado prima incremento: " + d.getValue());
             d.setValue(d.getValue()+ONE_VALUE);
-            System.out.println("valore dado dopo incremento: " + d.getValue());
             eventsController.setMvEvent(new ChangedDieEvent(user, d));
             eventsController.notifyObservers();
             eventsController.setMvEvent(new ModifiedPlaceEvent(user, diePositionDraftPool));

@@ -114,7 +114,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
             try {
                 o.update(this, mvEvent);
             } catch (InvalidDieException e) {
-                LOGGER.log(Level.SEVERE, "Invalid Die Exception!");
+                LOGGER.log(Level.SEVERE, e.toString(), e);
             }
         }
     }
@@ -124,8 +124,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
         if(game != null) {
             if (!gameIsOver())
                 arg.accept(this);
-            else
-                System.out.println("ei tu cazzo fai il gioco è finito");
         }
         else
             arg.accept(this);
@@ -137,12 +135,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     }
 
     //METODI PER GENERARE EVENTI MV
-
-    public void createGameUpdateEvent () throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
-        mvEvent = new GameUpdateEvent("ALL");
-        notifyObservers();
-    }
-
     /**
      * Method that handles a login event
      * @param event login event
@@ -170,7 +162,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
-            if(game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true)){
+            if(event.getPos()>=0&&event.getPos()<=game.getRolledDice().size()-1&&event.getCoordX()>=0&&event.getCoordX()<=4&&
+                    event.getCoordY()>=0&&event.getCoordY()<=3&&game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true)){
                 String user = event.getUsername();
                 game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true);
                 game.updateWindowCardList();
@@ -179,10 +172,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
                 p = game.getPlayers().get(index);
                 p.setAd(true);
                 if(game.getPlayers().get(playerIndex).isRunningPliers()){
-                    System.out.println("entro nell'if del isrunningl'liers solo una volta come deve essere");
                     mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
                     notifyObservers();
-                    System.out.println("genero skip turn event in eventscontroller 1 sola volta");
                     virtualView.createSkipTurnEvent(event.getUsername());
                 }
                 else if(!game.getToolCards().get(toolCardController.getPos()).getTitle().equals("Running Pliers")) {
@@ -227,8 +218,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      */
     @Override
     public void handleVCEvent(SkipTurnEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        System.out.println("nome giocatore che ha mandato evento: " + event.getUsername());
-        System.out.println("turno in arrivo: " + game.getTurn());
         if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
             if (timer.getCont() == 119) {
                 timerExpired();
@@ -247,10 +236,8 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     public void timerExpired() throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         timer.interrupt();
-        System.out.println("invio stopturnevent");
         mvEvent = new StopTurnEvent(game.getPlayers().get(playerIndex).getUsername(), STOP_MESSAGE);
         notifyObservers();
-        System.out.println("invio skipturn a virtualview");
         try {
             virtualView.createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
         } catch (InvalidDieException | InvalidViewException | InvalidConnectionException | IOException | ParseException e) {
@@ -273,10 +260,6 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     /**
      * Method that handles choice of a Window Card
      * @param event choose card event
-     * @throws InvalidConnectionException exception
-     * @throws IOException exception
-     * @throws InvalidViewException exception
-     * @throws ParseException exception
      */
 
     @Override
@@ -293,19 +276,17 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
     @Override
     public void handleVCEvent(ChooseCardEvent event) throws InvalidConnectionException, IOException, InvalidViewException, ParseException {
         counter++;
-        LOGGER.log(Level.INFO, "Risposte ricevute: " + counter);
         lobbyController.handleWindowCard(event);
         if(counter == game.getPlayerNumber()) {
             game.dealPublicCards();
             game.dealToolCards();
             lobbyController.newGame();
         }
-        LOGGER.log(Level.INFO, "Sono tornato nel lobbycontroller(windowcard)");
     }
 
     @Override
     public void handleVCEvent(PlaceModifiedDie placeModifiedDie) {
-
+        /*Intentionally left empty in this class*/
     }
 
     @Override
@@ -315,9 +296,7 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
 
     @Override
     public void handleVCEvent(IncrementDecrementDieEvent incrementDecrementDieEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        System.out.println("handlo incrementDecremtn in eventscontroller");
         toolCardController.handleVCEvent(incrementDecrementDieEvent);
-
     }
 
     @Override

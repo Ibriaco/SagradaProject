@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public interface MVEvent extends Serializable{
-
+    long serialVersionUID = 42L;
     void accept(ViewInterface vi) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException;
 
     String getUsername();

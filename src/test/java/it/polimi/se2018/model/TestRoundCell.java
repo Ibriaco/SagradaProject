@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.ServerParser;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -12,9 +13,11 @@ import static org.junit.Assert.*;
 public class TestRoundCell {
     Game g;
     RoundCell r;
+    private ServerParser sp = new ServerParser();
 
     @Before
     public void init(){
+        sp.reader();
         g = new Game(2);
         r = new RoundCell(1);
     }

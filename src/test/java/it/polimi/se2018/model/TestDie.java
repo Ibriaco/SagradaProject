@@ -1,8 +1,10 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.ServerParser;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotSame;
 import static junit.framework.TestCase.fail;
 
 /**
@@ -13,13 +15,16 @@ import static junit.framework.TestCase.fail;
 public class TestDie {
 
     Game g;
+    private ServerParser sp = new ServerParser();
     @Before
     public void init(){
         g = new Game(2);
     }
 
+
     @Test
     public void testDieCreation() throws InvalidDieException {
+        sp.reader();
         Die d = null;
         d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
@@ -31,12 +36,16 @@ public class TestDie {
     }
 
     @Test
-    public void testDieFailCreation() throws InvalidDieException {
+    public void testDieFailCreation(){
         Die d = null;
         d = new Die(g.getColorList());
         d.setColor(Color.BLUE);
-        d.setValue(9);
-        fail();
+        try {
+            d.setValue(9);
+        }
+        catch(InvalidDieException e){
+            assertNotSame(9,d.getValue());
+        }
     }
 
     @Test

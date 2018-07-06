@@ -28,7 +28,6 @@ public class TimerThread extends Thread{
         while (cont < TURN_TIMER) {
             try {
                 Thread.sleep(SLEEP_TIME);
-                //System.out.println("player index: " + playerIndex + " timer: " + cont);
                 cont++;
 
             } catch (InterruptedException e) {
@@ -40,7 +39,7 @@ public class TimerThread extends Thread{
         } catch (InvalidConnectionException | InvalidViewException | IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.toString(), e);
         }
         this.interrupt();
     }

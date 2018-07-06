@@ -33,7 +33,7 @@ public class Game implements MyObservable{
     private int yellowAmount = YELLOW_AMOUNT;
     private int purpleAmount = PURPLE_AMOUNT;
     private int blueAmount = BLUE_AMOUNT;
-    private boolean init = BOOL_TRUE;
+    private boolean init = true;
     private Player firstPlayer; //attriubuto che indica il palyer che inizai il round. NON IL TURNO.
     private ArrayList<WindowCard> windowCardList= new ArrayList<>();
     private List<PublicObjective> publicCards;

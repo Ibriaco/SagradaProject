@@ -21,7 +21,6 @@ public class TurnController {
 
     private Game game;
     private boolean reverse = false;
-    private MVEvent tempMVEvent;
     private static final Logger LOGGER = Logger.getGlobal();
 
 
@@ -37,14 +36,7 @@ public class TurnController {
      * @throws IOException exception
      */
     protected void handleSkipTurn (int playerIndex) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        //game = eventsController.getGame();
-        // IF DEL FINE ULTIMO TURNO. INIZIO NUOVO ROUND
-        /*if(game.getPlayers().get(playerIndex).isRunningPliers()&&reverse){
-            game.getPlayers().get(playerIndex).setRunningPliers(false);
-            eventsController.getVirtualView().createSkipTurnEvent(game.getPlayers().get(playerIndex).getUsername());
-        }*/
          if (game.getTurn() == game.getPlayerNumber()*TWO_VALUE){
-            System.out.println("Sono nel caso di inizio nuovo round");
             game.getRoundCells().add(new RoundCell(game.getRound()));
             for (Die die: game.getRolledDice()) {
                 game.getRoundCells().get(game.getRound()-ONE_VALUE).addDie(die);
@@ -53,39 +45,29 @@ public class TurnController {
             game.setRolledDice();
             checkRound(playerIndex);
         }
-
-        //IF DEL FINE PRIMO GIRO(SONO A META' ROUND). SI INVERTE IL GIRO
         else if ((game.getTurn() - game.getPlayerNumber())==ZERO_VALUE && !eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
-            LOGGER.log(Level.INFO,"Sono nel caso di fine primo giro con client corrente online");
             eventsController.setMvEvent(new IsTurnEvent(game.getPlayers().get(playerIndex).getUsername(), BOOL_TRUE));
             reverse = BOOL_TRUE;
             game.nextTurn();
         }
         else if((game.getTurn() - game.getPlayerNumber())==ZERO_VALUE && eventsController.getVirtualView().getRemovedClients().contains(game.getPlayers().get(playerIndex).getUsername())){
-            LOGGER.log(Level.INFO,"Sono nel caso di fine primo giro con client corrente offline");
             reverse = BOOL_TRUE;
             checkSkip(playerIndex);
         }
-        //GESTIONE CLASSICA DELLO SKIP TURN SE NON CI SONO CASI LIMITE DA GESTIRE
         else {
-            LOGGER.log(Level.INFO,"Sono nel caso di skip");
             checkSkip(playerIndex);
         }
-
-        LOGGER.log(Level.INFO," turno in uscita:" + game.getTurn());
         eventsController.setPlayerIndex(game.getPlayers().indexOf(game.findPlayer(eventsController.getMvEvent().getUsername())));
         eventsController.setTimer(new TimerThread(eventsController,eventsController.getPlayerIndex()));
         eventsController.getTimer().start();
-        tempMVEvent = eventsController.getMvEvent();
+        MVEvent tempMVEvent = eventsController.getMvEvent();
         if(game.findPlayer(tempMVEvent.getUsername()).isRunningPliers()) {
             game.findPlayer(tempMVEvent.getUsername()).setRunningPliers(false);
             eventsController.getVirtualView().createSkipTurnEvent(tempMVEvent.getUsername());
         }
         else {
-            //MANDO UPDATE EVENT
             eventsController.setMvEvent(new UpdateGameEvent(game.getWindowCardList(), eventsController.getLobbyController().getUsername(), game.getRolledDice(), game.getRoundCells()));
             eventsController.notifyObservers();
-            //MANDO SKIP TURN EVENT
             eventsController.setMvEvent(tempMVEvent);
             eventsController.notifyObservers();
         }
@@ -102,19 +84,15 @@ public class TurnController {
         LOGGER.log(Level.INFO,"sono in checkRound");
         if(playerIndex==game.getPlayerNumber()-ONE_VALUE) {
             game.setFirstPlayer(game.getPlayers().get(ZERO_VALUE));
-            LOGGER.log(Level.INFO,"checkRound su ultimo player");
         }
         else{
             playerIndex++;
             game.setFirstPlayer(game.getPlayers().get(playerIndex));
         }
-
-        //roudtrack e gestione distribuzione dadi
         reverse = BOOL_FALSE;
         game.nextTurn();
         if(game.getRound() != 2) {
             if (eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())) {
-                LOGGER.log(Level.INFO, "il primo giocatore del primo turno è offline");
                 checkSkip(playerIndex);
             } else
                 eventsController.setMvEvent(new IsTurnEvent(game.getFirstPlayer().getUsername(), BOOL_TRUE));
@@ -138,7 +116,7 @@ public class TurnController {
                 for (PublicObjective po : game.getPublicCards()) {
                     po.calculateBonus(p);
                 }
-                System.out.println("player: " + p.getUsername() + " score: " + p.getPlayerScore());
+                LOGGER.log(Level.INFO,"player: " + p.getUsername() + " score: " + p.getPlayerScore());
             }
         }
 
@@ -149,7 +127,6 @@ public class TurnController {
         game.setFinished(true);
 
         calculateWinnerAndLoser();
-        System.out.println("finito il game dio voia");
     }
 
     private void calculateWinnerAndLoser() {
@@ -191,7 +168,4 @@ public class TurnController {
         }
         game.nextTurn();
     }
-
-
-
 }

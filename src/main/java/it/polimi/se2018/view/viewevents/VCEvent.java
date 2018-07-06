@@ -17,7 +17,6 @@ import java.io.Serializable;
  */
 public interface VCEvent extends Serializable {
 
-    static final long serialVersionUID = 42L;
     void accept(ControllerInterface controller) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException;
     String getUsername();
 }
