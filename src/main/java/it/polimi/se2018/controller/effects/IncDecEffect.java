@@ -13,7 +13,6 @@ public class IncDecEffect implements Effect {
 
     @Override
     public void accept(ToolCardController toolCardController) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        System.out.println("eseguo accept");
         toolCardController.checkApplyEffect(this);
     }
 

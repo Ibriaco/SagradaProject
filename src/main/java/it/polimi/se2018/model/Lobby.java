@@ -56,7 +56,6 @@ public class Lobby implements MyObservable{
     public void removeOnlinePlayer(String p){
         onlinePlayers.remove(p);
         onlinePlayersN--;
-        System.out.println("rimosso dalla lobby");
     }
 
     public int getOnlinePlayersN(){

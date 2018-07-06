@@ -27,6 +27,7 @@ public class Player implements MyObservable{
     private int tokens;
     private boolean ad = false;
     private boolean runningPliers = false;
+    private boolean placedDie = false;
     private int playerScore;
     private PrivateObjective privateObjective;
     private WindowCard windowCard;
@@ -50,17 +51,18 @@ public class Player implements MyObservable{
     }
 
     public String getUsername() {
-
         return username;
     }
 
     public String getViewType() {
-
         return viewType;
     }
 
-    public int getTokens() {
+    public boolean isPlacedDie() {
+        return placedDie;
+    }
 
+    public int getTokens() {
         return tokens;
     }
 
@@ -78,6 +80,11 @@ public class Player implements MyObservable{
 
         this.tokens = tokens;
     }
+
+    public void setPlacedDie(boolean placedDie) {
+        this.placedDie = placedDie;
+    }
+
 
     public void reduceTokens(int tokens){
         if(this.tokens >= tokens)
@@ -193,7 +200,6 @@ public class Player implements MyObservable{
         for (Object row: rows) {
             JSONArray elements = (JSONArray) row;
             for (Object element: elements) {
-                //System.out.println(element);
                 String stringElement = (String) element;
                 Color currentColor = Color.returnMatch((stringElement));
 

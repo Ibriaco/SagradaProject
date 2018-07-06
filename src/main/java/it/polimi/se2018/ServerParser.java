@@ -58,6 +58,10 @@ public class ServerParser {
             TAP_WHEEL = (String)jsonObject.get("TAP_WHEEL");
             GROZING_PLIERS = (String)jsonObject.get("GROZING_PLIERS");
             CORK_BACKED_STRAIGHTEDGE = (String)jsonObject.get("CORK_BACKED_STRAIGHTEDGE");
+            IMPOSSIBLE_REGISTRATION_OBJECT = (String)jsonObject.get("IMPOSSIBLE_REGISTRATION_OBJECT");
+            REGISTRY = (String)jsonObject.get("REGISTRY");
+            TO_ALL = (String)jsonObject.get("TO_ALL");
+            CONNECTION_ERROR = (String)jsonObject.get("CONNECTION_ERROR");
 
         } catch (ParseException | FileNotFoundException e) {
             e.printStackTrace();

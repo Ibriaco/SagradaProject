@@ -148,44 +148,46 @@ public class EventsController implements ControllerInterface, MyObserver, MyObse
      */
     @Override
     public void handleVCEvent(PlaceDieEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException, InvalidDieException {
-        if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
-            if(event.getPos()>=0&&event.getPos()<=game.getRolledDice().size()-1&&event.getCoordX()>=0&&event.getCoordX()<=4&&
-                    event.getCoordY()>=0&&event.getCoordY()<=3&&game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true)){
-                String user = event.getUsername();
-                game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true);
-                game.updateWindowCardList();
-                game.getRolledDice().remove(event.getPos());
-                int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
-                p = game.getPlayers().get(index);
-                p.setAd(true);
-                if(game.getPlayers().get(playerIndex).isRunningPliers()){
-                    mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+        if (!game.findPlayer(event.getUsername()).isPlacedDie()) {
+            game.findPlayer(event.getUsername()).setPlacedDie(true);
+
+            if (event.getUsername().equals(game.getPlayers().get(playerIndex).getUsername())) {
+                if (event.getPos() >= 0 && event.getPos() <= game.getRolledDice().size() - 1 && event.getCoordX() >= 0 && event.getCoordX() <= 4 &&
+                        event.getCoordY() >= 0 && event.getCoordY() <= 3 && game.findPlayer(event.getUsername()).getWindowCard().checkLegalPlacement(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true)) {
+                    String user = event.getUsername();
+                    game.findPlayer(event.getUsername()).getWindowCard().placeDie(game.getRolledDice().get(event.getPos()), event.getCoordY(), event.getCoordX(), true, true, true);
+                    game.updateWindowCardList();
+                    game.getRolledDice().remove(event.getPos());
+                    int index = game.getPlayers().indexOf(game.findPlayer(event.getUsername()));
+                    p = game.getPlayers().get(index);
+                    p.setAd(true);
+                    if (game.getPlayers().get(playerIndex).isRunningPliers()) {
+                        mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                        notifyObservers();
+                        virtualView.createSkipTurnEvent(event.getUsername());
+                    } else if (!game.getToolCards().get(toolCardController.getPos()).getTitle().equals(RUNNING_PLIERS)) {
+                        mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                        notifyObservers();
+                        mvEvent = new MiniMenuEvent(event.getUsername());
+                        notifyObservers();
+                    } else if (game.getToolCards().get(toolCardController.getPos()).getTitle().equals(RUNNING_PLIERS)) {
+                        game.getPlayers().get(playerIndex).setRunningPliers(true);
+                        mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
+                        notifyObservers();
+                        mvEvent = new DoublePlaceEvent(user);
+                        notifyObservers();
+                    }
+                } else {
+                    mvEvent = new WrongPlaceEvent(event.getUsername());
                     notifyObservers();
-                    virtualView.createSkipTurnEvent(event.getUsername());
                 }
-                else if(!game.getToolCards().get(toolCardController.getPos()).getTitle().equals(RUNNING_PLIERS)) {
-                    mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
-                    notifyObservers();
-                    mvEvent = new MiniMenuEvent(event.getUsername());
-                    notifyObservers();
-                }
-                else if(game.getToolCards().get(toolCardController.getPos()).getTitle().equals(RUNNING_PLIERS)){
-                    game.getPlayers().get(playerIndex).setRunningPliers(true);
-                    mvEvent = new UpdateGameEvent(game.getWindowCardList(), lobbyController.getUsername(), game.getRolledDice(), game.getRoundCells());
-                    notifyObservers();
-                    mvEvent = new DoublePlaceEvent(user);
-                    notifyObservers();
-                }
-            }
-            else {
-                mvEvent = new WrongPlaceEvent(event.getUsername());
+            } else {
+                mvEvent = new IsNotYourTurn(event.getUsername());
                 notifyObservers();
             }
-
         }
-        else {
-            mvEvent = new IsNotYourTurn(event.getUsername());
-            notifyObservers();
+        else{
+            virtualView.createSkipTurnEvent(event.getUsername());
         }
     }
 

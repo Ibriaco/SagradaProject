@@ -44,5 +44,9 @@ public class ServerConfig {
     public static String TAP_WHEEL;
     public static String GROZING_PLIERS;
     public static String CORK_BACKED_STRAIGHTEDGE;
+    public static String IMPOSSIBLE_REGISTRATION_OBJECT;
+    public static String TO_ALL;
+    public static String REGISTRY;
+    public static String CONNECTION_ERROR;
 
 }

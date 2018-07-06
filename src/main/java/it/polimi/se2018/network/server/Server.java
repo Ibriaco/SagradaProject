@@ -45,12 +45,12 @@ public class Server {
         eventsController.registerObserver(virtualView);
 
 
-        //rmi SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+
         try {
             LocateRegistry.createRegistry(RMI_PORT);
         } catch (RemoteException e) {
 
-            System.out.println("Registry già presente!");
+            System.out.println(REGISTRY);
         }
 
         try {
@@ -59,15 +59,15 @@ public class Server {
 
 
         } catch (MalformedURLException e) {
-            System.err.println("Impossibile registrare l'oggetto indicato!");
+            System.err.println(IMPOSSIBLE_REGISTRATION_OBJECT);
         } catch (RemoteException e) {
-            System.err.println("Errore di connessione: " + e.getMessage() + "!");
+            System.err.println(CONNECTION_ERROR + e.getMessage() + "!");
         }
 
-        //SOCKET SERVERRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+
         socketServer = new SocketServer(SOCKET_PORT, virtualView);
 
-        //lobbyController.addServers(rmiServer, socketServer);
+
 
         try {
             System.out.println(InetAddress.getLocalHost().getHostAddress());

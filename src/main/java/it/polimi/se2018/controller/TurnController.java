@@ -61,6 +61,7 @@ public class TurnController {
         eventsController.setTimer(new TimerThread(eventsController,eventsController.getPlayerIndex()));
         eventsController.getTimer().start();
         MVEvent tempMVEvent = eventsController.getMvEvent();
+        game.findPlayer(tempMVEvent.getUsername()).setPlacedDie(false);
         if(game.findPlayer(tempMVEvent.getUsername()).isRunningPliers()) {
             game.findPlayer(tempMVEvent.getUsername()).setRunningPliers(false);
             eventsController.getVirtualView().createSkipTurnEvent(tempMVEvent.getUsername());

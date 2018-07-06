@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static it.polimi.se2018.ServerConfig.TO_ALL;
+
 /**
  * Class that works as a Proxy on the server side
  * It is observed by the EventsController
@@ -284,9 +286,8 @@ public class VirtualView implements ViewInterface {
     //alrimenti solo al client corrispondente allo username
     @Override
     public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
-        if (arg.getUsername().equals("ALL")) {
+        if (arg.getUsername().equals(TO_ALL)) {
             for (String user : clients.keySet()) {
-                System.out.println("ricevuto evento da game " + arg.toString());
                 clients.get(user).sendMVEvent(arg);
             }
         }
@@ -298,7 +299,6 @@ public class VirtualView implements ViewInterface {
     public void disconnectAlert(MVEvent event) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         for (String user : clients.keySet()) {
             clients.get(user).sendMVEvent(event);
-            System.out.println("disconnectALert:  dimensione hasmap" + clients.size() + "   dimensione removedlist:  " + removedClients.size());
         }
     }
 
@@ -332,7 +332,6 @@ public class VirtualView implements ViewInterface {
                         DisconnectedEvent disconnectedEvent = new DisconnectedEvent(user);
                         try {
                             disconnectAlert(disconnectedEvent);
-                            System.out.println("ho creato evento disconnessione");
                         } catch (InvalidConnectionException | ParseException | IOException | InvalidViewException e1) {
                             e1.printStackTrace();
 

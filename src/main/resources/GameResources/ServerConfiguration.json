@@ -40,5 +40,9 @@
     "RUNNING_PLIERS":"Running Pliers",
     "TAP_WHEEL":"Tap Wheel",
     "GROZING_PLIERS":"Grozing Pliers",
-    "CORK_BACKED_STRAIGHTEDGE":"Cork-backed Straightedge"
+    "CORK_BACKED_STRAIGHTEDGE":"Cork-backed Straightedge",
+    "TO_ALL":"ALL",
+    "IMPOSSIBLE_REGISTRATION_OBJECT":"Impossibile registrare l'oggetto indicato!",
+    "REGISTRY":"Registry già presente!",
+    "CONNECTION_ERROR":"Errore di connessione: "
   }
