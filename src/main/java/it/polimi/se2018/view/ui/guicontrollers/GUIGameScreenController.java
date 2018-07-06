@@ -3,6 +3,7 @@ package it.polimi.se2018.view.ui.guicontrollers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXTextField;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
@@ -68,6 +69,9 @@ public class GUIGameScreenController {
     private List<RoundCell> roundTrackCells;
     private StackPane rStack = new StackPane();
     private GridPane diceOnTrack = new GridPane();
+    private ImageView selectedDie;
+    private ImageView dieToMove;
+
 
     @FXML
     private AnchorPane anchor;
@@ -132,6 +136,9 @@ public class GUIGameScreenController {
     @FXML
     private JFXButton placeButton;
 
+    private boolean changeDie = false;
+    private boolean modifiedPlace = false;
+    private boolean moveDie = false;
 
 
     @FXML
@@ -302,7 +309,7 @@ public class GUIGameScreenController {
 
         int tokensN = w.getDifficulty();
         List<Circle> tokenCircles = new ArrayList<>();
-        //molto brutto
+
         tokenCircles.add(c0);
         tokenCircles.add(c1);
         tokenCircles.add(c2);
@@ -361,8 +368,10 @@ public class GUIGameScreenController {
             for (int j = 0; j < w.getCols(); j++)
                 if (w.getGridCell(i,j).isPlaced())
                     createAndPutDie(location, w.getGridCell(i,j).getPlacedDie(), i, j, true);
-                else
-                    createAndPutDie(location, w.getGridCell(i,j).getPlacedDie(), i, j, false);
+                else {
+                    if (location.equals(myWindow))
+                    createAndPutDie(location, w.getGridCell(i, j).getPlacedDie(), i, j, false);
+                }
         }
 
     }
@@ -371,13 +380,15 @@ public class GUIGameScreenController {
 
         ImageView imageView;
 
-        if (present) {
+        if (!present && grid.equals(myWindow)){
+            imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/1.png").toURI().toString()));
+            imageView.setOpacity(0);
+        }
+        else {
             char pathColor = placedDie.getColor().toString().charAt(0);
             char pathValue = String.valueOf(placedDie.getValue()).charAt(0);
             imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/d" + pathColor + pathValue + ".png").toURI().toString()));
         }
-        else
-            imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/intentionallyWrong.png").toURI().toString()));
 
         if (whichSize) {
             imageView.setFitHeight(R_HEIGHT);
@@ -400,6 +411,7 @@ public class GUIGameScreenController {
         else if (grid.equals(myWindow))
             imageView.setOnMouseClicked(this::handleMyWindowClick);
 
+        imageView.toFront();
         grid.add(imageView, j, i);
     }
 
@@ -542,22 +554,84 @@ public class GUIGameScreenController {
     }
 
     private void handleDraftPoolClick(MouseEvent mouseEvent) {
-        if (canPlaceDie)
-            System.out.println("ok");
-        else
+        if (canPlaceDie) {
+            selectedDie = (ImageView) mouseEvent.getSource();
+            if (changeDie) {
+                try {
+                    guiView.createSelectDieEvent(GridPane.getRowIndex(selectedDie));
+                } catch (InvalidDieException e) {
+                    e.printStackTrace();
+                } catch (InvalidConnectionException e) {
+                    e.printStackTrace();
+                } catch (InvalidViewException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }else
             makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
     }
 
     private void handleMyWindowClick(MouseEvent mouseEvent) {
-        if (canPlaceDie)
-            System.out.println("ok");
+        if (canPlaceDie) {
+            try {
+                if(moveDie){
+                    if(dieToMove != null)
+                        guiView.createMovingDieEvent(GridPane.getColumnIndex(dieToMove), GridPane.getRowIndex(dieToMove), GridPane.getColumnIndex((Node) mouseEvent.getSource()), GridPane.getRowIndex((Node) mouseEvent.getSource()));
+                    else
+                        dieToMove = (ImageView) mouseEvent.getSource();
+                }
+                else {
+                    guiView.createPlaceDieEvent(GridPane.getRowIndex(selectedDie), GridPane.getColumnIndex((Node) mouseEvent.getSource()), GridPane.getRowIndex((Node) mouseEvent.getSource()));
+                    if (modifiedPlace)
+                        guiView.createSkipTurnEvent();
+                }
+                canPlaceDie = false;
+
+            } catch (InvalidConnectionException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InvalidViewException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            }
+        }
         else
             makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
     }
 
     private void handleToolClick(MouseEvent mouseEvent) {
-        if (canUseTool)
-            System.out.println("ok");
+        if (canUseTool) {
+            try {
+                int pos = 3;
+                ImageView source = (ImageView)mouseEvent.getSource();
+                if (source.equals(tool0))
+                    pos = 0;
+                else if (source.equals(tool1))
+                    pos = 1;
+                else if (source.equals(tool2))
+                    pos = 2;
+                guiView.createUseToolEvent(pos);
+            } catch (InvalidConnectionException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InvalidViewException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            }
+        }
         else
             makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
     }
@@ -584,5 +658,95 @@ public class GUIGameScreenController {
         toolButton.setDisable(false);
         placeButton.setDisable(true);
         skipButton.setDisable(false);
+    }
+
+    public void setChangeDie(boolean changeDie) {
+        this.changeDie = changeDie;
+    }
+
+    public void setModifiedPlace(boolean modifiedPlace) {
+        this.modifiedPlace = modifiedPlace;
+    }
+
+    public void showChoiceDialog(String content) {
+        JFXDialogLayout layout = new JFXDialogLayout();
+        JFXDialog dialog = new JFXDialog(stack, layout, JFXDialog.DialogTransition.CENTER);
+
+        JFXButton button = new JFXButton("INC");
+        button.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));
+        button.setTextFill(javafx.scene.paint.Color.WHITE);
+        button.setOnAction(event -> {
+            dialog.close();
+            try {
+                guiView.createIncDecEvent(1);
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            } catch (InvalidConnectionException e) {
+                e.printStackTrace();
+            } catch (InvalidViewException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        JFXButton button1 = new JFXButton("DEC");
+        button1.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));
+        button1.setTextFill(javafx.scene.paint.Color.WHITE);
+        button1.setOnAction(event -> {
+            dialog.close();
+            try {
+                guiView.createIncDecEvent(2);
+            } catch (InvalidDieException e) {
+                e.printStackTrace();
+            } catch (InvalidConnectionException e) {
+                e.printStackTrace();
+            } catch (InvalidViewException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        layout.setActions(button, button1);
+
+        layout.setHeading(new Text(content));
+
+        dialog.show();
+    }
+
+    public void showValueDialog(String s) {
+        JFXDialogLayout layout = new JFXDialogLayout();
+        JFXDialog dialog = new JFXDialog(stack, layout, JFXDialog.DialogTransition.CENTER);
+
+        JFXButton button = new JFXButton("OK");
+
+        JFXTextField text = new JFXTextField();
+
+        button.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(44,62,80), null, null)));
+        button.setTextFill(javafx.scene.paint.Color.WHITE);
+        button.setOnAction(event -> {
+            dialog.close();
+            try {
+                guiView.createUpdateDieEvent(Integer.valueOf(text.getText()));
+            } catch (InvalidDieException | InvalidViewException | ParseException | InvalidConnectionException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        layout.setActions(button);
+
+        layout.setHeading(new Text(s));
+
+        layout.setBody(text);
+
+        dialog.show();
     }
 }
