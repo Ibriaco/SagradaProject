@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ClientConfig.RMI_CLIENT_ADDRESS;
+
+
 /**
  * Implementation of the interface RMIClientInterface
  * @author Ibrahim El Shemy
@@ -42,7 +45,7 @@ public class RMIClient implements RMIClientInterface {
     public RMIClient(NetworkHandler nh) {
         networkHandler = nh;
         try {
-            server = (RMIServerInterface) Naming.lookup("//localhost/MyServer");
+            server = (RMIServerInterface) Naming.lookup(RMI_CLIENT_ADDRESS);
             remoteRef = (RMIClientInterface) UnicastRemoteObject.exportObject(this, 0);
 
         } catch (MalformedURLException e) {

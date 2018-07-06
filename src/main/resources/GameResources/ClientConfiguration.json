@@ -47,5 +47,14 @@
     "DICE_PATHD":"./src/main/resources/GUIUtils/dice/d",
     "ERROR_TYPE":"ERROR",
     "INFO_TYPE":"INFO",
-    "WINDOW_CHOICE_PATH":"src/main/resources/GUIUtils/windowChoice2.fxml"
+    "WINDOW_CHOICE_PATH":"src/main/resources/GUIUtils/windowChoice2.fxml",
+    "RMI_CLIENT_ADDRESS":"rmi://localhost/MyServer",
+    "SOCKET_CLIENT_ADDRESS":"localhost",
+    "POSITION_ROUND_TRACK":"insert the position of the round that contains the die that matches the color of the Die/Dice you want to move ",
+    "POSITION_DIE_ROUND_TRACK":"insert the position of a Die in the round track that matches the color of the Die/Dice you want to move ",
+    "NUMBER_DIE_MOVE":"how many die/dice you want to move?",
+    "AFTER_DRAFTING_ERROR": "This ia an \"After Drafting\" tool card ! Please try with a different one!",
+    "CHOOSE_DIE_VALUE":"Choose the value you want to give to the die!",
+    "ROUND_TRACK_POSITION":"Inserisci posizione nel round track",
+    "CELL_POSITION":"Inserisci posizione nella cella"
   }

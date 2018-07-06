@@ -62,5 +62,14 @@ public class ClientConfig {
     public static String DICE_PATHD;
     public static String ERROR_TYPE;
     public static String INFO_TYPE;
+    public static String RMI_CLIENT_ADDRESS;
+    public static String SOCKET_CLIENT_ADDRESS;
+    public static String POSITION_ROUND_TRACK;
+    public static String POSITION_DIE_ROUND_TRACK;
+    public static String NUMBER_DIE_MOVE;
+    public static String AFTER_DRAFTING_ERROR;
+    public static String CHOOSE_DIE_VALUE;
+    public static String ROUND_TRACK_POSITION;
+    public static String CELL_POSITION;
 
 }

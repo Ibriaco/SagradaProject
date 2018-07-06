@@ -33,8 +33,9 @@ public class PublicCardEvent implements MVEvent {
     }
 
     public void printPublicName(){
-        for (String s: publicName) {
-            System.out.println(s);
+        System.out.println("\t\t\t\t PUBLIC CARDS");
+        for (int i=0; i< publicName.size();i++) {
+            System.out.println("TITLE: "+ publicName.get(i) + "\t\tDESCRIPTION: " + publicDesc.get(i) + "\t\tSCORE: " + publicScore.get(i));
         }
     }
 

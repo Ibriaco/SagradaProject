@@ -130,7 +130,6 @@ public class CLIView implements ViewInterface {
     }
 
 
-    //METODI PER CREARE EVENTI VC
     @Override
     public void createLoginEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new LoginEvent(user);
@@ -155,9 +154,18 @@ public class CLIView implements ViewInterface {
 
     public void createUseToolEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         printOnConsole(INSERT_TOOL_NUMBER);
-        int pos = getNumber() - 1;
-        vcEvent = new UseToolEvent(user, pos);
-        notifyObservers();
+        Scanner scanner = new Scanner(System.in);
+        boolean ok = true;
+        String pos;
+        while(ok){
+            pos = scanner.nextLine();
+            if(pos.equals("1")||pos.equals("2")||pos.equals("3")){
+                ok = false;
+                vcEvent = new UseToolEvent(user, Integer.parseInt(pos)-1);
+            }
+            else
+                printOnConsole(INVALID_CHOICE);
+        }
     }
 
     public void createRollDiceEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
@@ -373,7 +381,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(RetryToolEvent retryToolEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        printOnConsole("This ia an \"After Drafting\" tool card ! Please try with a different one!");
+        printOnConsole(AFTER_DRAFTING_ERROR);
         miniChoice();
     }
 
@@ -385,7 +393,7 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(SetDieEvent setDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        printOnConsole("Choose the value you want to give to the die!");
+        printOnConsole(CHOOSE_DIE_VALUE);
         Scanner sc = new Scanner(System.in);
         boolean ok = true;
         while(ok){
@@ -403,9 +411,9 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        printOnConsole("Inserisci posizione nel round track");
+        printOnConsole(ROUND_TRACK_POSITION);
         int roundPos = getNumber()-1;
-        printOnConsole("Inserisci posizione nella cella");
+        printOnConsole(CELL_POSITION);
         int cellPos = getNumber()-1;
         vcEvent = new SwappingDieEvent(user, roundPos, cellPos);
         notifyObservers();
@@ -418,8 +426,6 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(DoublePlaceEvent doublePlaceEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        System.out.println("ho ricevuto double place event");
-        //createPlaceDieEvent();
         printOnConsole(INSERT_DIE_NUMBER);
         int pos = getNumber() - 1;
         printOnConsole(INSERT_ROW);
@@ -428,7 +434,6 @@ public class CLIView implements ViewInterface {
         int coordX = getNumber() - 1;
         vcEvent = new PlaceDieEvent(doublePlaceEvent.getUsername(), pos, coordX, coordY);
         notifyObservers();
-        //createPlaceDieEvent();
     }
 
     @Override
@@ -448,11 +453,11 @@ public class CLIView implements ViewInterface {
 
     @Override
     public void handleMVEvent(RequestColorAndNumberEvent requestColorAndNumberEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
-        printOnConsole("insert the position of the round that contains the die that matches the color of the Die/Dice you want to move ");
+        printOnConsole(POSITION_ROUND_TRACK);
         int positionRoundTrack = getNumber() - 1;
-        printOnConsole("insert the position of a Die in the round track that matches the color of the Die/Dice you want to move ");
+        printOnConsole(POSITION_DIE_ROUND_TRACK);
         int position = getNumber() - 1;
-        printOnConsole("how many die/dice you want to move?");
+        printOnConsole(NUMBER_DIE_MOVE);
         int number = getNumber();
         printOnConsole(ROW_DIE_TO_MOVE);
         int oldY = getNumber() - 1;
@@ -670,7 +675,6 @@ public class CLIView implements ViewInterface {
             choose = scanner.nextLine();
             if (choose.equals(ONE_STRING)) {
                 createUseToolEvent();
-                //createSkipTurnEvent();
                 turn = false;
             }
             if (choose.equals(TWO_STRING)) {

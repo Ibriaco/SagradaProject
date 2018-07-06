@@ -29,8 +29,9 @@ public class ToolCardEvent implements MVEvent {
     }
 
     public void printToolCards(){
-        for (String s: toolCards) {
-            System.out.println(s);
+        System.out.println("\t\t\t\t TOOL CARDS");
+        for (int i=0; i< toolCards.size();i++) {
+            System.out.println("TITLE: "+ toolCards.get(i) + "\t\tDESCRIPTION: " + toolCardsDesc.get(i));
         }
     }
 

@@ -59,6 +59,15 @@ public class ClientParser {
             ERROR_TYPE = (String)jsonObject.get("ERROR_TYPE");
             INFO_TYPE = (String)jsonObject.get("INFO_TYPE");
             SAGRADA_TITLE = (String)jsonObject.get("SAGRADA_TITLE");
+            RMI_CLIENT_ADDRESS =(String)jsonObject.get("RMI_CLIENT_ADDRESS");
+            SOCKET_CLIENT_ADDRESS =(String)jsonObject.get("SOCKET_CLIENT_ADDRESS");
+            POSITION_ROUND_TRACK =(String)jsonObject.get("POSITION_ROUND_TRACK");
+            POSITION_DIE_ROUND_TRACK =(String)jsonObject.get("POSITION_DIE_ROUND_TRACK");
+            NUMBER_DIE_MOVE =(String)jsonObject.get("NUMBER_DIE_MOVE");
+            AFTER_DRAFTING_ERROR =(String)jsonObject.get("AFTER_DRAFTING_ERROR");
+            CHOOSE_DIE_VALUE =(String)jsonObject.get("CHOOSE_DIE_VALUE");
+            ROUND_TRACK_POSITION =(String)jsonObject.get("ROUND_TRACK_POSITION");
+            CELL_POSITION =(String)jsonObject.get("CELL_POSITION");
 
         } catch (IOException e) {
             e.printStackTrace();

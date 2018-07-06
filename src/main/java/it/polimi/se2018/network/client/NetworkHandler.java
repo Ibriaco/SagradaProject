@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.polimi.se2018.ClientConfig.SOCKET_CLIENT_ADDRESS;
+
 /**
  * Class that works as a proxy on the client side
  * It is observed by the view
@@ -37,7 +39,7 @@ public class NetworkHandler implements MyObserver, MyObservable {
         }
 
         else if(value.equals("2"))
-            selectedClient = new SocketClient("localhost", 10000, this);
+            selectedClient = new SocketClient(SOCKET_CLIENT_ADDRESS, 10000, this);
     }
 
 
