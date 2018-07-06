@@ -223,6 +223,11 @@ public class VirtualView implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(EndGameEvent endGameEvent) {
+
+    }
+
 
     /**
      * Shows the user interface
@@ -271,6 +276,7 @@ public class VirtualView implements ViewInterface {
     public void update(MyObservable o, MVEvent arg) throws IOException, InvalidConnectionException, InvalidViewException, ParseException {
         if (arg.getUsername().equals("ALL")) {
             for (String user : clients.keySet()) {
+                System.out.println("ricevuto evento da game " + arg.toString());
                 clients.get(user).sendMVEvent(arg);
             }
         }

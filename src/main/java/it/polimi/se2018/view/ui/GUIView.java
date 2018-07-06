@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static it.polimi.se2018.ClientConfig.*;
 
 /**
  * Graphic user interface
@@ -38,7 +39,6 @@ import java.util.logging.Logger;
  */
 public class GUIView extends Application implements ViewInterface {
 
-    private static final String SAGRADA_TITLE = "Welcome to Sagrada Game";
     private List<MyObserver> observersCollection;
     private NetworkHandler nh;
     private VCEvent vcEvent;
@@ -48,6 +48,7 @@ public class GUIView extends Application implements ViewInterface {
     private GUIWaitingLobbyController guiWaitingLobbyController;
     private GUIChoiceController guiChoiceController;
     private GUIGameScreenController guiGameScreenController;
+    private GUIEndScreenController guiEndScreenController;
     private static final Logger LOGGER = Logger.getGlobal();
 
     @Override
@@ -279,6 +280,12 @@ public class GUIView extends Application implements ViewInterface {
 
     }
 
+    @Override
+    public void handleMVEvent(EndGameEvent endGameEvent) {
+        System.out.println("fine jioco");
+        Platform.runLater(()->guiGameScreenController.changeScene(endGameEvent));
+    }
+
 
     public void createChooseCardEvent(WindowCard windowCard) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new ChooseCardEvent(user, windowCard);
@@ -342,5 +349,13 @@ public class GUIView extends Application implements ViewInterface {
     public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new SkipTurnEvent(user);
         notifyObservers();
+    }
+
+    public void setGuiEndScreenController(GUIEndScreenController guiEndScreenController) {
+        this.guiEndScreenController = guiEndScreenController;
+    }
+
+    public GUIEndScreenController getGuiEndScreenController() {
+        return guiEndScreenController;
     }
 }

@@ -15,17 +15,15 @@ public class EndGameEvent implements MVEvent {
     private String content;
     private Map<String,String> results;
 
-    public EndGameEvent(String content, String username, Map results) {
+    public EndGameEvent(String content, String username, Map<String,String> results) {
         this.username = username;
         this.content = content;
         this.results = results;
     }
 
-
-
     @Override
     public void accept(ViewInterface vi) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
-
+        vi.handleMVEvent(this);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class EndGameEvent implements MVEvent {
         return content;
     }
 
-    public Map getResults() {
+    public Map<String,String> getResults() {
         return results;
     }
 }

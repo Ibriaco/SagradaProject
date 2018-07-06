@@ -171,7 +171,7 @@ public class LobbyController {
      */
     private boolean checkOnlinePlayers() {
 
-        return waitingLobby.getOnlinePlayersN() != FOUR_VALUE;
+        return waitingLobby.getOnlinePlayersN() != TWO_VALUE;
     }
     //DOBBIAMO RIMETTERLO A 4!!!!!!!!!!!!
 

@@ -84,5 +84,7 @@ public interface ViewInterface extends MyObserver, MyObservable {
     void handleMVEvent(MiniMenuEvent miniMenuEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException;
 
     void handleMVEvent(DoublePlaceEvent doublePlaceEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException;
+
+    void handleMVEvent(EndGameEvent endGameEvent);
 }
 

@@ -422,6 +422,7 @@ public class Game implements MyObservable{
 
     public void setFinished(boolean finished) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
         this.finished = finished;
+        System.out.println("creo ewento");
         setMvEvent(new EndGameEvent("Game Over!", "ALL", createResultMap()));
         notifyObservers();
     }

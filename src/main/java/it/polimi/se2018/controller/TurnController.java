@@ -112,7 +112,7 @@ public class TurnController {
         //roudtrack e gestione distribuzione dadi
         reverse = BOOL_FALSE;
         game.nextTurn();
-        if(game.getRound() != 10) {
+        if(game.getRound() != 2) {
             if (eventsController.getVirtualView().getRemovedClients().contains(game.getFirstPlayer().getUsername())) {
                 LOGGER.log(Level.INFO, "il primo giocatore del primo turno è offline");
                 checkSkip(playerIndex);

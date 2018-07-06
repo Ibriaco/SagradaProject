@@ -63,5 +63,4 @@ public class ClientConfig {
     public static String ERROR_TYPE;
     public static String INFO_TYPE;
 
-
 }

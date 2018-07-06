@@ -2,15 +2,17 @@ package it.polimi.se2018.view.ui.guicontrollers;
 
 import com.jfoenix.controls.JFXButton;
 import it.polimi.se2018.model.*;
-import it.polimi.se2018.model.event.PrivateCardEvent;
-import it.polimi.se2018.model.event.PublicCardEvent;
-import it.polimi.se2018.model.event.ToolCardEvent;
-import it.polimi.se2018.model.event.UpdateGameEvent;
+import it.polimi.se2018.model.event.*;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.GUIView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,11 +22,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.se2018.view.ui.guicontrollers.GUIControllerUtils.*;
 
@@ -44,9 +50,13 @@ public class GUIGameScreenController {
     private static final double T_HEIGHT = 45;
     private static final double T_WIDTH = 45;
 
+    private ColorAdjust colorAdjust;
+    private ColorAdjust normalColor;
+    private DropShadow shadowEffect;
     private double oldH;
     private double oldW;
     private ImageView toZoom;
+    private ImageView toLight;
     private GUIView guiView;
     private StackPane stack = new StackPane();
     private boolean whichSize;
@@ -120,6 +130,20 @@ public class GUIGameScreenController {
         stack.setLayoutX(100);
         stack.setLayoutY(100);
         anchor.getChildren().add(stack);
+        shadowEffect = new DropShadow(20, javafx.scene.paint.Color.BLACK);
+        colorAdjust = new ColorAdjust();
+        colorAdjust.setBrightness(-0.5);
+        normalColor = new ColorAdjust();
+
+        privateCard.setEffect(shadowEffect);
+        tool0.setEffect(shadowEffect);
+        tool1.setEffect(shadowEffect);
+        tool2.setEffect(shadowEffect);
+        pub0.setEffect(shadowEffect);
+        pub1.setEffect(shadowEffect);
+        pub2.setEffect(shadowEffect);
+        roundTrack.setEffect(shadowEffect);
+        myWindow.setEffect(shadowEffect);
     }
 
     public void showTurnDialog(String user) {
@@ -161,6 +185,7 @@ public class GUIGameScreenController {
             if (currentUser.equals(guiView.getUser())) {
                 whichSize = true;
                 showWindow(w, myWindow);
+                showTokens(w);
             }
             else {
                 whichSize = false;
@@ -194,9 +219,21 @@ public class GUIGameScreenController {
             ImageView imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/round/round" +(i+1) +".png").toURI().toString()));
             imageView.setFitHeight(T_HEIGHT);
             imageView.setFitWidth(T_WIDTH);
+            imageView.setOnMouseEntered(this::lightUp);
+            imageView.setOnMouseExited(this::lightDown);
             roundTrack.add(imageView, i, 0);
         }
     }
+
+    private void lightDown(MouseEvent mouseEvent) {
+        toLight.setEffect(normalColor);
+    }
+
+    private void lightUp(MouseEvent event) {
+        toLight = (ImageView) event.getSource();
+        toLight.setEffect(colorAdjust);
+    }
+
 
     private void showTheirWindow(WindowCard w, GridPane pane, Label player, Label token, String p) {
         player.setText(p);
@@ -204,7 +241,9 @@ public class GUIGameScreenController {
         pane.setVisible(true);
         player.setVisible(true);
         token.setVisible(true);
+        pane.setEffect(shadowEffect);
         showWindow(w, pane);
+
     }
 
     private void showWindow(WindowCard w, GridPane location) {
@@ -213,7 +252,7 @@ public class GUIGameScreenController {
                 putInGrid(location, createCell(w, i, j), j, i);
         }
         addDice(w, location);
-        showTokens(w);
+
     }
 
     private void showTokens(WindowCard w) {
@@ -230,8 +269,10 @@ public class GUIGameScreenController {
 
         int i = 0;
         for (Circle c : tokenCircles) {
-            if (i < tokensN)
+            if (i < tokensN) {
                 c.setVisible(true);
+                c.setEffect(shadowEffect);
+            }
             i++;
         }
 
@@ -294,6 +335,13 @@ public class GUIGameScreenController {
             imageView.setFitHeight(L_HEIGHT);
             imageView.setFitWidth(L_WIDTH);
         }
+
+        if(grid.equals(draftPool)) {
+            imageView.setEffect(shadowEffect);
+            imageView.setOnMouseEntered(this::lightUp);
+            imageView.setOnMouseExited(this::lightDown);
+        }
+
         grid.add(imageView, j, i);
     }
 
@@ -360,5 +408,36 @@ public class GUIGameScreenController {
         skipButton.setDisable(true);
         toolButton.setDisable(true);
         placeButton.setDisable(true);
+    }
+
+    public void changeScene(EndGameEvent endGameEvent) {
+        Stage stage = (Stage) anchor.getScene().getWindow();
+
+        Scene scene = stage.getScene();
+
+        URL url = null;
+        try {
+            url = new File("src/main/resources/GUIUtils/endGame.fxml").toURI().toURL();
+        } catch (MalformedURLException e) {
+        }
+        Parent root = null;
+        FXMLLoader loader = null;
+        try{
+            loader = new FXMLLoader(url);
+            root = loader.load();
+        } catch (IOException e) {
+        }
+
+        guiView.setGuiEndScreenController(loader.getController());
+        guiView.getGuiEndScreenController().showScores(endGameEvent);
+
+        stage.setResizable(false);
+        stage.setOnCloseRequest(event -> System.exit(0));
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.setHeight(600);
+        stage.setWidth(800);
+        stage.centerOnScreen();
+        scene.setRoot(root);
     }
 }

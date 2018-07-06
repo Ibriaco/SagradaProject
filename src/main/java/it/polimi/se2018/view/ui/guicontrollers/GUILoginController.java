@@ -167,9 +167,9 @@ public class GUILoginController implements GUIControllerIF{
         //stage.setResizable(true);
         stage.setMinHeight(600);
         stage.setMinWidth(800);
-        stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
-        stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
-        stage.setFullScreen(false);
+        //stage.minHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        //stage.maxHeightProperty().bind(stage.widthProperty().multiply(0.75));
+        //stage.setFullScreen(false);
         stage.centerOnScreen();
         scene.setRoot(root);
         stage.setOnCloseRequest(event -> System.exit(0));

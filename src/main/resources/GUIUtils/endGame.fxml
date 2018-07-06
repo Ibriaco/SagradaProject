@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:controller="it.polimi.se2018.view.ui.guicontrollers.GUIEndScreenController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="pane" stylesheets="@last.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="p1" layoutX="74.0" layoutY="28.0" prefHeight="20.0" prefWidth="660.0" textFill="WHITE">
+         <font>
+            <Font name="Montserrat Regular" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="winner" layoutX="74.0" layoutY="257.0" prefHeight="17.0" prefWidth="276.0" text="Label" textFill="WHITE" />
+      <Label fx:id="p4" layoutX="74.0" layoutY="164.0" prefHeight="20.0" prefWidth="660.0" textFill="WHITE">
+         <font>
+            <Font name="Montserrat Regular" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="p2" layoutX="74.0" layoutY="73.0" prefHeight="20.0" prefWidth="660.0" textFill="WHITE">
+         <font>
+            <Font name="Montserrat Regular" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="p3" layoutX="74.0" layoutY="120.0" prefHeight="20.0" prefWidth="660.0" textFill="WHITE">
+         <font>
+            <Font name="Montserrat Regular" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

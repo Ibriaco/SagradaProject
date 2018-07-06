@@ -431,6 +431,12 @@ public class CLIView implements ViewInterface {
         //createPlaceDieEvent();
     }
 
+    @Override
+    public void handleMVEvent(EndGameEvent endGameEvent) {
+        printOnConsole(endGameEvent.getContent());
+        endGameEvent.getResults().forEach((s, s2) -> printOnConsole(s + ": " + s2));
+    }
+
 
     private void printDie(Die d) {
         Color color = d.getColor();

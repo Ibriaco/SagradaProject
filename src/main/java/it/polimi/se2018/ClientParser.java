@@ -58,6 +58,8 @@ public class ClientParser {
             DICE_PATHD = (String)jsonObject.get("DICE_PATHD");
             ERROR_TYPE = (String)jsonObject.get("ERROR_TYPE");
             INFO_TYPE = (String)jsonObject.get("INFO_TYPE");
+            SAGRADA_TITLE = (String)jsonObject.get("SAGRADA_TITLE");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
