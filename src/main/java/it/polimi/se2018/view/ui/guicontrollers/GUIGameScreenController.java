@@ -54,6 +54,7 @@ public class GUIGameScreenController {
     private boolean canUseTool;
     private boolean canPlaceDie;
     private boolean canUseRoundDice;
+    private boolean canSelectCell;
 
     private ColorAdjust colorAdjust;
     private ColorAdjust normalColor;
@@ -559,15 +560,7 @@ public class GUIGameScreenController {
             if (changeDie) {
                 try {
                     guiView.createSelectDieEvent(GridPane.getRowIndex(selectedDie));
-                } catch (InvalidDieException e) {
-                    e.printStackTrace();
-                } catch (InvalidConnectionException e) {
-                    e.printStackTrace();
-                } catch (InvalidViewException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (InvalidDieException | InvalidConnectionException | ParseException | InvalidViewException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -577,7 +570,7 @@ public class GUIGameScreenController {
     }
 
     private void handleMyWindowClick(MouseEvent mouseEvent) {
-        if (canPlaceDie) {
+        if (canSelectCell) {
             try {
                 if(moveDie){
                     if(dieToMove != null)
@@ -590,17 +583,8 @@ public class GUIGameScreenController {
                     if (modifiedPlace)
                         guiView.createSkipTurnEvent();
                 }
-                canPlaceDie = false;
 
-            } catch (InvalidConnectionException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InvalidViewException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (InvalidDieException e) {
+            } catch (InvalidConnectionException | IOException | InvalidViewException | ParseException | InvalidDieException e) {
                 e.printStackTrace();
             }
         }
@@ -620,15 +604,7 @@ public class GUIGameScreenController {
                 else if (source.equals(tool2))
                     pos = 2;
                 guiView.createUseToolEvent(pos);
-            } catch (InvalidConnectionException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InvalidViewException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (InvalidDieException e) {
+            } catch (InvalidConnectionException | IOException | ParseException | InvalidViewException | InvalidDieException e) {
                 e.printStackTrace();
             }
         }
@@ -646,6 +622,10 @@ public class GUIGameScreenController {
 
     public void setCanUseRoundDice(boolean canUseRoundDice) {
         this.canUseRoundDice = canUseRoundDice;
+    }
+
+    public void setCanSelectCell(boolean canSelectCell) {
+        this.canSelectCell = canSelectCell;
     }
 
     public void miniActions() {

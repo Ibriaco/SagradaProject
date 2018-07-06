@@ -192,14 +192,26 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsTurnEvent isTurnEvent) throws InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        Platform.runLater(()->guiGameScreenController.showTurnDialog(isTurnEvent.getPlayerInTurn()));
-        Platform.runLater(()->guiGameScreenController.enableButtons());
+        Platform.runLater(()-> {
+            guiGameScreenController.showTurnDialog(isTurnEvent.getPlayerInTurn());
+            guiGameScreenController.enableButtons();
+            guiGameScreenController.setCanPlaceDie(true);
+            guiGameScreenController.setCanUseTool(true);
+            guiGameScreenController.setCanUseRoundDice(true);
+            guiGameScreenController.setCanSelectCell(true);
+        });
     }
 
     @Override
     public void handleMVEvent(StopTurnEvent stopTurnEvent) {
-        Platform.runLater(()->guiGameScreenController.disableButtons());
-        Platform.runLater(()->guiGameScreenController.showAlert(stopTurnEvent.getMessage()));
+        Platform.runLater(()->{
+            guiGameScreenController.disableButtons();
+            guiGameScreenController.setCanPlaceDie(false);
+            guiGameScreenController.setCanUseTool(false);
+            guiGameScreenController.setCanUseRoundDice(false);
+            guiGameScreenController.setCanSelectCell(false);
+            guiGameScreenController.showAlert(stopTurnEvent.getMessage());
+        });
     }
 
     @Override
@@ -207,7 +219,7 @@ public class GUIView extends Application implements ViewInterface {
         Platform.runLater(()-> {
             guiGameScreenController.setChangeDie(true);
             guiGameScreenController.showAlert("Select a die from the DraftPool");
-            guiGameScreenController.setCanPlaceDie(true);
+            //guiGameScreenController.setCanPlaceDie(true);
         });
     }
 
@@ -232,6 +244,7 @@ public class GUIView extends Application implements ViewInterface {
     @Override
     public void handleMVEvent(MoveDieEvent moveDieEffect) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
         Platform.runLater(()->{
+            guiGameScreenController.setCanSelectCell(true);
             guiGameScreenController.showAlert("Select the die you want to move, then the cell where you want to put it");
         });
 
@@ -376,6 +389,7 @@ public class GUIView extends Application implements ViewInterface {
 
     public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new SkipTurnEvent(user);
+        System.out.println("creo evento SKIP");
         notifyObservers();
     }
 
@@ -389,32 +403,38 @@ public class GUIView extends Application implements ViewInterface {
 
     public void createUseToolEvent(int pos) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new UseToolEvent(user, pos);
+        System.out.println("creo evento USETOOL " + pos);
         notifyObservers();
     }
 
     public void createPlaceDieEvent(int pos, int coordX, int coordY) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new PlaceDieEvent(user, pos, coordX, coordY);
+        System.out.println("creo evento PLACE " + pos + " " + coordX + " " + coordY);
         notifyObservers();
     }
 
     public void createSelectDieEvent(int pos) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new SelectDieEvent(user, pos);
+        System.out.println("creo evento SELECT DIE " + pos);
         notifyObservers();
     }
 
 
     public void createMovingDieEvent(Integer columnIndex, Integer rowIndex, Integer columnIndex1, Integer rowIndex1) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new MovingDieEvent(user, columnIndex, rowIndex, columnIndex1, rowIndex1);
+        System.out.println("creo evento MOVING DIE " + columnIndex + " " + rowIndex + " " + columnIndex1 + " " + rowIndex1);
         notifyObservers();
     }
 
     public void createIncDecEvent(int choice) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new IncrementDecrementDieEvent(user, choice);
+        System.out.println("creo evento INCDEC " + choice);
         notifyObservers();
     }
 
     public void createUpdateDieEvent(int val) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new UpdateDieEvent(user, val, setDieEventPos);
+        System.out.println("creo evento UPDATE DIE" + setDieEventPos + val);
         notifyObservers();
     }
 
