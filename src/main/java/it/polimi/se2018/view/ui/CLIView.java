@@ -151,7 +151,7 @@ public class CLIView implements ViewInterface {
         notifyObservers();
     }
 
-    public void createUseToolEvent() {
+    public void createUseToolEvent() throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
         printOnConsole(INSERT_TOOL_NUMBER);
         Scanner scanner = new Scanner(System.in);
         boolean ok = true;
@@ -160,7 +160,9 @@ public class CLIView implements ViewInterface {
             pos = scanner.nextLine();
             if(pos.equals("1")||pos.equals("2")||pos.equals("3")){
                 ok = false;
-                vcEvent = new UseToolEvent(user, Integer.parseInt(pos)-1);
+                int choice = Integer.parseInt(pos)-1;
+                vcEvent = new UseToolEvent(user, choice);
+                notifyObservers();
             }
             else
                 printOnConsole(INVALID_CHOICE);
