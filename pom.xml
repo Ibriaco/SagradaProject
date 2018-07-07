@@ -53,7 +53,7 @@
     <dependency>
       <groupId>com.jfoenix</groupId>
       <artifactId>jfoenix</artifactId>
-      <version>8.0.4</version>
+      <version>8.0.1</version>
     </dependency>
 
   </dependencies>
@@ -132,14 +132,7 @@
         <version>3.4.0.905</version>
       </plugin>
 
-      <plugin>
-        <groupId>com.zenjava</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>8.8.3</version>
-        <configuration>
-          <mainClass>your.package.with.Launcher</mainClass>
-        </configuration>
-      </plugin>
+
 
     </plugins>
     <resources>
@@ -155,6 +148,7 @@
         </includes>
         <excludes>
           <exclude>ClientConfiguration.json</exclude>
+          <exclude>ServerConfiguration.json</exclude>
         </excludes>
       </resource>
     </resources>

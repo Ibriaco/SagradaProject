@@ -186,16 +186,13 @@ public class GUIChoiceController implements GUIControllerIF {
 
         Scene scene = stage.getScene();
 
-        URL url = null;
-        try {
-            url = new File("src/main/resources/GUIUtils/gameScreen.fxml").toURI().toURL();
-        } catch (MalformedURLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        }
+
         Parent root = null;
         FXMLLoader loader = null;
         try{
-            loader = new FXMLLoader(url);
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUIUtils/gameScreen.fxml"));
+
             root = loader.load();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);

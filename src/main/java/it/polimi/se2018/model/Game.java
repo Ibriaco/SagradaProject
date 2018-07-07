@@ -10,8 +10,11 @@ import it.polimi.se2018.org.json.simple.JSONObject;
 import it.polimi.se2018.org.json.simple.parser.JSONParser;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
@@ -256,8 +259,16 @@ public class Game implements MyObservable{
 
     private PublicObjective drawPublicCard(int pos) throws ParseException, IOException{
         JSONParser parser = new JSONParser();
-
-        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/publicCards.json"));
+        JSONArray cards;
+        try{
+            cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/publicCards.json"));
+        }
+        catch (FileNotFoundException e){
+            String decodedPath = URLDecoder.decode("./publicCards.json", "UTF-8");
+            cards = (JSONArray) parser.parse(new FileReader(decodedPath));
+        }catch (Exception e) {
+            cards = (JSONArray) parser.parse(new InputStreamReader(getClass().getResourceAsStream("./publicCards.json")));
+        }
         JSONObject obj = (JSONObject) cards.get(pos);
 
         PublicCardFactory publicCardFactory = new PublicCardFactory();
@@ -283,7 +294,16 @@ public class Game implements MyObservable{
     private ToolCard drawToolCard(int pos) throws ParseException, IOException{
         JSONParser parser = new JSONParser();
         ToolCardFactory toolCardFactory = new ToolCardFactory();
-        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/toolCards.json"));
+        JSONArray cards;
+        try{
+            cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/toolCards.json"));
+        }
+        catch (FileNotFoundException e){
+            String decodedPath = URLDecoder.decode("./toolCards.json", "UTF-8");
+            cards = (JSONArray) parser.parse(new FileReader(decodedPath));
+        }catch (Exception e) {
+            cards = (JSONArray) parser.parse(new InputStreamReader(getClass().getResourceAsStream("./toolCards.json")));
+        }
         JSONObject obj = (JSONObject) cards.get(pos);
         ToolCard tc = new ToolCard((String) obj.get("Title"),(String)obj.get("Description"),(String)obj.get("Type"));
         tc.getEffectList().add(toolCardFactory.createEffect(tc.getTitle()));
@@ -296,8 +316,16 @@ public class Game implements MyObservable{
         JSONParser parser = new JSONParser();
 
         try{
-            JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/windows.json"));
-
+            JSONArray cards;
+            try{
+                cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/windows.json"));
+            }
+            catch (FileNotFoundException e){
+                String decodedPath = URLDecoder.decode("./windows.json", "UTF-8");
+                cards = (JSONArray) parser.parse(new FileReader(decodedPath));
+            }catch (Exception e) {
+                cards = (JSONArray) parser.parse(new InputStreamReader(getClass().getResourceAsStream("./windows.json")));
+            }
             List<Integer> randomNumbers = new ArrayList<>();
 
             int windowN = cards.size();

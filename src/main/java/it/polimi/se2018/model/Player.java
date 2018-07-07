@@ -8,8 +8,11 @@ import it.polimi.se2018.org.json.simple.JSONObject;
 import it.polimi.se2018.org.json.simple.parser.JSONParser;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +135,16 @@ public class Player implements MyObservable{
 
         JSONParser parser = new JSONParser();
 
-        JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/privateCards.json"));
+        JSONArray cards;
+        try{
+            cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/privateCards.json"));
+        }
+        catch (FileNotFoundException e){
+            String decodedPath = URLDecoder.decode("./privateCards.json", "UTF-8");
+            cards = (JSONArray) parser.parse(new FileReader(decodedPath));
+        }catch (Exception e) {
+            cards = (JSONArray) parser.parse(new InputStreamReader(getClass().getResourceAsStream("./privateCards.json")));
+        }
         JSONObject obj = (JSONObject) cards.get(cardNumber);
 
         String title = (String) obj.get("Title");

@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="anchor" stylesheets="@game.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.ui.guicontrollers.GUIGameScreenController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="900.0" styleClass="anchor" stylesheets="@game.css" xmlns="http://javafx.com/javafx/8.0.172" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.view.ui.guicontrollers.GUIGameScreenController">
     <GridPane fx:id="myWindow" gridLinesVisible="true" layoutX="47.0" layoutY="373.0" prefHeight="200.0" prefWidth="250.0" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="373.0">
       <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

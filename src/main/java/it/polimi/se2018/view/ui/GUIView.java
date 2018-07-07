@@ -10,6 +10,7 @@ import it.polimi.se2018.model.InvalidViewException;
 import it.polimi.se2018.MyObservable;
 import it.polimi.se2018.MyObserver;
 import it.polimi.se2018.network.client.NetworkHandler;
+import it.polimi.se2018.org.json.simple.JSONArray;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 import it.polimi.se2018.view.ui.guicontrollers.*;
 import it.polimi.se2018.view.viewevents.*;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -51,8 +53,9 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("./src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
-        FXMLLoader loader = new FXMLLoader(url);
+        //URL url = new File("./src/main/resources/GUIUtils/loginJFoenix.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUIUtils/loginJFoenix.fxml"));
         Parent root = loader.load();
 
         observersCollection = new ArrayList<>();

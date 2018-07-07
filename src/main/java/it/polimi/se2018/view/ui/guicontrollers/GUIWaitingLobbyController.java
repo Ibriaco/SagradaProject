@@ -46,16 +46,13 @@ public class GUIWaitingLobbyController implements GUIControllerIF{
 
         Scene scene = stage.getScene();
 
-        URL url = null;
-        try {
-            url = new File("src/main/resources/GUIUtils/windowChoice2.fxml").toURI().toURL();
-        } catch (MalformedURLException e) {
-            LOGGER.log(Level.SEVERE, e.toString(), e);
-        }
+
         Parent root = null;
         FXMLLoader loader = null;
         try{
-            loader = new FXMLLoader(url);
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUIUtils/windowChoice2.fxml"));
+
             root = loader.load();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);

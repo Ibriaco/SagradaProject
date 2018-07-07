@@ -495,15 +495,13 @@ public class GUIGameScreenController {
 
         Scene scene = stage.getScene();
 
-        URL url = null;
-        try {
-            url = new File("src/main/resources/GUIUtils/endGame.fxml").toURI().toURL();
-        } catch (MalformedURLException e) {
-        }
+
         Parent root = null;
         FXMLLoader loader = null;
         try{
-            loader = new FXMLLoader(url);
+            loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUIUtils/endGame.fxml"));
+
             root = loader.load();
         } catch (IOException e) {
         }
@@ -533,7 +531,8 @@ public class GUIGameScreenController {
         for (Die d: cell.getDiceList()) {
             char pathColor = d.getColor().toString().charAt(0);
             char pathValue = String.valueOf(d.getValue()).charAt(0);
-            ImageView imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/d" + pathColor + pathValue + ".png").toURI().toString()));
+            //ImageView imageView = new ImageView(new Image(new File("./src/main/resources/GUIUtils/dice/d" + pathColor + pathValue + ".png").toURI().toString()));
+            ImageView imageView = new ImageView(new Image(getClass().getResource("/GUIUtils/dice/d" + pathColor + pathValue + ".png").toString()));
             imageView.setFitHeight(50);
             imageView.setFitWidth(50);
             imageView.setOnMouseClicked(this::handleRoundDiceClicked);
