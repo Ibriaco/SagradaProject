@@ -3,17 +3,41 @@ import it.polimi.se2018.org.json.simple.JSONObject;
 import it.polimi.se2018.org.json.simple.parser.JSONParser;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URLDecoder;
+
 import static it.polimi.se2018.ClientConfig.*;
 
 public class ClientParser {
 
-    public void reader() throws ParseException {
+    public Object createObj(){
         JSONParser jsonParser = new JSONParser();
-
+        Object object = null;
         try{
-            Object object = jsonParser.parse(new FileReader("./src/main/resources/GameResources/ClientConfiguration.json"));
+            try {
+                object = jsonParser.parse(new FileReader("./src/main/resources/GameResources/ClientConfiguration.json"));
+            }catch (FileNotFoundException e){
+                String decodedPath = URLDecoder.decode("./ClientConfiguration.json", "UTF-8");
+                object = jsonParser.parse(new FileReader(decodedPath));
+
+            }
+        }catch (Exception e){
+            try {
+                object = jsonParser.parse(new InputStreamReader(getClass().getResourceAsStream("./ClientConfiguration.json")));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return object;
+    }
+
+    public void reader(Object object) throws ParseException {
+
             JSONObject jsonObject = (JSONObject)object;
             RMI_CONNECTION = (String)jsonObject.get("RMI_CONNECTION");
             SOCKET_CONNECTION = (String)jsonObject.get("SOCKET_CONNECTION");
@@ -75,8 +99,5 @@ public class ClientParser {
             NOT_BOUND_MESSAGE =(String)jsonObject.get("NOT_BOUND_MESSAGE");
             SELECT_UI =(String)jsonObject.get("SELECT_UI");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

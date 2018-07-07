@@ -24,7 +24,7 @@ public class TestDie {
 
     @Test
     public void testDieCreation() throws InvalidDieException {
-        sp.reader();
+        sp.reader(sp.createObj());
         Die d = null;
         d = new Die(g.getColorList());
         d.setColor(Color.BLUE);

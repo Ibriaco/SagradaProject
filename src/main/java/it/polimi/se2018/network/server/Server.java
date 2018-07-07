@@ -37,7 +37,7 @@ public class Server {
 
     public static void main(String[] args) throws RemoteException, InvalidConnectionException, InvalidViewException {
         ServerParser sp = new ServerParser();
-        sp.reader();
+        sp.reader(sp.createObj());
         virtualView = new VirtualView();
         eventsController = new EventsController(virtualView);
 

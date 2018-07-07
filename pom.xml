@@ -97,7 +97,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>it.polimi.se2018.network.server.Server</mainClass>
+                <mainClass>it.polimi.se2018.network.client.Client</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
@@ -151,7 +151,11 @@
           <include>**/*.jpg</include>
           <include>**/*.png</include>
           <include>**/*.gif</include>
+            <include>**/*.json</include>
         </includes>
+        <excludes>
+          <exclude>ClientConfiguration.json</exclude>
+        </excludes>
       </resource>
     </resources>
   </build>

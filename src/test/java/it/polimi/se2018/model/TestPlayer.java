@@ -24,7 +24,7 @@ public class TestPlayer {
     @Before
     public void init() throws IOException, ParseException {
 
-        sp.reader();
+        sp.reader(sp.createObj());
         JSONParser parser = new JSONParser();
         JSONArray cards = (JSONArray) parser.parse(new FileReader("./src/main/resources/GameResources/windows.json"));
     }

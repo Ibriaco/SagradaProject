@@ -169,7 +169,7 @@ public class LobbyController {
      */
     private boolean checkOnlinePlayers() {
 
-        return waitingLobby.getOnlinePlayersN() != TWO_VALUE;
+        return waitingLobby.getOnlinePlayersN() != FOUR_VALUE;
     }
 
     /**

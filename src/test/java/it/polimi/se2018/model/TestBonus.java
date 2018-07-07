@@ -21,7 +21,7 @@ public class TestBonus {
 
     @Before
     public void init() throws InvalidDieException {
-        sp.reader();
+        sp.reader(sp.createObj());
         g = new Game(2);
 
         //creo una windowcard con questi specifici valori

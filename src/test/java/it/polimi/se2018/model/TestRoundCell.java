@@ -17,7 +17,7 @@ public class TestRoundCell {
 
     @Before
     public void init(){
-        sp.reader();
+        sp.reader(sp.createObj());
         g = new Game(2);
         r = new RoundCell(1);
     }

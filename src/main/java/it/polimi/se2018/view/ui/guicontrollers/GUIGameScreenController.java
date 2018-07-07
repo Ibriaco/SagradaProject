@@ -51,10 +51,10 @@ public class GUIGameScreenController {
     private static final double T_HEIGHT = 45;
     private static final double T_WIDTH = 45;
 
-    private boolean canUseTool;
-    private boolean canPlaceDie;
-    private boolean canUseRoundDice;
-    private boolean canSelectCell;
+    private boolean canUseTool = false;
+    private boolean canPlaceDie = false;
+    private boolean canUseRoundDice = false;
+    private boolean canSelectCell = false;
 
     private ColorAdjust colorAdjust;
     private ColorAdjust normalColor;
@@ -193,8 +193,8 @@ public class GUIGameScreenController {
         tool1.setImage(new Image(new File("./src/main/resources/GUIUtils/tools/" + toolNames.get(1) + ".png").toURI().toString()));
         tool2.setImage(new Image(new File("./src/main/resources/GUIUtils/tools/" + toolNames.get(2) + ".png").toURI().toString()));
         tool0.setOnMouseClicked(this::handleToolClick);
-        tool0.setOnMouseClicked(this::handleToolClick);
-        tool0.setOnMouseClicked(this::handleToolClick);
+        tool1.setOnMouseClicked(this::handleToolClick);
+        tool2.setOnMouseClicked(this::handleToolClick);
 
     }
 
@@ -455,17 +455,24 @@ public class GUIGameScreenController {
     private void placeAction(){
         makeDialog("Select a die from the Draft Pool and place it on your window pattern.", stack, INFO_TYPE, "");
         canPlaceDie = true;
+        canSelectCell = true;
+        disableButtons();
     }
 
     @FXML
     private void toolAction(){
         makeDialog("Select a Tool Card to use it.", stack, INFO_TYPE, "");
         canUseTool = true;
+        disableButtons();
     }
 
     @FXML
     private void skipAction() throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
         guiView.createSkipTurnEvent();
+        canSelectCell = false;
+        canPlaceDie = false;
+        canUseTool = false;
+        canUseRoundDice = false;
         disableButtons();
     }
 
@@ -548,7 +555,7 @@ public class GUIGameScreenController {
 
     private void handleRoundDiceClicked(MouseEvent mouseEvent) {
         if (canUseRoundDice)
-            System.out.println("ok");
+            System.out.println("");
         else
             makeDialog("You can't do it now!", stack, ERROR_TYPE, "");
 
@@ -573,13 +580,19 @@ public class GUIGameScreenController {
         if (canSelectCell) {
             try {
                 if(moveDie){
-                    if(dieToMove != null)
+                    if(dieToMove != null) {
                         guiView.createMovingDieEvent(GridPane.getColumnIndex(dieToMove), GridPane.getRowIndex(dieToMove), GridPane.getColumnIndex((Node) mouseEvent.getSource()), GridPane.getRowIndex((Node) mouseEvent.getSource()));
+                        canSelectCell = false;
+                        canPlaceDie = false;
+                        moveDie = false;
+                    }
                     else
                         dieToMove = (ImageView) mouseEvent.getSource();
                 }
                 else {
                     guiView.createPlaceDieEvent(GridPane.getRowIndex(selectedDie), GridPane.getColumnIndex((Node) mouseEvent.getSource()), GridPane.getRowIndex((Node) mouseEvent.getSource()));
+                    canSelectCell = false;
+                    canPlaceDie = false;
                     if (modifiedPlace)
                         guiView.createSkipTurnEvent();
                 }
@@ -629,12 +642,14 @@ public class GUIGameScreenController {
     }
 
     public void miniActions() {
+        putToFalse();
         toolButton.setDisable(true);
         placeButton.setDisable(false);
         skipButton.setDisable(false);
     }
 
     public void miniChoice() {
+        putToFalse();
         toolButton.setDisable(false);
         placeButton.setDisable(true);
         skipButton.setDisable(false);
@@ -659,15 +674,7 @@ public class GUIGameScreenController {
             dialog.close();
             try {
                 guiView.createIncDecEvent(1);
-            } catch (InvalidDieException e) {
-                e.printStackTrace();
-            } catch (InvalidConnectionException e) {
-                e.printStackTrace();
-            } catch (InvalidViewException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (InvalidDieException | InvalidConnectionException | InvalidViewException | ParseException | IOException e) {
                 e.printStackTrace();
             }
         });
@@ -679,15 +686,7 @@ public class GUIGameScreenController {
             dialog.close();
             try {
                 guiView.createIncDecEvent(2);
-            } catch (InvalidDieException e) {
-                e.printStackTrace();
-            } catch (InvalidConnectionException e) {
-                e.printStackTrace();
-            } catch (InvalidViewException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (InvalidDieException | InvalidConnectionException | ParseException | InvalidViewException | IOException e) {
                 e.printStackTrace();
             }
 
@@ -714,9 +713,7 @@ public class GUIGameScreenController {
             dialog.close();
             try {
                 guiView.createUpdateDieEvent(Integer.valueOf(text.getText()));
-            } catch (InvalidDieException | InvalidViewException | ParseException | InvalidConnectionException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (InvalidDieException | InvalidViewException | ParseException | InvalidConnectionException | IOException e) {
                 e.printStackTrace();
             }
         });
@@ -728,5 +725,16 @@ public class GUIGameScreenController {
         layout.setBody(text);
 
         dialog.show();
+    }
+
+    private void putToFalse(){
+        canPlaceDie = false;
+        canSelectCell = false;
+        canUseRoundDice = false;
+        canUseTool = false;
+    }
+
+    public void setMoveDie(boolean moveDie) {
+        this.moveDie = moveDie;
     }
 }

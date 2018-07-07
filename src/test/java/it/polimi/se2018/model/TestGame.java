@@ -25,7 +25,7 @@ public class TestGame {
 
     @Before
     public void init(){
-        sp.reader();
+        sp.reader(sp.createObj());
         observerCollection = new ArrayList<>();
     }
 

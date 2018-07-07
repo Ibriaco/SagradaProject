@@ -4,20 +4,41 @@ import it.polimi.se2018.org.json.simple.JSONObject;
 import it.polimi.se2018.org.json.simple.parser.JSONParser;
 import it.polimi.se2018.org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLDecoder;
 
 import static it.polimi.se2018.ServerConfig.*;
 
 public class ServerParser {
 
-    public void reader() {
+    public Object createObj(){
         JSONParser jsonParser = new JSONParser();
+        Object object = null;
+        try{
+            try {
+                object = jsonParser.parse(new FileReader("./src/main/resources/GameResources/ServerConfiguration.json"));
+            }catch (FileNotFoundException e){
+                String decodedPath = URLDecoder.decode("./ServerConfiguration.json", "UTF-8");
+                object = jsonParser.parse(new FileReader(decodedPath));
 
-        try {
-            Object object = jsonParser.parse(new FileReader("./src/main/resources/GameResources/ServerConfiguration.json"));
+            }
+        }catch (Exception e){
+            try {
+                object = jsonParser.parse(new InputStreamReader(getClass().getResourceAsStream("./ServerConfiguration.json")));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return object;
+    }
+
+
+    public void reader(Object object) {
+
             JSONObject jsonObject = (JSONObject)object;
+
             LOCAL_HOST = (String)jsonObject.get("LOCAL_HOST");
             ZERO_VALUE = Integer.parseInt((String)jsonObject.get("ZERO_VALUE"));
             ONE_VALUE = Integer.parseInt((String)jsonObject.get("ONE_VALUE"));
@@ -63,10 +84,6 @@ public class ServerParser {
             TO_ALL = (String)jsonObject.get("TO_ALL");
             CONNECTION_ERROR = (String)jsonObject.get("CONNECTION_ERROR");
 
-        } catch (ParseException | FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

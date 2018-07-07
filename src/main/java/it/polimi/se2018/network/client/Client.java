@@ -22,7 +22,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException, InvalidConnectionException, InvalidViewException, ParseException, InvalidDieException {
         ClientParser cp = new ClientParser();
-        cp.reader();
+        cp.reader(cp.createObj());
         printSplashArt();
         String choice = null;
 

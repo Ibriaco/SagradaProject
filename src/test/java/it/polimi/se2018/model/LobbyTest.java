@@ -16,7 +16,7 @@ public class LobbyTest {
 
     @Before
     public void init() throws InvalidViewException {
-        sp.reader();
+        sp.reader(sp.createObj());
         b = new Lobby();
         p = new Player ("Geronimo", "GUI");
         observerCollection = new ArrayList<>();

@@ -22,7 +22,7 @@ public class TestWindowCard {
 
     @Before
     public void init() throws InvalidDieException {
-        sp.reader();
+        sp.reader(sp.createObj());
 
         g = new Game(2);
 

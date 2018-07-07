@@ -195,15 +195,12 @@ public class GUIView extends Application implements ViewInterface {
         Platform.runLater(()-> {
             guiGameScreenController.showTurnDialog(isTurnEvent.getPlayerInTurn());
             guiGameScreenController.enableButtons();
-            guiGameScreenController.setCanPlaceDie(true);
-            guiGameScreenController.setCanUseTool(true);
-            guiGameScreenController.setCanUseRoundDice(true);
-            guiGameScreenController.setCanSelectCell(true);
         });
     }
 
     @Override
     public void handleMVEvent(StopTurnEvent stopTurnEvent) {
+        //System.out.println("ricevuto STOP");
         Platform.runLater(()->{
             guiGameScreenController.disableButtons();
             guiGameScreenController.setCanPlaceDie(false);
@@ -216,8 +213,11 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(ChangeDieEvent changeDieEvent) throws InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("ricevuto CHANGE DIE");
+
         Platform.runLater(()-> {
             guiGameScreenController.setChangeDie(true);
+            guiGameScreenController.setCanPlaceDie(true);
             guiGameScreenController.showAlert("Select a die from the DraftPool");
             //guiGameScreenController.setCanPlaceDie(true);
         });
@@ -225,7 +225,10 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(ModifiedPlaceEvent modifiedPlaceEvent) {
+        //System.out.println("ricevuto MODIFIED");
+
         Platform.runLater(()->{
+            guiGameScreenController.setCanSelectCell(true);
             guiGameScreenController.setModifiedPlace(true);
             guiGameScreenController.showAlert("Select the cell where you want to put the modified die");
         });
@@ -233,18 +236,25 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(IsNotYourTurn isNotYourTurn) {
+        //System.out.println("ricevuto IS NOT");
+
         Platform.runLater(()->guiGameScreenController.showTurnDialog(isNotYourTurn.getUsername()));
     }
 
     @Override
     public void handleMVEvent(ChangedDieEvent changedDieEvent) {
+        //System.out.println("ricevuto CHANGHED ");
+
         Platform.runLater(()->guiGameScreenController.showAlert("This is the modified die"));
     }
 
     @Override
     public void handleMVEvent(MoveDieEvent moveDieEffect) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("ricevuto MOVE");
+
         Platform.runLater(()->{
             guiGameScreenController.setCanSelectCell(true);
+            guiGameScreenController.setMoveDie(true);
             guiGameScreenController.showAlert("Select the die you want to move, then the cell where you want to put it");
         });
 
@@ -252,16 +262,25 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(WrongPlaceEvent wrongPlaceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
-        Platform.runLater(()->guiGameScreenController.showAlert(INVALID_MOVE_RETRY));
+        //System.out.println("ricevuto WRONG PLACE");
+
+        Platform.runLater(()->{
+            guiGameScreenController.showAlert(INVALID_MOVE_RETRY);
+            guiGameScreenController.enableButtons();
+        });
     }
 
     @Override
     public void handleMVEvent(IncDecEvent incDecEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("ricevuto INCDEC");
+
         Platform.runLater(()->guiGameScreenController.showChoiceDialog(ONE_INCREASE_TWO_DECREASE));
     }
 
     @Override
     public void handleMVEvent(InvalidToolEvent invalidToolEvent) {
+        //System.out.println("ricevuto INVALIDTOOL");
+
         Platform.runLater(()->{
             guiGameScreenController.showAlert(NOT_ENOUGH_TOKENS);
             guiGameScreenController.enableButtons();
@@ -271,11 +290,15 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(PerformActionEvent performActionEvent) {
+        //System.out.println("ricevuto PERFORM");
+
         Platform.runLater(()->guiGameScreenController.miniActions());
     }
 
     @Override
     public void handleMVEvent(RetryToolEvent retryToolEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        //System.out.println("ricevuto RETRY");
+
         Platform.runLater(()->{
             guiGameScreenController.showAlert("This ia an \"After Drafting\" tool card ! Please try with a different one!");
             guiGameScreenController.miniChoice();
@@ -284,28 +307,38 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(RollingDiceEvent rollDiceEvent) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
+        //System.out.println("ricevuto ROLLING");
+
         vcEvent = new RollDiceEvent(rollDiceEvent.getUsername());
         notifyObservers();
     }
 
     @Override
     public void handleMVEvent(SetDieEvent setDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("ricevuto SETDIE");
+
         setDieEventPos = setDieEvent.getPos();
         Platform.runLater(()->guiGameScreenController.showValueDialog("Choose the value you want to give to the die!"));
     }
 
     @Override
     public void handleMVEvent(SwapDieEvent swapDieEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("ricevuto SWAP");
+
         Platform.runLater(()->guiGameScreenController.showAlert("Select dice you want to swap: one from the RoundTrack and one from the DraftPool."));
     }
 
     @Override
     public void handleMVEvent(MiniMenuEvent miniMenuEvent) {
+        //System.out.println("ricevuto MINIMENU");
+
         Platform.runLater(()->guiGameScreenController.miniChoice());
     }
 
     @Override
     public void handleMVEvent(DoublePlaceEvent doublePlaceEvent) {
+        //System.out.println("ricevuto DOUBLEPLACE");
+
         Platform.runLater(()->guiGameScreenController.setCanPlaceDie(true));
     }
 
@@ -316,8 +349,10 @@ public class GUIView extends Application implements ViewInterface {
 
     @Override
     public void handleMVEvent(RequestCoordEvent requestCoordEvent) throws InvalidDieException, InvalidConnectionException, ParseException, InvalidViewException, IOException {
+        //System.out.println("ricevuto REQUESTCOORD");
+
         Platform.runLater(()->{
-            guiGameScreenController.setCanPlaceDie(true);
+            guiGameScreenController.setCanSelectCell(true);
         });
 
     }
@@ -389,7 +424,7 @@ public class GUIView extends Application implements ViewInterface {
 
     public void createSkipTurnEvent() throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new SkipTurnEvent(user);
-        System.out.println("creo evento SKIP");
+        //System.out.println("creo evento SKIP");
         notifyObservers();
     }
 
@@ -403,38 +438,38 @@ public class GUIView extends Application implements ViewInterface {
 
     public void createUseToolEvent(int pos) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new UseToolEvent(user, pos);
-        System.out.println("creo evento USETOOL " + pos);
+        //System.out.println("creo evento USETOOL " + pos);
         notifyObservers();
     }
 
     public void createPlaceDieEvent(int pos, int coordX, int coordY) throws InvalidConnectionException, IOException, InvalidViewException, ParseException, InvalidDieException {
         vcEvent = new PlaceDieEvent(user, pos, coordX, coordY);
-        System.out.println("creo evento PLACE " + pos + " " + coordX + " " + coordY);
+        //System.out.println("creo evento PLACE " + pos + " " + coordX + " " + coordY);
         notifyObservers();
     }
 
     public void createSelectDieEvent(int pos) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new SelectDieEvent(user, pos);
-        System.out.println("creo evento SELECT DIE " + pos);
+        //System.out.println("creo evento SELECT DIE " + pos);
         notifyObservers();
     }
 
 
     public void createMovingDieEvent(Integer columnIndex, Integer rowIndex, Integer columnIndex1, Integer rowIndex1) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new MovingDieEvent(user, columnIndex, rowIndex, columnIndex1, rowIndex1);
-        System.out.println("creo evento MOVING DIE " + columnIndex + " " + rowIndex + " " + columnIndex1 + " " + rowIndex1);
+        //System.out.println("creo evento MOVING DIE " + columnIndex + " " + rowIndex + " " + columnIndex1 + " " + rowIndex1);
         notifyObservers();
     }
 
     public void createIncDecEvent(int choice) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new IncrementDecrementDieEvent(user, choice);
-        System.out.println("creo evento INCDEC " + choice);
+        //System.out.println("creo evento INCDEC " + choice);
         notifyObservers();
     }
 
     public void createUpdateDieEvent(int val) throws InvalidDieException, InvalidConnectionException, InvalidViewException, ParseException, IOException {
         vcEvent = new UpdateDieEvent(user, val, setDieEventPos);
-        System.out.println("creo evento UPDATE DIE" + setDieEventPos + val);
+        //System.out.println("creo evento UPDATE DIE" + setDieEventPos + val);
         notifyObservers();
     }
 

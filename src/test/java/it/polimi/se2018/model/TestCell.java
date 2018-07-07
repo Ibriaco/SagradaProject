@@ -15,7 +15,7 @@ public class TestCell {
     ServerParser sp = new ServerParser();
     @Before
     public void init(){
-        sp.reader();
+        sp.reader(sp.createObj());
         g = new Game(2);
     }
 
